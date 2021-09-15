@@ -22,6 +22,7 @@
 # Android studio
 *.iml
 .gradle
+.idea/
 .idea/caches
 .idea/libraries
 .idea/modules.xml
