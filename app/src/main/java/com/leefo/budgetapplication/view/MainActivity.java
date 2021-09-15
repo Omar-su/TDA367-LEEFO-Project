@@ -1,8 +1,10 @@
-package com.leefo.budgetapplication;
+package com.leefo.budgetapplication.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.leefo.budgetapplication.R;
 
 public class MainActivity extends AppCompatActivity {
 
