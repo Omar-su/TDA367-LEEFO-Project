@@ -18,44 +18,47 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.FrameLayout_main, new HomeFragment()).commit();
+        //start app by displaying Home Fragment
+        getSupportFragmentManager().beginTransaction().add(R.id.FrameLayout_main, new HomeFragment()).commit();
+
+        initBottomNavigation();
+
+            // color example
+            TextView textView;
+            //textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
+            //textView.setBackgroundColor(Color.parseColor("#A0A0A0"));
 
 
-        // color example
-        TextView textView;
-        //textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
-        //textView.setBackgroundColor(Color.parseColor("#A0A0A0"));
 
+    }
+
+    // Method that sets the OnItemSelectedListener on the bottomNavigation
+    private void initBottomNavigation(){
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
         bottomNav.setOnItemSelectedListener(item -> {
 
             Fragment fragment = null;
             switch (item.getItemId()){
                 case R.id.nav_budget:
-                    //makeToast("Budget was clicked");
                     fragment = new BudgetFragment();
                     break;
 
                 case R.id.nav_home:
-                    //makeToast("Home was clicked");
                     fragment = new HomeFragment();
                     break;
 
                 case R.id.nav_more:
-                    //makeToast("More was clicked");
                     fragment = new MoreFragment();
                     break;
             }
 
-            fragmentManager.beginTransaction().replace(R.id.FrameLayout_main, fragment).commit();
-
+            getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, fragment).commit();
             return true;
         });
 
     }
 
-    //Use to test
+    //Method to make a Toast. Use to test
     Toast t;
     private void makeToast(String s){
         if(t != null) t.cancel();
