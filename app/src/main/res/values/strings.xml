@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">Budget Application</string>
+    <string name="app_name">LEEFO Budget Application</string>
     <string name="Navigation_Title_1">Home</string>
     <string name="Navigation_title_2">Budget</string>
     <string name="Navigation_title_3">More</string>
+    <string name="Total_Income_title">INCOME</string>
+    <string name="Total_Expense_title">EXPENSES</string>
+    <string name="Balance_title">BALANCE</string>
 </resources>
