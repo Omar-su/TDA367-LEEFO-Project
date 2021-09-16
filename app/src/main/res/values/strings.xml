@@ -6,4 +6,6 @@
     <string name="Total_Income_title">INCOME</string>
     <string name="Total_Expense_title">EXPENSES</string>
     <string name="Balance_title">BALANCE</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
