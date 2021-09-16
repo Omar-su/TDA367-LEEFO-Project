@@ -1,11 +1,9 @@
 package com.leefo.budgetapplication.view;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,34 +18,37 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.FrameLayout_main, new HomeFragment()).commit();
+
+
         // color example
         TextView textView;
         //textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
         //textView.setBackgroundColor(Color.parseColor("#A0A0A0"));
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
         bottomNav.setOnItemSelectedListener(item -> {
 
             Fragment fragment = null;
             switch (item.getItemId()){
                 case R.id.nav_budget:
-                    makeToast("Budget was clicked");
+                    //makeToast("Budget was clicked");
                     fragment = new BudgetFragment();
                     break;
 
                 case R.id.nav_home:
-                    makeToast("Home was clicked");
-                    fragment = new BudgetFragment();
+                    //makeToast("Home was clicked");
+                    fragment = new HomeFragment();
                     break;
 
                 case R.id.nav_more:
-                    makeToast("More was clicked");
-                    fragment = new BudgetFragment();
+                    //makeToast("More was clicked");
+                    fragment = new MoreFragment();
                     break;
             }
 
-            fragmentManager.beginTransaction().add(R.id.FrameLayout_large, fragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.FrameLayout_main, fragment).commit();
 
             return true;
         });
