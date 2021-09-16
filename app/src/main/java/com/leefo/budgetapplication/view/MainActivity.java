@@ -16,8 +16,9 @@ import com.leefo.budgetapplication.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageButton plusButton;
+    ImageButton plusButton, closeNewTransactionButton;
     BottomNavigationView bottomNav;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         // init fields
         plusButton = findViewById(R.id.plusButton);
         bottomNav = findViewById(R.id.bottomNavigation);
+        closeNewTransactionButton = findViewById(R.id.closeNewTransaction);
 
 
         initBottomNavigation();
@@ -41,6 +43,11 @@ public class MainActivity extends AppCompatActivity {
             //textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
             //textView.setBackgroundColor(Color.parseColor("#A0A0A0"));
 
+    }
+
+    public void closeNewtransactionFragment(View v){
+        openFragmentInMainFrameLayout(new HomeFragment());
+        bottomNav.setVisibility(View.VISIBLE);
     }
 
     private void openFragmentInMainFrameLayout(Fragment fragment){
