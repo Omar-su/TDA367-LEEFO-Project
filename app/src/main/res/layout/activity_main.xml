@@ -17,16 +17,16 @@
         app:menu="@menu/bottom_navigation" />
 
     <ImageButton
-        android:id="@+id/bt_addTransaction"
+        android:id="@+id/plusButton"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:background="@color/purple_500"
+        android:onClick="plusButton"
         android:src="@drawable/ic_baseline_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.25"
 
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.25" />
 
     <FrameLayout
         android:id="@+id/FrameLayout_main"
@@ -35,8 +35,6 @@
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
