@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/bt_addTransaction"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainActivity">
+    tools:context=".view.MainActivity"
+    android:id="@+id/main">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -18,14 +18,16 @@
         app:menu="@menu/bottom_navigation" />
 
     <ImageButton
-        android:id="@+id/imageButton"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:background="#7000F8"
+        android:contentDescription="newTransaction"
         android:src="@drawable/ic_baseline_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.25" />
+        app:layout_constraintWidth_percent="0.25"
+        tools:ignore="SpeakableTextPresentCheck"
+        android:id="@+id/button_new_transaction"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
