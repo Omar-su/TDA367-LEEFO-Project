@@ -27,6 +27,21 @@ public class HomeListViewFragment extends Fragment {
         listView = view.findViewById(R.id.listView_home);
         list = new ArrayList<>();
 
+        // TODO hardcoded for now
+        list.add(new TransactionFake(200, "date", "#558DF9"));
+        list.add(new TransactionFake(300, "Musik", "#F95555"));
+        list.add(new TransactionFake(100, "Danslektioner", "#55F979"));
+        list.add(new TransactionFake(200, "Mat", "#558DF9"));
+        list.add(new TransactionFake(300, "Musik", "#F95555"));
+        list.add(new TransactionFake(100, "date", "#55F979"));
+        list.add(new TransactionFake(200, "Mat", "#558DF9"));
+        list.add(new TransactionFake(300, "Musik", "#F95555"));
+        list.add(new TransactionFake(100, "date", "#55F979"));
+        list.add(new TransactionFake(200, "Mat", "#558DF9"));
+        list.add(new TransactionFake(300, "Musik", "#F95555"));
+        list.add(new TransactionFake(100, "Danslektioner", "#55F979"));
+        list.add(new TransactionFake(200, "Mat", "#558DF9"));
+        list.add(new TransactionFake(300, "Musik", "#F95555"));
         list.add(new TransactionFake(100, "Danslektioner", "#55F979"));
         list.add(new TransactionFake(200, "Mat", "#558DF9"));
         list.add(new TransactionFake(300, "Musik", "#F95555"));

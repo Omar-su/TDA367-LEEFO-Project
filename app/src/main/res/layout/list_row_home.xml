@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:paddingVertical="7dp"
     android:paddingStart="10dp"
     android:paddingEnd="20dp"
     >
@@ -22,6 +21,8 @@
         />
 
     <TextView
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:id="@+id/category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,6 +41,16 @@
         android:layout_centerVertical="true"
 
         />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="Today"
+        android:paddingTop="15dp"
+        android:paddingBottom="5dp"
+        android:textColor="@color/grey" />
 
 
 </RelativeLayout>
