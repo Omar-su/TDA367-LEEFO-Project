@@ -25,7 +25,4 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    public void initFragment(){
-        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.FrameLayout_middleSection_Home, new HomeCategoryViewFragment()).commit();
-    }
 }
