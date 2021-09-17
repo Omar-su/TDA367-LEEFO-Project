@@ -70,6 +70,25 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
+    public boolean deleteTransaction(Transactions transaction){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "DELETE FROM " + TRANSACTIONS_TABLE + " WHERE " + TRANSACTIONS_ID + " = " + transaction.getId();
+        Cursor cursor = db.rawQuery(sql, null);
+        return cursor.moveToFirst();
+
+    }
+
+
+    public boolean deleteCategory(Category category){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "DELETE FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_ID + " = " + category.getId();
+        Cursor cursor = db.rawQuery(sql, null);
+        updateTransactionTable(db);
+        return cursor.moveToFirst();
+
+    }
 
 
 
