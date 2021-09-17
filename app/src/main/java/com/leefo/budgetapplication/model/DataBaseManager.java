@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DataBaseManager extends SQLiteOpenHelper {
 
 
@@ -46,7 +49,9 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
-    public boolean addTransaction(Transactions transaction){
+
+
+    public boolean addTransaction(Transaction transaction){
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -70,7 +75,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
-    public boolean deleteTransaction(Transactions transaction){
+    public boolean deleteTransaction(Transaction transaction){
 
         SQLiteDatabase db = this.getWritableDatabase();
         String sql = "DELETE FROM " + TRANSACTIONS_TABLE + " WHERE " + TRANSACTIONS_ID + " = " + transaction.getId();
@@ -95,6 +100,65 @@ public class DataBaseManager extends SQLiteOpenHelper {
         db.rawQuery(sql, null);
 
     }
+
+    public List<Category> getEveryCategory(){
+
+        List<Category> returnList = new ArrayList<>();
+
+        String queryString = "SELECT * FROM " + CATEGORY_TABLE;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if (cursor.moveToFirst()){
+            do {
+                int categoryID = cursor.getInt(0);
+                String categoryName = cursor.getString(1);
+                int categoryColor = cursor.getInt(2);
+                Category newCategory = new Category(categoryID,categoryName, categoryColor);
+                returnList.add(newCategory);
+
+            }while (cursor.moveToNext());
+
+        }
+
+        cursor.close();
+        db.close();
+        return returnList;
+
+
+    }
+
+
+    public List<Transaction> getEveryTransactionByMonth(){
+
+
+        List<Transaction> returnList = new ArrayList<>();
+
+        String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + getYear() + getMonth() + "'01'"
+                            + " AND " + getYear() + getMonth() + "'31' ORDER BY " + TRANSACTION_DATE;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if (cursor.moveToFirst()){
+            do {
+                int transactionID = cursor.getInt(0);
+                String transactionName = cursor.getString(1);
+                int transactionDate = cursor.getInt(2);
+                Transaction newTransaction = new Transaction(transactionID,transactionName, transactionDate);
+                returnList.add(newTransaction);
+
+            }while (cursor.moveToNext());
+
+        }
+
+        cursor.close();
+        db.close();
+        return returnList;
+
+    }
+
 
 
 }
