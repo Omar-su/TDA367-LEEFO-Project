@@ -1,0 +1,62 @@
+package com.leefo.budgetapplication.view.model;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import androidx.annotation.Nullable;
+
+public class DataBaseManager extends SQLiteOpenHelper {
+
+
+    public static final String CATEGORY_ID = "CATEGORY_ID";
+    public static final String CATEGORY_NAME = "CATEGORY_NAME";
+    public static final String CATEGORY_COLOR = "CATEGORY_COLOR";
+    public static final String TRANSACTIONS_ID = "TRANSACTIONS_ID";
+    public static final String TRANSACTIONS_NAME = "TRANSACTIONS_NAME";
+    public static final String TRANSACTION_DATE = "TRANSACTION_DATE";
+    public static final String CATEGORY_TABLE = "CATEGORY_TABLE";
+    public static final String TRANSACTIONS_TABLE = "TRANSACTIONS_TABLE";
+
+    public DataBaseManager(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, name, factory, version);
+    }
+
+
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+
+        String createTableCategory = " CREATE TABLE " + CATEGORY_TABLE + " ( " + CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                                    + CATEGORY_NAME + " TEXT, " + CATEGORY_COLOR + " TEXT)";
+
+        String createTableTransactions = " CREATE TABLE " + TRANSACTIONS_TABLE + " ( " + TRANSACTIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                                        + TRANSACTIONS_NAME + " TEXT, "
+                                        + TRANSACTION_DATE + " TEXT, " + CATEGORY_ID
+                                        + " INTEGER, FOREIGN KEY(CATEGORY_ID) REFERENCES " + CATEGORY_TABLE + "(CATEGORY_ID) ON DELETE SET NULL)";
+
+        sqLiteDatabase.execSQL(createTableCategory);
+        sqLiteDatabase.execSQL(createTableTransactions);
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+
+    }
+
+    public boolean addTransaction(Transactions transaction){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(TRANSACTIONS_NAME, transaction.getName());
+        cv.put(TRANSACTION_DATE, transaction.getAge());
+        long insert = db.insert(TRANSACTIONS_TABLE, null, cv);
+
+        return insert != -1;
+
+    }
+
+
+
+}
