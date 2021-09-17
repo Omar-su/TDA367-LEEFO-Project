@@ -2,6 +2,7 @@ package com.leefo.budgetapplication.model;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -89,6 +90,11 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
+    private void updateTransactionTable(SQLiteDatabase db) {
+        String sql = " UPDATE "+ TRANSACTIONS_TABLE + " SET "+ CATEGORY_ID + " = 7 WHERE " + CATEGORY_ID + " IS NULL ";
+        db.rawQuery(sql, null);
+
+    }
 
 
 }
