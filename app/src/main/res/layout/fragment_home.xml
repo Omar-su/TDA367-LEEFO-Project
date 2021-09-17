@@ -52,6 +52,20 @@
             app:layout_constraintStart_toEndOf="@+id/textView6"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ToggleButton
+            android:id="@+id/toggleButton"
+            android:layout_width="154dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/grey_background"
+            android:text="ToggleButton"
+            android:textOff="List"
+            android:textOn="Category"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
