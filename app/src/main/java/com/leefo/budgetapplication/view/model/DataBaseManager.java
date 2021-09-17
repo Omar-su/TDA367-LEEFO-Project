@@ -2,6 +2,7 @@ package com.leefo.budgetapplication.view.model;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -56,6 +57,19 @@ public class DataBaseManager extends SQLiteOpenHelper {
         return insert != -1;
 
     }
+
+    public boolean addCategory(Category category){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(CATEGORY_NAME, category.getName());
+        cv.put(CATEGORY_COLOR, category.getColor());
+        long insert = db.insert(CATEGORY_TABLE, null, cv);
+
+        return insert != -1;
+
+    }
+
 
 
 
