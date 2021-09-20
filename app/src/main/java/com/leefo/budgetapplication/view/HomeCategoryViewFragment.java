@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
@@ -35,39 +36,40 @@ public class HomeCategoryViewFragment extends Fragment {
     }
 
     private void setupPieChart(){
-        pieChart.setDrawHoleEnabled(true); // donut
+       // pieChart.setDrawHoleEnabled(true); // donut
         pieChart.setUsePercentValues(true);
         pieChart.setEntryLabelTextSize(12);
         pieChart.setEntryLabelColor(Color.BLACK);
-        pieChart.setCenterText("Spending by category");
-        pieChart.setCenterTextSize(24);
+        //pieChart.setCenterText("Spending by category");
+        //pieChart.setCenterTextSize(24);
         pieChart.getDescription().setEnabled(false);
 
-        Legend l = pieChart.getLegend();
+        /*
+
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setDrawInside(false);
-        l.setEnabled(true);
+        l.setDrawInside(true);
+
+         */
+        Legend l = pieChart.getLegend();
+        l.setEnabled(false);
     }
 
     private void loadPieChartData(){
         ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(0.4f,"Mat"));
-        entries.add(new PieEntry(0.3f,"Transpport"));
-        entries.add(new PieEntry(0.3f,"Utbildning"));
+        entries.add(new PieEntry(100,"Mat"));
+        entries.add(new PieEntry(100,"Musik"));
+        entries.add(new PieEntry(50,"Danslektioner"));
 
-        ArrayList<Integer> colors = new ArrayList<>();
-        for (int color: ColorTemplate.MATERIAL_COLORS){
-            colors.add(color);
-        }
 
-        for (int color: ColorTemplate.VORDIPLOM_COLORS){
-            colors.add(color);
-        }
+        ArrayList<Integer> myColors = new ArrayList<>();
+        myColors.add(Color.parseColor("#558DF9"));
+        myColors.add(Color.parseColor("#F95555"));
+        myColors.add(Color.parseColor("#55F979"));
 
         PieDataSet dataSet = new PieDataSet(entries, "Expense Category");
-        dataSet.setColors(colors);
+        dataSet.setColors(myColors);
 
         PieData data = new PieData(dataSet);
         data.setDrawValues(true);
@@ -77,5 +79,7 @@ public class HomeCategoryViewFragment extends Fragment {
 
         pieChart.setData(data);
         pieChart.invalidate(); // update
+
+        pieChart.animateY(1000, Easing.EaseInOutQuad);
     }
 }
