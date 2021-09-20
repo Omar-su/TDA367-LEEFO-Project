@@ -42,6 +42,14 @@ public class DataHandlerTest {
     }
 
     @Test
+    public void addedCategoryExistsInDatabase(){
+        Category testCategory = new Category(1, "Test Name", "#FFFF00");
+        dh.addCategory(testCategory);
+        List<Category> categoryList = dh.getCategories();
+        assertTrue(categoryList.contains(testCategory));
+    }
+
+    @Test
     public void removingCategoryMovesTransactionsToOther(){
         Category categoryToBeRemoved = new Category(1, "RemoveMe", "#FFFFFF");
         dh.removeCategory(categoryToBeRemoved);
