@@ -3,6 +3,7 @@ package com.leefo.budgetapplication;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TransactionHandlerTest {
 
@@ -23,6 +24,6 @@ public class TransactionHandlerTest {
         double newAmount = 17.0;
         Transaction mutatedTransaction = th.editAmount(testTransaction, newAmount);
         assertEquals(newAmount, mutatedTransaction.getAmount());
-
     }
+
 }

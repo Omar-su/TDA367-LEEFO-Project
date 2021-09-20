@@ -9,6 +9,9 @@ import androidx.constraintlayout.helper.widget.MotionEffect;
 
 import java.util.*;
 import java.util.concurrent.ExecutionException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 //Break out some tests into separate classes when model classes are clear
 public class DataHandlerTest {
@@ -36,6 +39,13 @@ public class DataHandlerTest {
             fail("testTransaction wasn't added correctly.");
         }
         assertFalse(transactionList.contains(testTransaction));
+    }
+
+    @Test
+    public void removingCategoryMovesTransactionsToOther(){
+        Category categoryToBeRemoved = new Category(1, "RemoveMe", "#FFFFFF");
+        dh.removeCategory(categoryToBeRemoved);
+        assertEquals(0, testTransaction.getCategoryId()); // Assuming that category ID for Other is 0
     }
 
 
