@@ -16,7 +16,13 @@ public class CategoryHandlerTest {
 
     @Test
     public void canEditCategoryName() {
-        Category mutatedCategory = ch.editTransactionName(testCategory, "New Name");
+        Category mutatedCategory = ch.editCategoryName(testCategory, "New Name");
         assertEquals("New Name", mutatedCategory.getName());
+    }
+
+    @Test
+    public canEditCategoryColor(){
+        Category mutatedCategory = ch.editCategoryColor(testCategory, "#7393B3");
+        assertEquals("#7393B3", mutatedCategory.getColor());
     }
 }
