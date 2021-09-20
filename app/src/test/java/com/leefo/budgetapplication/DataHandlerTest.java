@@ -18,7 +18,7 @@ public class DataHandlerTest {
 
     @BeforeEach
     public void init(){
-        Transaction testTransaction = new Transaction(1, 14.5, "Food from mcDonalds", 20210203, 3);
+        Transaction testTransaction = new Transaction(1, 14.5, "Food from mcDonalds", 20210203, 3, true);
         DataHandler dh = new DataHandler();
     }
 

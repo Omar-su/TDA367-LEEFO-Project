@@ -21,7 +21,7 @@ public class CategoryHandlerTest {
     }
 
     @Test
-    public canEditCategoryColor(){
+    public void canEditCategoryColor(){
         Category mutatedCategory = ch.editCategoryColor(testCategory, "#7393B3");
         assertEquals("#7393B3", mutatedCategory.getColor());
     }
