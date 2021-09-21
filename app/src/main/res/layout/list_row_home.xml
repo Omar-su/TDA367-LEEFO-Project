@@ -47,9 +47,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:text="Today"
         android:paddingTop="15dp"
         android:paddingBottom="5dp"
+        android:text="Today"
         android:textColor="@color/grey" />
 
 
