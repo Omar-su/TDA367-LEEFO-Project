@@ -1,4 +1,4 @@
-package com.leefo.budgetapplication.view;
+package com.leefo.budgetapplication.view.adapters;
 
 import android.app.Activity;
 import android.content.Context;

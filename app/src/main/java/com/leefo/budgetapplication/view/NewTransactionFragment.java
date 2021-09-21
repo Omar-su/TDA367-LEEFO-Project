@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.model.CategoryFake;
+import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 
 import java.util.ArrayList;
 
