@@ -1,4 +1,4 @@
-package com.leefo.budgetapplication.view;
+package com.leefo.budgetapplication.view.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
