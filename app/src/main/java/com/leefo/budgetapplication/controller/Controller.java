@@ -82,6 +82,19 @@ public class Controller {
     }
 
     /**
+     * Adds new transaction to database.
+     *
+     * @param amount The amount of the transaction.
+     * @param description A description of the transaction
+     * @param date The date the transaction was made.
+     * @param isExpense Whether the transaction is an expense or not. If false, transaction is income.
+     * @param categoryId The id for the category of the added transaction.
+     */
+    public void addNewTransaction(double amount, String description, int date,
+                                  boolean isExpense, int categoryId){
+        transactionHandler.addTransaction(amount, description, date, isExpense, categoryId);
+    }
+    /**
      * Returns a list of transactions made in a given year and month.
      *
      * @param year  The year the transactions were made.
