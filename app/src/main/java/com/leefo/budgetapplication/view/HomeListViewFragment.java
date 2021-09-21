@@ -24,7 +24,8 @@ public class HomeListViewFragment extends Fragment {
     ListViewAdapterHomeList adapter;
 
     /**
-     * Method that runs when the fragment is being created. It initializes the fragment and its components.
+     * Method that runs when the fragment is being created.
+     * Connects the fragment xml file to the fragment class and initializes the fragment's components.
      * @return returns the view
      */
     @Override
