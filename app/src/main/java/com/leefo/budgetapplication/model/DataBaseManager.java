@@ -18,13 +18,24 @@ public class DataBaseManager extends SQLiteOpenHelper {
     public static final String CATEGORY_NAME = "CATEGORY_NAME";
     public static final String CATEGORY_COLOR = "CATEGORY_COLOR";
     public static final String TRANSACTIONS_ID = "TRANSACTIONS_ID";
-    public static final String TRANSACTIONS_NAME = "TRANSACTIONS_NAME";
+    public static final String TRANSACTIONS_DESC = "TRANSACTIONS_DESCRIPTION";
     public static final String TRANSACTION_DATE = "TRANSACTION_DATE";
     public static final String CATEGORY_TABLE = "CATEGORY_TABLE";
     public static final String TRANSACTIONS_TABLE = "TRANSACTIONS_TABLE";
+    public static final String TRANSACTION_AMOUNT = "TRANSACTION_AMOUNT";
+    public static final String CATEGORY_FK_ID = "TRANS_FOREIGN_ID";
 
-    public DataBaseManager(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+
+    public DataBaseManager(@Nullable Context context) {
+        super(context, "category_transaction_db", null, 1);
+    }
+
+
+
+    @Override
+    public void onConfigure(SQLiteDatabase db) {
+        super.onConfigure(db);
+        db.setForeignKeyConstraintsEnabled(true);
     }
 
 
@@ -35,9 +46,10 @@ public class DataBaseManager extends SQLiteOpenHelper {
                                     + CATEGORY_NAME + " TEXT, " + CATEGORY_COLOR + " TEXT)";
 
         String createTableTransactions = " CREATE TABLE " + TRANSACTIONS_TABLE + " ( " + TRANSACTIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                        + TRANSACTIONS_NAME + " TEXT, "
-                                        + TRANSACTION_DATE + " TEXT, " + CATEGORY_ID
-                                        + " INTEGER, FOREIGN KEY(CATEGORY_ID) REFERENCES " + CATEGORY_TABLE + "(CATEGORY_ID) ON DELETE SET NULL)";
+                                        + TRANSACTIONS_DESC + " TEXT, "
+                                        + TRANSACTION_AMOUNT + " REAL, "
+                                        + TRANSACTION_DATE + " TEXT, "
+                                        + CATEGORY_FK_ID + " INTEGER, FOREIGN KEY(" + CATEGORY_FK_ID + ") REFERENCES " + CATEGORY_TABLE + " ( " + CATEGORY_ID + " ) ON DELETE SET NULL)";
 
         sqLiteDatabase.execSQL(createTableCategory);
         sqLiteDatabase.execSQL(createTableTransactions);
@@ -51,12 +63,15 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
 
-    public boolean addTransaction(Transaction transaction){
+    public boolean addTransaction(String description, Double amount, String date, int categoryID ){
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(TRANSACTIONS_NAME, transaction.getName());
-        cv.put(TRANSACTION_DATE, transaction.getAge());
+        cv.put(TRANSACTIONS_DESC, description);
+        cv.put(TRANSACTION_AMOUNT, amount);
+        cv.put(TRANSACTION_DATE, date);
+        cv.put(CATEGORY_FK_ID, categoryID);
+
         long insert = db.insert(TRANSACTIONS_TABLE, null, cv);
 
         return insert != -1;
@@ -130,13 +145,13 @@ public class DataBaseManager extends SQLiteOpenHelper {
     }
 
 
-    public List<Transaction> getEveryTransactionByMonth(){
+    public List<Transaction> getEveryTransactionByMonth(String year, String month){
 
 
         List<Transaction> returnList = new ArrayList<>();
 
-        String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + getYear() + getMonth() + "'01'"
-                            + " AND " + getYear() + getMonth() + "'31' ORDER BY " + TRANSACTION_DATE;
+        String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + year + month + "'01'"
+                            + " AND " + year + month + "'31' ORDER BY " + TRANSACTION_DATE;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
