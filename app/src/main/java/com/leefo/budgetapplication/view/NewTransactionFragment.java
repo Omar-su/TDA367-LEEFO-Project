@@ -14,12 +14,19 @@ import com.leefo.budgetapplication.model.CategoryFake;
 
 import java.util.ArrayList;
 
-
+/**
+ * The class that represents the fragment for adding a new transaction
+ */
 public class NewTransactionFragment extends Fragment {
 
     private EditText amount, description;
     private Spinner spinner;
 
+
+    /**
+     * Method that runs when the fragment is being created. It initializes the fragment and its components.
+     * @return returns the view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_transaction, container, false);

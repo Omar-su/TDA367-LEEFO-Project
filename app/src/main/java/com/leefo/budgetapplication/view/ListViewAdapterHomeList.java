@@ -20,6 +20,9 @@ import com.leefo.budgetapplication.model.TransactionFake;
 
 import java.util.ArrayList;
 
+/**
+ * Class that represents the adapter for the list in the HomeListViewFragment
+ */
 public class ListViewAdapterHomeList extends ArrayAdapter<TransactionFake> {
 
     Context context;

@@ -17,7 +17,9 @@ import com.leefo.budgetapplication.model.CategoryFake;
 
 import java.util.ArrayList;
 
-
+/**
+ * Class that represents the adapter for the category-chooser spinner in the NewTransactionFragment
+ */
 public class SpinnerAdapter extends ArrayAdapter<CategoryFake> {
 
     LayoutInflater layoutInflater;
@@ -60,4 +62,6 @@ public class SpinnerAdapter extends ArrayAdapter<CategoryFake> {
 
         return convertView;
     }
+
+
 }
