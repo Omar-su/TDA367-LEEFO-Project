@@ -7,6 +7,8 @@ import java.util.List;
 * */
 public class CategoryHandler {
 
+    // TODO MAKE METHODS NOT STATIC AND CREATE INSTANCES OF CATEGORYHANDLER IN CONTROLLER
+
     /**
      * Method for getting all categories from the database.
      * @return A list of categories.
@@ -23,7 +25,7 @@ public class CategoryHandler {
      */
     public static void addCategory(String name, String color)
     {
-        Category cat = new Category(name, color);
+        Category cat = new Category(name, color);// todo change so that a new category object doesn't have to be made
 
         DataBaseManager.addCategory(cat);
     }
@@ -47,6 +49,6 @@ public class CategoryHandler {
     {
         Category editedCategory = new Category(id, name, color);
 
-        DataBaseManager.editCategory(editedCategory);
+        DataBaseManager.editCategory(editedCategory); // todo don't use category objects
     }
 }

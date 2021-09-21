@@ -7,6 +7,8 @@ import java.util.List;
  */
 public class TransactionHandler {
 
+    // TODO MAKE METHODS NOT STATIC AND CREATE INSTANCES OF TRANSACTIONHANDLER IN CONTROLLER
+
     /**
      * Gets a list of transactions from a given year and month.
      * @param year Year transactions were made.
