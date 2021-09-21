@@ -68,7 +68,7 @@ public class NewTransactionFragment extends Fragment {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel();
+                updateDateLabel();
             }
         };
 
@@ -78,12 +78,14 @@ public class NewTransactionFragment extends Fragment {
                 new DatePickerDialog(getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+        updateDateLabel();
+
     }
 
     /**
-     * Updates the edittext edittext_date with the chosen date from the datePickerDialog.
+     * Updates the edittext edittext_date with the date from the myCalendar chosen by the datePickerDialog.
      */
-    private void updateLabel() {
+    private void updateDateLabel() {
         String myFormat = "dd/MM/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.UK);
 
