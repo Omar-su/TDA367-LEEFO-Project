@@ -19,27 +19,23 @@ public class Transaction {
     /**
      * Date that the transaction occurred.
      */
-    private final int date;
+    private final String date;
     /**
      * Total currency amount handled by the transaction.
      */
     private final double amount;
-    /**
-     * Determines whether the amount is being transferred to or out of the account.
-     */
-    private final boolean isExpense;
+
     /**
      * Description for transaction, optional.
      */
     private final String description;
 
-    public Transaction(int id, double amount, String description, int date, boolean isExpense, int categoryId)
+    public Transaction(int id, double amount, String description, String date, int categoryId)
     {
         this.id = id;
         this.amount = amount;
         this.description = description;
         this.date = date;
-        this.isExpense = isExpense;
         this.categoryId = categoryId;
     }
 
