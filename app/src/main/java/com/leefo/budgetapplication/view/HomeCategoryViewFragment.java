@@ -36,7 +36,7 @@ public class HomeCategoryViewFragment extends Fragment {
     }
 
     private void setupPieChart(){
-       // pieChart.setDrawHoleEnabled(true); // donut
+       pieChart.setDrawHoleEnabled(false); // donut
         pieChart.setUsePercentValues(true);
         pieChart.setEntryLabelTextSize(12);
         pieChart.setEntryLabelColor(Color.BLACK);
