@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -32,7 +31,8 @@ public class NewTransactionFragment extends Fragment {
 
 
     /**
-     * Method that runs when the fragment is being created. It initializes the fragment and its components.
+     * Method that runs when the fragment is being created.
+     * Connects the fragment xml file to the fragment class and initializes the fragment's components.
      * @return returns the view
      */
     @Override
@@ -52,12 +52,16 @@ public class NewTransactionFragment extends Fragment {
 
 
         edittext_date = view.findViewById(R.id.editTextDate);
-        initCalendar();
+        initDatePickerDialog();
 
         return view;
     }
 
-    private void initCalendar(){
+    /**
+     * Initializes Calendar object myCalander and sets onClickListener for the edittext edittext_date
+     * in which a DatePickerDialog is created using myCalendar.
+     */
+    private void initDatePickerDialog(){
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -66,7 +70,6 @@ public class NewTransactionFragment extends Fragment {
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 updateLabel();
             }
-
         };
 
         edittext_date.setOnClickListener(new View.OnClickListener() {
@@ -77,9 +80,12 @@ public class NewTransactionFragment extends Fragment {
         });
     }
 
+    /**
+     * Updates the edittext edittext_date with the chosen date from the datePickerDialog.
+     */
     private void updateLabel() {
-        String myFormat = "MM/dd/yy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        String myFormat = "dd/MM/yy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.UK);
 
         edittext_date.setText(sdf.format(myCalendar.getTime()));
     }
