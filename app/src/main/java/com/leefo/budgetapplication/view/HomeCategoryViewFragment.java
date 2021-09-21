@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
@@ -17,6 +18,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.leefo.budgetapplication.R;
+import com.leefo.budgetapplication.model.TransactionFake;
 
 import java.util.ArrayList;
 
@@ -24,57 +26,65 @@ import java.util.ArrayList;
 public class HomeCategoryViewFragment extends Fragment {
 
     PieChart pieChart;
+    ListView listView;
+    ArrayList<TransactionFake> list;
+    ListViewAdapterHomeList adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_category_view, container, false);
 
         pieChart = view.findViewById(R.id.pie_chart);
+        listView = view.findViewById(R.id.listOfPieChart);
         setupPieChart();
         loadPieChartData();
+
         return view;
     }
 
     private void setupPieChart(){
-       pieChart.setDrawHoleEnabled(false); // donut
+        pieChart.setDrawHoleEnabled(false); // false for pie chart, true for donut chart
         pieChart.setUsePercentValues(true);
-        pieChart.setEntryLabelTextSize(12);
-        pieChart.setEntryLabelColor(Color.BLACK);
-        //pieChart.setCenterText("Spending by category");
-        //pieChart.setCenterTextSize(24);
+        pieChart.setDrawEntryLabels(false);
         pieChart.getDescription().setEnabled(false);
 
-        /*
-
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setDrawInside(true);
-
-         */
+        //Disable the auto generated list of pie chart
         Legend l = pieChart.getLegend();
         l.setEnabled(false);
     }
 
     private void loadPieChartData(){
+
+
+        list = new ArrayList<>();
+
+        // TODO hardcoded for now
+        list.add(new TransactionFake(50, "Danslektioner", "#55F979"));
+        list.add(new TransactionFake(100, "Mat", "#558DF9"));
+        list.add(new TransactionFake(100, "Musik", "#F95555"));
+
+
+        adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(), list);
+        listView.setAdapter(adapter);
+
         ArrayList<PieEntry> entries = new ArrayList<>();
+        entries.add(new PieEntry(50,"Danslektioner"));
         entries.add(new PieEntry(100,"Mat"));
         entries.add(new PieEntry(100,"Musik"));
-        entries.add(new PieEntry(50,"Danslektioner"));
-
 
         ArrayList<Integer> myColors = new ArrayList<>();
         myColors.add(Color.parseColor("#558DF9"));
         myColors.add(Color.parseColor("#F95555"));
         myColors.add(Color.parseColor("#55F979"));
 
-        PieDataSet dataSet = new PieDataSet(entries, "Expense Category");
+        PieDataSet dataSet = new PieDataSet(entries,"");
         dataSet.setColors(myColors);
 
         PieData data = new PieData(dataSet);
+
         data.setDrawValues(true);
         data.setValueFormatter(new PercentFormatter(pieChart));
-        data.setValueTextSize(12f);
+        data.setValueTextSize(24f);
         data.setValueTextColor(Color.BLACK);
 
         pieChart.setData(data);
