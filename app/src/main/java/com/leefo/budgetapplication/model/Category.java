@@ -3,13 +3,22 @@ package com.leefo.budgetapplication.model;
 
 import androidx.annotation.NonNull;
 
-/*
-* Immutable container class for category data
+/**
+* Immutable container class for category data.
 * */
 public class Category {
 
+    /**
+     * Represents category id in database.
+     */
     private final int id; // unique id assigned by db
+    /**
+     * Name of category
+     */
     private final String name;
+    /**
+     * Category color.
+     */
     private final String color;
 
 
@@ -17,19 +26,34 @@ public class Category {
     {
         this.id = id;
         this.name = name;
-        this. color = color;
+        this.color = color;
+    }
+
+    public Category(String name, String color)
+    {
+        id = -1;
+        this.name = name;
+        this.color = color;
     }
 
 
     // ----------
 
-    // returns true if given transaction is of this category
+    /**
+     * Method for checking if a transaction belongs to this category.
+     * @param transaction Transaction to be checked.
+     * @return True if transaction belongs to category.
+     */
     public boolean transactionBelongs(Transaction transaction)
     {
         return id == transaction.getCategoryId();
     }
 
-    // compares two categories
+    /**
+     * Compares two categories
+     * @param cat Category to compare to
+     * @return True if the category id's are the same
+     */
     public boolean Equals(Category cat)
     {
         return cat.getId() == id;
