@@ -13,13 +13,19 @@ import com.leefo.budgetapplication.model.TransactionFake;
 
 import java.util.ArrayList;
 
-
+/**
+ * The class that represents the fragment for the list view inside the HomeFragment
+ */
 public class HomeListViewFragment extends Fragment {
 
     ListView listView;
     ArrayList<TransactionFake> list;
     ListViewAdapterHomeList adapter;
 
+    /**
+     * Method that runs when the fragment is being created. It initializes the fragment and its components.
+     * @return returns the view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_list_view, container, false);
