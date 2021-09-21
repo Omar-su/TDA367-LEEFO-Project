@@ -10,6 +10,9 @@ import android.widget.Spinner;
 import androidx.fragment.app.Fragment;
 
 import com.leefo.budgetapplication.R;
+import com.leefo.budgetapplication.model.CategoryFake;
+
+import java.util.ArrayList;
 
 
 public class NewTransactionFragment extends Fragment {
@@ -22,7 +25,14 @@ public class NewTransactionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_new_transaction, container, false);
 
 
-         spinner = (Spinner)view.findViewById(R.id.spinner_categoty);
+        ArrayList<CategoryFake> categories = new ArrayList<>();
+        categories.add(new CategoryFake("Mat", "#558DF9")); // TODO replace hardcoded data
+        categories.add(new CategoryFake("Musik", "#F95555"));
+        categories.add(new CategoryFake("Danslektioner", "#55F979"));
+
+        spinner = (Spinner)view.findViewById(R.id.spinner_categoty);
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), categories);
+        spinner.setAdapter(spinnerAdapter);
 
         return view;
     }
