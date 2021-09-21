@@ -46,8 +46,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
                                     + CATEGORY_NAME + " TEXT, " + CATEGORY_COLOR + " TEXT)";
 
         String createTableTransactions = " CREATE TABLE " + TRANSACTIONS_TABLE + " ( " + TRANSACTIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                        + TRANSACTIONS_DESC + " TEXT, "
                                         + TRANSACTION_AMOUNT + " REAL, "
+                                        + TRANSACTIONS_DESC + " TEXT, "
                                         + TRANSACTION_DATE + " TEXT, "
                                         + CATEGORY_FK_ID + " INTEGER, FOREIGN KEY(" + CATEGORY_FK_ID + ") REFERENCES " + CATEGORY_TABLE + " ( " + CATEGORY_ID + " ) ON DELETE SET NULL)";
 
@@ -55,6 +55,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(createTableTransactions);
 
     }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
@@ -129,7 +130,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
             do {
                 int categoryID = cursor.getInt(0);
                 String categoryName = cursor.getString(1);
-                int categoryColor = cursor.getInt(2);
+                String categoryColor = cursor.getString(2);
                 Category newCategory = new Category(categoryID,categoryName, categoryColor);
                 returnList.add(newCategory);
 
@@ -145,7 +146,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
     }
 
 
-    public List<Transaction> getEveryTransactionByMonth(String year, String month){
+    public List<Transaction> getTransactionsByMonth(String year, String month){
 
 
         List<Transaction> returnList = new ArrayList<>();
@@ -159,9 +160,12 @@ public class DataBaseManager extends SQLiteOpenHelper {
         if (cursor.moveToFirst()){
             do {
                 int transactionID = cursor.getInt(0);
-                String transactionName = cursor.getString(1);
-                int transactionDate = cursor.getInt(2);
-                Transaction newTransaction = new Transaction(transactionID,transactionName, transactionDate);
+                int transactionAmount = cursor.getInt(1);
+                String transactionDesc = cursor.getString(2);
+                String transactionDate = cursor.getString(3);
+                int categoryFKID = cursor.getInt(4);
+
+                Transaction newTransaction = new Transaction(transactionID, transactionAmount ,transactionDesc, transactionDate, categoryFKID);
                 returnList.add(newTransaction);
 
             }while (cursor.moveToNext());
