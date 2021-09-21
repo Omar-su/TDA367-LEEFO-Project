@@ -27,7 +27,7 @@ public class CategoryHandler {
     {
         Category cat = new Category(name, color);// todo change so that a new category object doesn't have to be made
 
-        DataBaseManager.addCategory(cat);
+        DataBaseManager.addCategory(cat.getName(), cat.getColor());
     }
 
     /**
@@ -49,6 +49,6 @@ public class CategoryHandler {
     {
         Category editedCategory = new Category(id, name, color);
 
-        DataBaseManager.editCategory(editedCategory); // todo don't use category objects
+        DataBaseManager.editCategory( id,  name,  color); // todo don't use category objects
     }
 }

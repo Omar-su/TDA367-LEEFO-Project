@@ -32,6 +32,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
 
+
     @Override
     public void onConfigure(SQLiteDatabase db) {
         super.onConfigure(db);
@@ -106,14 +107,15 @@ public class DataBaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String sql = "DELETE FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_ID + " = " + catId;
         Cursor cursor = db.rawQuery(sql, null);
-        updateTransactionTable(db);
         return cursor.moveToFirst();
 
     }
 
-    private void updateTransactionTable(SQLiteDatabase db) {
-        String sql = " UPDATE "+ TRANSACTIONS_TABLE + " SET "+ CATEGORY_ID + " = 7 WHERE " + CATEGORY_ID + " IS NULL ";
-        db.rawQuery(sql, null);
+    public boolean updateTransactionWhenCatDeleted(int catId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = " UPDATE "+ TRANSACTIONS_TABLE + " SET "+ CATEGORY_FK_ID + " = 20 " + " WHERE " + CATEGORY_FK_ID + " = " + catId;
+        Cursor cursor = db.rawQuery(sql, null);
+        return cursor.moveToFirst();
 
     }
 
@@ -151,8 +153,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
         List<Transaction> returnList = new ArrayList<>();
 
-        String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + year + month + "'01'"
-                            + " AND " + year + month + "'31' ORDER BY " + TRANSACTION_DATE;
+        String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + "'" + year + "-"  + month + "-" + "01' "
+                            + " AND " + "'" + year + "-"  + month + "-"  + "31' ORDER BY " + TRANSACTION_DATE;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
@@ -181,8 +183,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     public  List<Transaction> getTransactionsByMonthAndCat(int year, int month, int categoryId) {
         List<Transaction> returnList = new ArrayList<>();
-        String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + year + month + "'01'"
-                + " AND " + year + month + "'31' ORDER BY " + TRANSACTION_DATE + " AND " + CATEGORY_FK_ID + " = " + categoryId;
+        String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + "'" + year + "-"  + month + "-" + "01' "
+                + " AND " + "'" + year + "-"  + month + "-"  + "31' ORDER BY " + TRANSACTION_DATE + " AND " + CATEGORY_FK_ID + " = " + categoryId;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
@@ -209,6 +211,25 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
+    public boolean editCategory(int id, String name, String color) {
 
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = " UPDATE " + CATEGORY_TABLE + " SET " + CATEGORY_NAME + " = " + name +" WHERE " + CATEGORY_ID + " = " + id;
+        Cursor cursor = db.rawQuery(sql, null);
+        return cursor.moveToFirst();
 
+    }
+
+    public boolean editTransaction(int id, int amount, String description, String date, int catId) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = " UPDATE " + TRANSACTIONS_TABLE + " SET " + TRANSACTION_AMOUNT + " = " + amount + ","
+                    + TRANSACTIONS_DESC + " = " + description + " , "
+                    + TRANSACTION_DATE + " = " + date + " , "
+                    + CATEGORY_FK_ID + " = " + catId
+                    +" WHERE " + CATEGORY_ID + " = " + id;
+        Cursor cursor = db.rawQuery(sql, null);
+        return cursor.moveToFirst();
+
+    }
 }

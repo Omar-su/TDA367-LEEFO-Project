@@ -75,7 +75,7 @@ public class Transaction {
         return categoryId;
     }
 
-    public int getDate()
+    public String getDate()
     {
         return date;
     }
@@ -85,7 +85,6 @@ public class Transaction {
         return amount;
     }
 
-    public boolean getIsExpense() { return isExpense; }
 
     public String getDescription()
     {
