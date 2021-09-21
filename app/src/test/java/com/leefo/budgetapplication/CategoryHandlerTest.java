@@ -16,13 +16,27 @@ public class CategoryHandlerTest {
 
     @Test
     public void canEditCategoryName() {
-        Category mutatedCategory = ch.editCategoryName(testCategory, "New Name");
-        assertEquals("New Name", mutatedCategory.getName());
+        String newName = "New name";
+        ch.editCategory(testCategory.getId(), newName , testCategory.getColor());
+        List<Category> catList = ch.getCategories();
+        for (Category cat : catList){
+            if(cat.getId() == testCategory.getId()){
+                assertEquals(newName, cat.getName());
+                break;
+            }
+        }
     }
 
     @Test
-    public void canEditCategoryColor(){
-        Category mutatedCategory = ch.editCategoryColor(testCategory, "#7393B3");
-        assertEquals("#7393B3", mutatedCategory.getColor());
+    public void canEditCategoryColor() {
+        String newColor = "#7393B3";
+        ch.editCategory(testCategory.getId(), testCategory.getName(), newColor);
+        List<Category> catList = ch.getCategories();
+        for (Category cat : catList) {
+            if (cat.getId() == testCategory.getId()) {
+                assertEquals(newName, cat.getName());
+                break;
+            }
+        }
     }
 }

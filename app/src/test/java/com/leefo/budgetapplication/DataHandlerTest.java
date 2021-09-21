@@ -3,8 +3,6 @@ package com.leefo.budgetapplication;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-
 import androidx.constraintlayout.helper.widget.MotionEffect;
 
 import java.util.*;
