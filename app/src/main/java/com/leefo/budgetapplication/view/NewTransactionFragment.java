@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -25,8 +27,9 @@ import java.util.Locale;
  */
 public class NewTransactionFragment extends Fragment {
 
-    private EditText amount, description, edittext_date;
-    private Spinner spinner;
+    private EditText amountInput, descriptionInput, dateInput;
+    private Spinner categorySpinner;
+    private Button saveButton;
     final Calendar myCalendar = Calendar.getInstance();
 
 
@@ -46,15 +49,45 @@ public class NewTransactionFragment extends Fragment {
         categories.add(new CategoryFake("Musik", "#F95555"));
         categories.add(new CategoryFake("Danslektioner", "#55F979"));
 
-        spinner = (Spinner)view.findViewById(R.id.spinner_categoty);
+        // get views
+        categorySpinner = view.findViewById(R.id.spinner_categoty);
+        amountInput = view.findViewById(R.id.amountInput);
+        descriptionInput = view.findViewById(R.id.descriptionInput);
+        dateInput = view.findViewById(R.id.dateInput);
+        saveButton = view.findViewById(R.id.saveButton);
+
+        // init category spinner
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), categories);
-        spinner.setAdapter(spinnerAdapter);
+        categorySpinner.setAdapter(spinnerAdapter);
 
-
-        edittext_date = view.findViewById(R.id.editTextDate);
+        // init date picker
         initDatePickerDialog();
 
+        // init save button onClick
+        initSaveButtonOnClickListener();
+
         return view;
+    }
+
+    private void initSaveButtonOnClickListener(){
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addTransaction();
+            }
+        });
+    }
+
+    private void addTransaction(){
+        if (amountInput.getText().toString().equals("")){
+            makeToast("You need to enter an amount");
+            return;
+        }
+        String date = dateInput.getText().toString();
+        String description = descriptionInput.getText().toString();
+        int amount = Integer.parseInt(amountInput.getText().toString());
+        CategoryFake category = (CategoryFake) categorySpinner.getSelectedItem();
+        makeToast(date + description + amount + category.getName());
     }
 
     /**
@@ -72,7 +105,7 @@ public class NewTransactionFragment extends Fragment {
             }
         };
 
-        edittext_date.setOnClickListener(new View.OnClickListener() {
+        dateInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new DatePickerDialog(getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
@@ -89,8 +122,14 @@ public class NewTransactionFragment extends Fragment {
         String myFormat = "dd/MM/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.UK);
 
-        edittext_date.setText(sdf.format(myCalendar.getTime()));
+        dateInput.setText(sdf.format(myCalendar.getTime()));
     }
-
+    //Method to make a Toast. Use to test
+    Toast t;
+    private void makeToast(String s){
+        if(t != null) t.cancel();
+        t = Toast.makeText(getActivity().getApplicationContext(), s, Toast.LENGTH_SHORT);
+        t.show();
+    }
 
 }
