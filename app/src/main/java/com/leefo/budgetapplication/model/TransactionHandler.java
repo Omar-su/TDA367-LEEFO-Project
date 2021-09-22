@@ -15,7 +15,7 @@ public class TransactionHandler {
      * @param month Month transactions were made.
      * @return Returns a list of transactions.
      */
-    public List<Transaction> searchByMonth(int year, int month)
+    public List<Transaction> searchByMonth(String year, String month)
     {
         return DataBaseManager.getTransactionsByMonth(year, month);
     }
@@ -27,7 +27,7 @@ public class TransactionHandler {
      * @param categoryId Id of category to filter by.
      * @return A list of transactions.
      */
-    public List<Transaction> searchByMonthAndCategory(int year, int month, int categoryId)
+    public List<Transaction> searchByMonthAndCategory(String year, String month, int categoryId)
     {
         return DataBaseManager.getTransactionsByMonthAndCat(year, month, categoryId);
     }

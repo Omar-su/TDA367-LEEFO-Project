@@ -124,7 +124,7 @@ public class Controller {
      * @param month The month the transactions were made.
      * @return A list with transactions made in the given year and month.
      */
-    public List<Transaction> searchTransactionsByMonth(int year, int month) {
+    public List<Transaction> searchTransactionsByMonth(String year, String month) {
         return transactionHandler.searchByMonth(year, month);
     }
 
