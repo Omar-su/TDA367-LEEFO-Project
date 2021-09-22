@@ -13,20 +13,31 @@ import java.util.List;
 
 public class DataBaseManager extends SQLiteOpenHelper {
 
+    private static final String CATEGORY_TABLE = "CATEGORY_TABLE";
+    private static final String CATEGORY_ID = "CATEGORY_ID";
+    private static final String CATEGORY_NAME = "CATEGORY_NAME";
+    private static final String CATEGORY_COLOR = "CATEGORY_COLOR";
 
-    public static final String CATEGORY_ID = "CATEGORY_ID";
-    public static final String CATEGORY_NAME = "CATEGORY_NAME";
-    public static final String CATEGORY_COLOR = "CATEGORY_COLOR";
-    public static final String TRANSACTIONS_ID = "TRANSACTIONS_ID";
-    public static final String TRANSACTIONS_DESC = "TRANSACTIONS_DESCRIPTION";
-    public static final String TRANSACTION_DATE = "TRANSACTION_DATE";
-    public static final String CATEGORY_TABLE = "CATEGORY_TABLE";
-    public static final String TRANSACTIONS_TABLE = "TRANSACTIONS_TABLE";
-    public static final String TRANSACTION_AMOUNT = "TRANSACTION_AMOUNT";
-    public static final String CATEGORY_FK_ID = "TRANS_FOREIGN_ID";
+    private static final String TRANSACTIONS_TABLE = "TRANSACTIONS_TABLE";
+    private static final String TRANSACTIONS_ID = "TRANSACTIONS_ID";
+    private static final String TRANSACTIONS_DESC = "TRANSACTIONS_DESCRIPTION";
+    private static final String TRANSACTION_DATE = "TRANSACTION_DATE";
+    private static final String TRANSACTION_AMOUNT = "TRANSACTION_AMOUNT";
+    private static final String CATEGORY_FK_ID = "TRANS_FOREIGN_ID";
 
 
-    public DataBaseManager(@Nullable Context context) {
+    private static DataBaseManager instance;
+
+    public static synchronized DataBaseManager getInstance(@Nullable Context context){
+
+        if (instance == null)
+            instance = new DataBaseManager(context);
+
+        return instance;
+    }
+
+
+    private DataBaseManager(@Nullable Context context) {
         super(context, "category_transaction_db", null, 1);
     }
 
@@ -65,9 +76,9 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
 
-    public boolean addTransaction(String description, Double amount, String date, int categoryID ){
+    public static boolean addTransaction(String description, Double amount, String date, int categoryID ){
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = instance.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(TRANSACTIONS_DESC, description);
         cv.put(TRANSACTION_AMOUNT, amount);
@@ -80,9 +91,9 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
-    public boolean addCategory(String catName, String catColor){
+    public static boolean addCategory(String catName, String catColor){
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = instance.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(CATEGORY_NAME, catName);
         cv.put(CATEGORY_COLOR, catColor);
@@ -92,9 +103,9 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
-    public boolean deleteTransaction(int transId){
+    public static boolean deleteTransaction(int transId){
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = instance.getWritableDatabase();
         String sql = "DELETE FROM " + TRANSACTIONS_TABLE + " WHERE " + TRANSACTIONS_ID + " = " + transId;
         Cursor cursor = db.rawQuery(sql, null);
         return cursor.moveToFirst();
@@ -102,30 +113,30 @@ public class DataBaseManager extends SQLiteOpenHelper {
     }
 
 
-    public boolean deleteCategory(int catId){
+    public static boolean deleteCategory(int catId){
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = instance.getWritableDatabase();
         String sql = "DELETE FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_ID + " = " + catId;
         Cursor cursor = db.rawQuery(sql, null);
         return cursor.moveToFirst();
 
     }
 
-    public boolean updateTransactionWhenCatDeleted(int catId) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    public static boolean updateTransactionWhenCatDeleted(int catId) {
+        SQLiteDatabase db = instance.getWritableDatabase();
         String sql = " UPDATE "+ TRANSACTIONS_TABLE + " SET "+ CATEGORY_FK_ID + " = 20 " + " WHERE " + CATEGORY_FK_ID + " = " + catId;
         Cursor cursor = db.rawQuery(sql, null);
         return cursor.moveToFirst();
 
     }
 
-    public List<Category> getEveryCategory(){
+    public static List<Category> getEveryCategory(){
 
         List<Category> returnList = new ArrayList<>();
 
         String queryString = "SELECT * FROM " + CATEGORY_TABLE;
 
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = instance.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
 
         if (cursor.moveToFirst()){
@@ -148,7 +159,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
     }
 
 
-    public List<Transaction> getTransactionsByMonth(String year, String month){
+    public static List<Transaction> getTransactionsByMonth(String year, String month){
 
 
         List<Transaction> returnList = new ArrayList<>();
@@ -156,7 +167,38 @@ public class DataBaseManager extends SQLiteOpenHelper {
         String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + "'" + year + "-"  + month + "-" + "01' "
                             + " AND " + "'" + year + "-"  + month + "-"  + "31' ORDER BY " + TRANSACTION_DATE;
 
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = instance.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if (cursor.moveToFirst()){
+            do {
+                int transactionID = cursor.getInt(0);
+                int transactionAmount = cursor.getInt(1);
+                String transactionDesc = cursor.getString(2);
+                String transactionDate = cursor.getString(3);
+                int categoryFKID = cursor.getInt(4);
+
+                Transaction newTransaction = new Transaction(transactionID, transactionAmount ,transactionDesc, transactionDate, categoryFKID);
+                returnList.add(newTransaction);
+
+            }while (cursor.moveToNext());
+
+        }
+
+        cursor.close();
+        db.close();
+        return returnList;
+
+    }
+
+    public static List<Transaction> getAllTransactions(){
+
+
+        List<Transaction> returnList = new ArrayList<>();
+
+        String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " ORDER BY " + TRANSACTION_DATE;
+
+        SQLiteDatabase db = instance.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
 
         if (cursor.moveToFirst()){
@@ -181,12 +223,12 @@ public class DataBaseManager extends SQLiteOpenHelper {
     }
 
 
-    public  List<Transaction> getTransactionsByMonthAndCat(int year, int month, int categoryId) {
+    public static List<Transaction> getTransactionsByMonthAndCat(String year, String month, int categoryId) {
         List<Transaction> returnList = new ArrayList<>();
         String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + "'" + year + "-"  + month + "-" + "01' "
                 + " AND " + "'" + year + "-"  + month + "-"  + "31' ORDER BY " + TRANSACTION_DATE + " AND " + CATEGORY_FK_ID + " = " + categoryId;
 
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = instance.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
 
         if (cursor.moveToFirst()){
@@ -211,18 +253,18 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
-    public boolean editCategory(int id, String name, String color) {
+    public static boolean editCategory(int id, String name, String color) {
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = instance.getWritableDatabase();
         String sql = " UPDATE " + CATEGORY_TABLE + " SET " + CATEGORY_NAME + " = " + name +" WHERE " + CATEGORY_ID + " = " + id;
         Cursor cursor = db.rawQuery(sql, null);
         return cursor.moveToFirst();
 
     }
 
-    public boolean editTransaction(int id, int amount, String description, String date, int catId) {
+    public static boolean editTransaction(int id, int amount, String description, String date, int catId) {
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = instance.getWritableDatabase();
         String sql = " UPDATE " + TRANSACTIONS_TABLE + " SET " + TRANSACTION_AMOUNT + " = " + amount + ","
                     + TRANSACTIONS_DESC + " = " + description + " , "
                     + TRANSACTION_DATE + " = " + date + " , "
