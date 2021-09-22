@@ -84,16 +84,39 @@ public class Controller {
     /**
      * Adds new transaction to database.
      *
-     * @param amount The amount of the transaction.
+     * @param amount      The amount of the transaction.
      * @param description A description of the transaction
-     * @param date The date the transaction was made.
-     * @param isExpense Whether the transaction is an expense or not. If false, transaction is income.
-     * @param categoryId The id for the category of the added transaction.
+     * @param date        The date the transaction was made.
+     * @param isExpense   Whether the transaction is an expense or not. If false, transaction is income.
+     * @param categoryId  The id for the category of the added transaction.
      */
     public void addNewTransaction(double amount, String description, int date,
-                                  boolean isExpense, int categoryId){
+                                  boolean isExpense, int categoryId) {
         transactionHandler.addTransaction(amount, description, date, isExpense, categoryId);
     }
+
+    /**
+     * Edits the information of a transaction with the given Id.
+     *
+     * @param id The id of the transaction to be edited.
+     * @param amount The new amount of the transaction.
+     * @param description The new description of the transaction.
+     * @param date The new date of the transaction.
+     * @param CatId The new id for the transactions category.
+     */
+    public void editTransactionInfo(int id, int amount, String description, String date, int CatId){
+        transactionHandler.editTransaction(id, amount, description, date, Catid);
+    }
+
+    /**
+     * Removes transaction with the given id from the database.
+     *
+     * @param transId The id of the transaction to be removed.
+     */
+    public void removeTransaction(int transId){
+        transactionHandler.removeTransaction(transId);
+    }
+
     /**
      * Returns a list of transactions made in a given year and month.
      *
