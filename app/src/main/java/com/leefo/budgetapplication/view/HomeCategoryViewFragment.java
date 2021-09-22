@@ -16,11 +16,14 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.leefo.budgetapplication.R;
+import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.model.DataBaseManager;
+import com.leefo.budgetapplication.model.Transaction;
 import com.leefo.budgetapplication.model.TransactionFake;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class HomeCategoryViewFragment extends Fragment {
@@ -28,6 +31,7 @@ public class HomeCategoryViewFragment extends Fragment {
     PieChart pieChart;
     ListView listView;
     ArrayList<TransactionFake> list;
+    List<Transaction> transactionList;
     ListViewAdapterHomeList adapter;
 
     @Override
@@ -57,28 +61,33 @@ public class HomeCategoryViewFragment extends Fragment {
 
 
         list = new ArrayList<>();
-
         // TODO hardcoded for now
         list.add(new TransactionFake(50, "Danslektioner", "#55F979"));
         list.add(new TransactionFake(100, "Mat", "#558DF9"));
         list.add(new TransactionFake(100, "Musik", "#F95555"));
-
-
         adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(), list);
         listView.setAdapter(adapter);
 
-        ArrayList<PieEntry> entries = new ArrayList<>();
+        List<PieEntry> entries = new ArrayList<>();
+        ArrayList<Integer> myColorz = new ArrayList<>();
+        fillCategorySums();
+
+        for(Category c : DataBaseManager.getEveryCategory()) {
+            entries.add(new PieEntry(c.getSum(), c.getName()));
+            myColorz.add(Color.parseColor("#558DF9"));
+        }
+
+        /*
         entries.add(new PieEntry(50,"Danslektioner"));
         entries.add(new PieEntry(100,"Mat"));
         entries.add(new PieEntry(100,"Musik"));
-
         ArrayList<Integer> myColors = new ArrayList<>();
         myColors.add(Color.parseColor("#558DF9"));
         myColors.add(Color.parseColor("#F95555"));
         myColors.add(Color.parseColor("#55F979"));
-
+         */
         PieDataSet dataSet = new PieDataSet(entries,"");
-        dataSet.setColors(myColors);
+        dataSet.setColors(myColorz);
 
         PieData data = new PieData(dataSet);
 
@@ -91,5 +100,15 @@ public class HomeCategoryViewFragment extends Fragment {
         pieChart.invalidate(); // update
 
         pieChart.animateY(1000, Easing.EaseInOutQuad);
+    }
+
+    private void fillCategorySums() {
+        for(Category c : DataBaseManager.getEveryCategory()){
+            for(Transaction t : DataBaseManager.getAllTransactions()){
+                if(c.getId() == t.getCategoryId()){
+                    c.addToSum(t.getAmount());;
+                }
+            }
+        }
     }
 }
