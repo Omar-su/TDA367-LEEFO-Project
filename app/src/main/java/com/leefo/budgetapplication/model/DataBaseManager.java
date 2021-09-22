@@ -28,6 +28,11 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     private static DataBaseManager instance;
 
+    /**
+     *
+     * @param context
+     * @return
+     */
     public static synchronized DataBaseManager getInstance(@Nullable Context context){
 
         if (instance == null)
@@ -42,8 +47,10 @@ public class DataBaseManager extends SQLiteOpenHelper {
     }
 
 
-
-
+    /**
+     *
+     * @param db
+     */
     @Override
     public void onConfigure(SQLiteDatabase db) {
         super.onConfigure(db);
@@ -51,6 +58,10 @@ public class DataBaseManager extends SQLiteOpenHelper {
     }
 
 
+    /**
+     *
+     * @param sqLiteDatabase
+     */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
@@ -69,13 +80,26 @@ public class DataBaseManager extends SQLiteOpenHelper {
     }
 
 
+    /**
+     *
+     * @param sqLiteDatabase
+     * @param i
+     * @param i1
+     */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
     }
 
 
-
+    /**
+     *
+     * @param description
+     * @param amount
+     * @param date
+     * @param categoryID
+     * @return
+     */
     public static boolean addTransaction(String description, Double amount, String date, int categoryID ){
 
         SQLiteDatabase db = instance.getWritableDatabase();
@@ -91,6 +115,12 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
+    /**
+     *
+     * @param catName
+     * @param catColor
+     * @return
+     */
     public static boolean addCategory(String catName, String catColor){
 
         SQLiteDatabase db = instance.getWritableDatabase();
@@ -103,6 +133,12 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
+
+    /**
+     *
+     * @param transId
+     * @return
+     */
     public static boolean deleteTransaction(int transId){
 
         SQLiteDatabase db = instance.getWritableDatabase();
@@ -113,23 +149,36 @@ public class DataBaseManager extends SQLiteOpenHelper {
     }
 
 
+    /**
+     *
+     * @param catId
+     * @return
+     */
     public static boolean deleteCategory(int catId){
 
         SQLiteDatabase db = instance.getWritableDatabase();
         String sql = "DELETE FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_ID + " = " + catId;
+        instance.updateTransactionCatID(catId);
         Cursor cursor = db.rawQuery(sql, null);
         return cursor.moveToFirst();
 
     }
 
-    public static boolean updateTransactionWhenCatDeleted(int catId) {
+    /**
+     *
+     * @param catId
+     */
+    private void updateTransactionCatID(int catId) {
         SQLiteDatabase db = instance.getWritableDatabase();
         String sql = " UPDATE "+ TRANSACTIONS_TABLE + " SET "+ CATEGORY_FK_ID + " = 20 " + " WHERE " + CATEGORY_FK_ID + " = " + catId;
-        Cursor cursor = db.rawQuery(sql, null);
-        return cursor.moveToFirst();
-
+        db.execSQL(sql);
     }
 
+
+    /**
+     *
+     * @return
+     */
     public static List<Category> getEveryCategory(){
 
         List<Category> returnList = new ArrayList<>();
@@ -159,6 +208,12 @@ public class DataBaseManager extends SQLiteOpenHelper {
     }
 
 
+    /**
+     *
+     * @param year
+     * @param month
+     * @return
+     */
     public static List<Transaction> getTransactionsByMonth(String year, String month){
 
 
@@ -191,6 +246,11 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
+
+    /**
+     *
+     * @return
+     */
     public static List<Transaction> getAllTransactions(){
 
 
@@ -223,6 +283,13 @@ public class DataBaseManager extends SQLiteOpenHelper {
     }
 
 
+    /**
+     *
+     * @param year
+     * @param month
+     * @param categoryId
+     * @return
+     */
     public static List<Transaction> getTransactionsByMonthAndCat(String year, String month, int categoryId) {
         List<Transaction> returnList = new ArrayList<>();
         String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + "'" + year + "-"  + month + "-" + "01' "
@@ -253,6 +320,14 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
+
+    /**
+     *
+     * @param id
+     * @param name
+     * @param color
+     * @return
+     */
     public static boolean editCategory(int id, String name, String color) {
 
         SQLiteDatabase db = instance.getWritableDatabase();
@@ -262,6 +337,16 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
+
+    /**
+     *
+     * @param id
+     * @param amount
+     * @param description
+     * @param date
+     * @param catId
+     * @return
+     */
     public static boolean editTransaction(int id, int amount, String description, String date, int catId) {
 
         SQLiteDatabase db = instance.getWritableDatabase();
