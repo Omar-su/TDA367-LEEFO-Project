@@ -29,16 +29,20 @@ public class DataBaseManager extends SQLiteOpenHelper {
     private static DataBaseManager instance;
 
     /**
-     *
-     * @param context
-     * @return
+     * @return Instance of database manager
      */
-    public static synchronized DataBaseManager getInstance(@Nullable Context context){
-
-        if (instance == null)
-            instance = new DataBaseManager(context);
-
+    public static synchronized DataBaseManager getInstance()
+    {
         return instance;
+    }
+
+    /**
+     * Initializes database with given context
+     * @param context Main activity context.
+     */
+    public static void initialize(Context context)
+    {
+        instance = new DataBaseManager(context);
     }
 
 
@@ -100,7 +104,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param categoryID
      * @return
      */
-    public static boolean addTransaction(String description, Double amount, String date, int categoryID ){
+    public boolean addTransaction(String description, float amount, String date, int categoryID ){
 
         SQLiteDatabase db = instance.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -121,7 +125,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param catColor
      * @return
      */
-    public static boolean addCategory(String catName, String catColor){
+    public boolean addCategory(String catName, String catColor){
 
         SQLiteDatabase db = instance.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -139,7 +143,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param transId
      * @return
      */
-    public static boolean deleteTransaction(int transId){
+    public boolean deleteTransaction(int transId){
 
         SQLiteDatabase db = instance.getWritableDatabase();
         String sql = "DELETE FROM " + TRANSACTIONS_TABLE + " WHERE " + TRANSACTIONS_ID + " = " + transId;
@@ -154,7 +158,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param catId
      * @return
      */
-    public static boolean deleteCategory(int catId){
+    public boolean deleteCategory(int catId){
 
         SQLiteDatabase db = instance.getWritableDatabase();
         String sql = "DELETE FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_ID + " = " + catId;
@@ -179,7 +183,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      *
      * @return
      */
-    public static List<Category> getEveryCategory(){
+    public List<Category> getEveryCategory(){
 
         List<Category> returnList = new ArrayList<>();
 
@@ -214,7 +218,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param month
      * @return
      */
-    public static List<Transaction> getTransactionsByMonth(String year, String month){
+    public List<Transaction> getTransactionsByMonth(String year, String month){
 
 
         List<Transaction> returnList = new ArrayList<>();
@@ -251,7 +255,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * creates transaction objects of all the transactions registered in the database
      * @return Returns a list of all transactions in he database
      */
-    public static List<Transaction> getAllTransactions(){
+    public List<Transaction> getAllTransactions(){
 
 
         List<Transaction> returnList = new ArrayList<>();
@@ -290,7 +294,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param categoryId The id of the category that all the wanted transactions have
      * @return Returns a list of all the transactions that is in a specific month and year with a specific category
      */
-    public static List<Transaction> getTransactionsByMonthAndCat(String year, String month, int categoryId) {
+    public List<Transaction> getTransactionsByMonthAndCat(String year, String month, int categoryId) {
         List<Transaction> returnList = new ArrayList<>();
         String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + "'" + year + "-"  + month + "-" + "01' "
                 + " AND " + "'" + year + "-"  + month + "-"  + "31' ORDER BY " + TRANSACTION_DATE + " AND " + CATEGORY_FK_ID + " = " + categoryId;
@@ -328,7 +332,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param color The new color of the category
      * @return
      */
-    public static boolean editCategory(int id, String name, String color) {
+    public boolean editCategory(int id, String name, String color) {
 
         SQLiteDatabase db = instance.getWritableDatabase();
         String sql = " UPDATE " + CATEGORY_TABLE + " SET " + CATEGORY_NAME + " = " + name +" WHERE " + CATEGORY_ID + " = " + id;
@@ -347,7 +351,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param catId The related category id for the transaction
      * @return
      */
-    public static boolean editTransaction(int id, int amount, String description, String date, int catId) {
+    public boolean editTransaction(int id, float amount, String description, String date, int catId) {
 
         SQLiteDatabase db = instance.getWritableDatabase();
         String sql = " UPDATE " + TRANSACTIONS_TABLE + " SET " + TRANSACTION_AMOUNT + " = " + amount + ","
@@ -359,4 +363,6 @@ public class DataBaseManager extends SQLiteOpenHelper {
         return cursor.moveToFirst();
 
     }
+
+
 }

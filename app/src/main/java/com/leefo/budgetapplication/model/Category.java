@@ -29,13 +29,6 @@ public class Category {
         this.color = color;
     }
 
-    public Category(String name, String color)
-    {
-        id = -1;
-        this.name = name;
-        this.color = color;
-    }
-
 
     // ----------
 

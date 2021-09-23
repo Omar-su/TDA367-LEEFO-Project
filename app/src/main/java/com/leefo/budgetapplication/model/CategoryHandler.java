@@ -1,21 +1,33 @@
 package com.leefo.budgetapplication.model;
 
+import android.content.Context;
+
+import androidx.annotation.Nullable;
+
 import java.util.List;
 
 /**
-* Contains static methods for handling categories in the database (getting, adding, modifying).
+* Contains methods for handling categories in the database (getting, adding, modifying).
 * */
-public class CategoryHandler {
+public class CategoryHandler extends ObserverHandler {
 
-    // TODO MAKE METHODS NOT STATIC AND CREATE INSTANCES OF CATEGORYHANDLER IN CONTROLLER
+    /**
+     * Manager for handling database requests.
+     */
+    private final DataBaseManager database;
+
+    public CategoryHandler()
+    {
+        database = DataBaseManager.getInstance();
+    }
 
     /**
      * Method for getting all categories from the database.
      * @return A list of categories.
      */
-    public static List<Category> getCategories()
+    public List<Category> getCategories()
     {
-        return DataBaseManager.getEveryCategory();
+        return database.getEveryCategory();
     }
 
     /**
@@ -23,20 +35,22 @@ public class CategoryHandler {
      * @param name Name of the category.
      * @param color Color of the category.
      */
-    public static void addCategory(String name, String color)
+    public void addCategory(String name, String color)
     {
-        Category cat = new Category(name, color);// todo change so that a new category object doesn't have to be made
+        database.addCategory(name, color);
 
-        DataBaseManager.addCategory(cat.getName(), cat.getColor());
+        updateObservers(); // updates views
     }
 
     /**
      * Removes a category from the database given a specific category id.
      * @param id Id of category to remove.
      */
-    public static void removeCategory(int id)
+    public void removeCategory(int id)
     {
-        DataBaseManager.deleteCategory(id);
+        database.deleteCategory(id);
+
+        updateObservers(); // updates views
     }
 
     /**
@@ -45,10 +59,10 @@ public class CategoryHandler {
      * @param name New name of category.
      * @param color New color of category.
      */
-    public static void editCategory(int id, String name, String color)
+    public void editCategory(int id, String name, String color)
     {
-        Category editedCategory = new Category(id, name, color);
+        database.editCategory( id,  name,  color);
 
-        DataBaseManager.editCategory( id,  name,  color); // todo don't use category objects
+        updateObservers(); // updates views
     }
 }
