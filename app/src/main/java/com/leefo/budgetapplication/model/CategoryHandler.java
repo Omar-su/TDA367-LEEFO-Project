@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ public class CategoryHandler extends ObserverHandler {
      * Method for getting all categories from the database.
      * @return A list of categories.
      */
-    public List<Category> getCategories()
+    public ArrayList<Category> getCategories()
     {
         return database.getEveryCategory();
     }

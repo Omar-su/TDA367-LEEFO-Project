@@ -16,11 +16,10 @@ import androidx.fragment.app.Fragment;
 
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
-import com.leefo.budgetapplication.model.CategoryFake;
+import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -48,12 +47,6 @@ public class NewTransactionFragment extends Fragment {
          view = inflater.inflate(R.layout.fragment_new_transaction, container, false);
 
 
-        ArrayList<CategoryFake> categories = new ArrayList<>();
-        categories.add(new CategoryFake("Övrigt", "#8A9094"));
-        categories.add(new CategoryFake("Mat", "#558DF9")); // TODO replace hardcoded data
-        categories.add(new CategoryFake("Musik", "#F95555"));
-        categories.add(new CategoryFake("Danslektioner", "#55F979"));
-
         // get views
         categorySpinner = view.findViewById(R.id.spinner_categoty);
         amountInput = view.findViewById(R.id.amountInput);
@@ -63,7 +56,7 @@ public class NewTransactionFragment extends Fragment {
         radioGroup = view.findViewById(R.id.radioGroup);
 
         // init category spinner
-        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), categories);
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), ((MainActivity)getActivity()).getCategories());
         categorySpinner.setAdapter(spinnerAdapter);
 
         // init date picker
@@ -92,10 +85,14 @@ public class NewTransactionFragment extends Fragment {
         boolean isExpense = radioGroup.getCheckedRadioButtonId() == R.id.radioExpense;
         String date = dateInput.getText().toString();
         String description = descriptionInput.getText().toString();
-        int amount = Integer.parseInt(amountInput.getText().toString());
-        CategoryFake category = (CategoryFake) categorySpinner.getSelectedItem();
+        float amount = Float.parseFloat(amountInput.getText().toString());
+        Category category = (Category) categorySpinner.getSelectedItem();
 
-        Controller.addNewTransaction(amount, description, date, 0);
+        if (isExpense){
+            amount = amount * -1;
+        }
+
+        Controller.addNewTransaction(amount, description, date, category.getId());
 
 
         makeToast(date + description + amount + category.getName() + isExpense);
