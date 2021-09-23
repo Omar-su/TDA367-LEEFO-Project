@@ -5,7 +5,7 @@ import android.provider.ContactsContract;
 import java.util.List;
 
 /**
- * Contains static methods for handling transactions in the database (getting, setting, modifying).
+ * Contains methods for handling transactions in the database (getting, setting, modifying).
  */
 public class TransactionHandler {
 
