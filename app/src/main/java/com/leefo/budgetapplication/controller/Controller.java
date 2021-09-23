@@ -1,7 +1,10 @@
 package com.leefo.budgetapplication.controller;
 
+import android.content.Context;
+
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.CategoryHandler;
+import com.leefo.budgetapplication.model.DatabaseInitializer;
 import com.leefo.budgetapplication.model.Transaction;
 import com.leefo.budgetapplication.model.TransactionHandler;
 
@@ -19,23 +22,19 @@ public class Controller {
     /**
      * The handler for transaction modification and retrieval.
      */
-    private final TransactionHandler transactionHandler;
+    private static final TransactionHandler transactionHandler = new TransactionHandler();
 
     /**
      * The handler for category modification and retrieval.
      */
-    private final CategoryHandler categoryHandler;
+    private static final CategoryHandler categoryHandler = new CategoryHandler();
 
 
     //View view;?
 
-    /**
-     * Constructor to create instance of Controller. The constructor creates instances of
-     * CategoryHandler and TransactionHandler.
-     */
-    public Controller() {
-        this.transactionHandler = new TransactionHandler();
-        this.categoryHandler = new CategoryHandler();
+    public static void InitializeDatabase(Context context)
+    {
+        DatabaseInitializer.InitializeDatabase(context);
     }
 
     /**
@@ -46,7 +45,7 @@ public class Controller {
      * @param name  The new name of the category.
      * @param color The new color of the category.
      */
-    public void editCategoryInfo(int id, String name, String color) {
+    public static void editCategoryInfo(int id, String name, String color) {
         categoryHandler.editCategory(id, name, color);
     }
 
@@ -57,7 +56,7 @@ public class Controller {
      * @param name  The name of the new category.
      * @param color The color of the new category.
      */
-    public void addNewCategory(String name, String color) {
+    public static void addNewCategory(String name, String color) {
         categoryHandler.addCategory(name, color);
     }
 
@@ -68,7 +67,7 @@ public class Controller {
      *
      * @param id The id of the category to be removed.
      */
-    public void removeCategory(int id) {
+    public static void removeCategory(int id) {
         categoryHandler.removeCategory(id);
     }
 
@@ -77,7 +76,7 @@ public class Controller {
      *
      * @return a list of all the categories in the database.
      */
-    public List<Category> getAllCategories() {
+    public static List<Category> getAllCategories() {
         return categoryHandler.getCategories();
     }
 
@@ -89,7 +88,7 @@ public class Controller {
      * @param date        The date the transaction was made.
      * @param categoryId  The id for the category of the added transaction.
      */
-    public void addNewTransaction(float amount, String description, String date, int categoryId) {
+    public static void addNewTransaction(float amount, String description, String date, int categoryId) {
         transactionHandler.addTransaction(amount, description, date, categoryId);
     }
 
@@ -102,7 +101,7 @@ public class Controller {
      * @param date The new date of the transaction.
      * @param CatId The new id for the transactions category.
      */
-    public void editTransactionInfo(int id, int amount, String description, String date, int CatId){
+    public static void editTransactionInfo(int id, int amount, String description, String date, int CatId){
         transactionHandler.editTransaction(id, amount, description, date, CatId);
     }
 
@@ -111,7 +110,7 @@ public class Controller {
      *
      * @param transId The id of the transaction to be removed.
      */
-    public void removeTransaction(int transId){
+    public static void removeTransaction(int transId){
         transactionHandler.removeTransaction(transId);
     }
 
@@ -122,7 +121,7 @@ public class Controller {
      * @param month The month the transactions were made.
      * @return A list with transactions made in the given year and month.
      */
-    public List<Transaction> searchTransactionsByMonth(String year, String month) {
+    public static List<Transaction> searchTransactionsByMonth(String year, String month) {
         return transactionHandler.searchByMonth(year, month);
     }
 
@@ -135,7 +134,7 @@ public class Controller {
      * @param categoryId The id of the category to filter by.
      * @return A list with the transactions made in the given year and month filtered by category.
      */
-    public List<Transaction> searchTransactionsByMonthAndCategory(String year, String month, int categoryId) {
+    public static List<Transaction> searchTransactionsByMonthAndCategory(String year, String month, int categoryId) {
         return transactionHandler.searchByMonthAndCategory(year, month, categoryId);
     }
 

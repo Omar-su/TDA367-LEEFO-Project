@@ -1,5 +1,9 @@
 package com.leefo.budgetapplication.model;
 
+import android.content.Context;
+
+import androidx.annotation.Nullable;
+
 import java.util.List;
 
 /**
@@ -8,12 +12,22 @@ import java.util.List;
 public class CategoryHandler extends ObserverHandler {
 
     /**
+     * Manager for handling database requests.
+     */
+    private final DataBaseManager database;
+
+    public CategoryHandler()
+    {
+        database = DataBaseManager.getInstance();
+    }
+
+    /**
      * Method for getting all categories from the database.
      * @return A list of categories.
      */
     public List<Category> getCategories()
     {
-        return DataBaseManager.getEveryCategory();
+        return database.getEveryCategory();
     }
 
     /**
@@ -23,7 +37,7 @@ public class CategoryHandler extends ObserverHandler {
      */
     public void addCategory(String name, String color)
     {
-        DataBaseManager.addCategory(name, color);
+        database.addCategory(name, color);
 
         updateObservers(); // updates views
     }
@@ -34,7 +48,7 @@ public class CategoryHandler extends ObserverHandler {
      */
     public void removeCategory(int id)
     {
-        DataBaseManager.deleteCategory(id);
+        database.deleteCategory(id);
 
         updateObservers(); // updates views
     }
@@ -47,7 +61,7 @@ public class CategoryHandler extends ObserverHandler {
      */
     public void editCategory(int id, String name, String color)
     {
-        DataBaseManager.editCategory( id,  name,  color);
+        database.editCategory( id,  name,  color);
 
         updateObservers(); // updates views
     }
