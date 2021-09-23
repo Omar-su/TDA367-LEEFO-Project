@@ -211,6 +211,35 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
+    public Category getCategoryById(int catId){
+
+
+
+        String queryString = " SELECT * FROM " + CATEGORY_TABLE +" WHERE " + CATEGORY_ID + " = " + catId;
+        Category category = new Category(catId, "", "") ;
+        SQLiteDatabase db = instance.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+
+        if (cursor.moveToFirst()){
+            do {
+                int categoryID = cursor.getInt(0);
+                String categoryName = cursor.getString(1);
+                String categoryColor = cursor.getString(2);
+                category = new Category(categoryID,categoryName, categoryColor);
+
+            }while (cursor.moveToNext());
+
+        }
+
+        cursor.close();
+        db.close();
+        return category;
+
+    }
+
+
+
 
     /**
      *
@@ -224,7 +253,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
         ArrayList<Transaction> returnList = new ArrayList<>();
 
         String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + "'" + year + "-"  + month + "-" + "01' "
-                            + " AND " + "'" + year + "-"  + month + "-"  + "31' ORDER BY " + TRANSACTION_DATE;
+                            + " AND " + "'" + year + "-"  + month + "-"  + "31' ORDER BY " + TRANSACTION_DATE + " DESC ";
 
         SQLiteDatabase db = instance.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
@@ -260,11 +289,14 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
         ArrayList<Transaction> returnList = new ArrayList<>();
 
-        String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " ORDER BY " + TRANSACTION_DATE;
+        String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " ORDER BY " + TRANSACTION_DATE + " DESC ";
 
         SQLiteDatabase db = instance.getReadableDatabase();
+
+        // Creates a cursor that has all the rows that are wanted
         Cursor cursor = db.rawQuery(queryString, null);
 
+        // Checks if the cursor is empty
         if (cursor.moveToFirst()){
             do {
                 int transactionID = cursor.getInt(0);
@@ -297,7 +329,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
     public ArrayList<Transaction> getTransactionsByMonthAndCat(String year, String month, int categoryId) {
         ArrayList<Transaction> returnList = new ArrayList<>();
         String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + "'" + year + "-"  + month + "-" + "01' "
-                + " AND " + "'" + year + "-"  + month + "-"  + "31' ORDER BY " + TRANSACTION_DATE + " AND " + CATEGORY_FK_ID + " = " + categoryId;
+                + " AND " + "'" + year + "-"  + month + "-"  + "31' ORDER BY " + TRANSACTION_DATE  + " DESC " + " AND " + CATEGORY_FK_ID + " = " + categoryId;
 
         SQLiteDatabase db = instance.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
