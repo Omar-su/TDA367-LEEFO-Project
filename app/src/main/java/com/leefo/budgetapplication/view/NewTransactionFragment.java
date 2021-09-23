@@ -32,9 +32,10 @@ public class NewTransactionFragment extends Fragment {
     private Spinner categorySpinner;
     private Button saveButton;
     private RadioGroup radioGroup;
+    private HomeFragment parent = new HomeFragment();
 
     final Calendar myCalendar = Calendar.getInstance();
-
+    private View view;
 
     /**
      * Method that runs when the fragment is being created.
@@ -43,7 +44,7 @@ public class NewTransactionFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_new_transaction, container, false);
+         view = inflater.inflate(R.layout.fragment_new_transaction, container, false);
 
 
         ArrayList<CategoryFake> categories = new ArrayList<>();
@@ -77,12 +78,12 @@ public class NewTransactionFragment extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addTransaction();
+                saveButton();
             }
         });
     }
 
-    private void addTransaction(){
+    private void saveButton(){
         if (amountInput.getText().toString().equals("")){
             makeToast("You need to enter an amount");
             return;
@@ -93,6 +94,7 @@ public class NewTransactionFragment extends Fragment {
         int amount = Integer.parseInt(amountInput.getText().toString());
         CategoryFake category = (CategoryFake) categorySpinner.getSelectedItem();
         makeToast(date + description + amount + category.getName() + isExpense);
+        ((MainActivity)getActivity()).closeNewtransactionFragment(view);
     }
 
     /**

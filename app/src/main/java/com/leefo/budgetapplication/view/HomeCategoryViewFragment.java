@@ -19,6 +19,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.model.TransactionFake;
+import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
 import java.util.ArrayList;
 
