@@ -5,10 +5,12 @@ import android.content.Context;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.CategoryHandler;
 import com.leefo.budgetapplication.model.DatabaseInitializer;
+import com.leefo.budgetapplication.model.ObserverHandler;
 import com.leefo.budgetapplication.model.Transaction;
 import com.leefo.budgetapplication.model.TransactionHandler;
+import com.leefo.budgetapplication.view.ModelObserver;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * The Controller class represents the Controller in the Model-View-Controller pattern.
@@ -22,19 +24,34 @@ public class Controller {
     /**
      * The handler for transaction modification and retrieval.
      */
-    private static final TransactionHandler transactionHandler = new TransactionHandler();
+    private static TransactionHandler transactionHandler;
 
     /**
      * The handler for category modification and retrieval.
      */
-    private static final CategoryHandler categoryHandler = new CategoryHandler();
+    private static CategoryHandler categoryHandler;
 
 
-    //View view;?
 
-    public static void InitializeDatabase(Context context)
+    /**
+     * Initializes database as well as the TransactionHandler and CategoryHandler.
+     * @param context Application context for database.
+     */
+    public static void InitializeBackend(Context context)
     {
         DatabaseInitializer.InitializeDatabase(context);
+
+        transactionHandler = new TransactionHandler();
+        categoryHandler = new CategoryHandler();
+    }
+
+    /**
+     * Adds observer to list of observers to be updated when the model changes.
+     * @param observer Observer to be added.
+     */
+    public static void addObserver(ModelObserver observer)
+    {
+        ObserverHandler.addObserver(observer);
     }
 
     /**
@@ -76,8 +93,8 @@ public class Controller {
      *
      * @return a list of all the categories in the database.
      */
-    public static List<Category> getAllCategories() {
-        return categoryHandler.getCategories();
+    public static ArrayList<Category> getAllCategories() {
+        return categoryHandler.getEveryCategory();
     }
 
     /**
@@ -115,13 +132,21 @@ public class Controller {
     }
 
     /**
+     * Gets a list of every transaction in the database.
+     * @return List of every transaction in the database.
+     */
+    public static ArrayList<Transaction> getAllTransactions(){
+        return transactionHandler.getAllTransactions();
+    }
+
+    /**
      * Returns a list of transactions made in a given year and month.
      *
      * @param year  The year the transactions were made.
      * @param month The month the transactions were made.
      * @return A list with transactions made in the given year and month.
      */
-    public static List<Transaction> searchTransactionsByMonth(String year, String month) {
+    public static ArrayList<Transaction> searchTransactionsByMonth(String year, String month) {
         return transactionHandler.searchByMonth(year, month);
     }
 
@@ -134,9 +159,17 @@ public class Controller {
      * @param categoryId The id of the category to filter by.
      * @return A list with the transactions made in the given year and month filtered by category.
      */
-    public static List<Transaction> searchTransactionsByMonthAndCategory(String year, String month, int categoryId) {
+    public static ArrayList<Transaction> searchTransactionsByMonthAndCategory(String year, String month, int categoryId) {
         return transactionHandler.searchByMonthAndCategory(year, month, categoryId);
     }
 
+    /**
+     * Gets the category corresponding to a given category id.
+     * @param id id of the category wished to get.
+     * @return the Category corresponding to the given id.
+     */
+    public static Category getCategoryFromId(int id){
+        return categoryHandler.getCategoryFromId(id);
+    }
 
 }

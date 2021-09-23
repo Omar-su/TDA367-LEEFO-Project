@@ -1,10 +1,6 @@
 package com.leefo.budgetapplication.model;
 
-import android.content.Context;
-
-import androidx.annotation.Nullable;
-
-import java.util.List;
+import java.util.ArrayList;
 
 /**
 * Contains methods for handling categories in the database (getting, adding, modifying).
@@ -25,7 +21,7 @@ public class CategoryHandler extends ObserverHandler {
      * Method for getting all categories from the database.
      * @return A list of categories.
      */
-    public List<Category> getCategories()
+    public ArrayList<Category> getEveryCategory()
     {
         return database.getEveryCategory();
     }
@@ -64,5 +60,19 @@ public class CategoryHandler extends ObserverHandler {
         database.editCategory( id,  name,  color);
 
         updateObservers(); // updates views
+    }
+
+    /**
+     * Gets the category corresponding to a given category id.
+     * @param id id of the category wished to get.
+     * @return the Category corresponding to the given id.
+     */
+    public Category getCategoryFromId(int id){
+        for (Category c : getEveryCategory()){
+            if (c.getId() == id){
+                return c;
+            }
+        }
+        return new Category(0, "Other", "#C4C4C4");
     }
 }
