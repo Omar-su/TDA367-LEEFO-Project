@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.leefo.budgetapplication.R;
+import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.Transaction;
 import com.leefo.budgetapplication.view.MainActivity;
@@ -46,7 +47,7 @@ public class ListViewAdapterHomeList extends ArrayAdapter<Transaction> {
 
             // the Transaction object in the list
             Transaction transaction = getItem(position);
-            Category categoryObject = MainActivity.getCategoryFromId(transaction.getCategoryId());
+            Category categoryObject = Controller.getCategoryFromId(transaction.getCategoryId());
 
             // get views
             TextView amount = convertView.findViewById(R.id.amount);

@@ -56,7 +56,7 @@ public class NewTransactionFragment extends Fragment {
         radioGroup = view.findViewById(R.id.radioGroup);
 
         // init category spinner
-        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), ((MainActivity)getActivity()).getCategories());
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), Controller.getAllCategories());
         categorySpinner.setAdapter(spinnerAdapter);
 
         // init date picker

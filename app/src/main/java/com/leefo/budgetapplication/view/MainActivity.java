@@ -22,7 +22,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNav;
-    static private ArrayList<Category> categories;
 
 
     @Override
@@ -37,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         Controller.InitializeBackend(this);
 
 
-        categories = Controller.getAllCategories();
 
 
 
@@ -55,18 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public ArrayList<Category> getCategories() {
-        return categories;
-    }
-
-    static public Category getCategoryFromId(int id){
-        for (Category c : categories){
-            if (c.getId() == id){
-                return c;
-            }
-        }
-        return new Category(0, "Other", "#C4C4C4");
-    }
 
 
     public void closeNewtransactionFragment(View v){
@@ -91,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()){
                 case R.id.nav_budget:
                     fragment = new BudgetFragment();
-                    makeToast(categories.toString());
                     break;
 
                 case R.id.nav_home:
