@@ -5,8 +5,10 @@ import android.content.Context;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.CategoryHandler;
 import com.leefo.budgetapplication.model.DatabaseInitializer;
+import com.leefo.budgetapplication.model.ObserverHandler;
 import com.leefo.budgetapplication.model.Transaction;
 import com.leefo.budgetapplication.model.TransactionHandler;
+import com.leefo.budgetapplication.view.ModelObserver;
 
 import java.util.List;
 
@@ -22,19 +24,35 @@ public class Controller {
     /**
      * The handler for transaction modification and retrieval.
      */
-    private static final TransactionHandler transactionHandler = new TransactionHandler();
+    private static TransactionHandler transactionHandler;
 
     /**
      * The handler for category modification and retrieval.
      */
-    private static final CategoryHandler categoryHandler = new CategoryHandler();
+    private static CategoryHandler categoryHandler;
 
 
     //View view;?
 
-    public static void InitializeDatabase(Context context)
+    /**
+     * Initializes database as well as the TransactionHandler and CategoryHandler.
+     * @param context Application context for database.
+     */
+    public static void InitializeBackend(Context context)
     {
         DatabaseInitializer.InitializeDatabase(context);
+
+        transactionHandler = new TransactionHandler();
+        categoryHandler = new CategoryHandler();
+    }
+
+    /**
+     * Adds observer to list of observers to be updated when the model changes.
+     * @param observer Observer to be added.
+     */
+    public static void addObserver(ModelObserver observer)
+    {
+        ObserverHandler.addObserver(observer);
     }
 
     /**

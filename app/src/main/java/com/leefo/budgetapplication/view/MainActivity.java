@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
+import com.leefo.budgetapplication.controller.Controller;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
 
         //start app by displaying Home Fragment
         getSupportFragmentManager().beginTransaction().add(R.id.FrameLayout_main, new HomeFragment()).commit();
+
+        // initialize database
+        Controller.InitializeBackend(this);
+
 
         // init fields
         plusButton = findViewById(R.id.plusButton);

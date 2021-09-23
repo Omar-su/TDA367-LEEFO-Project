@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.leefo.budgetapplication.R;
+import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.CategoryFake;
 import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 
@@ -93,6 +94,10 @@ public class NewTransactionFragment extends Fragment {
         String description = descriptionInput.getText().toString();
         int amount = Integer.parseInt(amountInput.getText().toString());
         CategoryFake category = (CategoryFake) categorySpinner.getSelectedItem();
+
+        Controller.addNewTransaction(amount, description, date, 0);
+
+
         makeToast(date + description + amount + category.getName() + isExpense);
         ((MainActivity)getActivity()).closeNewtransactionFragment(view);
     }
