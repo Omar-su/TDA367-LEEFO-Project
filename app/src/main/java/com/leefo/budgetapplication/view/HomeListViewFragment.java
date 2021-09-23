@@ -10,16 +10,24 @@ import androidx.fragment.app.Fragment;
 
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.model.TransactionFake;
+import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
 import java.util.ArrayList;
 
-
+/**
+ * The class that represents the fragment for the list view inside the HomeFragment
+ */
 public class HomeListViewFragment extends Fragment {
 
     ListView listView;
     ArrayList<TransactionFake> list;
     ListViewAdapterHomeList adapter;
 
+    /**
+     * Method that runs when the fragment is being created.
+     * Connects the fragment xml file to the fragment class and initializes the fragment's components.
+     * @return returns the view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_list_view, container, false);

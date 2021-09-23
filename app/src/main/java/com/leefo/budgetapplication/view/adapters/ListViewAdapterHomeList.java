@@ -1,4 +1,4 @@
-package com.leefo.budgetapplication.view;
+package com.leefo.budgetapplication.view.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,15 +20,16 @@ import com.leefo.budgetapplication.model.TransactionFake;
 
 import java.util.ArrayList;
 
+/**
+ * Class that represents the adapter for the list in the HomeListViewFragment
+ */
 public class ListViewAdapterHomeList extends ArrayAdapter<TransactionFake> {
 
-    ArrayList<TransactionFake> list;
     Context context;
 
     public ListViewAdapterHomeList(@NonNull Context context, ArrayList<TransactionFake> list) {
         super(context, R.layout.list_row_home, list);
         this.context = context;
-        this.list = list;
     }
 
 
@@ -40,6 +41,8 @@ public class ListViewAdapterHomeList extends ArrayAdapter<TransactionFake> {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_row_home, null);
 
+            // the Transaction object in the list
+            TransactionFake transactionFake = getItem(position);
 
             // get views
             TextView amount = convertView.findViewById(R.id.amount);
@@ -49,7 +52,7 @@ public class ListViewAdapterHomeList extends ArrayAdapter<TransactionFake> {
             RelativeLayout row = convertView.findViewById(R.id.row);
 
             boolean newDay = false;
-            if (list.get(position).getCategory().equals("date")) newDay = true; // TODO
+            if (transactionFake.getCategory().equals("date")) newDay = true; // TODO
 
             if (newDay){ // change a list item design to display a date instead of transaction
                 newDay = false;
@@ -60,9 +63,9 @@ public class ListViewAdapterHomeList extends ArrayAdapter<TransactionFake> {
                 row.setBackgroundColor(ContextCompat.getColor(context, R.color.grey_background));
             } else { // set transaction values
                 date.setVisibility(View.GONE);
-                amount.setText(Integer.toString(list.get(position).getAmount()));
-                category.setText(list.get(position).getCategory());
-                circle.getBackground().setColorFilter(Color.parseColor(list.get(position).getColor()), PorterDuff.Mode.SRC_ATOP);
+                amount.setText(Integer.toString(transactionFake.getAmount()));
+                category.setText(transactionFake.getCategory());
+                circle.getBackground().setColorFilter(Color.parseColor(transactionFake.getColor()), PorterDuff.Mode.SRC_ATOP);
 
             }
 
