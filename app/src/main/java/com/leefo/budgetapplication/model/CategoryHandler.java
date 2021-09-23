@@ -3,7 +3,7 @@ package com.leefo.budgetapplication.model;
 import java.util.List;
 
 /**
-* Contains static methods for handling categories in the database (getting, adding, modifying).
+* Contains methods for handling categories in the database (getting, adding, modifying).
 * */
 public class CategoryHandler {
 
