@@ -57,19 +57,19 @@ public class ListViewAdapterHomeList extends ArrayAdapter<Transaction> {
             RelativeLayout row = convertView.findViewById(R.id.row);
 
             boolean newDay = false;
-            if (transaction.getDescription().equals("date")) newDay = true; // TODO
+            if (transaction.getDescription().equals("DATE")) newDay = true; // TODO
 
             if (newDay){ // change a list item design to display a date instead of transaction
                 newDay = false;
                 amount.setVisibility(View.GONE);
                 category.setVisibility(View.GONE);
                 circle.setVisibility(View.GONE);
-                date.setText("Today"); // TODO
+                date.setText(transaction.getDate());
                 row.setBackgroundColor(ContextCompat.getColor(context, R.color.grey_background));
             } else { // set transaction values
                 date.setVisibility(View.GONE);
                 amount.setText(String.valueOf(transaction.getAmount()));
-                category.setText(categoryObject.getName()); // TODO
+                category.setText(categoryObject.getName());
                 circle.getBackground().setColorFilter(Color.parseColor(categoryObject.getColor()), PorterDuff.Mode.SRC_ATOP); // TODO
 
             }
