@@ -100,7 +100,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param categoryID
      * @return
      */
-    public static boolean addTransaction(String description, Double amount, String date, int categoryID ){
+    public static boolean addTransaction(String description, float amount, String date, int categoryID ){
 
         SQLiteDatabase db = instance.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -347,7 +347,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param catId
      * @return
      */
-    public static boolean editTransaction(int id, int amount, String description, String date, int catId) {
+    public static boolean editTransaction(int id, float amount, String description, String date, int catId) {
 
         SQLiteDatabase db = instance.getWritableDatabase();
         String sql = " UPDATE " + TRANSACTIONS_TABLE + " SET " + TRANSACTION_AMOUNT + " = " + amount + ","

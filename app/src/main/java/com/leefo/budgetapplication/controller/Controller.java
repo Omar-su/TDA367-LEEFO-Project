@@ -87,12 +87,10 @@ public class Controller {
      * @param amount      The amount of the transaction.
      * @param description A description of the transaction
      * @param date        The date the transaction was made.
-     * @param isExpense   Whether the transaction is an expense or not. If false, transaction is income.
      * @param categoryId  The id for the category of the added transaction.
      */
-    public void addNewTransaction(double amount, String description, int date,
-                                  boolean isExpense, int categoryId) {
-        transactionHandler.addTransaction(amount, description, date, isExpense, categoryId);
+    public void addNewTransaction(float amount, String description, String date, int categoryId) {
+        transactionHandler.addTransaction(amount, description, date, categoryId);
     }
 
     /**
@@ -105,7 +103,7 @@ public class Controller {
      * @param CatId The new id for the transactions category.
      */
     public void editTransactionInfo(int id, int amount, String description, String date, int CatId){
-        transactionHandler.editTransaction(id, amount, description, date, Catid);
+        transactionHandler.editTransaction(id, amount, description, date, CatId);
     }
 
     /**
@@ -137,7 +135,7 @@ public class Controller {
      * @param categoryId The id of the category to filter by.
      * @return A list with the transactions made in the given year and month filtered by category.
      */
-    public List<Transaction> searchTransactionsByMonthAndCategory(int year, int month, int categoryId) {
+    public List<Transaction> searchTransactionsByMonthAndCategory(String year, String month, int categoryId) {
         return transactionHandler.searchByMonthAndCategory(year, month, categoryId);
     }
 

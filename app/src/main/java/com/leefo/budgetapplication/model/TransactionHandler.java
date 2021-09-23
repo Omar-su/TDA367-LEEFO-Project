@@ -1,5 +1,7 @@
 package com.leefo.budgetapplication.model;
 
+import android.provider.ContactsContract;
+
 import java.util.List;
 
 /**
@@ -7,10 +9,10 @@ import java.util.List;
  */
 public class TransactionHandler {
 
-    // TODO MAKE METHODS NOT STATIC AND CREATE INSTANCES OF TRANSACTIONHANDLER IN CONTROLLER
 
     /**
      * Gets a list of transactions from a given year and month.
+     *
      * @param year Year transactions were made.
      * @param month Month transactions were made.
      * @return Returns a list of transactions.
@@ -22,6 +24,7 @@ public class TransactionHandler {
 
     /**
      * Gets a list of transactions from a given year and month. Also filters out any transactions that are not of a specific category.
+     *
      * @param year Year transactions were made.
      * @param month Month transactions were made.
      * @param categoryId Id of category to filter by.
@@ -29,7 +32,44 @@ public class TransactionHandler {
      */
     public List<Transaction> searchByMonthAndCategory(String year, String month, int categoryId)
     {
-        return DataBaseManager.getTransactionsByMonthAndCat(year, month, categoryId);
+        return DataBaseManager.getTransactionsByMonthAndCat("" + year, "" + month, categoryId);
+    }
+
+    /**
+     * Adds transaction to the database.
+     *
+     * @param amount Total transaction value.
+     * @param description Transaction description, optional.
+     * @param date Date transaction was made
+     * @param categoryId Category that transaction belongs to.
+     */
+    public void addTransaction(float amount, String description, String date, int categoryId)
+    {
+        DataBaseManager.addTransaction(description, amount, date, categoryId);
+    }
+
+    /**
+     * Changes the information of a given transaction.
+     *
+     * @param id Id of transaction to be changed.
+     * @param amount New transaction value.
+     * @param description New description of transaction.
+     * @param date Date transaction was made.
+     * @param catId Category transaction belongs to.
+     */
+    public void editTransaction(int id, float amount, String description, String date, int catId)
+    {
+        DataBaseManager.editTransaction(id, amount, description, date, catId);
+    }
+
+    /**
+     * Removes specified transaction.
+     *
+     * @param id Id of specified transaction to be deleted.
+     */
+    public void removeTransaction(int id)
+    {
+        DataBaseManager.deleteTransaction(id);
     }
 
 
