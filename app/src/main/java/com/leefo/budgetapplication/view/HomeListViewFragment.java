@@ -13,9 +13,12 @@ import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Transaction;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * The class that represents the fragment for the list view inside the HomeFragment
@@ -48,24 +51,49 @@ public class HomeListViewFragment extends Fragment implements ModelObserver{
         return view;
     }
 
+    private void addDateRowInTransactionList(int index, String date){
+        transactions.add(index, new Transaction(0,0,"DATE", date, 0));
+    }
+
     private void putDatesIntoTransactionList(){
         String today = getTodaysDate();
+        String yesterday = getYesterdaysDate();
         String date = transactions.get(0).getDate(); // first date
-        transactions.add(0,new Transaction(0,0,"DATE", date, 0));
+
+        if (date.equals(today)){
+            addDateRowInTransactionList(0, "Today");
+        } else if (date.equals(yesterday)){
+            addDateRowInTransactionList(0, "Yesterday");
+        } else{
+            addDateRowInTransactionList(0,date);
+        }
 
         for (int i = 2; i < transactions.size()-1; i++){
             if (!date.equals(transactions.get(i).getDate())){
                 date = transactions.get(i).getDate();
-                transactions.add(i,new Transaction(0,0,"DATE", date, 0));
+                if (date.equals(today)){
+                    addDateRowInTransactionList(i, "Today");
+                } else if (date.equals(yesterday)){
+                    addDateRowInTransactionList(i, "Yesterday");
+                } else{
+                    addDateRowInTransactionList(i,date);
+                }
                 i++;
             }
         }
     }
 
+    private String getYesterdaysDate(){
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+        cal.add(Calendar.DATE, -1);
+        return dateFormat.format(cal.getTime());
+    }
+
     private String getTodaysDate(){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date();
-        return formatter.format(date);
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+        return dateFormat.format((cal.getTime()));
     }
 
 
