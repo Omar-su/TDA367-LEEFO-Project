@@ -9,6 +9,7 @@ import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 
 import com.leefo.budgetapplication.R;
+import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.TransactionFake;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 /**
  * The class that represents the fragment for the list view inside the HomeFragment
  */
-public class HomeListViewFragment extends Fragment {
+public class HomeListViewFragment extends Fragment implements ModelObserver{
 
     ListView listView;
     ArrayList<TransactionFake> list;
@@ -31,6 +32,8 @@ public class HomeListViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_list_view, container, false);
+
+        Controller.addObserver(this);
 
         listView = view.findViewById(R.id.listView_home);
         list = new ArrayList<>();
@@ -58,5 +61,10 @@ public class HomeListViewFragment extends Fragment {
         listView.setAdapter(adapter);
 
         return view;
+    }
+
+    @Override
+    public void update() {
+
     }
 }
