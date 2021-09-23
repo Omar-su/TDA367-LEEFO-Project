@@ -139,8 +139,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param transId
+     * Deletes a specific transaction from the database
+     * @param transId The transaction id needed to know which category to delete
      * @return
      */
     public boolean deleteTransaction(int transId){
@@ -154,8 +154,9 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param catId
+     * Deletes a specific category from the database and calls a method
+     * that changes the category id of all transactions with the same category id.
+     * @param catId The category id needed to know which category to delete
      * @return
      */
     public boolean deleteCategory(int catId){
@@ -168,10 +169,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
-    /**
-     *
-     * @param catId
-     */
+
     private static void updateTransactionCatID(int catId) {
         SQLiteDatabase db = instance.getWritableDatabase();
         String sql = " UPDATE "+ TRANSACTIONS_TABLE + " SET "+ CATEGORY_FK_ID + " = 20 " + " WHERE " + CATEGORY_FK_ID + " = " + catId;
@@ -180,8 +178,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @return
+     * Created all categories that are in the database
+     * @return Returns a list of all category objects in the database
      */
     public ArrayList<Category> getEveryCategory(){
 
@@ -213,10 +211,10 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param year
-     * @param month
-     * @return
+     * Creates transaction objects with the data that is stored in the database by specifying the date
+     * @param year The year the transaction was made
+     * @param month The month the transaction was made
+     * @return Returns a list of all the transactions that is in a specific month and year
      */
     public ArrayList<Transaction> getTransactionsByMonth(String year, String month){
 
@@ -252,7 +250,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
     /**
-     * creates transaction objects of all the transactions registered in the database
+     * Creates transaction objects of all the transactions registered in the database
      * @return Returns a list of all transactions in he database
      */
     public ArrayList<Transaction> getAllTransactions(){
@@ -288,7 +286,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
     /**
-     * Creates transaction objects from with the data that is stored in the database by specifying the date and the category
+     * Creates transaction objects with the data that is stored in the database by specifying the date and the category
      * @param year The year the transaction was made
      * @param month The month the transaction was made
      * @param categoryId The id of the category that all the wanted transactions have
