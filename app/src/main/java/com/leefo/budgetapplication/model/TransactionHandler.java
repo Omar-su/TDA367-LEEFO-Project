@@ -3,11 +3,12 @@ package com.leefo.budgetapplication.model;
 import android.provider.ContactsContract;
 
 import java.util.List;
+import java.util.Observer;
 
 /**
  * Contains methods for handling transactions in the database (getting, setting, modifying).
  */
-public class TransactionHandler {
+public class TransactionHandler extends ObserverHandler {
 
 
     /**
@@ -46,6 +47,8 @@ public class TransactionHandler {
     public void addTransaction(float amount, String description, String date, int categoryId)
     {
         DataBaseManager.addTransaction(description, amount, date, categoryId);
+
+        updateObservers(); // updates views
     }
 
     /**
@@ -60,6 +63,8 @@ public class TransactionHandler {
     public void editTransaction(int id, float amount, String description, String date, int catId)
     {
         DataBaseManager.editTransaction(id, amount, description, date, catId);
+
+        updateObservers(); // updates views
     }
 
     /**
@@ -70,6 +75,8 @@ public class TransactionHandler {
     public void removeTransaction(int id)
     {
         DataBaseManager.deleteTransaction(id);
+
+        updateObservers(); // updates views
     }
 
 
