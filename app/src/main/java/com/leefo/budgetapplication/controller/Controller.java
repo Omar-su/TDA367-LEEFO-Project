@@ -11,7 +11,6 @@ import com.leefo.budgetapplication.model.TransactionHandler;
 import com.leefo.budgetapplication.view.ModelObserver;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The Controller class represents the Controller in the Model-View-Controller pattern.
@@ -96,7 +95,7 @@ public class Controller {
      * @return a list of all the categories in the database.
      */
     public static ArrayList<Category> getAllCategories() {
-        return categoryHandler.getCategories();
+        return categoryHandler.getEveryCategory();
     }
 
     /**
@@ -161,5 +160,8 @@ public class Controller {
         return transactionHandler.searchByMonthAndCategory(year, month, categoryId);
     }
 
+    public static Category getCategoryFromId(int id){
+        return categoryHandler.getCategoryFromId(id);
+    }
 
 }
