@@ -110,6 +110,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param date The date the transaction was made
      * @param categoryID Which category id the transaction relates to
      * @return Returns true if a transaction was inserted successfully and false if not
+     * It can be used for testing if the method has done its job
      */
     public boolean addTransaction(String description, float amount, String date, int categoryID ){
 
@@ -131,6 +132,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param catName The name of the category
      * @param catColor The color of the category
      * @return Returns true if a category was inserted successfully and false if not
+     * It can be used for testing if the method has done its job
      */
     public boolean addCategory(String catName, String catColor){
 
@@ -165,6 +167,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * that changes the category id of all transactions with the same category id.
      * @param catId The category id needed to know which category to delete
      * @return Return true if the category has been deleted and false if it is not found
+     * It can be used to test if the method has done its job
      */
     public boolean deleteCategory(int catId){
 
@@ -369,7 +372,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param id The id of the category that needs editing
      * @param name The new name of the category
      * @param color The new color of the category
-     * @return
+     * @return Return true if the category has been edited and false if it is not found
+     * It can be used to test if the method has done its job
      */
     public boolean editCategory(int id, String name, String color) {
 
@@ -388,7 +392,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param description Transaction new description
      * @param date The new date of the transaction
      * @param catId The related category id for the transaction
-     * @return
+     * @return Return true if the transaction has been edited and false if it is not found
+     * It can be used to test if the method has done its job
      */
     public boolean editTransaction(int id, float amount, String description, String date, int catId) {
 
