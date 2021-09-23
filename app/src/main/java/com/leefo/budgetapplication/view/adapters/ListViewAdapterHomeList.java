@@ -16,18 +16,21 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.model.TransactionFake;
+import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.model.Transaction;
+import com.leefo.budgetapplication.view.MainActivity;
+
 
 import java.util.ArrayList;
 
 /**
  * Class that represents the adapter for the list in the HomeListViewFragment
  */
-public class ListViewAdapterHomeList extends ArrayAdapter<TransactionFake> {
+public class ListViewAdapterHomeList extends ArrayAdapter<Transaction> {
 
     Context context;
 
-    public ListViewAdapterHomeList(@NonNull Context context, ArrayList<TransactionFake> list) {
+    public ListViewAdapterHomeList(@NonNull Context context, ArrayList<Transaction> list) {
         super(context, R.layout.list_row_home, list);
         this.context = context;
     }
@@ -42,7 +45,8 @@ public class ListViewAdapterHomeList extends ArrayAdapter<TransactionFake> {
             convertView = layoutInflater.inflate(R.layout.list_row_home, null);
 
             // the Transaction object in the list
-            TransactionFake transactionFake = getItem(position);
+            Transaction transaction = getItem(position);
+            Category categoryObject = MainActivity.getCategoryFromId(transaction.getCategoryId());
 
             // get views
             TextView amount = convertView.findViewById(R.id.amount);
@@ -52,7 +56,7 @@ public class ListViewAdapterHomeList extends ArrayAdapter<TransactionFake> {
             RelativeLayout row = convertView.findViewById(R.id.row);
 
             boolean newDay = false;
-            if (transactionFake.getCategory().equals("date")) newDay = true; // TODO
+            if (transaction.getDescription().equals("date")) newDay = true; // TODO
 
             if (newDay){ // change a list item design to display a date instead of transaction
                 newDay = false;
@@ -63,9 +67,9 @@ public class ListViewAdapterHomeList extends ArrayAdapter<TransactionFake> {
                 row.setBackgroundColor(ContextCompat.getColor(context, R.color.grey_background));
             } else { // set transaction values
                 date.setVisibility(View.GONE);
-                amount.setText(Integer.toString(transactionFake.getAmount()));
-                category.setText(transactionFake.getCategory());
-                circle.getBackground().setColorFilter(Color.parseColor(transactionFake.getColor()), PorterDuff.Mode.SRC_ATOP);
+                amount.setText(String.valueOf(transaction.getAmount()));
+                category.setText(categoryObject.getName()); // TODO
+                circle.getBackground().setColorFilter(Color.parseColor(categoryObject.getColor()), PorterDuff.Mode.SRC_ATOP); // TODO
 
             }
 

@@ -18,7 +18,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.model.TransactionFake;
+import com.leefo.budgetapplication.model.Transaction;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
 import java.util.ArrayList;
@@ -28,7 +28,6 @@ public class HomeCategoryViewFragment extends Fragment {
 
     PieChart pieChart;
     ListView listView;
-    ArrayList<TransactionFake> list;
     ListViewAdapterHomeList adapter;
 
     @Override
@@ -57,15 +56,11 @@ public class HomeCategoryViewFragment extends Fragment {
     private void loadPieChartData(){
 
 
-        list = new ArrayList<>();
-
-        // TODO hardcoded for now
-        list.add(new TransactionFake(50, "Danslektioner", "#55F979"));
-        list.add(new TransactionFake(100, "Mat", "#558DF9"));
-        list.add(new TransactionFake(100, "Musik", "#F95555"));
 
 
-        adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(), list);
+
+
+        //adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(), something);
         listView.setAdapter(adapter);
 
         ArrayList<PieEntry> entries = new ArrayList<>();

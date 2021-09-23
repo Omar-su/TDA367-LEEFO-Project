@@ -183,9 +183,9 @@ public class DataBaseManager extends SQLiteOpenHelper {
      *
      * @return
      */
-    public List<Category> getEveryCategory(){
+    public ArrayList<Category> getEveryCategory(){
 
-        List<Category> returnList = new ArrayList<>();
+        ArrayList<Category> returnList = new ArrayList<>();
 
         String queryString = "SELECT * FROM " + CATEGORY_TABLE;
 
@@ -218,10 +218,10 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param month
      * @return
      */
-    public List<Transaction> getTransactionsByMonth(String year, String month){
+    public ArrayList<Transaction> getTransactionsByMonth(String year, String month){
 
 
-        List<Transaction> returnList = new ArrayList<>();
+        ArrayList<Transaction> returnList = new ArrayList<>();
 
         String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + "'" + year + "-"  + month + "-" + "01' "
                             + " AND " + "'" + year + "-"  + month + "-"  + "31' ORDER BY " + TRANSACTION_DATE;
@@ -255,10 +255,10 @@ public class DataBaseManager extends SQLiteOpenHelper {
      *
      * @return
      */
-    public List<Transaction> getAllTransactions(){
+    public ArrayList<Transaction> getAllTransactions(){
 
 
-        List<Transaction> returnList = new ArrayList<>();
+        ArrayList<Transaction> returnList = new ArrayList<>();
 
         String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " ORDER BY " + TRANSACTION_DATE;
 
@@ -294,8 +294,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param categoryId
      * @return
      */
-    public List<Transaction> getTransactionsByMonthAndCat(String year, String month, int categoryId) {
-        List<Transaction> returnList = new ArrayList<>();
+    public ArrayList<Transaction> getTransactionsByMonthAndCat(String year, String month, int categoryId) {
+        ArrayList<Transaction> returnList = new ArrayList<>();
         String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + "'" + year + "-"  + month + "-" + "01' "
                 + " AND " + "'" + year + "-"  + month + "-"  + "31' ORDER BY " + TRANSACTION_DATE + " AND " + CATEGORY_FK_ID + " = " + categoryId;
 

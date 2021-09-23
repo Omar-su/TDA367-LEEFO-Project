@@ -10,6 +10,7 @@ import com.leefo.budgetapplication.model.Transaction;
 import com.leefo.budgetapplication.model.TransactionHandler;
 import com.leefo.budgetapplication.view.ModelObserver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -94,7 +95,7 @@ public class Controller {
      *
      * @return a list of all the categories in the database.
      */
-    public static List<Category> getAllCategories() {
+    public static ArrayList<Category> getAllCategories() {
         return categoryHandler.getCategories();
     }
 
@@ -132,6 +133,10 @@ public class Controller {
         transactionHandler.removeTransaction(transId);
     }
 
+    public static ArrayList<Transaction> getAllTransactions(){
+        return transactionHandler.getAllTransactions();
+    }
+
     /**
      * Returns a list of transactions made in a given year and month.
      *
@@ -139,7 +144,7 @@ public class Controller {
      * @param month The month the transactions were made.
      * @return A list with transactions made in the given year and month.
      */
-    public static List<Transaction> searchTransactionsByMonth(String year, String month) {
+    public static ArrayList<Transaction> searchTransactionsByMonth(String year, String month) {
         return transactionHandler.searchByMonth(year, month);
     }
 
@@ -152,7 +157,7 @@ public class Controller {
      * @param categoryId The id of the category to filter by.
      * @return A list with the transactions made in the given year and month filtered by category.
      */
-    public static List<Transaction> searchTransactionsByMonthAndCategory(String year, String month, int categoryId) {
+    public static ArrayList<Transaction> searchTransactionsByMonthAndCategory(String year, String month, int categoryId) {
         return transactionHandler.searchByMonthAndCategory(year, month, categoryId);
     }
 

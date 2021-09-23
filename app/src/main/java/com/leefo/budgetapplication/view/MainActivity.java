@@ -14,11 +14,15 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.model.Category;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageButton plusButton, closeNewTransactionButton;
-    BottomNavigationView bottomNav;
+    private BottomNavigationView bottomNav;
+    static private ArrayList<Category> categories;
 
 
     @Override
@@ -33,10 +37,11 @@ public class MainActivity extends AppCompatActivity {
         Controller.InitializeBackend(this);
 
 
-        // init fields
-        plusButton = findViewById(R.id.plusButton);
+        categories = Controller.getAllCategories();
+
+
+
         bottomNav = findViewById(R.id.bottomNavigation);
-        closeNewTransactionButton = findViewById(R.id.closeNewTransaction);
 
 
         initBottomNavigation();
@@ -49,6 +54,20 @@ public class MainActivity extends AppCompatActivity {
             //textView.setBackgroundColor(Color.parseColor("#A0A0A0"));
 
     }
+
+    public ArrayList<Category> getCategories() {
+        return categories;
+    }
+
+    static public Category getCategoryFromId(int id){
+        for (Category c : categories){
+            if (c.getId() == id){
+                return c;
+            }
+        }
+        return new Category(0, "Other", "#C4C4C4");
+    }
+
 
     public void closeNewtransactionFragment(View v){
         openFragmentInMainFrameLayout(new HomeFragment());
@@ -72,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()){
                 case R.id.nav_budget:
                     fragment = new BudgetFragment();
+                    makeToast(categories.toString());
                     break;
 
                 case R.id.nav_home:

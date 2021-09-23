@@ -2,6 +2,7 @@ package com.leefo.budgetapplication.model;
 
 import android.provider.ContactsContract;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observer;
 
@@ -17,6 +18,10 @@ public class TransactionHandler extends ObserverHandler {
         database = DataBaseManager.getInstance();
     }
 
+    public ArrayList<Transaction> getAllTransactions(){
+        return database.getAllTransactions();
+    }
+
     /**
      * Gets a list of transactions from a given year and month.
      *
@@ -24,7 +29,7 @@ public class TransactionHandler extends ObserverHandler {
      * @param month Month transactions were made.
      * @return Returns a list of transactions.
      */
-    public List<Transaction> searchByMonth(String year, String month)
+    public ArrayList<Transaction> searchByMonth(String year, String month)
     {
         return database.getTransactionsByMonth(year, month);
     }
@@ -37,7 +42,7 @@ public class TransactionHandler extends ObserverHandler {
      * @param categoryId Id of category to filter by.
      * @return A list of transactions.
      */
-    public List<Transaction> searchByMonthAndCategory(String year, String month, int categoryId)
+    public ArrayList<Transaction> searchByMonthAndCategory(String year, String month, int categoryId)
     {
         return database.getTransactionsByMonthAndCat("" + year, "" + month, categoryId);
     }
