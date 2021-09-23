@@ -37,7 +37,14 @@ public class ListViewAdapterHomeList extends ArrayAdapter<Transaction> {
     }
 
 
-
+    /**
+     * Method called every time a listView's row is being created, for lists using this adapter.
+     * Gets the design and content of a row in the listView
+     * @param position the position in the list
+     * @param convertView
+     * @param parent
+     * @return the view of the list row
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -45,8 +52,9 @@ public class ListViewAdapterHomeList extends ArrayAdapter<Transaction> {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_row_home, null);
 
-            // the Transaction object in the list
+            // The Transaction object in the list
             Transaction transaction = getItem(position);
+            // The transaction's category
             Category categoryObject = Controller.getCategoryFromId(transaction.getCategoryId());
 
             // get views
@@ -56,29 +64,29 @@ public class ListViewAdapterHomeList extends ArrayAdapter<Transaction> {
             TextView date = convertView.findViewById(R.id.date);
             RelativeLayout row = convertView.findViewById(R.id.row);
 
-            boolean newDay = false;
-            if (transaction.getDescription().equals("DATE")) newDay = true; // TODO
+            // Some Transaction objects in the list have been given the description "DATE" to mark that this is not a transaction
+            // instead this row in the list should be a date row displaying only a date.
+            boolean dateRow = false; // start with false
+            if (transaction.getDescription().equals("DATE")) dateRow = true;
 
-            if (newDay){ // change a list item design to display a date instead of transaction
-                newDay = false;
+            // if dateRow is true this row needs another design shoving a date instead of transaction
+            // new design in the if block
+            if (dateRow){
+                dateRow = false;
                 amount.setVisibility(View.GONE);
                 category.setVisibility(View.GONE);
                 circle.setVisibility(View.GONE);
                 date.setText(transaction.getDate());
                 row.setBackgroundColor(ContextCompat.getColor(context, R.color.grey_background));
-            } else { // set transaction values
+
+            // else the row is a normal transaction and gets the transaction design
+            } else {
                 date.setVisibility(View.GONE);
                 amount.setText(String.valueOf(transaction.getAmount()));
                 category.setText(categoryObject.getName());
-                circle.getBackground().setColorFilter(Color.parseColor(categoryObject.getColor()), PorterDuff.Mode.SRC_ATOP); // TODO
-
+                circle.getBackground().setColorFilter(Color.parseColor(categoryObject.getColor()), PorterDuff.Mode.SRC_ATOP);
             }
-
-
         }
-
-
-
         return convertView;
     }
 }

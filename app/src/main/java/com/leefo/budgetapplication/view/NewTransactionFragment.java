@@ -77,11 +77,18 @@ public class NewTransactionFragment extends Fragment {
         });
     }
 
+
+
     private void saveButton(){
         if (amountInput.getText().toString().equals("")){
             makeToast("You need to enter an amount");
             return;
         }
+        addTransaction();
+        ((MainActivity)getActivity()).closeNewtransactionFragment(view);
+    }
+
+    private void addTransaction(){
         boolean isExpense = radioGroup.getCheckedRadioButtonId() == R.id.radioExpense;
         String date = dateInput.getText().toString();
         String description = descriptionInput.getText().toString();
@@ -93,10 +100,6 @@ public class NewTransactionFragment extends Fragment {
         }
 
         Controller.addNewTransaction(amount, description, date, category.getId());
-
-
-        makeToast(date + description + amount + category.getName() + isExpense);
-        ((MainActivity)getActivity()).closeNewtransactionFragment(view);
     }
 
     /**
@@ -133,6 +136,7 @@ public class NewTransactionFragment extends Fragment {
 
         dateInput.setText(sdf.format(myCalendar.getTime()));
     }
+
     //Method to make a Toast. Use to test
     Toast t;
     private void makeToast(String s){

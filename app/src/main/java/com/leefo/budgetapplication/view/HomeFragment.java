@@ -20,7 +20,7 @@ public class HomeFragment extends Fragment {
     /**
      * Method that runs when the fragment is being created.
      * Connects the fragment xml file to the fragment class and initializes the fragment's components.
-     * @return returns the view
+     * @return the view
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

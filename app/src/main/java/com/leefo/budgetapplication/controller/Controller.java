@@ -32,7 +32,6 @@ public class Controller {
     private static CategoryHandler categoryHandler;
 
 
-    //View view;?
 
     /**
      * Initializes database as well as the TransactionHandler and CategoryHandler.
@@ -132,6 +131,10 @@ public class Controller {
         transactionHandler.removeTransaction(transId);
     }
 
+    /**
+     * Gets a list of every transaction in the database.
+     * @return List of every transaction in the database.
+     */
     public static ArrayList<Transaction> getAllTransactions(){
         return transactionHandler.getAllTransactions();
     }
@@ -160,6 +163,11 @@ public class Controller {
         return transactionHandler.searchByMonthAndCategory(year, month, categoryId);
     }
 
+    /**
+     * Gets the category corresponding to a given category id.
+     * @param id id of the category wished to get.
+     * @return the Category corresponding to the given id.
+     */
     public static Category getCategoryFromId(int id){
         return categoryHandler.getCategoryFromId(id);
     }

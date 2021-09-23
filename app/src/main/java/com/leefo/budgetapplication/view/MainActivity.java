@@ -2,22 +2,15 @@ package com.leefo.budgetapplication.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
-import com.leefo.budgetapplication.model.Category;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,24 +22,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //start app by displaying Home Fragment
-        getSupportFragmentManager().beginTransaction().add(R.id.FrameLayout_main, new HomeFragment()).commit();
-
         // initialize database
         Controller.InitializeBackend(this);
 
+        // start app with displaying Home Fragment
+        getSupportFragmentManager().beginTransaction().add(R.id.FrameLayout_main, new HomeFragment()).commit();
 
 
-
-
+        // get views
         bottomNav = findViewById(R.id.bottomNavigation);
 
+        // init components
+        initBottomNavigationOnClick();
 
-        initBottomNavigation();
 
 
-
-        // color example
+        // color example, because i always forget how to write this
             TextView textView;
             //textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
             //textView.setBackgroundColor(Color.parseColor("#A0A0A0"));
@@ -69,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setVisibility(View.GONE);
     }
 
-    // Method that sets the OnItemSelectedListener on the bottomNavigation
-    private void initBottomNavigation(){
+
+    private void initBottomNavigationOnClick(){
         bottomNav.setOnItemSelectedListener(item -> {
 
             Fragment fragment = null;
