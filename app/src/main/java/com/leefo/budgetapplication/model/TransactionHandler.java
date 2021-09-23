@@ -10,6 +10,12 @@ import java.util.Observer;
  */
 public class TransactionHandler extends ObserverHandler {
 
+    final private DataBaseManager database;
+
+    public TransactionHandler()
+    {
+        database = DataBaseManager.getInstance();
+    }
 
     /**
      * Gets a list of transactions from a given year and month.
@@ -20,7 +26,7 @@ public class TransactionHandler extends ObserverHandler {
      */
     public List<Transaction> searchByMonth(String year, String month)
     {
-        return DataBaseManager.getTransactionsByMonth(year, month);
+        return database.getTransactionsByMonth(year, month);
     }
 
     /**
@@ -33,7 +39,7 @@ public class TransactionHandler extends ObserverHandler {
      */
     public List<Transaction> searchByMonthAndCategory(String year, String month, int categoryId)
     {
-        return DataBaseManager.getTransactionsByMonthAndCat("" + year, "" + month, categoryId);
+        return database.getTransactionsByMonthAndCat("" + year, "" + month, categoryId);
     }
 
     /**
@@ -46,7 +52,7 @@ public class TransactionHandler extends ObserverHandler {
      */
     public void addTransaction(float amount, String description, String date, int categoryId)
     {
-        DataBaseManager.addTransaction(description, amount, date, categoryId);
+        database.addTransaction(description, amount, date, categoryId);
 
         updateObservers(); // updates views
     }
@@ -62,7 +68,7 @@ public class TransactionHandler extends ObserverHandler {
      */
     public void editTransaction(int id, float amount, String description, String date, int catId)
     {
-        DataBaseManager.editTransaction(id, amount, description, date, catId);
+        database.editTransaction(id, amount, description, date, catId);
 
         updateObservers(); // updates views
     }
@@ -74,7 +80,7 @@ public class TransactionHandler extends ObserverHandler {
      */
     public void removeTransaction(int id)
     {
-        DataBaseManager.deleteTransaction(id);
+        database.deleteTransaction(id);
 
         updateObservers(); // updates views
     }
