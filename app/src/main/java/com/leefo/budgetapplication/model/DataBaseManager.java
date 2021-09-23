@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataBaseManager extends SQLiteOpenHelper {
+public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
     private static final String CATEGORY_TABLE = "CATEGORY_TABLE";
     private static final String CATEGORY_ID = "CATEGORY_ID";
@@ -357,6 +357,11 @@ public class DataBaseManager extends SQLiteOpenHelper {
                     +" WHERE " + CATEGORY_ID + " = " + id;
         Cursor cursor = db.rawQuery(sql, null);
         return cursor.moveToFirst();
+
+    }
+
+    @Override
+    public void initialize(Context context) {
 
     }
 }
