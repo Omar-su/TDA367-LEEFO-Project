@@ -29,6 +29,14 @@ public class SpinnerAdapter extends ArrayAdapter<Category> {
         layoutInflater = LayoutInflater.from(context);
     }
 
+    /**
+     * Method called every time a spinner row is being created, for spinners using this adapter.
+     * Gets the design and content of a row in the spinner
+     * @param position the position in the list
+     * @param convertView
+     * @param parent
+     * @return the view of the spinner row
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -45,6 +53,14 @@ public class SpinnerAdapter extends ArrayAdapter<Category> {
         return rowView;
     }
 
+    /**
+     * Method called every time a spinner row is being created, for spinners using this adapter.
+     * Gets the design and content of a row in the spinner
+     * @param position the position in the list
+     * @param convertView
+     * @param parent
+     * @return the view of the spinner row
+     */
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (convertView == null){

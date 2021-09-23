@@ -62,6 +62,11 @@ public class CategoryHandler extends ObserverHandler {
         updateObservers(); // updates views
     }
 
+    /**
+     * Gets the category corresponding to a given category id.
+     * @param id id of the category wished to get.
+     * @return the Category corresponding to the given id.
+     */
     public Category getCategoryFromId(int id){
         for (Category c : getEveryCategory()){
             if (c.getId() == id){

@@ -17,7 +17,7 @@ public class Category {
      */
     private final String name;
     /**
-     * Category color.
+     * Category color. Hex color system
      */
     private final String color;
 

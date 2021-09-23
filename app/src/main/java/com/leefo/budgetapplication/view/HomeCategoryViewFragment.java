@@ -23,13 +23,20 @@ import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
 import java.util.ArrayList;
 
-
+/**
+ * The class that represents the fragment for the category view inside the HomeFragment
+ */
 public class HomeCategoryViewFragment extends Fragment {
 
     PieChart pieChart;
     ListView listView;
     ListViewAdapterHomeList adapter;
 
+    /**
+     * Method that runs when the fragment is being created.
+     * Connects the fragment xml file to the fragment class and initializes the fragment's components.
+     * @return the view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_category_view, container, false);

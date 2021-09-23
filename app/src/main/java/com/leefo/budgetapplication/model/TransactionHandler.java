@@ -18,6 +18,10 @@ public class TransactionHandler extends ObserverHandler {
         database = DataBaseManager.getInstance();
     }
 
+    /**
+     * Gets a list of every transaction in the database.
+     * @return List of every transaction in the database.
+     */
     public ArrayList<Transaction> getAllTransactions(){
         return database.getAllTransactions();
     }
