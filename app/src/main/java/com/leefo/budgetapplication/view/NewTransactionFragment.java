@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -30,6 +31,8 @@ public class NewTransactionFragment extends Fragment {
     private EditText amountInput, descriptionInput, dateInput;
     private Spinner categorySpinner;
     private Button saveButton;
+    private RadioGroup radioGroup;
+
     final Calendar myCalendar = Calendar.getInstance();
 
 
@@ -55,6 +58,7 @@ public class NewTransactionFragment extends Fragment {
         descriptionInput = view.findViewById(R.id.descriptionInput);
         dateInput = view.findViewById(R.id.dateInput);
         saveButton = view.findViewById(R.id.saveButton);
+        radioGroup = view.findViewById(R.id.radioGroup);
 
         // init category spinner
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), categories);
@@ -83,11 +87,12 @@ public class NewTransactionFragment extends Fragment {
             makeToast("You need to enter an amount");
             return;
         }
+        boolean isExpense = radioGroup.getCheckedRadioButtonId() == R.id.radioExpense;
         String date = dateInput.getText().toString();
         String description = descriptionInput.getText().toString();
         int amount = Integer.parseInt(amountInput.getText().toString());
         CategoryFake category = (CategoryFake) categorySpinner.getSelectedItem();
-        makeToast(date + description + amount + category.getName());
+        makeToast(date + description + amount + category.getName() + isExpense);
     }
 
     /**

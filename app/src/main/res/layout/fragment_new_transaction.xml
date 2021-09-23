@@ -24,7 +24,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="40dp"
         android:text="@string/New_Transaction"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -37,10 +37,10 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="176dp"
         android:background="@color/grey"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="-1dp" />
+        tools:layout_editor_absoluteX="0dp" />
 
     <View
         android:id="@+id/view2"
@@ -82,7 +82,7 @@
         android:id="@+id/view6"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="16dp"
         android:background="@color/grey"
         app:layout_constraintTop_toBottomOf="@+id/descriptionInput"
         tools:layout_editor_absoluteX="0dp" />
@@ -118,7 +118,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:text="Amount:"
-        android:textColor="@color/black"
+        android:textColor="@color/grey"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/view2"
         app:layout_constraintStart_toStartOf="parent"
@@ -130,7 +130,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:text="Category:"
-        android:textColor="@color/black"
+        android:textColor="@color/grey"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/view3"
         app:layout_constraintStart_toStartOf="parent"
@@ -142,7 +142,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:text="Date:"
-        android:textColor="@color/black"
+        android:textColor="@color/grey"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/view4"
         app:layout_constraintStart_toStartOf="parent"
@@ -154,7 +154,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:text="Note:"
-        android:textColor="@color/black"
+        android:textColor="@color/grey"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/view5"
         app:layout_constraintStart_toStartOf="parent"
@@ -181,12 +181,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="1dp"
         android:layout_marginEnd="5dp"
         android:background="@android:color/transparent"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine|textNoSuggestions"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/noteTitle"
@@ -198,6 +198,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="5dp"
+        android:textSize="20sp"
         android:ems="10"
         android:inputType="date"
         android:background="@android:color/transparent"
@@ -207,5 +208,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/dateTitle"
         app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/radioExpense"
+            android:paddingRight="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Expense"
+            android:checked="true"
+            />
+
+        <RadioButton
+            android:id="@+id/radioIncome"
+            android:layout_width="match_parent"
+            android:textSize="20sp"
+            android:layout_height="wrap_content"
+            android:text="Income" />
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
