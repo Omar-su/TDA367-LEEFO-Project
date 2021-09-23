@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
+public class DataBaseManager extends SQLiteOpenHelper {
 
     private static final String CATEGORY_TABLE = "CATEGORY_TABLE";
     private static final String CATEGORY_ID = "CATEGORY_ID";
@@ -360,8 +360,5 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
     }
 
-    @Override
-    public void initialize(Context context) {
 
-    }
 }
