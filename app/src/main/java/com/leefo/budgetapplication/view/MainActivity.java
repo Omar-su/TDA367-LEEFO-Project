@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.model.Category;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         // initialize database
         Controller.InitializeBackend(this);
 
+        //Controller.searchTransactionsByMonthAndCategory("2021", "09", Controller.getAllCategories().get(0).getId());
         // start app with displaying Home Fragment
         getSupportFragmentManager().beginTransaction().add(R.id.FrameLayout_main, new HomeFragment()).commit();
 
@@ -35,13 +37,37 @@ public class MainActivity extends AppCompatActivity {
         // init components
         initBottomNavigationOnClick();
 
+        // so we have some categories for testing
+        if (Controller.getAllCategories().isEmpty()){
+            setDefaultCategories();
+        }
 
-
-        // color example, because i always forget how to write this
+            // color example, because i always forget how to write this
             TextView textView;
             //textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
             //textView.setBackgroundColor(Color.parseColor("#A0A0A0"));
 
+    }
+
+    private void removeAllCategories(){
+        for (Category c : Controller.getAllCategories()){
+            Controller.removeCategory(c.getId());
+        }
+    }
+
+    private void setDefaultCategories(){
+        // Expenses, need an attribute for setting income/expense
+        Controller.addNewCategory("Other", "#8A9094");
+        Controller.addNewCategory("Home", "#FF6464");
+        Controller.addNewCategory("Food", "#64FF7D");
+        Controller.addNewCategory("Transportation", "#64BEFF");
+        Controller.addNewCategory("Clothes", "#FF64DD");
+        Controller.addNewCategory("Entertainment", "#FFAE64");
+        Controller.addNewCategory("Electronics", "#64FFEC");
+
+        //Income
+        Controller.addNewCategory("Salary", "#FCFF64");
+        Controller.addNewCategory("Gift", "#6473FF");
     }
 
 
