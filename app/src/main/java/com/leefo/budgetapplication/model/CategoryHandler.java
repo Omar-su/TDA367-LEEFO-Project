@@ -68,11 +68,14 @@ public class CategoryHandler extends ObserverHandler {
      * @return the Category corresponding to the given id.
      */
     public Category getCategoryFromId(int id){
+        return database.getCategoryById(id);
+        /*
         for (Category c : getEveryCategory()){
             if (c.getId() == id){
                 return c;
             }
         }
         return new Category(0, "Other", "#C4C4C4");
+         */
     }
 }
