@@ -172,4 +172,8 @@ public class Controller {
         return categoryHandler.getCategoryFromId(id);
     }
 
+    public static double getCategorySumByMonth(int id, String year, String month){
+        return transactionHandler.getCategorySumByMonth(id, year, month);
+    }
+
 }

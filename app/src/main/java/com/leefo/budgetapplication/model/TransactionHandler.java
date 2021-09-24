@@ -94,6 +94,15 @@ public class TransactionHandler extends ObserverHandler {
         updateObservers(); // updates views
     }
 
+    public double getCategorySumByMonth(int id, String year, String month){
+        ArrayList<Transaction> list = new ArrayList<>();
+        list = searchByMonthAndCategory(year, month, id);
+        double sum = 0;
+        for (Transaction t : list){
+            sum = sum + t.getAmount();
+        }
+        return sum;
+    }
 
 
 }
