@@ -48,8 +48,12 @@ public class HomeListViewFragment extends Fragment implements ModelObserver{
         adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(),transactions);
         listView.setAdapter(adapter);
 
+
+
         return view;
     }
+
+
 
     private void addDateRowInTransactionList(int index, String date){
         transactions.add(index, new Transaction(0,0,"DATE", date, 0));
@@ -68,7 +72,8 @@ public class HomeListViewFragment extends Fragment implements ModelObserver{
             addDateRowInTransactionList(0,date);
         }
 
-        for (int i = 2; i < transactions.size()-1; i++){
+        for (int i = 2; i <= transactions.size()-1;){
+
             if (!date.equals(transactions.get(i).getDate())){
                 date = transactions.get(i).getDate();
                 if (date.equals(today)){
@@ -80,6 +85,7 @@ public class HomeListViewFragment extends Fragment implements ModelObserver{
                 }
                 i++;
             }
+            i++;
         }
     }
 
