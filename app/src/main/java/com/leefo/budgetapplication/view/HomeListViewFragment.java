@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
@@ -40,8 +41,10 @@ public class HomeListViewFragment extends Fragment implements ModelObserver{
 
         Controller.addObserver(this);
 
+        // get views
         listView = view.findViewById(R.id.listView_home);
-
+        TextView noTransactoins1 = view.findViewById(R.id.noTransactionsYetText1);
+        TextView noTransactoins2 = view.findViewById(R.id.noTransactionsYetText2);
 
         transactions = Controller.getAllTransactions();
 
@@ -49,7 +52,8 @@ public class HomeListViewFragment extends Fragment implements ModelObserver{
 
 
         if (transactions.isEmpty()){
-
+            noTransactoins1.setVisibility(View.VISIBLE);
+            noTransactoins2.setVisibility(View.VISIBLE);
         } else {
             putDatesIntoTransactionList();
             adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(),transactions);
