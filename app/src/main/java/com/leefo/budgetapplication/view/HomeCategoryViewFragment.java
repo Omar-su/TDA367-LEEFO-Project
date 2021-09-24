@@ -18,6 +18,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.leefo.budgetapplication.R;
+import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Transaction;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
@@ -95,4 +96,9 @@ public class HomeCategoryViewFragment extends Fragment {
 
         pieChart.animateY(1000, Easing.EaseInOutQuad);
     }
+
+    private void getCategorySum(int id, String year, String month){
+        Controller.getCategorySumByMonth(id, year, month);
+    }
+
 }
