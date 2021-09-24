@@ -5,50 +5,123 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.model.TransactionFake;
+import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.model.Transaction;
+import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
-
-public class HomeListViewFragment extends Fragment {
+/**
+ * The class that represents the fragment for the list view inside the HomeFragment
+ */
+public class HomeListViewFragment extends Fragment implements ModelObserver{
 
     ListView listView;
-    ArrayList<TransactionFake> list;
     ListViewAdapterHomeList adapter;
+    ArrayList<Transaction> transactions;
 
+    /**
+     * Method that runs when the fragment is being created.
+     * Connects the fragment xml file to the fragment class and initializes the fragment's components.
+     * @return returns the view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_list_view, container, false);
 
+        Controller.addObserver(this);
+
+        // get views
         listView = view.findViewById(R.id.listView_home);
-        list = new ArrayList<>();
+        TextView noTransactoins1 = view.findViewById(R.id.noTransactionsYetText1);
+        TextView noTransactoins2 = view.findViewById(R.id.noTransactionsYetText2);
 
-        // TODO hardcoded for now
-        list.add(new TransactionFake(200, "date", "#558DF9"));
-        list.add(new TransactionFake(300, "Musik", "#F95555"));
-        list.add(new TransactionFake(100, "Danslektioner", "#55F979"));
-        list.add(new TransactionFake(200, "Mat", "#558DF9"));
-        list.add(new TransactionFake(300, "Musik", "#F95555"));
-        list.add(new TransactionFake(100, "date", "#55F979"));
-        list.add(new TransactionFake(200, "Mat", "#558DF9"));
-        list.add(new TransactionFake(300, "Musik", "#F95555"));
-        list.add(new TransactionFake(100, "date", "#55F979"));
-        list.add(new TransactionFake(200, "Mat", "#558DF9"));
-        list.add(new TransactionFake(300, "Musik", "#F95555"));
-        list.add(new TransactionFake(100, "Danslektioner", "#55F979"));
-        list.add(new TransactionFake(200, "Mat", "#558DF9"));
-        list.add(new TransactionFake(300, "Musik", "#F95555"));
-        list.add(new TransactionFake(100, "Danslektioner", "#55F979"));
-        list.add(new TransactionFake(200, "Mat", "#558DF9"));
-        list.add(new TransactionFake(300, "Musik", "#F95555"));
+        transactions = Controller.getAllTransactions();
 
-        adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(), list);
-        listView.setAdapter(adapter);
+
+
+
+        if (transactions.isEmpty()){
+            noTransactoins1.setVisibility(View.VISIBLE);
+            noTransactoins2.setVisibility(View.VISIBLE);
+        } else {
+            putDatesIntoTransactionList();
+            adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(),transactions);
+            listView.setAdapter(adapter);
+        }
+
 
         return view;
+    }
+
+    private void removeAll(){
+        for (Transaction t : transactions){
+            Controller.removeTransaction(t.getId());
+        }
+    }
+
+
+    private void addDateRowInTransactionList(int index, String date){
+        transactions.add(index, new Transaction(0,0,"DATE", date, 0));
+    }
+
+    private void putDatesIntoTransactionList(){
+        String today = getTodaysDate();
+        String yesterday = getYesterdaysDate();
+        String date = transactions.get(0).getDate(); // first date
+
+        if (date.equals(today)){
+            addDateRowInTransactionList(0, "Today");
+        } else if (date.equals(yesterday)){
+            addDateRowInTransactionList(0, "Yesterday");
+        } else{
+            addDateRowInTransactionList(0,date);
+        }
+
+        for (int i = 2; i <= transactions.size()-1;){
+
+            if (!date.equals(transactions.get(i).getDate())){
+                date = transactions.get(i).getDate();
+                if (date.equals(today)){
+                    addDateRowInTransactionList(i, "Today");
+                } else if (date.equals(yesterday)){
+                    addDateRowInTransactionList(i, "Yesterday");
+                } else{
+                    addDateRowInTransactionList(i,date);
+                }
+                i++;
+            }
+            i++;
+        }
+    }
+
+    private String getYesterdaysDate(){
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+        cal.add(Calendar.DATE, -1);
+        return dateFormat.format(cal.getTime());
+    }
+
+    private String getTodaysDate(){
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+        return dateFormat.format((cal.getTime()));
+    }
+
+
+
+    @Override
+    public void update() {
+
     }
 }

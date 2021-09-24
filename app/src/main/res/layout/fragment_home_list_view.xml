@@ -7,6 +7,30 @@
     android:background="@color/grey_background"
     tools:context=".view.HomeListViewFragment">
 
+    <TextView
+        android:id="@+id/noTransactionsYetText1"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:gravity="center"
+        android:text="You don't have any transactions yet."
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/noTransactionsYetText2"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="Use the plus button to add a new transaction."
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/noTransactionsYetText1" />
+
     <ListView
         android:id="@+id/listView_home"
         android:layout_width="match_parent"
