@@ -60,8 +60,8 @@
             android:layout_marginEnd="20dp"
             android:background="@color/grey_background"
             android:text="ToggleButton"
-            android:textOff="List"
-            android:textOn="Category"
+            android:textOff="Category"
+            android:textOn="List"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
