@@ -41,18 +41,30 @@ public class HomeListViewFragment extends Fragment implements ModelObserver{
         Controller.addObserver(this);
 
         listView = view.findViewById(R.id.listView_home);
+
+
         transactions = Controller.getAllTransactions();
 
-        putDatesIntoTransactionList();
 
-        adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(),transactions);
-        listView.setAdapter(adapter);
 
+
+        if (transactions.isEmpty()){
+
+        } else {
+            putDatesIntoTransactionList();
+            adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(),transactions);
+            listView.setAdapter(adapter);
+        }
 
 
         return view;
     }
 
+    private void removeAll(){
+        for (Transaction t : transactions){
+            Controller.removeTransaction(t.getId());
+        }
+    }
 
 
     private void addDateRowInTransactionList(int index, String date){
