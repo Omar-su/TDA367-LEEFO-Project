@@ -339,7 +339,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
     public ArrayList<Transaction> getTransactionsByMonthAndCat(String year, String month, int categoryId) {
         ArrayList<Transaction> returnList = new ArrayList<>();
         String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + "'" + year + "-"  + month + "-" + "01' "
-                + " AND " + "'" + year + "-"  + month + "-"  + "31' ORDER BY " + TRANSACTION_DATE + " DESC " + " AND " + CATEGORY_FK_ID + " = " + categoryId;
+                + " AND " + "'" + year + "-"  + month + "-" + "31'" + " AND " + CATEGORY_FK_ID + " = " + categoryId + " ORDER BY " + TRANSACTION_DATE + " DESC " ;
 
         SQLiteDatabase db = instance.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
