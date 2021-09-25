@@ -36,6 +36,10 @@ public class CompareMonthsFragment extends Fragment {
         barDataSet1.setColor(Color.RED);
         BarDataSet barDataSet2 = new BarDataSet(restaurantEntries(), "DataSet 2");
         barDataSet2.setColor(Color.BLUE);
+        BarDataSet barDataSet3 = new BarDataSet(houseRentEntries(), "DataSet 3");
+        barDataSet3.setColor(Color.MAGENTA);
+        BarDataSet barDataSet4 = new BarDataSet(alcoholEntries(), "DataSet 4");
+        barDataSet4.setColor(Color.GREEN);
 
         BarData data = new BarData(barDataSet1, barDataSet2);
 
