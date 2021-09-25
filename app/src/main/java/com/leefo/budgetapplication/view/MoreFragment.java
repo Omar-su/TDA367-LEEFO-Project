@@ -25,6 +25,16 @@ public class MoreFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_more, container, false);
+        Button btnCompareMonths = (Button) view.findViewById(R.id.compare_month_button);
+        btnCompareMonths.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction fr = getFragmentManager().beginTransaction();
+                fr.replace(R.id.FrameLayout_more, new CompareMonthsFragment());
+                fr.commit();
+            }
+        });
+
         return view;
 
     }
