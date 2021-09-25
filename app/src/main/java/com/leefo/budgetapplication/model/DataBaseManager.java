@@ -75,7 +75,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
         String createTableCategory = " CREATE TABLE " + CATEGORY_TABLE + " ( " + CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                    + CATEGORY_NAME + " TEXT, " + CATEGORY_COLOR + " TEXT)";
+                                    + CATEGORY_NAME + " TEXT UNIQUE, " + CATEGORY_COLOR + " TEXT)";
 
         String createTableTransactions = " CREATE TABLE " + TRANSACTIONS_TABLE + " ( " + TRANSACTIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                                         + TRANSACTION_AMOUNT + " REAL, "
