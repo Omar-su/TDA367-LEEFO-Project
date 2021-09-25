@@ -32,7 +32,6 @@ public class NewTransactionFragment extends Fragment {
     private Spinner categorySpinner;
     private Button saveButton;
     private RadioGroup radioGroup;
-    private HomeFragment parent = new HomeFragment();
 
     final Calendar myCalendar = Calendar.getInstance();
     private View view;
@@ -86,6 +85,7 @@ public class NewTransactionFragment extends Fragment {
         }
         addTransaction();
         ((MainActivity)getActivity()).closeNewtransactionFragment(view);
+
     }
 
     private void addTransaction(){

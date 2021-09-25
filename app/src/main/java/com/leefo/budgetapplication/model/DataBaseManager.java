@@ -11,6 +11,10 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Creates the database needed for saving the transactions and categories information
+ * and handling inserting, deleting and requesting any information that is in the database
+ */
 public class DataBaseManager extends SQLiteOpenHelper {
 
     private static final String CATEGORY_TABLE = "CATEGORY_TABLE";
@@ -52,8 +56,9 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param db
+     * Makes foreign key constraint available to implement which makes it possible
+     * to have a connection between categories and transactions
+     * @param db The class that grants access to the database
      */
     @Override
     public void onConfigure(SQLiteDatabase db) {
@@ -63,8 +68,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param sqLiteDatabase
+     * Creates the tables needed to save categories and transactions
+     * @param sqLiteDatabase The class that grants access to the database
      */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
@@ -85,10 +90,12 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param sqLiteDatabase
-     * @param i
-     * @param i1
+     * Deletes the old database and creates a new database with new changes
+     * since there are no changes tín the tables structure and the database it self,
+     * this method is not needed and only here because it needs to be implemented
+     * @param sqLiteDatabase The class needed to access the database
+     * @param i The old version of the database
+     * @param i1 The new version of the database
      */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
@@ -97,12 +104,13 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param description
-     * @param amount
-     * @param date
-     * @param categoryID
-     * @return
+     * Adds a transaction into the database
+     * @param description The description of the transaction
+     * @param amount The amount of money spent or earned
+     * @param date The date the transaction was made
+     * @param categoryID Which category id the transaction relates to
+     * @return Returns true if a transaction was inserted successfully and false if not
+     * It can be used for testing if the method has done its job
      */
     public boolean addTransaction(String description, float amount, String date, int categoryID ){
 
@@ -120,10 +128,11 @@ public class DataBaseManager extends SQLiteOpenHelper {
     }
 
     /**
-     *
-     * @param catName
-     * @param catColor
-     * @return
+     * Adds a category into the database
+     * @param catName The name of the category
+     * @param catColor The color of the category
+     * @return Returns true if a category was inserted successfully and false if not
+     * It can be used for testing if the method has done its job
      */
     public boolean addCategory(String catName, String catColor){
 
@@ -139,9 +148,9 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param transId
-     * @return
+     * Deletes a specific transaction from the database
+     * @param transId The transaction id needed to know which category to delete
+     * @return Returns true if the transaction is deleted and false if it is not found
      */
     public boolean deleteTransaction(int transId){
 
@@ -154,25 +163,24 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param catId
-     * @return
+     * Deletes a specific category from the database and calls a method
+     * that changes the category id of all transactions with the same category id.
+     * @param catId The category id needed to know which category to delete
+     * @return Return true if the category has been deleted and false if it is not found
+     * It can be used to test if the method has done its job
      */
     public boolean deleteCategory(int catId){
 
         SQLiteDatabase db = instance.getWritableDatabase();
         String sql = "DELETE FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_ID + " = " + catId;
-        instance.updateTransactionCatID(catId);
+        updateTransactionCatID(catId);
         Cursor cursor = db.rawQuery(sql, null);
         return cursor.moveToFirst();
 
     }
 
-    /**
-     *
-     * @param catId
-     */
-    private void updateTransactionCatID(int catId) {
+
+    private static void updateTransactionCatID(int catId) {
         SQLiteDatabase db = instance.getWritableDatabase();
         String sql = " UPDATE "+ TRANSACTIONS_TABLE + " SET "+ CATEGORY_FK_ID + " = 20 " + " WHERE " + CATEGORY_FK_ID + " = " + catId;
         db.execSQL(sql);
@@ -180,8 +188,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @return
+     * Created all categories that are in the database
+     * @return Returns a list of all category objects in the database
      */
     public ArrayList<Category> getEveryCategory(){
 
@@ -211,6 +219,12 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
+
+    /**
+     * Gets a specific category from the database
+     * @param catId The id of the category that is wanted
+     * @return returns the wanted category
+     */
     public Category getCategoryById(int catId){
 
 
@@ -240,12 +254,11 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
 
-
     /**
-     *
-     * @param year
-     * @param month
-     * @return
+     * Creates transaction objects with the data that is stored in the database by specifying the date
+     * @param year The year the transaction was made
+     * @param month The month the transaction was made
+     * @return Returns a list of all the transactions that is in a specific month and year
      */
     public ArrayList<Transaction> getTransactionsByMonth(String year, String month){
 
@@ -281,8 +294,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @return
+     * Creates transaction objects of all the transactions registered in the database
+     * @return Returns a list of all transactions in he database
      */
     public ArrayList<Transaction> getAllTransactions(){
 
@@ -292,11 +305,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
         String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " ORDER BY " + TRANSACTION_DATE + " DESC ";
 
         SQLiteDatabase db = instance.getReadableDatabase();
-
-        // Creates a cursor that has all the rows that are wanted
         Cursor cursor = db.rawQuery(queryString, null);
 
-        // Checks if the cursor is empty
         if (cursor.moveToFirst()){
             do {
                 int transactionID = cursor.getInt(0);
@@ -320,16 +330,16 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param year
-     * @param month
-     * @param categoryId
-     * @return
+     * Creates transaction objects with the data that is stored in the database by specifying the date and the category
+     * @param year The year the transaction was made
+     * @param month The month the transaction was made
+     * @param categoryId The id of the category that all the wanted transactions have
+     * @return Returns a list of all the transactions that is in a specific month and year with a specific category
      */
     public ArrayList<Transaction> getTransactionsByMonthAndCat(String year, String month, int categoryId) {
         ArrayList<Transaction> returnList = new ArrayList<>();
         String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + "'" + year + "-"  + month + "-" + "01' "
-                + " AND " + "'" + year + "-"  + month + "-"  + "31' ORDER BY " + TRANSACTION_DATE  + " DESC " + " AND " + CATEGORY_FK_ID + " = " + categoryId;
+                + " AND " + "'" + year + "-"  + month + "-"  + "31' ORDER BY " + TRANSACTION_DATE + " DESC " + " AND " + CATEGORY_FK_ID + " = " + categoryId;
 
         SQLiteDatabase db = instance.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
@@ -358,11 +368,12 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param id
-     * @param name
-     * @param color
-     * @return
+     * Edits the category in the database
+     * @param id The id of the category that needs editing
+     * @param name The new name of the category
+     * @param color The new color of the category
+     * @return Return true if the category has been edited and false if it is not found
+     * It can be used to test if the method has done its job
      */
     public boolean editCategory(int id, String name, String color) {
 
@@ -375,13 +386,14 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
     /**
-     *
-     * @param id
-     * @param amount
-     * @param description
-     * @param date
-     * @param catId
-     * @return
+     * Edits the transaction in the database
+     * @param id The id of the transaction that needs to change
+     * @param amount The transaction new amount
+     * @param description Transaction new description
+     * @param date The new date of the transaction
+     * @param catId The related category id for the transaction
+     * @return Return true if the transaction has been edited and false if it is not found
+     * It can be used to test if the method has done its job
      */
     public boolean editTransaction(int id, float amount, String description, String date, int catId) {
 
