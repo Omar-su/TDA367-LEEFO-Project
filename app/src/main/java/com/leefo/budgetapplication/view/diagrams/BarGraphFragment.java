@@ -33,7 +33,7 @@ public class BarGraphFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_budget, container, false);
 
-        //barChart = view.findViewById(R.id.barChart);
+        barChart = view.findViewById(R.id.barChart);
 
         getEntries();
 
