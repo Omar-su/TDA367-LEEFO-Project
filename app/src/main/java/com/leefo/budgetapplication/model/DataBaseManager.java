@@ -173,17 +173,27 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
         SQLiteDatabase db = instance.getWritableDatabase();
         String sql = "DELETE FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_ID + " = " + catId;
-        updateTransactionCatID(catId);
+        updateTransactionCatID(catId, db);
         Cursor cursor = db.rawQuery(sql, null);
         return cursor.moveToFirst();
 
     }
 
 
-    private static void updateTransactionCatID(int catId) {
-        SQLiteDatabase db = instance.getWritableDatabase();
-        String sql = " UPDATE "+ TRANSACTIONS_TABLE + " SET "+ CATEGORY_FK_ID + " = 20 " + " WHERE " + CATEGORY_FK_ID + " = " + catId;
+    private void updateTransactionCatID(int catId, SQLiteDatabase db) {
+        String sql = " UPDATE "+ TRANSACTIONS_TABLE + " SET "+ CATEGORY_FK_ID + " = " + getCatOtherID(db) + " WHERE " + CATEGORY_FK_ID + " = " + catId;
         db.execSQL(sql);
+    }
+
+    private int getCatOtherID(SQLiteDatabase db) {
+        String queryString = "SELECT * FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_NAME + " = 'Other'";
+        Cursor cursor = db.rawQuery(queryString,null);
+        int catOtherID = 1;
+        if (cursor.moveToFirst()){
+            catOtherID = cursor.getInt(0);
+        }
+        cursor.close();
+        return catOtherID;
     }
 
 
