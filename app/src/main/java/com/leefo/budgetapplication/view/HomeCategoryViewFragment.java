@@ -16,12 +16,11 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.Transaction;
-import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
+import com.leefo.budgetapplication.view.adapters.CategoryListAdapter;
 
 import java.util.ArrayList;
 
@@ -32,7 +31,7 @@ public class HomeCategoryViewFragment extends Fragment {
 
     PieChart pieChart;
     ListView listView;
-    ListViewAdapterHomeList adapter;
+    CategoryListAdapter adapter;
 
     /**
      * Method that runs when the fragment is being created.
@@ -47,6 +46,9 @@ public class HomeCategoryViewFragment extends Fragment {
         listView = view.findViewById(R.id.listOfPieChart);
         setupPieChart();
         loadPieChartData();
+
+        adapter = new CategoryListAdapter(getActivity().getApplicationContext(),Controller.getAllCategories());
+        listView.setAdapter(adapter);
 
         return view;
     }
@@ -69,32 +71,24 @@ public class HomeCategoryViewFragment extends Fragment {
         listView.setAdapter(adapter);
 
         ArrayList<PieEntry> entries = new ArrayList<>();
-        ArrayList<Transaction> arrayList = new ArrayList<>();
 
-
+        int sum = 0;
         for(Category c :  Controller.getAllCategories()){
+            sum = 0;
             //arrayList = Controller.searchTransactionsByMonthAndCategory("2021","09",c.getId());
-            double sum = getCategorySum(c.getId(),"21","09");
-            entries.add(new PieEntry((float) sum,c.getName()));
+            for(Transaction t : Controller.getAllTransactions()){
+                if(t.getCategoryId() == c.getId()){
+                    sum += t.getAmount();
+                }
+            }
+            entries.add(new PieEntry((float)sum,c.getName()));
         }
-
-        /*
-        entries.add(new PieEntry(50,"Danslektioner"));
-        entries.add(new PieEntry(100,"Mat"));
-        entries.add(new PieEntry(100,"Musik"));
-        */
 
         ArrayList<Integer> myColors = new ArrayList<>();
         for(Category c :  Controller.getAllCategories()){
             myColors.add(Color.parseColor(c.getColor()));
         }
 
-        /*
-        myColors.add(Color.parseColor("#558DF9"));
-        myColors.add(Color.parseColor("#F95555"));
-        myColors.add(Color.parseColor("#55F979"));
-
-         */
         PieDataSet dataSet = new PieDataSet(entries,"");
         dataSet.setColors(myColors);
 
