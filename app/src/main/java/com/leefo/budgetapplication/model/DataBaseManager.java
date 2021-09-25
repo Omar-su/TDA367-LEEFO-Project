@@ -75,7 +75,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
         String createTableCategory = " CREATE TABLE " + CATEGORY_TABLE + " ( " + CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                    + CATEGORY_NAME + " TEXT, " + CATEGORY_COLOR + " TEXT)";
+                                    + CATEGORY_NAME + " TEXT UNIQUE, " + CATEGORY_COLOR + " TEXT)";
 
         String createTableTransactions = " CREATE TABLE " + TRANSACTIONS_TABLE + " ( " + TRANSACTIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                                         + TRANSACTION_AMOUNT + " REAL, "
@@ -122,7 +122,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
         cv.put(CATEGORY_FK_ID, categoryID);
 
         long insert = db.insert(TRANSACTIONS_TABLE, null, cv);
-
+        db.close();
         return insert != -1;
 
     }
@@ -141,6 +141,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
         cv.put(CATEGORY_NAME, catName);
         cv.put(CATEGORY_COLOR, catColor);
         long insert = db.insert(CATEGORY_TABLE, null, cv);
+        db.close();
 
         return insert != -1;
 
@@ -157,7 +158,10 @@ public class DataBaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = instance.getWritableDatabase();
         String sql = "DELETE FROM " + TRANSACTIONS_TABLE + " WHERE " + TRANSACTIONS_ID + " = " + transId;
         Cursor cursor = db.rawQuery(sql, null);
-        return cursor.moveToFirst();
+        boolean successful = cursor.moveToFirst();
+        db.close();
+        cursor.close();
+        return successful;
 
     }
 
@@ -173,17 +177,29 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
         SQLiteDatabase db = instance.getWritableDatabase();
         String sql = "DELETE FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_ID + " = " + catId;
-        updateTransactionCatID(catId);
+        updateTransactionCatID(catId, db); // updates the transactions which category was deleted to the "Other" category ID
         Cursor cursor = db.rawQuery(sql, null);
-        return cursor.moveToFirst();
-
+        boolean successful = cursor.moveToFirst();
+        db.close();
+        cursor.close();
+        return successful;
     }
 
 
-    private static void updateTransactionCatID(int catId) {
-        SQLiteDatabase db = instance.getWritableDatabase();
-        String sql = " UPDATE "+ TRANSACTIONS_TABLE + " SET "+ CATEGORY_FK_ID + " = 20 " + " WHERE " + CATEGORY_FK_ID + " = " + catId;
+    private void updateTransactionCatID(int catId, SQLiteDatabase db) {
+        String sql = " UPDATE "+ TRANSACTIONS_TABLE + " SET "+ CATEGORY_FK_ID + " = " + getCatOtherID(db) + " WHERE " + CATEGORY_FK_ID + " = " + catId;
         db.execSQL(sql);
+    }
+
+    private int getCatOtherID(SQLiteDatabase db) {
+        String queryString = "SELECT * FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_NAME + " = 'Other'";
+        Cursor cursor = db.rawQuery(queryString,null);
+        int catOtherID = 1;
+        if (cursor.moveToFirst()){
+            catOtherID = cursor.getInt(0);
+        }
+        cursor.close();
+        return catOtherID;
     }
 
 
@@ -339,7 +355,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
     public ArrayList<Transaction> getTransactionsByMonthAndCat(String year, String month, int categoryId) {
         ArrayList<Transaction> returnList = new ArrayList<>();
         String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + "'" + year + "-"  + month + "-" + "01' "
-                + " AND " + "'" + year + "-"  + month + "-"  + "31' ORDER BY " + TRANSACTION_DATE + " DESC " + " AND " + CATEGORY_FK_ID + " = " + categoryId;
+                + " AND " + "'" + year + "-"  + month + "-" + "31'" + " AND " + CATEGORY_FK_ID + " = " + categoryId + " ORDER BY " + TRANSACTION_DATE + " DESC " ;
 
         SQLiteDatabase db = instance.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
@@ -380,7 +396,10 @@ public class DataBaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = instance.getWritableDatabase();
         String sql = " UPDATE " + CATEGORY_TABLE + " SET " + CATEGORY_NAME + " = " + name +" WHERE " + CATEGORY_ID + " = " + id;
         Cursor cursor = db.rawQuery(sql, null);
-        return cursor.moveToFirst();
+        boolean successful = cursor.moveToFirst();
+        db.close();
+        cursor.close();
+        return successful;
 
     }
 
@@ -404,7 +423,10 @@ public class DataBaseManager extends SQLiteOpenHelper {
                     + CATEGORY_FK_ID + " = " + catId
                     +" WHERE " + CATEGORY_ID + " = " + id;
         Cursor cursor = db.rawQuery(sql, null);
-        return cursor.moveToFirst();
+        boolean successful = cursor.moveToFirst();
+        db.close();
+        cursor.close();
+        return successful;
 
     }
 
