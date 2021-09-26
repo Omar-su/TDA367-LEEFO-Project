@@ -12,6 +12,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.model.Transaction;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,14 +25,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         // initialize database
         Controller.InitializeBackend(this);
 
-        //Controller.searchTransactionsByMonthAndCategory("2021", "09", Controller.getAllCategories().get(0).getId());
+
+
+        // testing of methods , debug
+        ArrayList<Category> categories = Controller.getAllCategories();
+        //ArrayList<Transaction> transactions = Controller.searchTransactionsByMonthAndCategory("21", "09", 112);
+        ArrayList<Transaction> transactions2 = Controller.searchTransactionsByMonth("21", "09");
+        double a = Controller.getCategorySumByMonth(categories.get(0).getId(), "2021", "09");
+
+
+
+
         // start app with displaying Home Fragment
         getSupportFragmentManager().beginTransaction().add(R.id.FrameLayout_main, new HomeFragment()).commit();
-
 
         // get views
         bottomNav = findViewById(R.id.bottomNavigation);
@@ -38,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         initBottomNavigationOnClick();
 
         // so we have some categories for testing
-        if (Controller.getAllCategories().isEmpty()){
+        if (Controller.getAllCategories().size() == 1){
             setDefaultCategories();
         }
 
@@ -55,9 +66,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void removeAllTransactions(){
+        for (Transaction t : Controller.getAllTransactions()){
+            Controller.removeTransaction(t.getId());
+        }
+    }
+
     private void setDefaultCategories(){
         // Expenses, need an attribute for setting income/expense
-        Controller.addNewCategory("Other", "#8A9094");
         Controller.addNewCategory("Home", "#FF6464");
         Controller.addNewCategory("Food", "#64FF7D");
         Controller.addNewCategory("Transportation", "#64BEFF");
