@@ -182,7 +182,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * It can be used to test if the method has done its job
      */
     public boolean deleteCategory(int catId){
-
+        initOtherCategory();
         SQLiteDatabase db = instance.getWritableDatabase();
 
         if (getCatOtherID(db) == catId) return true; // you cannot remove the category called Other
