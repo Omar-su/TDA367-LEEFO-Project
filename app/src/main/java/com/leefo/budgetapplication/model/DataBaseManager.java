@@ -49,6 +49,14 @@ public class DataBaseManager extends SQLiteOpenHelper {
         instance = new DataBaseManager(context);
     }
 
+    private void initOtherCategory(){
+        ArrayList<Category> categories = getEveryCategory();
+        for (Category c : categories){
+            if (c.getName().equals("Other")) return;
+        }
+        addCategory("Other", "#8A9094");
+    }
+
 
     private DataBaseManager(@Nullable Context context) {
         super(context, "category_transaction_db", null, 1);
@@ -176,6 +184,9 @@ public class DataBaseManager extends SQLiteOpenHelper {
     public boolean deleteCategory(int catId){
 
         SQLiteDatabase db = instance.getWritableDatabase();
+
+        if (getCatOtherID(db) == catId) return true; // you cannot remove the category called Other
+
         String sql = "DELETE FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_ID + " = " + catId;
         updateTransactionCatID(catId, db); // updates the transactions which category was deleted to the "Other" category ID
         Cursor cursor = db.rawQuery(sql, null);
@@ -242,7 +253,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @return returns the wanted category
      */
     public Category getCategoryById(int catId){
-
+        initOtherCategory();
 
 
         String queryString = " SELECT * FROM " + CATEGORY_TABLE +" WHERE " + CATEGORY_ID + " = " + catId;
