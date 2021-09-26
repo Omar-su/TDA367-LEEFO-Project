@@ -66,22 +66,19 @@ public class HomeCategoryViewFragment extends Fragment {
 
     private void loadPieChartData(){
 
-
-        //adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(), something);
-        listView.setAdapter(adapter);
-
         ArrayList<PieEntry> entries = new ArrayList<>();
 
         int sum = 0;
         for(Category c :  Controller.getAllCategories()){
             sum = 0;
-            //arrayList = Controller.searchTransactionsByMonthAndCategory("2021","09",c.getId());
             for(Transaction t : Controller.getAllTransactions()){
                 if(t.getCategoryId() == c.getId()){
                     sum += t.getAmount();
                 }
             }
-            entries.add(new PieEntry((float)sum,c.getName()));
+            if (sum != 0){
+                entries.add(new PieEntry((float)(sum*-1),c.getName()));
+            }
         }
 
         ArrayList<Integer> myColors = new ArrayList<>();
@@ -96,17 +93,13 @@ public class HomeCategoryViewFragment extends Fragment {
 
         data.setDrawValues(true);
         data.setValueFormatter(new PercentFormatter(pieChart));
-        data.setValueTextSize(24f);
+        data.setValueTextSize(20f);
         data.setValueTextColor(Color.BLACK);
 
         pieChart.setData(data);
         pieChart.invalidate(); // update
 
         pieChart.animateY(1000, Easing.EaseInOutQuad);
-    }
-
-    private double getCategorySum(int id, String year, String month){
-        return Controller.getCategorySumByMonth(id, year, month);
     }
 
 }
