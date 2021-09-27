@@ -19,28 +19,19 @@ import com.leefo.budgetapplication.R;
 
 import java.util.ArrayList;
 
-/**
- * Class that represents the fragment for the Budget page
- */
-public class BudgetFragment extends Fragment {
+public class CompareMonthsFragment extends Fragment {
 
     BarChart mpBarChart;
-
-
-    /**
-     * Method that runs when the fragment is being created.
-     * Connects the fragment xml file to the fragment class and initializes the fragment's components.
-     * @return the view
-     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_budget, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_compare_months, container, false);
         mpBarChart = view.findViewById(R.id.barChart);
-        show12Months();
+        showMonthVsMonth();
         return view;
     }
 
-    private void show12Months() {
+    private void showMonthVsMonth(){
         BarDataSet barDataSet1 = new BarDataSet(foodEntries(), "DataSet 1");
         barDataSet1.setColor(Color.RED);
         BarDataSet barDataSet2 = new BarDataSet(restaurantEntries(), "DataSet 2");
@@ -50,14 +41,14 @@ public class BudgetFragment extends Fragment {
         BarDataSet barDataSet4 = new BarDataSet(alcoholEntries(), "DataSet 4");
         barDataSet4.setColor(Color.GREEN);
 
-        BarData data = new BarData(barDataSet1, barDataSet2, barDataSet3, barDataSet4);
+        BarData data = new BarData(barDataSet1, barDataSet2);
+
         mpBarChart.setData(data);
         mpBarChart.getDescription().setEnabled(false);
         mpBarChart.getLegend().setEnabled(false);
 
         String[] days = new String[]{
-                "January", "February", "March", "April", "May",
-                "June", "July", "August", "September", "October", "November", "December"
+                "August 2021", "September 2021"
         };
         XAxis xAxis = mpBarChart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(days));
@@ -77,7 +68,7 @@ public class BudgetFragment extends Fragment {
         // no of bars = 4
 
         mpBarChart.getXAxis().setAxisMinimum(0);
-        mpBarChart.getXAxis().setAxisMaximum(0+mpBarChart.getBarData().getGroupWidth(groupSpace, barSpace)*12);
+        mpBarChart.getXAxis().setAxisMaximum(0+mpBarChart.getBarData().getGroupWidth(groupSpace, barSpace)*2);
         mpBarChart.getAxisLeft().setAxisMinimum(0);
 
         mpBarChart.groupBars(0, groupSpace, barSpace);
@@ -89,16 +80,6 @@ public class BudgetFragment extends Fragment {
         ArrayList<BarEntry> barEntries = new ArrayList<>();
         barEntries.add(new BarEntry(1,2000));
         barEntries.add(new BarEntry(2,791));
-        barEntries.add(new BarEntry(3,630));
-        barEntries.add(new BarEntry(4,458));
-        barEntries.add(new BarEntry(5,2724));
-        barEntries.add(new BarEntry(6,500));
-        barEntries.add(new BarEntry(7,2173));
-        barEntries.add(new BarEntry(8,2000));
-        barEntries.add(new BarEntry(9,791));
-        barEntries.add(new BarEntry(10,630));
-        barEntries.add(new BarEntry(11,458));
-        barEntries.add(new BarEntry(12,2724));
         return barEntries;
     }
 
@@ -106,24 +87,13 @@ public class BudgetFragment extends Fragment {
         ArrayList<BarEntry> barEntries = new ArrayList<>();
         barEntries.add(new BarEntry(1,900));
         barEntries.add(new BarEntry(2,631));
-        barEntries.add(new BarEntry(3,1040));
-        barEntries.add(new BarEntry(4,382));
-        barEntries.add(new BarEntry(5,2614));
-        barEntries.add(new BarEntry(6,1000));
-        barEntries.add(new BarEntry(7,1173));
-        barEntries.add(new BarEntry(8,900));
-        barEntries.add(new BarEntry(9,631));
-        barEntries.add(new BarEntry(10,1040));
-        barEntries.add(new BarEntry(11,382));
-        barEntries.add(new BarEntry(12,2382));
         return barEntries;
     }
 
     private ArrayList<BarEntry> houseRentEntries(){
         ArrayList<BarEntry> barEntries = new ArrayList<>();
-        for(int i = 1; i <= 12; i++){
-            barEntries.add(new BarEntry(i, 5900));
-        }
+        barEntries.add(new BarEntry(1, 5900));
+        barEntries.add(new BarEntry(2, 5900));
         return barEntries;
     }
 
@@ -131,16 +101,8 @@ public class BudgetFragment extends Fragment {
         ArrayList<BarEntry> barEntries = new ArrayList<>();
         barEntries.add(new BarEntry(1,100));
         barEntries.add(new BarEntry(2,291));
-        barEntries.add(new BarEntry(3,1230));
-        barEntries.add(new BarEntry(4,1168));
-        barEntries.add(new BarEntry(5,114));
-        barEntries.add(new BarEntry(6,950));
-        barEntries.add(new BarEntry(7,173));
-        barEntries.add(new BarEntry(8,100));
-        barEntries.add(new BarEntry(9,291));
-        barEntries.add(new BarEntry(10,1230));
-        barEntries.add(new BarEntry(11,1168));
-        barEntries.add(new BarEntry(12,1168));
         return barEntries;
     }
+
+
 }
