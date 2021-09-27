@@ -107,14 +107,14 @@ public class HomeListViewFragment extends Fragment implements ModelObserver{
 
     private String getYesterdaysDate(){
         Calendar cal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         cal.add(Calendar.DATE, -1);
         return dateFormat.format(cal.getTime());
     }
 
     private String getTodaysDate(){
         Calendar cal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format((cal.getTime()));
     }
 

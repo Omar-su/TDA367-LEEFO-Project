@@ -46,11 +46,21 @@ public class HomeCategoryViewFragment extends Fragment {
         listView = view.findViewById(R.id.listOfPieChart);
         setupPieChart();
         loadPieChartData();
+        initList();
 
-        adapter = new CategoryListAdapter(getActivity().getApplicationContext(),Controller.getAllCategories());
-        listView.setAdapter(adapter);
 
         return view;
+    }
+
+    private void initList(){
+        ArrayList<Category> notEmptyCategories = new ArrayList<>();
+        for (Category c : Controller.getAllCategories()){
+            if (!Controller.searchTransactionsByMonthAndCategory("2021", "09", c.getId()).isEmpty()){ // TODO fix time period
+                notEmptyCategories.add(c);
+            }
+        }
+        adapter = new CategoryListAdapter(getActivity().getApplicationContext(),notEmptyCategories);
+        listView.setAdapter(adapter);
     }
 
     private void setupPieChart(){
@@ -67,24 +77,26 @@ public class HomeCategoryViewFragment extends Fragment {
     private void loadPieChartData(){
 
         ArrayList<PieEntry> entries = new ArrayList<>();
+        ArrayList<Integer> myColors = new ArrayList<>();
 
-        int sum = 0;
+        double sum = 0;
         for(Category c :  Controller.getAllCategories()){
+            /*
             sum = 0;
             for(Transaction t : Controller.getAllTransactions()){
                 if(t.getCategoryId() == c.getId()){
                     sum += t.getAmount();
                 }
             }
+             */
+            sum = Controller.getCategorySumByMonth(c.getId(), "2021", "09"); // TODO dates
             if (sum != 0){
                 entries.add(new PieEntry((float)(sum*-1),c.getName()));
+                myColors.add(Color.parseColor(c.getColor()));
             }
         }
 
-        ArrayList<Integer> myColors = new ArrayList<>();
-        for(Category c :  Controller.getAllCategories()){
-            myColors.add(Color.parseColor(c.getColor()));
-        }
+
 
         PieDataSet dataSet = new PieDataSet(entries,"");
         dataSet.setColors(myColors);

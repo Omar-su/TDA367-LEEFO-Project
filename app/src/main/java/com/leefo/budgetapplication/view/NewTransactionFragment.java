@@ -130,7 +130,7 @@ public class NewTransactionFragment extends Fragment {
      * Updates the edittext edittext_date with the date from the myCalendar chosen by the datePickerDialog.
      */
     private void updateDateLabel() {
-        String myFormat = "dd/MM/yy";
+        String myFormat = "yyyy-MM-dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.UK);
 
         dateInput.setText(sdf.format(myCalendar.getTime()));

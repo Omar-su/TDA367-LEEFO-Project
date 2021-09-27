@@ -57,7 +57,7 @@ public class CategoryListAdapter extends ArrayAdapter<Category> {
         TextView name = convertView.findViewById(R.id.category_name);
         View circle = convertView.findViewById(R.id.category_circle);
 
-        sum.setText(String.valueOf(getCategorySum(cat.getId(),"21","09")));
+        sum.setText(String.valueOf(-1*(getCategorySum(cat.getId(),"2021","09")))); // TODO time period
         name.setText(cat.getName());
         circle.getBackground().setColorFilter(Color.parseColor(cat.getColor()), PorterDuff.Mode.SRC_ATOP);
 
