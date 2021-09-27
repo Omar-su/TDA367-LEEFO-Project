@@ -83,7 +83,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
         String createTableCategory = " CREATE TABLE " + CATEGORY_TABLE + " ( " + CATEGORY_NAME + " TEXT PRIMARY KEY, "
                                     + CATEGORY_COLOR + " TEXT, "
-                                    + CATEGORY_IS_INCOME + " BLOB " + " )";
+                                    + CATEGORY_IS_INCOME + " INTGER " + " )";
 
         String createTableTransactions = " CREATE TABLE " + TRANSACTIONS_TABLE + " ( " + TRANSACTIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                                         + TRANSACTION_AMOUNT + " REAL, "
@@ -137,7 +137,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param catColor The color of the category
      * @param catIsIncome Decides if the category is an income or an expense
      */
-    public void addCategory(String catName, String catColor, boolean catIsIncome){
+    public void addCategory(String catName, String catColor, int catIsIncome){
 
         SQLiteDatabase db = instance.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -200,7 +200,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
             do {
                 String categoryName = cursor.getString(0);
                 String categoryColor = cursor.getString(1);
-                String categoryIsIncome = cursor.getString(2);
+                int categoryIsIncome = cursor.getInt(2);
                 Category newCategory = new Category(categoryName, categoryColor, categoryIsIncome); //TODO
                 returnList.add(newCategory);
 
@@ -227,7 +227,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(queryString, null);
         String categoryName = cursor.getString(0);
         String categoryColor = cursor.getString(1);
-        String categoryIsIncome = cursor.getString(2);
+        int categoryIsIncome = cursor.getInt(2);
         cursor.close();
 
         Category category = new Category(categoryName, categoryColor, categoryIsIncome); // TODO
@@ -356,7 +356,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param color The new color of the category
      * @param catIsIncome Decides if the category is an income or an expense
      */
-    public void editCategory(String name, String color, boolean catIsIncome) {
+    public void editCategory(String name, String color, int catIsIncome) {
 
         SQLiteDatabase db = instance.getWritableDatabase();
         String sql = " UPDATE " + CATEGORY_TABLE + " SET " + CATEGORY_NAME + " = " + name
