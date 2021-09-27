@@ -55,7 +55,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
         for (Category c : categories){
             if (c.getName().equals("Other")) return;
         }
-        addCategory("Other", "#8A9094");
+        addCategory("Other", "#8A9094", true);
     }
 
 
@@ -235,8 +235,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
                 int categoryID = cursor.getInt(0);
                 String categoryName = cursor.getString(1);
                 String categoryColor = cursor.getString(2);
-                String categoryIsIncome = cursor.getString(3);
-                Category newCategory = new Category(categoryID,categoryName, categoryColor, categoryIsIncome);
+                //String categoryIsIncome = cursor.getString(3);
+                Category newCategory = new Category(categoryID,categoryName, categoryColor, true); //TODO
                 returnList.add(newCategory);
 
             }while (cursor.moveToNext());
@@ -258,7 +258,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
         String queryString = " SELECT * FROM " + CATEGORY_TABLE +" WHERE " + CATEGORY_ID + " = " + catId;
-        Category category = new Category(catId, "", "") ;
+        Category category = new Category(catId, "", "", true) ;
         SQLiteDatabase db = instance.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
 
@@ -268,8 +268,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
                 int categoryID = cursor.getInt(0);
                 String categoryName = cursor.getString(1);
                 String categoryColor = cursor.getString(2);
-                String categoryIsIncome = cursor.getString(3);
-                category = new Category(categoryID,categoryName, categoryColor, categoryIsIncome);
+                //String categoryIsIncome = cursor.getString(3);
+                category = new Category(categoryID,categoryName, categoryColor, true); // TODO
 
             }while (cursor.moveToNext());
 

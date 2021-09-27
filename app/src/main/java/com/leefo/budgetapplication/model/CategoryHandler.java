@@ -31,9 +31,9 @@ public class CategoryHandler extends ObserverHandler {
      * @param name Name of the category.
      * @param color Color of the category.
      */
-    public void addCategory(String name, String color)
+    public void addCategory(String name, String color, boolean isIncome)
     {
-        database.addCategory(name, color);
+        database.addCategory(name, color, isIncome);
 
         updateObservers(); // updates views
     }
@@ -55,9 +55,9 @@ public class CategoryHandler extends ObserverHandler {
      * @param name New name of category.
      * @param color New color of category.
      */
-    public void editCategory(int id, String name, String color)
+    public void editCategory(int id, String name, String color, boolean isIncome)
     {
-        database.editCategory( id,  name,  color);
+        database.editCategory( id,  name,  color, isIncome);
 
         updateObservers(); // updates views
     }
