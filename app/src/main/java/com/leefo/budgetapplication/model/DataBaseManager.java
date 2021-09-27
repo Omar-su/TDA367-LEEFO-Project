@@ -236,7 +236,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
                 String categoryName = cursor.getString(1);
                 String categoryColor = cursor.getString(2);
                 //String categoryIsIncome = cursor.getString(3);
-                Category newCategory = new Category(categoryID,categoryName, categoryColor, true); //TODO
+                Category newCategory = new Category(categoryID,categoryName, categoryColor, false); //TODO
                 returnList.add(newCategory);
 
             }while (cursor.moveToNext());
@@ -269,7 +269,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
                 String categoryName = cursor.getString(1);
                 String categoryColor = cursor.getString(2);
                 //String categoryIsIncome = cursor.getString(3);
-                category = new Category(categoryID,categoryName, categoryColor, true); // TODO
+                category = new Category(categoryID,categoryName, categoryColor, false); // TODO
 
             }while (cursor.moveToNext());
 

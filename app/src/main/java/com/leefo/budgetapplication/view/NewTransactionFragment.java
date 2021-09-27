@@ -72,10 +72,28 @@ public class NewTransactionFragment extends Fragment {
         income = new ArrayList<>();
         expense = new ArrayList<>();
         for (Category c : Controller.getAllCategories()){
-
+            if (c.isIncome()){
+                income.add(c);
+            } else {
+                expense.add(c);
+            }
         }
-        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), Controller.getAllCategories());
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), expense);
         categorySpinner.setAdapter(spinnerAdapter);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.radioExpense){
+                    SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), expense);
+                    categorySpinner.setAdapter(spinnerAdapter);
+                } else {
+                    SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), income);
+                    categorySpinner.setAdapter(spinnerAdapter);
+                }
+            }
+        });
     }
 
     private void initSaveButtonOnClickListener(){
