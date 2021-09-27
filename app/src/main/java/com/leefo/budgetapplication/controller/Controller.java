@@ -62,8 +62,8 @@ public class Controller {
      * @param name  The new name of the category.
      * @param color The new color of the category.
      */
-    public static void editCategoryInfo(int id, String name, String color) {
-        categoryHandler.editCategory(id, name, color);
+    public static void editCategoryInfo(int id, String name, String color, boolean isIncome) {
+        categoryHandler.editCategory(id, name, color, isIncome);
     }
 
     /**
@@ -73,8 +73,8 @@ public class Controller {
      * @param name  The name of the new category.
      * @param color The color of the new category.
      */
-    public static void addNewCategory(String name, String color) {
-        categoryHandler.addCategory(name, color);
+    public static void addNewCategory(String name, String color, boolean isIncome) {
+        categoryHandler.addCategory(name, color, isIncome);
     }
 
 

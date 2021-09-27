@@ -17,6 +17,8 @@ import com.leefo.budgetapplication.R;
  */
 public class MoreFragment extends Fragment {
 
+    private Button btnCompareMonths;
+    private Button btnEditCategory;
     /**
      * Method that runs when the fragment is being created.
      * Connects the fragment xml file to the fragment class and initializes the fragment's components.
@@ -25,13 +27,24 @@ public class MoreFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_more, container, false);
-        Button btnCompareMonths = (Button) view.findViewById(R.id.compare_month_button);
+        btnCompareMonths = (Button) view.findViewById(R.id.compare_month_button);
+        btnEditCategory = (Button) view.findViewById(R.id.edit_category_button);
         btnCompareMonths.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btnCompareMonths.setVisibility(View.GONE);
+                btnEditCategory.setVisibility(View.GONE);
+                FragmentManager fragmentManager = getChildFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.FrameLayout_more, CompareMonthsFragment.class, null)
+                        .setReorderingAllowed(true)
+                        .addToBackStack(null)
+                        .commit();
+                /*
                 FragmentTransaction fr = getFragmentManager().beginTransaction();
                 fr.replace(R.id.FrameLayout_more, new CompareMonthsFragment());
                 fr.commit();
+                 */
             }
         });
 

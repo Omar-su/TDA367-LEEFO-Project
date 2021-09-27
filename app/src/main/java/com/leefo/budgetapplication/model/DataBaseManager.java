@@ -50,6 +50,14 @@ public class DataBaseManager extends SQLiteOpenHelper {
         instance = new DataBaseManager(context);
     }
 
+    private void initOtherCategory(){
+        ArrayList<Category> categories = getEveryCategory();
+        for (Category c : categories){
+            if (c.getName().equals("Other")) return;
+        }
+        addCategory("Other", "#8A9094", true);
+    }
+
 
     private DataBaseManager(@Nullable Context context) {
         super(context, "category_transaction_db", null, 1);
@@ -177,8 +185,11 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * It can be used to test if the method has done its job
      */
     public boolean deleteCategory(int catId){
-
+        initOtherCategory();
         SQLiteDatabase db = instance.getWritableDatabase();
+
+        if (getCatOtherID(db) == catId) return true; // you cannot remove the category called Other
+
         String sql = "DELETE FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_ID + " = " + catId;
         updateTransactionCatID(catId, db); // updates the transactions which category was deleted to the "Other" category ID
         Cursor cursor = db.rawQuery(sql, null);
@@ -224,8 +235,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
                 int categoryID = cursor.getInt(0);
                 String categoryName = cursor.getString(1);
                 String categoryColor = cursor.getString(2);
-                String categoryIsIncome = cursor.getString(3);
-                Category newCategory = new Category(categoryID,categoryName, categoryColor, categoryIsIncome);
+                //String categoryIsIncome = cursor.getString(3);
+                Category newCategory = new Category(categoryID,categoryName, categoryColor, true); //TODO
                 returnList.add(newCategory);
 
             }while (cursor.moveToNext());
@@ -243,11 +254,11 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @return returns the wanted category
      */
     public Category getCategoryById(int catId){
-
+        initOtherCategory();
 
 
         String queryString = " SELECT * FROM " + CATEGORY_TABLE +" WHERE " + CATEGORY_ID + " = " + catId;
-        Category category = new Category(catId, "", "") ;
+        Category category = new Category(catId, "", "", true) ;
         SQLiteDatabase db = instance.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
 
@@ -257,8 +268,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
                 int categoryID = cursor.getInt(0);
                 String categoryName = cursor.getString(1);
                 String categoryColor = cursor.getString(2);
-                String categoryIsIncome = cursor.getString(3);
-                category = new Category(categoryID,categoryName, categoryColor, categoryIsIncome);
+                //String categoryIsIncome = cursor.getString(3);
+                category = new Category(categoryID,categoryName, categoryColor, true); // TODO
 
             }while (cursor.moveToNext());
 
