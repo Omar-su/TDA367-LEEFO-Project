@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 //Break out some tests into separate classes when model classes are clear
 public class DataHandlerTest {
-
+/*
     @BeforeEach
     public void init(){
         Transaction testTransaction = new Transaction(1, 14.5, "Food from mcDonalds", 20210203, 3, true);
@@ -53,6 +53,6 @@ public class DataHandlerTest {
         dh.removeCategory(categoryToBeRemoved);
         assertEquals(0, testTransaction.getCategoryId()); // Assuming that category ID for Other is 0
     }
-
+*/
 
 }
