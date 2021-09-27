@@ -12,6 +12,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.model.CategoryHandler;
+import com.leefo.budgetapplication.model.DataBaseManager;
 import com.leefo.budgetapplication.model.Transaction;
 
 import java.util.ArrayList;
@@ -53,11 +55,10 @@ public class MainActivity extends AppCompatActivity {
             setDefaultCategories();
         }
 
-            // color example, because i always forget how to write this
-            TextView textView;
-            //textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
-            //textView.setBackgroundColor(Color.parseColor("#A0A0A0"));
-
+        // color example, because i always forget how to write this
+        TextView textView;
+        //textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
+        //textView.setBackgroundColor(Color.parseColor("#A0A0A0"));
     }
 
     private void removeAllCategories(){
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void closeNewtransactionFragment(View v){
+    public void openHomeFragment(View v){
         openFragmentInMainFrameLayout(new HomeFragment());
         bottomNav.setVisibility(View.VISIBLE);
     }
