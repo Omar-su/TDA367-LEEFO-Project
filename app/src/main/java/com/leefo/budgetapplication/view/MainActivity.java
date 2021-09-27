@@ -93,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setVisibility(View.GONE);
     }
 
+    public void openSingleCategortFragment(){
+        openFragmentInMainFrameLayout(new SingleCategoryFragment());
+    }
 
     private void initBottomNavigationOnClick(){
         bottomNav.setOnItemSelectedListener(item -> {
