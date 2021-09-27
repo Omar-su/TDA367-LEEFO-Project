@@ -67,6 +67,7 @@ public class HomeCategoryViewFragment extends Fragment {
     private void loadPieChartData(){
 
         ArrayList<PieEntry> entries = new ArrayList<>();
+        ArrayList<Integer> myColors = new ArrayList<>();
 
         int sum = 0;
         for(Category c :  Controller.getAllCategories()){
@@ -78,13 +79,11 @@ public class HomeCategoryViewFragment extends Fragment {
             }
             if (sum != 0){
                 entries.add(new PieEntry((float)(sum*-1),c.getName()));
+                myColors.add(Color.parseColor(c.getColor()));
             }
         }
 
-        ArrayList<Integer> myColors = new ArrayList<>();
-        for(Category c :  Controller.getAllCategories()){
-            myColors.add(Color.parseColor(c.getColor()));
-        }
+
 
         PieDataSet dataSet = new PieDataSet(entries,"");
         dataSet.setColors(myColors);
