@@ -20,13 +20,18 @@ public class Category {
      * Category color. Hex color system
      */
     private final String color;
+    /**
+     * Income or expense category
+     */
+    private final boolean isIncome;
 
 
-    public Category(int id, String name, String color)
+    public Category(int id, String name, String color, boolean isIncome)
     {
         this.id = id;
         this.name = name;
         this.color = color;
+        this.isIncome = isIncome;
     }
 
 
@@ -79,5 +84,7 @@ public class Category {
         return color;
     }
 
-
+    public boolean isIncome() {
+        return isIncome;
+    }
 }
