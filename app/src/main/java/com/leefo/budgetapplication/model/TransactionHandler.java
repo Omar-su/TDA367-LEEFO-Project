@@ -48,7 +48,7 @@ public class TransactionHandler extends ObserverHandler {
      */
     public ArrayList<Transaction> searchByMonthAndCategory(String year, String month, int categoryId)
     {
-        return database.getTransactionsByMonthAndCat(year, month, categoryId);
+        return database.getTransactionsByMonthAndCat("" + year, "" + month, categoryId);
     }
 
     /**

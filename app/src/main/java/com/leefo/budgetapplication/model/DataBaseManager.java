@@ -28,6 +28,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
     private static final String TRANSACTION_DATE = "TRANSACTION_DATE";
     private static final String TRANSACTION_AMOUNT = "TRANSACTION_AMOUNT";
     private static final String CATEGORY_FK_ID = "TRANS_FOREIGN_ID";
+    private static final String CATEGORY_IS_INCOME = "CATEGORY_IS_INCOME";
 
 
     private static DataBaseManager instance;
@@ -47,14 +48,6 @@ public class DataBaseManager extends SQLiteOpenHelper {
     public static void initialize(Context context)
     {
         instance = new DataBaseManager(context);
-    }
-
-    private void initOtherCategory(){
-        ArrayList<Category> categories = getEveryCategory();
-        for (Category c : categories){
-            if (c.getName().equals("Other")) return;
-        }
-        addCategory("Other", "#8A9094");
     }
 
 
@@ -83,7 +76,9 @@ public class DataBaseManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
         String createTableCategory = " CREATE TABLE " + CATEGORY_TABLE + " ( " + CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                    + CATEGORY_NAME + " TEXT UNIQUE, " + CATEGORY_COLOR + " TEXT)";
+                                    + CATEGORY_NAME + " TEXT UNIQUE, "
+                                    + CATEGORY_COLOR + " TEXT, "
+                                    + CATEGORY_IS_INCOME + " BLOB " + " )";
 
         String createTableTransactions = " CREATE TABLE " + TRANSACTIONS_TABLE + " ( " + TRANSACTIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                                         + TRANSACTION_AMOUNT + " REAL, "
@@ -142,15 +137,15 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @return Returns true if a category was inserted successfully and false if not
      * It can be used for testing if the method has done its job
      */
-    public boolean addCategory(String catName, String catColor){
+    public boolean addCategory(String catName, String catColor, boolean cat_Is_Income){
 
         SQLiteDatabase db = instance.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(CATEGORY_NAME, catName);
         cv.put(CATEGORY_COLOR, catColor);
+        cv.put(CATEGORY_IS_INCOME, cat_Is_Income);
         long insert = db.insert(CATEGORY_TABLE, null, cv);
         db.close();
-
         return insert != -1;
 
     }
@@ -182,11 +177,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * It can be used to test if the method has done its job
      */
     public boolean deleteCategory(int catId){
-        initOtherCategory();
+
         SQLiteDatabase db = instance.getWritableDatabase();
-
-        if (getCatOtherID(db) == catId) return true; // you cannot remove the category called Other
-
         String sql = "DELETE FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_ID + " = " + catId;
         updateTransactionCatID(catId, db); // updates the transactions which category was deleted to the "Other" category ID
         Cursor cursor = db.rawQuery(sql, null);
@@ -232,18 +224,16 @@ public class DataBaseManager extends SQLiteOpenHelper {
                 int categoryID = cursor.getInt(0);
                 String categoryName = cursor.getString(1);
                 String categoryColor = cursor.getString(2);
-                Category newCategory = new Category(categoryID,categoryName, categoryColor);
+                String categoryIsIncome = cursor.getString(3);
+                Category newCategory = new Category(categoryID,categoryName, categoryColor, categoryIsIncome);
                 returnList.add(newCategory);
 
             }while (cursor.moveToNext());
 
         }
-
         cursor.close();
         db.close();
         return returnList;
-
-
     }
 
 
@@ -253,7 +243,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @return returns the wanted category
      */
     public Category getCategoryById(int catId){
-        initOtherCategory();
+
 
 
         String queryString = " SELECT * FROM " + CATEGORY_TABLE +" WHERE " + CATEGORY_ID + " = " + catId;
@@ -267,7 +257,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
                 int categoryID = cursor.getInt(0);
                 String categoryName = cursor.getString(1);
                 String categoryColor = cursor.getString(2);
-                category = new Category(categoryID,categoryName, categoryColor);
+                String categoryIsIncome = cursor.getString(3);
+                category = new Category(categoryID,categoryName, categoryColor, categoryIsIncome);
 
             }while (cursor.moveToNext());
 
@@ -402,10 +393,12 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @return Return true if the category has been edited and false if it is not found
      * It can be used to test if the method has done its job
      */
-    public boolean editCategory(int id, String name, String color) {
+    public boolean editCategory(int id, String name, String color, boolean catIsIncome) {
 
         SQLiteDatabase db = instance.getWritableDatabase();
-        String sql = " UPDATE " + CATEGORY_TABLE + " SET " + CATEGORY_NAME + " = " + name +" WHERE " + CATEGORY_ID + " = " + id;
+        String sql = " UPDATE " + CATEGORY_TABLE + " SET " + CATEGORY_NAME + " = " + name
+                    + CATEGORY_COLOR + " = " + color
+                    + CATEGORY_IS_INCOME + " = " + catIsIncome +" WHERE " + CATEGORY_ID + " = " + id;
         Cursor cursor = db.rawQuery(sql, null);
         boolean successful = cursor.moveToFirst();
         db.close();
