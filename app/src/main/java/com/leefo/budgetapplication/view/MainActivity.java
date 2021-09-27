@@ -30,15 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // testing of methods , debug
-        ArrayList<Category> categories = Controller.getAllCategories();
-        //ArrayList<Transaction> transactions = Controller.searchTransactionsByMonthAndCategory("21", "09", 112);
-        ArrayList<Transaction> transactions2 = Controller.searchTransactionsByMonth("21", "09");
-        double a = Controller.getCategorySumByMonth(categories.get(0).getId(), "2021", "09");
-
-
-
-
         // start app with displaying Home Fragment
         getSupportFragmentManager().beginTransaction().add(R.id.FrameLayout_main, new HomeFragment()).commit();
 
