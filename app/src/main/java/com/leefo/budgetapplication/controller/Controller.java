@@ -82,10 +82,10 @@ public class Controller {
      * Removes category with the given id from the database. Transactions under the removed category
      * are automatically moved to the Other category.
      *
-     * @param id The id of the category to be removed.
+     * @param name The id of the category to be removed.
      */
-    public static void removeCategory(int id) {
-        categoryHandler.removeCategory(id);
+    public static void removeCategory(String name) {
+        categoryHandler.removeCategory(name);
     }
 
     /**

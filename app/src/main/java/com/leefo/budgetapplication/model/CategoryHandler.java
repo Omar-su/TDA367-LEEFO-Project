@@ -40,11 +40,11 @@ public class CategoryHandler extends ObserverHandler {
 
     /**
      * Removes a category from the database given a specific category id.
-     * @param id Id of category to remove.
+     * @param name Id of category to remove.
      */
-    public void removeCategory(int id)
+    public void removeCategory(String name)
     {
-        database.deleteCategory(id);
+        database.deleteCategory(name);
 
         updateObservers(); // updates views
     }
@@ -68,7 +68,7 @@ public class CategoryHandler extends ObserverHandler {
      * @return the Category corresponding to the given id.
      */
     public Category getCategoryFromId(int id){
-        return database.getCategoryById(id);
+        return database.getCategoryByName(id);
         /*
         for (Category c : getEveryCategory()){
             if (c.getId() == id){
