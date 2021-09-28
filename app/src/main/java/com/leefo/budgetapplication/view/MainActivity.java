@@ -14,6 +14,7 @@ import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.Transaction;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -49,6 +50,14 @@ public class MainActivity extends AppCompatActivity {
             //textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
             //textView.setBackgroundColor(Color.parseColor("#A0A0A0"));
 
+        // date test
+        LocalDate localDate = LocalDate.now();
+        LocalDate localDate1 = LocalDate.of(2021, 9, 21);
+        LocalDate localDate2 = LocalDate.now();
+        boolean b = localDate.isBefore(localDate2);
+        boolean b1 = localDate.isAfter(localDate2);
+        boolean b2 = localDate.isEqual(localDate2);
+        String s = localDate.toString();
     }
 
     private void removeAllCategories(){
