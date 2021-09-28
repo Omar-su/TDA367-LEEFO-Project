@@ -20,6 +20,7 @@ import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -54,8 +55,7 @@ public class NewTransactionFragment extends Fragment {
         radioGroup = view.findViewById(R.id.radioGroup);
 
         // init category spinner
-        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), Controller.getAllCategories());
-        categorySpinner.setAdapter(spinnerAdapter);
+        initSpinner();
 
         // init date picker
         initDatePickerDialog();
@@ -64,6 +64,35 @@ public class NewTransactionFragment extends Fragment {
         initSaveButtonOnClickListener();
 
         return view;
+    }
+
+    private void initSpinner(){
+        ArrayList<Category> income, expense;
+        income = new ArrayList<>();
+        expense = new ArrayList<>();
+        for (Category c : Controller.getAllCategories()){
+            if (c.isIncome()){
+                income.add(c);
+            } else {
+                expense.add(c);
+            }
+        }
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), expense);
+        categorySpinner.setAdapter(spinnerAdapter);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.radioExpense){
+                    SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), expense);
+                    categorySpinner.setAdapter(spinnerAdapter);
+                } else {
+                    SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), income);
+                    categorySpinner.setAdapter(spinnerAdapter);
+                }
+            }
+        });
     }
 
     private void initSaveButtonOnClickListener(){
