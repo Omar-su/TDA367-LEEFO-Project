@@ -77,11 +77,21 @@ public class DataHandler extends ObserverHandler {
     }
 
     public void editCategory(Category oldCategory, Category editedCategory){
+        replaceTransactionsCategory(oldCategory, editedCategory);
         deleteCategory(oldCategory);
         addCategory(editedCategory);
 
         //saveToDatabase();
         updateObservers();
+    }
+
+    private void replaceTransactionsCategory(Category oldCategory, Category newCategory){
+        for(Transaction t : transactionList){
+            if(t.getCategory.isEqual(oldCategory)){
+                editTransaction(t, new Transaction(t.getAmount(), t.getDescription(), t.getDate(),
+                        newCategory));
+            }
+        }
     }
 
 
