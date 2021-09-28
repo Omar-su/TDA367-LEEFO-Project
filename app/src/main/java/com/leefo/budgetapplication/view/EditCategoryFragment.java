@@ -10,22 +10,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 /**
- * The class that represents the fragment for adding a new category
+ * The class that represents the fragment for editing an existing category
  */
-public class NewCategoryFragment extends Fragment {
+public class EditCategoryFragment extends Fragment {
 
     private EditText nameInput;
     private Button saveButton;
     private Button changeColorButton;
     private int defaultColor;
+    private Spinner categorySpinner;
     private View view;
 
     /**
@@ -35,19 +39,22 @@ public class NewCategoryFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_new_category, container, false);
+        view = inflater.inflate(R.layout.fragment_edit_category, container, false);
 
-        // get views
-        saveButton = view.findViewById(R.id.new_category_save_button);
-        nameInput = view.findViewById(R.id.new_category_name_input);
-        changeColorButton = view.findViewById(R.id.new_category_change_color_button);
-
+        //get views
+        saveButton = view.findViewById(R.id.edit_category_save_button);
+        nameInput = view.findViewById(R.id.edit_category_name_input);
+        changeColorButton = view.findViewById(R.id.edit_category_change_color_button);
         defaultColor = ContextCompat.getColor(getContext(), R.color.design_default_color_primary);
+        categorySpinner = view.findViewById(R.id.edit_category_name_spinner);
+
+        //init category spinner
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), Controller.getAllCategories());
+        categorySpinner.setAdapter(spinnerAdapter);
 
         // init save button onClick
         initSaveButtonOnClickListener();
         initChangeColorButtonOnClickListener();
-
 
         return view;
     }
@@ -92,14 +99,16 @@ public class NewCategoryFragment extends Fragment {
             makeToast("You need to enter a name");
             return;
         }
-        addCategory();
+        editCategory();
         ((MainActivity)getActivity()).openHomeFragment(view);
     }
 
-    private void addCategory(){
+    private void editCategory(){
+        Category cat = (Category) categorySpinner.getSelectedItem();
+        int id = cat.getId();
         String name = nameInput.getText().toString();
         String color = "#" + Integer.toHexString(defaultColor);
-        Controller.addNewCategory(name, color);
+        Controller.editCategoryInfo(id, name, color);
     }
 
     //Method to make a Toast. Use to test

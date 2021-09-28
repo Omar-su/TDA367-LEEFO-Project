@@ -32,7 +32,25 @@ public class MoreFragment extends Fragment {
         btnNewCategory = (Button) view.findViewById(R.id.new_category_button);
         init_btnCompareMonths_OnClickListener();
         init_btnNewCategory_OnClickListener();
+        init_btnEditCategory_OnClickListener();
         return view;
+    }
+
+    private void init_btnEditCategory_OnClickListener(){
+        btnEditCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnCompareMonths.setVisibility(View.GONE);
+                btnEditCategory.setVisibility(View.GONE);
+                btnNewCategory.setVisibility(View.GONE);
+                FragmentManager fragmentManager = getChildFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.FrameLayout_more, EditCategoryFragment.class, null)
+                        .setReorderingAllowed(true)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
     }
 
     private void init_btnNewCategory_OnClickListener() {

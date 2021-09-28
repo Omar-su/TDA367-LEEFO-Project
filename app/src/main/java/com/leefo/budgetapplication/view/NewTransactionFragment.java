@@ -47,10 +47,10 @@ public class NewTransactionFragment extends Fragment {
 
         // get views
         categorySpinner = view.findViewById(R.id.spinner_category);
-        amountInput = view.findViewById(R.id.amountInput);
+        amountInput = view.findViewById(R.id.edit_category_name_input);
         descriptionInput = view.findViewById(R.id.descriptionInput);
         dateInput = view.findViewById(R.id.dateInput);
-        saveButton = view.findViewById(R.id.saveButton);
+        saveButton = view.findViewById(R.id.edit_category_save_button);
         radioGroup = view.findViewById(R.id.radioGroup);
 
         // init category spinner
