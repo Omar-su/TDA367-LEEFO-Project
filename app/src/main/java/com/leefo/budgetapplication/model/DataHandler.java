@@ -1,5 +1,7 @@
 package com.leefo.budgetapplication.model;
 
+import com.leefo.budgetapplication.controller.TransactionRequest;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +12,9 @@ public class DataHandler extends ObserverHandler {
 
     private final List<Category> categoryList = new ArrayList<>();
 
-    private  Category otherIncome = new Category(0, "Other income", "#13702A", true);
+    private  Category otherIncome = new Category( "Other income", "#13702A", true);
 
-    private  Category otherExpense = new Category(1, "Other expense", "701313", false);
+    private  Category otherExpense = new Category( "Other expense", "701313", false);
 
    // private final DataSaver datasaver;
 
@@ -50,14 +52,14 @@ public class DataHandler extends ObserverHandler {
     public void deleteCategory(Category category) {
         if (category.isIncome()) {
             for (Transaction t : transactionList) {
-                if (t.getCategory().isEqual(category)) {
+                if (category.transactionBelongs(t)) {
                     editTransaction(t, new Transaction(t.getAmount(), t.getDescription(),
                             t.getDate(), otherIncome));
                 }
             }
         } else {
             for (Transaction t : transactionList) {
-                if (t.getCategory().isEqual(category)) {
+                if (category.transactionBelongs(t)) {
                     editTransaction(t, new Transaction(t.getAmount(), t.getDescription(),
                             t.getDate(), otherExpense));
                 }
@@ -87,23 +89,33 @@ public class DataHandler extends ObserverHandler {
 
     private void replaceTransactionsCategory(Category oldCategory, Category newCategory){
         for(Transaction t : transactionList){
-            if(t.getCategory.isEqual(oldCategory)){
+            if(oldCategory.transactionBelongs(t)){
                 editTransaction(t, new Transaction(t.getAmount(), t.getDescription(), t.getDate(),
                         newCategory));
             }
         }
     }
 
+    public List<Transaction> getTransactionList() {
+        return transactionList;
+    }
 
-     //TODO implement these methods
+    public List<Category> getCategoryList() {
+        return categoryList;
+    }
+
+    //TODO implement these methods
+
+    public float getSum(TransactionRequest request){
+
+        return 0;
+    }
+
+    public List<Transaction> searchTransactions(TransactionRequest request){
+
+        return null;
+    }
     /*
-    public float getSum(Command command){
-    }
-
-    public List<Transaction> searchTransactions(Command command){
-
-    }
-
     private void loadTransactionList(){
         transactionList.addAll(datasaver.getTransactionList());
     }

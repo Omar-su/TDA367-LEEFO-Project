@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.CategoryHandler;
+import com.leefo.budgetapplication.model.DataHandler;
 import com.leefo.budgetapplication.model.DatabaseInitializer;
 import com.leefo.budgetapplication.model.ObserverHandler;
 import com.leefo.budgetapplication.model.Transaction;
@@ -81,7 +82,7 @@ public class Controller {
      * @param category category to removed
      */
     public static void removeCategory(Category category) {
-        dataHandler.removeCategory(category);
+        dataHandler.deleteCategory(category);
     }
 
     /**
@@ -90,7 +91,7 @@ public class Controller {
      * @return a list of all the categories in the database.
      */
     public static ArrayList<Category> getAllCategories() {
-        return dataHandler.getCategories();
+        return (ArrayList<Category>) dataHandler.getCategoryList();
     }
 
     /**
@@ -123,7 +124,7 @@ public class Controller {
      * @param transaction Transaction to be removed.
      */
     public static void removeTransaction(Transaction transaction){
-        dataHandler.removeTransaction(transaction);
+        dataHandler.deleteTransaction(transaction);
     }
 
     /**
@@ -133,7 +134,7 @@ public class Controller {
      */
     public List<Transaction> getTransactions(TransactionRequest request)
     {
-        return dataHandler.getTransactions(request);
+        return dataHandler.searchTransactions(request);
     }
 
     /**
