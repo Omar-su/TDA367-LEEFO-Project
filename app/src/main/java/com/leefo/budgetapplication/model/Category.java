@@ -5,13 +5,11 @@ import androidx.annotation.NonNull;
 
 /**
 * Immutable container class for category data.
+ *
+ * @author Linus Lundgren
 * */
 public class Category {
 
-    /**
-     * Represents category id in database.
-     */
-    private final int id; // unique id assigned by db
     /**
      * Name of category
      */
@@ -22,9 +20,8 @@ public class Category {
     private final String color;
 
 
-    public Category(int id, String name, String color)
+    public Category(String name, String color)
     {
-        this.id = id;
         this.name = name;
         this.color = color;
     }
@@ -39,7 +36,7 @@ public class Category {
      */
     public boolean transactionBelongs(Transaction transaction)
     {
-        return id == transaction.getCategoryId();
+        return Equals(transaction.getCategory());
     }
 
     /**
@@ -49,25 +46,20 @@ public class Category {
      */
     public boolean Equals(Category cat)
     {
-        return cat.getId() == id;
+        return cat.getName().equals(name) && cat.getColor().equals(color);
     }
 
     @NonNull
     @Override
     public String toString()
     {
-        return "" + id + " : " + name + ", color : " + color;
+        return "" + name + " : " + color;
     }
 
 
 
 
     // GETTERS -------
-
-    public int getId()
-    {
-        return id;
-    }
 
     public String getName()
     {
@@ -78,6 +70,5 @@ public class Category {
     {
         return color;
     }
-
 
 }
