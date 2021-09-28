@@ -1,13 +1,14 @@
 package com.leefo.budgetapplication.model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DataHandler extends ObserverHandler {
 
-    private final List<Transaction> transactionList;
+    private final List<Transaction> transactionList = new ArrayList<>();
 
-    private final List<Category> categoryList;
+    private final List<Category> categoryList = new ArrayList<>();
 
     private  Category otherIncome = new Category(0, "Other income", "#13702A", true);
 
@@ -16,10 +17,9 @@ public class DataHandler extends ObserverHandler {
    // private final DataSaver datasaver;
 
 
-    public DataHandler(List<Transaction> transactionList, List<Category> categoryList) {
-        this.transactionList = transactionList;
-        this.categoryList = categoryList;
-
+    public DataHandler() {
+       // loadTransactionList();
+       // loadCategoryList();
         // When running for the first time, before database has saved default categories
         // we need to somehow add them to the list.
         // categoryList.add(otherIncome);
