@@ -51,13 +51,15 @@ public class DataHandler extends ObserverHandler {
         if (category.isIncome()) {
             for (Transaction t : transactionList) {
                 if (t.getCategory().isEqual(category)) {
-                    t.setCategory(otherIncome);
+                    editTransaction(t, new Transaction(t.getAmount(), t.getDescription(),
+                            t.getDate(), otherIncome));
                 }
             }
         } else {
             for (Transaction t : transactionList) {
                 if (t.getCategory().isEqual(category)) {
-                    t.setCategory(otherExpense);
+                    editTransaction(t, new Transaction(t.getAmount(), t.getDescription(),
+                            t.getDate(), otherExpense));
                 }
             }
         }
