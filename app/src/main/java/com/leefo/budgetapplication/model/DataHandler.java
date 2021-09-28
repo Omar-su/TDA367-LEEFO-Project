@@ -9,9 +9,11 @@ public class DataHandler extends ObserverHandler {
 
     private final List<Category> categoryList;
 
-    private final Category otherIncome = new Category(0, "Other income", "#13702A", true);
+    private  Category otherIncome = new Category(0, "Other income", "#13702A", true);
 
-    private final Category otherExpense = new Category(1, "Other expense", "701313", false);
+    private  Category otherExpense = new Category(1, "Other expense", "701313", false);
+
+   // private final DataSaver datasaver;
 
 
     public DataHandler(List<Transaction> transactionList, List<Category> categoryList) {
@@ -27,18 +29,21 @@ public class DataHandler extends ObserverHandler {
     public void addTransaction(Transaction transaction) {
         transactionList.add(transaction);
 
+        //saveToDatabase();
         updateObservers();
     }
 
     public void deleteTransaction(Transaction transaction) {
         transactionList.remove(transaction);
 
+        //saveToDatabase();
         updateObservers();
     }
 
     public void addCategory(Category category) {
         categoryList.add(category);
 
+        //saveToDatabase();
         updateObservers();
     }
 
@@ -57,6 +62,7 @@ public class DataHandler extends ObserverHandler {
             }
         }
         categoryList.remove(category);
+        //saveToDatabase();
         updateObservers();
     }
 
@@ -64,6 +70,7 @@ public class DataHandler extends ObserverHandler {
         deleteTransaction(oldTransaction);
         addTransaction(editedTransaction);
 
+        //saveToDatabase();
         updateObservers();
     }
 
@@ -71,8 +78,36 @@ public class DataHandler extends ObserverHandler {
         deleteCategory(oldCategory);
         addCategory(editedCategory);
 
+        //saveToDatabase();
         updateObservers();
     }
+
+
+     //TODO implement these methods
+    /*
+    public float getSum(Command command){
+    }
+
+    public List<Transaction> searchTransactions(Command command){
+
+    }
+
+    private void loadTransactionList(){
+        transactionList.addAll(datasaver.getTransactionList());
+    }
+
+    private void loadCategoryList(){
+        categoryList.addAll(datasaver.getCategoryList());
+    }
+
+    private void saveToDatabase(){
+        datasaver.saveData(transactionList, categoryList);
+    }
+*/
+
+
+
+
 
 
 }
