@@ -129,12 +129,15 @@ public class Controller {
 
     /**
      * Retrieves all transactions within the parameters of the TransactionRequest.
+     *
+     * All parameters being null means all transactions will be retrieved.
+     *
      * @param category Category that the transactions belong to, optional.
-     * @param month Month transactions were made.
-     * @param year Year transactions were made.
+     * @param month Month transactions were made, optional.
+     * @param year Year transactions were made, optional.
      * @return A list of transactions specified by request.
      */
-    public List<Transaction> getTransactions(Category category, String month, String year)
+    public static List<Transaction> getTransactions(Category category, String month, String year)
     {
         TransactionRequest request = new TransactionRequest(category, month, year);
 
@@ -148,7 +151,7 @@ public class Controller {
      * @param year Year transactions were made.
      * @return Sum of transactions.
      */
-    public float getTransactionSum(Category category, String month, String year)
+    public static float getTransactionSum(Category category, String month, String year)
     {
         TransactionRequest request = new TransactionRequest(category, month, year);
 
@@ -159,7 +162,7 @@ public class Controller {
      * Getter for all categories in model.
      * @return A list of categories.
      */
-    public List<Category> getCategories()
+    public static List<Category> getCategories()
     {
         return dataHandler.getCategoryList();
     }
