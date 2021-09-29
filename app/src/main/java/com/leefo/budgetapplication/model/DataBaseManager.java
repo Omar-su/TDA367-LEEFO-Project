@@ -215,7 +215,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
     }
 
 
-    /**
+    /*
      * Gets a specific category from the database
      * @param CatName The name of the category that is wanted
      * @return returns the wanted category
@@ -240,12 +240,13 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
 
-    /**
+    /*
      * Creates transaction objects with the data that is stored in the database by specifying the date
      * @param year The year the transaction was made
      * @param month The month the transaction was made
      * @return Returns a list of all the transactions that is in a specific month and year
      */
+    /*
     public ArrayList<Transaction> getTransactionsByMonth(String year, String month){
 
 
@@ -328,6 +329,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param categoryName The name of the category that all the wanted transactions have
      * @return Returns a list of all the transactions that is in a specific month and year with a specific category
      */
+    /*
     public ArrayList<Transaction> getTransactionsByMonthAndCat(String year, String month, String categoryName) {
         ArrayList<Transaction> returnList = new ArrayList<>();
         String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + "'" + year + "-"  + month + "-" + "01' "
@@ -365,6 +367,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param color The new color of the category
      * @param catIsIncome Decides if the category is an income or an expense
      */
+    /*
     public void editCategory(String name, String color, int catIsIncome) {
 
         SQLiteDatabase db = instance.getWritableDatabase();
@@ -384,6 +387,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param date The new date of the transaction
      * @param catName The related category name for the transaction
      */
+    /*
     public void editTransaction(int id, float amount, String description, String date, int catName) {
 
         SQLiteDatabase db = instance.getWritableDatabase();
@@ -398,5 +402,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
+
+     */
 
 }
