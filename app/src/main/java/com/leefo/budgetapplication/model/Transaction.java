@@ -3,6 +3,8 @@ package com.leefo.budgetapplication.model;
 
 import androidx.annotation.NonNull;
 
+import java.time.LocalDate;
+
 /**
 * Immutable container class for transaction data.
  *
@@ -17,7 +19,7 @@ public class Transaction {
     /**
      * Date that the transaction occurred.
      */
-    private final String date;
+    private final LocalDate date;
     /**
      * Total currency amount handled by the transaction.
      */
@@ -27,7 +29,7 @@ public class Transaction {
      */
     private final String description;
 
-    public Transaction(double amount, String description, String date, Category category)
+    public Transaction(double amount, String description, LocalDate date, Category category)
     {
         this.amount = amount;
         this.description = description;
@@ -55,7 +57,7 @@ public class Transaction {
         return category;
     }
 
-    public String getDate()
+    public LocalDate getDate()
     {
         return date;
     }
