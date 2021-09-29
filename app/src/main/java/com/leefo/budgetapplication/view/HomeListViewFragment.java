@@ -17,6 +17,7 @@ import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -67,13 +68,13 @@ public class HomeListViewFragment extends Fragment implements ModelObserver{
 
 
     private void addDateRowInTransactionList(int index, String date){
-        transactions.add(index, new Transaction(0,"DATE", date, new Category("", "", true)));
+        transactions.add(index, new Transaction(0,date,LocalDate.now(), new Category("DATE", "", true)));
     }
 
     private void putDatesIntoTransactionList(){
         String today = getTodaysDate();
         String yesterday = getYesterdaysDate();
-        String date = transactions.get(0).getDate(); // first date
+        String date = transactions.get(0).getDate().toString(); // first date
 
         if (date.equals(today)){
             addDateRowInTransactionList(0, "Today");
@@ -85,8 +86,8 @@ public class HomeListViewFragment extends Fragment implements ModelObserver{
 
         for (int i = 2; i <= transactions.size()-1;){
 
-            if (!date.equals(transactions.get(i).getDate())){
-                date = transactions.get(i).getDate();
+            if (!date.equals(transactions.get(i).getDate().toString())){
+                date = transactions.get(i).getDate().toString();
                 if (date.equals(today)){
                     addDateRowInTransactionList(i, "Today");
                 } else if (date.equals(yesterday)){
