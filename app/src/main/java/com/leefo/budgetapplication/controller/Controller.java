@@ -249,4 +249,11 @@ public class Controller {
         return dataHandler.getCategoryList();
     }
 
+    public static ArrayList<Category> getIncomeCategories(){
+        return dataHandler.getIncomeCategories();
+    }
+
+    public static ArrayList<Category> getExpenseCategories(){
+        return dataHandler.getExpenseCategories();
+    }
 }
