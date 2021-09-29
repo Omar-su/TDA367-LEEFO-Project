@@ -147,4 +147,13 @@ public class Controller {
         return dataHandler.getSum(request);
     }
 
+    /**
+     * Getter for all categories in model.
+     * @return A list of categories.
+     */
+    public List<Category> getCategories()
+    {
+        return dataHandler.getCategoryList();
+    }
+
 }
