@@ -6,7 +6,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataHandler extends ObserverHandler {
+public class DataHandler {
 
     private final ArrayList<Transaction> transactionList = new ArrayList<>();
 
@@ -32,21 +32,21 @@ public class DataHandler extends ObserverHandler {
         transactionList.add(transaction);
 
         //saveToDatabase();
-        updateObservers();
+        ObserverHandler.updateObservers();
     }
 
     public void deleteTransaction(Transaction transaction) {
         transactionList.remove(transaction);
 
         //saveToDatabase();
-        updateObservers();
+        ObserverHandler.updateObservers();
     }
 
     public void addCategory(Category category) {
         categoryList.add(category);
 
         //saveToDatabase();
-        updateObservers();
+        ObserverHandler.updateObservers();
     }
 
     public void deleteCategory(Category category) {
@@ -67,7 +67,7 @@ public class DataHandler extends ObserverHandler {
         }
         categoryList.remove(category);
         //saveToDatabase();
-        updateObservers();
+        ObserverHandler.updateObservers();
     }
 
     public void editTransaction(Transaction oldTransaction, Transaction editedTransaction){
@@ -75,7 +75,7 @@ public class DataHandler extends ObserverHandler {
         addTransaction(editedTransaction);
 
         //saveToDatabase();
-        updateObservers();
+        ObserverHandler.updateObservers();
     }
 
     public void editCategory(Category oldCategory, Category editedCategory){
@@ -84,7 +84,7 @@ public class DataHandler extends ObserverHandler {
         addCategory(editedCategory);
 
         //saveToDatabase();
-        updateObservers();
+        ObserverHandler.updateObservers();
     }
 
     private void replaceTransactionsCategory(Category oldCategory, Category newCategory){
