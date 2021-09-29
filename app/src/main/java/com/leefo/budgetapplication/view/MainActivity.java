@@ -92,7 +92,9 @@ public class MainActivity extends AppCompatActivity {
         Controller.addNewCategory("Gift", "#6473FF", true);
     }
 
-
+    public void openNewCategoriesFragment(){
+        openFragmentInMainFrameLayout(new NewCategoryFragment());
+    }
 
     public void openHomeFragment(View v){
         openFragmentInMainFrameLayout(new HomeFragment());
@@ -103,12 +105,13 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, fragment).commit();
     }
 
+
     public void plusButton(View v){
         openFragmentInMainFrameLayout(new NewTransactionFragment());
         bottomNav.setVisibility(View.GONE);
     }
 
-    public void openSingleCategortFragment(){
+    public void openSingleCategoryFragment(){
         openFragmentInMainFrameLayout(new SingleCategoryFragment());
     }
 

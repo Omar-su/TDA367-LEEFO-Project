@@ -3,6 +3,7 @@ package com.leefo.budgetapplication.view;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,10 +37,22 @@ public class ManageCategoriesFragment extends Fragment {
         adapter = new ManageCategoriesListAdapter(getActivity().getApplicationContext(), Controller.getExpenseCategories());
         listView.setAdapter(adapter);
         initRadioGroup();
+
+        newCategoryButton = view.findViewById(R.id.button_add_new_cat_in_manage_cat);
+        initNewCategoryButtonOnClickListener();
         return view;
     }
 
-    public void initRadioGroup(){
+    private void initNewCategoryButtonOnClickListener(){
+        newCategoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).openNewCategoriesFragment();
+            }
+        });
+    }
+
+    private void initRadioGroup(){
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
