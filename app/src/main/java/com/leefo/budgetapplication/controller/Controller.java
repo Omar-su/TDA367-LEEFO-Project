@@ -53,9 +53,10 @@ public class Controller {
      * color code with the format: #XXXXXX.
      *
      * @param oldCategory Object of category to be changed.
-     * @param newCategory Updated category.
      */
-    public static void editCategoryInfo(Category oldCategory, Category newCategory) {
+    public static void editCategoryInfo(Category oldCategory, String newName, String newColor, boolean isIncome) {
+        Category newCategory = new Category(newName, newColor, isIncome);
+
         dataHandler.editCategory(oldCategory, newCategory);
     }
 
@@ -110,9 +111,10 @@ public class Controller {
      * Edits the information of a transaction with the given Id.
      *
      * @param oldTransaction Object of transaction to be changed.
-     * @param newTransaction Updated transaction.
      */
-    public static void editTransaction(Transaction oldTransaction, Transaction newTransaction){
+    public static void editTransaction(Transaction oldTransaction, float newAmount, String newDesc, String newDate, Category newCategory){
+        Transaction newTransaction = new Transaction(newAmount, newDesc, newDate, newCategory);
+
         dataHandler.editTransaction(oldTransaction, newTransaction);
     }
 
@@ -127,21 +129,29 @@ public class Controller {
 
     /**
      * Retrieves all transactions within the parameters of the TransactionRequest.
-     * @param request Specifies what transactions should be returned.
+     * @param category Category that the transactions belong to, optional.
+     * @param month Month transactions were made.
+     * @param year Year transactions were made.
      * @return A list of transactions specified by request.
      */
-    public List<Transaction> getTransactions(TransactionRequest request)
+    public List<Transaction> getTransactions(Category category, String month, String year)
     {
+        TransactionRequest request = new TransactionRequest(category, month, year);
+
         return dataHandler.searchTransactions(request);
     }
 
     /**
      * Gets sum of all transactions within parameters of the TransactionRequest.
-     * @param request Specifies what transactions should be added to sum.
+     * @param category Category that the transactions belong to, optional.
+     * @param month Month transactions were made.
+     * @param year Year transactions were made.
      * @return Sum of transactions.
      */
-    public float getTransactionSum(TransactionRequest request)
+    public float getTransactionSum(Category category, String month, String year)
     {
+        TransactionRequest request = new TransactionRequest(category, month, year);
+
         return dataHandler.getSum(request);
     }
 

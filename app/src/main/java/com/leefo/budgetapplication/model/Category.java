@@ -19,6 +19,9 @@ public class Category {
      */
     private final String color;
 
+    /**
+     * True if transactions of this category goes out of or into the account balance.
+     */
     private final boolean isIncome;
 
 
@@ -74,7 +77,6 @@ public class Category {
         return color;
     }
 
-    public boolean isIncome() {
-        return isIncome;
-    }
+    public boolean isIncome() { return isIncome; }
+
 }
