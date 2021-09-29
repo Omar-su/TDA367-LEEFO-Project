@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 
-//import yuku.ambilwarna.AmbilWarnaDialog;
+import yuku.ambilwarna.AmbilWarnaDialog;
 
 /**
  * The class that represents the fragment for adding a new category

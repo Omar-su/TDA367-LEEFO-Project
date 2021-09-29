@@ -18,6 +18,8 @@ import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 
+import yuku.ambilwarna.AmbilWarnaDialog;
+
 // import yuku.ambilwarna.AmbilWarnaDialog;
 
 /**
@@ -29,7 +31,7 @@ public class EditCategoryFragment extends Fragment {
     private Button saveButton;
     private Button changeColorButton;
     private int defaultColor;
-    private Spinner categorySpinner;
+    //private Spinner categorySpinner;
     private View view;
 
     /**
@@ -46,11 +48,11 @@ public class EditCategoryFragment extends Fragment {
         nameInput = view.findViewById(R.id.edit_category_name_input);
         changeColorButton = view.findViewById(R.id.edit_category_change_color_button);
         defaultColor = ContextCompat.getColor(getContext(), R.color.design_default_color_primary);
-        categorySpinner = view.findViewById(R.id.edit_category_name_spinner);
+        //categorySpinner = view.findViewById(R.id.edit_category_name_spinner);
 
         //init category spinner
-        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), Controller.getAllCategories());
-        categorySpinner.setAdapter(spinnerAdapter);
+       // SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), Controller.getAllCategories());
+        //categorySpinner.setAdapter(spinnerAdapter);
 
         // init save button onClick
         initSaveButtonOnClickListener();
@@ -67,7 +69,7 @@ public class EditCategoryFragment extends Fragment {
             }
         });
     }
-/*
+
     private void initChangeColorButtonOnClickListener(){
         changeColorButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,9 +79,6 @@ public class EditCategoryFragment extends Fragment {
         });
     }
 
-
- */
-/*
     private void openColorPicker(){
         AmbilWarnaDialog ambilWarnaDialog = new AmbilWarnaDialog(getContext(), defaultColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
             @Override
@@ -96,8 +95,6 @@ public class EditCategoryFragment extends Fragment {
         ambilWarnaDialog.show();
     }
 
- */
-/*
     private void saveButton(){
         if (nameInput.getText().toString().equals("")){
             makeToast("You need to enter a name");
@@ -107,18 +104,21 @@ public class EditCategoryFragment extends Fragment {
         ((MainActivity)getActivity()).openHomeFragment(view);
     }
 
- */
-/*
     private void editCategory(){
-        Category cat = (Category) categorySpinner.getSelectedItem();
-        int id = cat.getId();
+        //Category cat = (Category) categorySpinner.getSelectedItem();
         String name = nameInput.getText().toString();
         String color = "#" + Integer.toHexString(defaultColor);
         Controller.editCategoryInfo(id, name, color);
     }
 
- */
+    /*
+    public static void editCategoryInfo(Category oldCategory, String newName,
+    String newColor, boolean isIncome) {
+        Category newCategory = new Category(newName, newColor, isIncome);
 
+        dataHandler.editCategory(oldCategory, newCategory);
+    }
+     */
     //Method to make a Toast. Use to test
     Toast t;
     private void makeToast(String s){
