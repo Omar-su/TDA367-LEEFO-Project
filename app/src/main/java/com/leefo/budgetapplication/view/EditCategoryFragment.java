@@ -108,7 +108,7 @@ public class EditCategoryFragment extends Fragment {
         //Category cat = (Category) categorySpinner.getSelectedItem();
         String name = nameInput.getText().toString();
         String color = "#" + Integer.toHexString(defaultColor);
-        Controller.editCategoryInfo(id, name, color);
+        //Controller.editCategoryInfo(id, name, color);
     }
 
     /*

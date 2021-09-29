@@ -7,7 +7,7 @@
     tools:context=".view.ManageCategoriesFragment">
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/manage_categories_radioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
-            android:id="@+id/radioExpense"
+            android:id="@+id/manage_categories_radio_expense"
             android:paddingRight="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
             />
 
         <RadioButton
-            android:id="@+id/radioIncome"
+            android:id="@+id/manage_categories_radio_income"
             android:layout_width="match_parent"
             android:textSize="20sp"
             android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
         app:layout_constraintBottom_toTopOf="@+id/button_add_new_cat_in_manage_cat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/manage_categories_radioGroup" />
 
     <Button
         android:id="@+id/button_add_new_cat_in_manage_cat"

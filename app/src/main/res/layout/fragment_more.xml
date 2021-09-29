@@ -51,11 +51,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/compare_month_button" />
 
+    <Button
+        android:id="@+id/manage_categories_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Manage \n categories"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_category_button"
+        app:layout_constraintEnd_toEndOf="@+id/compare_month_button"
+        app:layout_constraintStart_toStartOf="@+id/compare_month_button"
+        app:layout_constraintTop_toTopOf="@+id/edit_category_button" />
+
     <FrameLayout
         android:id="@+id/FrameLayout_more"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="75dp"
         tools:layout_editor_absoluteY="0dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
