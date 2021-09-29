@@ -21,34 +21,14 @@ public class TransactionRequest {
      */
     private final String month, year; // can be null
 
-
-
-    public TransactionRequest() // for when every transaction in model should be returned
-    {
-        this.category = null;
-        this.month = null;
-        this.year = null;
-    }
-
-    public TransactionRequest(Category category)
-    {
-        this.category = category;
-        this.month = null;
-        this.year = null;
-    }
-
-    public TransactionRequest(String month, String year)
-    {
-        this.category = null;
-        this.month = month;
-        this.year = year;
-    }
-
     public TransactionRequest(Category category, String month, String year)
     {
         this.category = category;
         this.month = month;
         this.year = year;
+
+        if(month == null || year == null)
+            month = year = null;
     }
 
     /**
