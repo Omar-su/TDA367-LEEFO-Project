@@ -95,25 +95,49 @@ public class DataHandler {
             }
         }
     }
-
+    /**
+     * Returns a copy of the transactionList
+     * @return copy if transactionList
+     */
     public ArrayList<Transaction> getTransactionList() {
-        return transactionList;
+        return new ArrayList<>(transactionList);
     }
 
+    /**
+     * Returns a copy of the categoryList
+     * @return copy if categoryList
+     */
     public ArrayList<Category> getCategoryList() {
-        return categoryList;
+        return new ArrayList<>(categoryList);
     }
 
     //TODO implement these methods
 
     public float getSum(TransactionRequest request){
-
-        return 0;
+        // not finished, just quick. for one category, every transaction. someone can redo this better
+        Category category = request.getCategory();
+        double sum = 0;
+        for (Transaction t : searchTransactions(new TransactionRequest(category, null, null))){
+            sum = sum + t.getAmount();
+        }
+        return (float)sum;
     }
 
     public ArrayList<Transaction> searchTransactions(TransactionRequest request){
-
-        return transactionList;
+        if (!request.timeIsSpecified() && !request.categoryIsSpecified()){
+            return getTransactionList();
+        }
+        if (!request.timeIsSpecified() && request.categoryIsSpecified()){
+            Category category = request.getCategory();
+            ArrayList<Transaction> transactions = new ArrayList<>();
+            for (Transaction t : getTransactionList()){
+                if (t.getCategory() == category){
+                    transactions.add(t);
+                }
+            }
+            return transactions;
+        }
+        return getTransactionList();
     }
     /*
     private void loadTransactionList(){
@@ -129,9 +153,13 @@ public class DataHandler {
     }
 */
 
+    /**
+     * Get the income categories
+     * @return income categories
+     */
     public ArrayList<Category> getIncomeCategories(){
         ArrayList<Category> list = new ArrayList<>();
-        for (Category c : categoryList){
+        for (Category c : getCategoryList()){
             if (c.isIncome()){
                 list.add(c);
             }
@@ -139,9 +167,13 @@ public class DataHandler {
         return list;
     }
 
+    /**
+     * Get the expense categories
+     * @return expense categories
+     */
     public ArrayList<Category> getExpenseCategories(){
         ArrayList<Category> list = new ArrayList<>();
-        for (Category c : categoryList){
+        for (Category c : getCategoryList()){
             if (!c.isIncome()){
                 list.add(c);
             }
