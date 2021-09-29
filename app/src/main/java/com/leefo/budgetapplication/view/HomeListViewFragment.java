@@ -72,28 +72,28 @@ public class HomeListViewFragment extends Fragment implements ModelObserver{
     }
 
     private void putDatesIntoTransactionList(){
-        String today = getTodaysDate();
-        String yesterday = getYesterdaysDate();
-        String date = transactions.get(0).getDate().toString(); // first date
+        LocalDate today = LocalDate.now();
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+        LocalDate date = transactions.get(0).getDate(); // first date
 
-        if (date.equals(today)){
+        if (date.isEqual(today)){
             addDateRowInTransactionList(0, "Today");
-        } else if (date.equals(yesterday)){
+        } else if (date.isEqual(yesterday)){
             addDateRowInTransactionList(0, "Yesterday");
         } else{
-            addDateRowInTransactionList(0,date);
+            addDateRowInTransactionList(0,date.toString());
         }
 
         for (int i = 2; i <= transactions.size()-1;){
 
-            if (!date.equals(transactions.get(i).getDate().toString())){
-                date = transactions.get(i).getDate().toString();
-                if (date.equals(today)){
+            if (!date.isEqual(transactions.get(i).getDate())){
+                date = transactions.get(i).getDate();
+                if (date.isEqual(today)){
                     addDateRowInTransactionList(i, "Today");
-                } else if (date.equals(yesterday)){
+                } else if (date.isEqual(yesterday)){
                     addDateRowInTransactionList(i, "Yesterday");
                 } else{
-                    addDateRowInTransactionList(i,date);
+                    addDateRowInTransactionList(i,date.toString());
                 }
                 i++;
             }
@@ -101,18 +101,6 @@ public class HomeListViewFragment extends Fragment implements ModelObserver{
         }
     }
 
-    private String getYesterdaysDate(){
-        Calendar cal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        cal.add(Calendar.DATE, -1);
-        return dateFormat.format(cal.getTime());
-    }
-
-    private String getTodaysDate(){
-        Calendar cal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.format((cal.getTime()));
-    }
 
 
 
