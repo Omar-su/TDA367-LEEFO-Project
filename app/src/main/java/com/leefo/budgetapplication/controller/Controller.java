@@ -7,11 +7,10 @@ import com.leefo.budgetapplication.model.DataHandler;
 import com.leefo.budgetapplication.model.DatabaseInitializer;
 import com.leefo.budgetapplication.model.ObserverHandler;
 import com.leefo.budgetapplication.model.Transaction;
-import com.leefo.budgetapplication.view.ModelObserver;
+import com.leefo.budgetapplication.model.ModelObserver;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The Controller class represents the Controller in the Model-View-Controller pattern.

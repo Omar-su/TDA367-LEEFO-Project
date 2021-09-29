@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".view.HomeCategoryViewFragment">
+    tools:context=".view.fragments.HomeCategoryViewFragment">
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/pie_chart"

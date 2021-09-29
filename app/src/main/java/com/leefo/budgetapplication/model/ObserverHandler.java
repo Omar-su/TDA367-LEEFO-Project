@@ -1,7 +1,5 @@
 package com.leefo.budgetapplication.model;
 
-import com.leefo.budgetapplication.view.ModelObserver;
-
 import java.util.ArrayList;
 import java.util.List;
 

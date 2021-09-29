@@ -1,4 +1,4 @@
-package com.leefo.budgetapplication.view;
+package com.leefo.budgetapplication.view.fragments;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 
 import java.text.SimpleDateFormat;

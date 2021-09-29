@@ -13,9 +13,14 @@ import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.Transaction;
+import com.leefo.budgetapplication.view.fragments.BudgetFragment;
+import com.leefo.budgetapplication.view.fragments.HomeFragment;
+import com.leefo.budgetapplication.view.fragments.MoreFragment;
+import com.leefo.budgetapplication.view.fragments.NewCategoryFragment;
+import com.leefo.budgetapplication.view.fragments.NewTransactionFragment;
+import com.leefo.budgetapplication.view.fragments.SingleCategoryFragment;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 

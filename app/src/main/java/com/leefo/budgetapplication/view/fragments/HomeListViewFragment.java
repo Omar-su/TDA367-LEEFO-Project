@@ -1,4 +1,4 @@
-package com.leefo.budgetapplication.view;
+package com.leefo.budgetapplication.view.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,21 +12,17 @@ import androidx.fragment.app.Fragment;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.model.ModelObserver;
 import com.leefo.budgetapplication.model.Transaction;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * The class that represents the fragment for the list view inside the HomeFragment
  */
-public class HomeListViewFragment extends Fragment implements ModelObserver{
+public class HomeListViewFragment extends Fragment implements ModelObserver {
 
     ListView listView;
     ListViewAdapterHomeList adapter;

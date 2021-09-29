@@ -1,4 +1,4 @@
-package com.leefo.budgetapplication.view;
+package com.leefo.budgetapplication.view.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,6 +20,8 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.view.MainActivity;
+import com.leefo.budgetapplication.view.SharedViewData;
 import com.leefo.budgetapplication.view.adapters.CategoryViewListAdapter;
 
 import java.util.ArrayList;

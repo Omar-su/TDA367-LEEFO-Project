@@ -1,4 +1,4 @@
-package com.leefo.budgetapplication.view;
+package com.leefo.budgetapplication.view.fragments;
 
 import android.os.Bundle;
 
@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
