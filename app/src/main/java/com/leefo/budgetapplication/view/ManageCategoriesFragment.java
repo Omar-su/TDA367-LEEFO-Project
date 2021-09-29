@@ -33,7 +33,7 @@ public class ManageCategoriesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_manage_categories, container, false);
         radioGroup = view.findViewById(R.id.manage_categories_radioGroup);
         listView = view.findViewById(R.id.listView_manage_categories);
-        adapter = new ManageCategoriesListAdapter(getActivity().getApplicationContext(), Controller.getIncomeCategories());
+        adapter = new ManageCategoriesListAdapter(getActivity().getApplicationContext(), Controller.getExpenseCategories());
         listView.setAdapter(adapter);
         initRadioGroup();
         return view;
@@ -46,9 +46,9 @@ public class ManageCategoriesFragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.manage_categories_radio_expense){
-                    adapter = new ManageCategoriesListAdapter(getActivity().getApplicationContext(), Controller.getIncomeCategories());
-                } else {
                     adapter = new ManageCategoriesListAdapter(getActivity().getApplicationContext(), Controller.getExpenseCategories());
+                } else {
+                    adapter = new ManageCategoriesListAdapter(getActivity().getApplicationContext(), Controller.getIncomeCategories());
                 }
                 listView.setAdapter(adapter);
             }

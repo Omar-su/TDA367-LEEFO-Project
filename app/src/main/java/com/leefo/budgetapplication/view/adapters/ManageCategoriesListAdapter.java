@@ -41,7 +41,7 @@ public class ManageCategoriesListAdapter extends ArrayAdapter<Category> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row_category,
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row_manage_categories,
                     parent, false);
         }
 
