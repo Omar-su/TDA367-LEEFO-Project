@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -309,9 +310,13 @@ public class DataBaseManager extends SQLiteOpenHelper {
                 }
 
                 String year, month, day;
-                year = transactionDate.substring(1,4);
+                year = transactionDate.substring(0,4);
+                month = transactionDate.substring(5,7);
+                day = transactionDate.substring(8,10);
 
-                Transaction newTransaction = new Transaction(transactionAmount ,transactionDesc, transactionDate, category);
+                LocalDate date = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
+
+                Transaction newTransaction = new Transaction(transactionAmount ,transactionDesc, date, category);
                 returnList.add(newTransaction);
 
             }while (cursor.moveToNext());
