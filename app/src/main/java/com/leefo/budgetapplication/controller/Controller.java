@@ -133,6 +133,51 @@ public class Controller {
      * All parameters being null means all transactions will be retrieved.
      *
      * @param category Category that the transactions belong to, optional.
+     * @return A list of transactions specified by request.
+     */
+    public static List<Transaction> getTransactions(Category category)
+    {
+        TransactionRequest request = new TransactionRequest(category, null, null);
+
+        return dataHandler.searchTransactions(request);
+    }
+
+    /**
+     * Retrieves all transactions within the parameters of the TransactionRequest.
+     *
+     * All parameters being null means all transactions will be retrieved.
+     *
+     * @param month Month transactions were made, optional.
+     * @param year Year transactions were made, optional.
+     * @return A list of transactions specified by request.
+     */
+    public static List<Transaction> getTransactions(String month, String year)
+    {
+        TransactionRequest request = new TransactionRequest(null, month, year);
+
+        return dataHandler.searchTransactions(request);
+    }
+
+    /**
+     * Retrieves all transactions within the parameters of the TransactionRequest.
+     *
+     * All parameters being null means all transactions will be retrieved.
+     *
+     * @return A list of transactions specified by request.
+     */
+    public static List<Transaction> getTransactions()
+    {
+        TransactionRequest request = new TransactionRequest(null, null, null);
+
+        return dataHandler.searchTransactions(request);
+    }
+
+    /**
+     * Retrieves all transactions within the parameters of the TransactionRequest.
+     *
+     * All parameters being null means all transactions will be retrieved.
+     *
+     * @param category Category that the transactions belong to, optional.
      * @param month Month transactions were made, optional.
      * @param year Year transactions were made, optional.
      * @return A list of transactions specified by request.
@@ -154,6 +199,42 @@ public class Controller {
     public static float getTransactionSum(Category category, String month, String year)
     {
         TransactionRequest request = new TransactionRequest(category, month, year);
+
+        return dataHandler.getSum(request);
+    }
+
+    /**
+     * Gets sum of all transactions within parameters of the TransactionRequest.
+     * @return Sum of transactions.
+     */
+    public static float getTransactionSum()
+    {
+        TransactionRequest request = new TransactionRequest(null, null, null);
+
+        return dataHandler.getSum(request);
+    }
+
+    /**
+     * Gets sum of all transactions within parameters of the TransactionRequest.
+     * @param category Category that the transactions belong to, optional.
+     * @return Sum of transactions.
+     */
+    public static float getTransactionSum(Category category)
+    {
+        TransactionRequest request = new TransactionRequest(category, null, null);
+
+        return dataHandler.getSum(request);
+    }
+
+    /**
+     * Gets sum of all transactions within parameters of the TransactionRequest.
+     * @param month Month transactions were made.
+     * @param year Year transactions were made.
+     * @return Sum of transactions.
+     */
+    public static float getTransactionSum(String month, String year)
+    {
+        TransactionRequest request = new TransactionRequest(null, month, year);
 
         return dataHandler.getSum(request);
     }
