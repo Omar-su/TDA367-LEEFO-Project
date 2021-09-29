@@ -3,12 +3,10 @@ package com.leefo.budgetapplication.controller;
 import android.content.Context;
 
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.model.CategoryHandler;
 import com.leefo.budgetapplication.model.DataHandler;
 import com.leefo.budgetapplication.model.DatabaseInitializer;
 import com.leefo.budgetapplication.model.ObserverHandler;
 import com.leefo.budgetapplication.model.Transaction;
-import com.leefo.budgetapplication.model.TransactionHandler;
 import com.leefo.budgetapplication.view.ModelObserver;
 
 import java.util.ArrayList;
@@ -68,8 +66,8 @@ public class Controller {
      * @param name  The name of the new category.
      * @param color The color of the new category.
      */
-    public static void addNewCategory(String name, String color) {
-        Category newCategory = new Category(name, color);
+    public static void addNewCategory(String name, String color, boolean isIncome) {
+        Category newCategory = new Category(name, color, isIncome);
 
         dataHandler.addCategory(newCategory);
     }

@@ -19,11 +19,14 @@ public class Category {
      */
     private final String color;
 
+    private final boolean isIncome;
 
-    public Category(String name, String color)
+
+    public Category(String name, String color, boolean isIncome)
     {
         this.name = name;
         this.color = color;
+        this.isIncome = isIncome;
     }
 
 
@@ -71,4 +74,7 @@ public class Category {
         return color;
     }
 
+    public boolean isIncome() {
+        return isIncome;
+    }
 }
