@@ -137,13 +137,14 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param catColor The color of the category
      * @param catIsIncome Decides if the category is an income or an expense
      */
-    public void addCategory(String catName, String catColor, int catIsIncome){
+    public void addCategory(String catName, String catColor, boolean catIsIncome){
+        int i = catIsIncome ? 1 : 0;
 
         SQLiteDatabase db = instance.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(CATEGORY_NAME, catName);
         cv.put(CATEGORY_COLOR, catColor);
-        cv.put(CATEGORY_IS_INCOME, catIsIncome);
+        cv.put(CATEGORY_IS_INCOME, i);
         db.insert(CATEGORY_TABLE, null, cv);
         db.close();
     }
@@ -201,7 +202,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
                 String categoryName = cursor.getString(0);
                 String categoryColor = cursor.getString(1);
                 int categoryIsIncome = cursor.getInt(2);
-                Category newCategory = new Category(categoryName, categoryColor, categoryIsIncome); //TODO
+                boolean b = categoryIsIncome == 1;
+                Category newCategory = new Category(categoryName, categoryColor, b); //TODO
                 returnList.add(newCategory);
 
             }while (cursor.moveToNext());
@@ -217,7 +219,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * Gets a specific category from the database
      * @param CatName The name of the category that is wanted
      * @return returns the wanted category
-     */
+     */ /*
     public Category getCategoryByName(String CatName){
         initOtherCategory();
 
@@ -234,6 +236,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
         db.close();
         return category;
     }
+    */
 
 
 
@@ -281,7 +284,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @return Returns a list of all transactions in he database
      */
     public ArrayList<Transaction> getAllTransactions(){
-
+        ArrayList<Category> categories = getEveryCategory();
 
         ArrayList<Transaction> returnList = new ArrayList<>();
 
@@ -297,8 +300,14 @@ public class DataBaseManager extends SQLiteOpenHelper {
                 String transactionDesc = cursor.getString(2);
                 String transactionDate = cursor.getString(3);
                 String categoryFKName = cursor.getString(4);
+                Category category = new Category("", "", true);
+                for (Category c : categories){
+                    if (categoryFKName.equals(c.getName())){
+                        category = c;
+                    }
+                }
 
-                Transaction newTransaction = new Transaction(transactionID, transactionAmount ,transactionDesc, transactionDate, categoryFKName);
+                Transaction newTransaction = new Transaction(transactionAmount ,transactionDesc, transactionDate, category);
                 returnList.add(newTransaction);
 
             }while (cursor.moveToNext());
