@@ -62,13 +62,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void removeAllCategories(){
         for (Category c : Controller.getAllCategories()){
-            Controller.removeCategory(c.getId());
+            Controller.removeCategory(c);
         }
     }
 
     private void removeAllTransactions(){
-        for (Transaction t : Controller.getAllTransactions()){
-            Controller.removeTransaction(t.getId());
+        for (Transaction t : Controller.getTransactions(null, null, null)){
+            Controller.removeTransaction(t);
         }
     }
 

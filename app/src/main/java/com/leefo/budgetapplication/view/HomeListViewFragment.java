@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.Transaction;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
@@ -46,7 +47,7 @@ public class HomeListViewFragment extends Fragment implements ModelObserver{
         TextView noTransactoins1 = view.findViewById(R.id.noTransactionsYetText1);
         TextView noTransactoins2 = view.findViewById(R.id.noTransactionsYetText2);
 
-        transactions = Controller.getAllTransactions();
+        transactions = Controller.getTransactions();
 
 
 
@@ -64,15 +65,9 @@ public class HomeListViewFragment extends Fragment implements ModelObserver{
         return view;
     }
 
-    private void removeAll(){
-        for (Transaction t : transactions){
-            Controller.removeTransaction(t.getId());
-        }
-    }
-
 
     private void addDateRowInTransactionList(int index, String date){
-        transactions.add(index, new Transaction(0,0,"DATE", date, 0));
+        transactions.add(index, new Transaction(0,"DATE", date, new Category("", "", true)));
     }
 
     private void putDatesIntoTransactionList(){

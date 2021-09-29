@@ -127,7 +127,7 @@ public class NewTransactionFragment extends Fragment {
             amount = amount * -1;
         }
 
-        Controller.addNewTransaction(amount, description, date, category.getId());
+        Controller.addNewTransaction(amount, description, date, category);
     }
 
     /**
