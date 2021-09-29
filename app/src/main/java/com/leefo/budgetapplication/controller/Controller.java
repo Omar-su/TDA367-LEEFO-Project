@@ -135,7 +135,7 @@ public class Controller {
      * @param category Category that the transactions belong to, optional.
      * @return A list of transactions specified by request.
      */
-    public static List<Transaction> getTransactions(Category category)
+    public static ArrayList<Transaction> getTransactions(Category category)
     {
         TransactionRequest request = new TransactionRequest(category, null, null);
 
@@ -151,7 +151,7 @@ public class Controller {
      * @param year Year transactions were made, optional.
      * @return A list of transactions specified by request.
      */
-    public static List<Transaction> getTransactions(String month, String year)
+    public static ArrayList<Transaction> getTransactions(String month, String year)
     {
         TransactionRequest request = new TransactionRequest(null, month, year);
 
@@ -165,7 +165,7 @@ public class Controller {
      *
      * @return A list of transactions specified by request.
      */
-    public static List<Transaction> getTransactions()
+    public static ArrayList<Transaction> getTransactions()
     {
         TransactionRequest request = new TransactionRequest(null, null, null);
 
@@ -182,7 +182,7 @@ public class Controller {
      * @param year Year transactions were made, optional.
      * @return A list of transactions specified by request.
      */
-    public static List<Transaction> getTransactions(Category category, String month, String year)
+    public static ArrayList<Transaction> getTransactions(Category category, String month, String year)
     {
         TransactionRequest request = new TransactionRequest(category, month, year);
 
@@ -243,7 +243,7 @@ public class Controller {
      * Getter for all categories in model.
      * @return A list of categories.
      */
-    public static List<Category> getCategories()
+    public static ArrayList<Category> getCategories()
     {
         return dataHandler.getCategoryList();
     }

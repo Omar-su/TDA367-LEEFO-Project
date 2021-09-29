@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Class containing all observers who will be updated every time the model is changed.
  */
-public abstract class ObserverHandler {
+public class ObserverHandler {
 
     /**
      * Objects that will update when the model is changed.
@@ -27,7 +27,7 @@ public abstract class ObserverHandler {
     /**
      * Updates all observers.
      */
-    protected static void updateObservers()
+    public static void updateObservers()
     {
         for(ModelObserver observer : observers)
         {

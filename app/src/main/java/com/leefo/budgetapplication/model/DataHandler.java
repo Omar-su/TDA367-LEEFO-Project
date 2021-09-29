@@ -8,9 +8,9 @@ import java.util.List;
 
 public class DataHandler extends ObserverHandler {
 
-    private final List<Transaction> transactionList = new ArrayList<>();
+    private final ArrayList<Transaction> transactionList = new ArrayList<>();
 
-    private final List<Category> categoryList = new ArrayList<>();
+    private final ArrayList<Category> categoryList = new ArrayList<>();
 
     private  Category otherIncome = new Category( "Other income", "#13702A", true);
 
@@ -96,11 +96,11 @@ public class DataHandler extends ObserverHandler {
         }
     }
 
-    public List<Transaction> getTransactionList() {
+    public ArrayList<Transaction> getTransactionList() {
         return transactionList;
     }
 
-    public List<Category> getCategoryList() {
+    public ArrayList<Category> getCategoryList() {
         return categoryList;
     }
 
@@ -111,7 +111,7 @@ public class DataHandler extends ObserverHandler {
         return 0;
     }
 
-    public List<Transaction> searchTransactions(TransactionRequest request){
+    public ArrayList<Transaction> searchTransactions(TransactionRequest request){
 
         return null;
     }
