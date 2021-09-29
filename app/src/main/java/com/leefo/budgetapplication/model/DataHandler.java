@@ -114,7 +114,7 @@ public class DataHandler {
     //TODO implement these methods
 
     public float getSum(TransactionRequest request){
-        // not finished, just quick. for one category, every transaction. someone can redo this better
+        // not finished, just quick. for categories not cheked for time condition, every transaction. someone can redo this better
         Category category = request.getCategory();
         double sum = 0;
         for (Transaction t : searchTransactions(new TransactionRequest(category, null, null))){
@@ -124,10 +124,10 @@ public class DataHandler {
     }
 
     public ArrayList<Transaction> searchTransactions(TransactionRequest request){
-        if (!request.timeIsSpecified() && !request.categoryIsSpecified()){
+        if (!request.timeIsSpecified() && !request.categoryIsSpecified()){ // get all, no condition for category or time
             return getTransactionList();
         }
-        if (!request.timeIsSpecified() && request.categoryIsSpecified()){
+        if (!request.timeIsSpecified() && request.categoryIsSpecified()){ // get based on condition, no term for time
             Category category = request.getCategory();
             ArrayList<Transaction> transactions = new ArrayList<>();
             for (Transaction t : getTransactionList()){
