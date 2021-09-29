@@ -8,21 +8,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.Transaction;
-import com.leefo.budgetapplication.view.adapters.CategoryListAdapter;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class SingleCategoryFragment extends Fragment {
 

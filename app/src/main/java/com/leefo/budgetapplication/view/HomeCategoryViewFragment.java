@@ -20,8 +20,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.model.Transaction;
-import com.leefo.budgetapplication.view.adapters.CategoryListAdapter;
+import com.leefo.budgetapplication.view.adapters.CategoryViewListAdapter;
 
 import java.util.ArrayList;
 
@@ -32,7 +31,7 @@ public class HomeCategoryViewFragment extends Fragment {
 
     PieChart pieChart;
     ListView listView;
-    CategoryListAdapter adapter;
+    CategoryViewListAdapter adapter;
 
     /**
      * Method that runs when the fragment is being created.
@@ -67,7 +66,7 @@ public class HomeCategoryViewFragment extends Fragment {
                 notEmptyCategories.add(c);
             }
         }
-        adapter = new CategoryListAdapter(getActivity().getApplicationContext(),notEmptyCategories);
+        adapter = new CategoryViewListAdapter(getActivity().getApplicationContext(),notEmptyCategories);
         listView.setAdapter(adapter);
     }
 
