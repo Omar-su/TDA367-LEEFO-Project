@@ -308,6 +308,9 @@ public class DataBaseManager extends SQLiteOpenHelper {
                     }
                 }
 
+                String year, month, day;
+                year = transactionDate.substring(1,4);
+
                 Transaction newTransaction = new Transaction(transactionAmount ,transactionDesc, transactionDate, category);
                 returnList.add(newTransaction);
 

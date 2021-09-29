@@ -9,6 +9,7 @@ import com.leefo.budgetapplication.model.ObserverHandler;
 import com.leefo.budgetapplication.model.Transaction;
 import com.leefo.budgetapplication.view.ModelObserver;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,7 +102,7 @@ public class Controller {
      * @param date        The date the transaction was made.
      * @param category    Category of the new transaction.
      */
-    public static void addNewTransaction(float amount, String description, String date, Category category) {
+    public static void addNewTransaction(float amount, String description, LocalDate date, Category category) {
         Transaction newTransaction = new Transaction(amount, description, date, category);
 
         dataHandler.addTransaction(newTransaction);
@@ -112,7 +113,7 @@ public class Controller {
      *
      * @param oldTransaction Object of transaction to be changed.
      */
-    public static void editTransaction(Transaction oldTransaction, float newAmount, String newDesc, String newDate, Category newCategory){
+    public static void editTransaction(Transaction oldTransaction, float newAmount, String newDesc, LocalDate newDate, Category newCategory){
         Transaction newTransaction = new Transaction(newAmount, newDesc, newDate, newCategory);
 
         dataHandler.editTransaction(oldTransaction, newTransaction);

@@ -113,7 +113,7 @@ public class DataHandler {
 
     public ArrayList<Transaction> searchTransactions(TransactionRequest request){
 
-        return null;
+        return transactionList;
     }
     /*
     private void loadTransactionList(){
