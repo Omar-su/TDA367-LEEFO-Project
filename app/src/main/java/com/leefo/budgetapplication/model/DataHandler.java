@@ -129,7 +129,25 @@ public class DataHandler {
     }
 */
 
+    public ArrayList<Category> getIncomeCategories(){
+        ArrayList<Category> list = new ArrayList<>();
+        for (Category c : categoryList){
+            if (c.isIncome()){
+                list.add(c);
+            }
+        }
+        return list;
+    }
 
+    public ArrayList<Category> getExpenseCategories(){
+        ArrayList<Category> list = new ArrayList<>();
+        for (Category c : categoryList){
+            if (!c.isIncome()){
+                list.add(c);
+            }
+        }
+        return list;
+    }
 
 
 
