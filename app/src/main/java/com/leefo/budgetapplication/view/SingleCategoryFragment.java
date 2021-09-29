@@ -33,7 +33,7 @@ public class SingleCategoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_single_category, container, false);
 
         Category category = SharedViewData.singleCatgery;
-        list = Controller.searchTransactionsByMonthAndCategory("2021", "09", category.getId()); // TODO
+        list = Controller.getTransactions(category); // TODO
 
         TextView textView = view.findViewById(R.id.title_category);
         textView.setText(category.getName());
@@ -75,7 +75,7 @@ public class SingleCategoryFragment extends Fragment {
         }
     }
     private void addDateRowInTransactionList(int index, String date){
-        list.add(index, new Transaction(0,0,"DATE", date, 0));
+        list.add(index, new Transaction(0,"DATE", date, new Category("", "", true)));
     }
 
     private String getYesterdaysDate(){

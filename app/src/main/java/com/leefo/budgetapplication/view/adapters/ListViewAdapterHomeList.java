@@ -55,7 +55,7 @@ public class ListViewAdapterHomeList extends ArrayAdapter<Transaction> {
             // The Transaction object in the list
             Transaction transaction = getItem(position);
             // The transaction's category
-            Category categoryObject = Controller.getCategoryFromId(transaction.getCategoryId());
+            Category categoryObject = transaction.getCategory();
 
             // get views
             TextView amount = convertView.findViewById(R.id.amount);

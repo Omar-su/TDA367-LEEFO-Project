@@ -63,7 +63,7 @@ public class HomeCategoryViewFragment extends Fragment {
     private void initList(){
         ArrayList<Category> notEmptyCategories = new ArrayList<>();
         for (Category c : Controller.getAllCategories()){
-            if (!Controller.searchTransactionsByMonthAndCategory("2021", "09", c.getId()).isEmpty()){ // TODO fix time period
+            if (!Controller.getTransactions(c).isEmpty()){
                 notEmptyCategories.add(c);
             }
         }
@@ -97,7 +97,7 @@ public class HomeCategoryViewFragment extends Fragment {
                 }
             }
              */
-            sum = Controller.getCategorySumByMonth(c.getId(), "2021", "09"); // TODO dates
+            sum = Controller.getTransactionSum(c); // TODO dates
             if (sum != 0){
                 entries.add(new PieEntry((float)(sum*-1),c.getName()));
                 myColors.add(Color.parseColor(c.getColor()));
