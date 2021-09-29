@@ -5,17 +5,15 @@ import androidx.annotation.NonNull;
 
 /**
 * Immutable container class for transaction data.
+ *
+ * @author Linus Lundgren
 * */
 public class Transaction {
 
     /**
-     * Unique id assigned in database.
-     */
-    private final int id;
-    /**
      * Id of the category that the transaction belongs to.
      */
-    private final int categoryId;
+    private final Category category;
     /**
      * Date that the transaction occurred.
      */
@@ -24,55 +22,37 @@ public class Transaction {
      * Total currency amount handled by the transaction.
      */
     private final double amount;
-
     /**
      * Description for transaction, optional.
      */
     private final String description;
 
-    public Transaction(int id, double amount, String description, String date, int categoryId)
+    public Transaction(double amount, String description, String date, Category category)
     {
-        this.id = id;
         this.amount = amount;
         this.description = description;
         this.date = date;
-        this.categoryId = categoryId;
+        this.category = category;
     }
 
 
 
     // ---------
 
-    /**
-     * Compares two transactions.
-     * @param compare Transaction to compare to.
-     * @return True if the transaction id is the same.
-     */
-    public boolean Equals(Transaction compare)
-    {
-        return compare.getId() == id;
-    }
-
     @NonNull
     @Override
     public String toString()
     {
-        return "" + id + " : " + amount + ", date : " + date;
+        return "" + date + ", " + category.getName() + ": " + amount + " | " + description;
     }
-
-
 
 
     // GETTERS ------
 
-    public int getId()
-    {
-        return id;
-    }
 
-    public int getCategoryId()
+    public Category getCategory()
     {
-        return categoryId;
+        return category;
     }
 
     public String getDate()
@@ -84,7 +64,6 @@ public class Transaction {
     {
         return amount;
     }
-
 
     public String getDescription()
     {

@@ -30,8 +30,8 @@ import java.util.Locale;
 public class NewTransactionFragment extends Fragment {
 
     private EditText amountInput, descriptionInput, dateInput;
-    private Spinner categorySpinner;
     private Button saveButton;
+    private Spinner categorySpinner;
     private RadioGroup radioGroup;
 
     final Calendar myCalendar = Calendar.getInstance();
@@ -44,15 +44,14 @@ public class NewTransactionFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-         view = inflater.inflate(R.layout.fragment_new_transaction, container, false);
-
+        view = inflater.inflate(R.layout.fragment_new_transaction, container, false);
 
         // get views
-        categorySpinner = view.findViewById(R.id.spinner_categoty);
-        amountInput = view.findViewById(R.id.amountInput);
+        categorySpinner = view.findViewById(R.id.spinner_category);
+        amountInput = view.findViewById(R.id.edit_category_name_input);
         descriptionInput = view.findViewById(R.id.descriptionInput);
         dateInput = view.findViewById(R.id.dateInput);
-        saveButton = view.findViewById(R.id.saveButton);
+        saveButton = view.findViewById(R.id.edit_category_save_button);
         radioGroup = view.findViewById(R.id.radioGroup);
 
         // init category spinner
@@ -113,7 +112,7 @@ public class NewTransactionFragment extends Fragment {
             return;
         }
         addTransaction();
-        ((MainActivity)getActivity()).closeNewtransactionFragment(view);
+        ((MainActivity)getActivity()).openHomeFragment(view);
 
     }
 

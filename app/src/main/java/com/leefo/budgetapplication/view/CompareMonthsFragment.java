@@ -19,6 +19,9 @@ import com.leefo.budgetapplication.R;
 
 import java.util.ArrayList;
 
+/**
+ * The class that represents the fragment for compare months
+ */
 public class CompareMonthsFragment extends Fragment {
 
     BarChart mpBarChart;
@@ -27,11 +30,11 @@ public class CompareMonthsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_compare_months, container, false);
         mpBarChart = view.findViewById(R.id.barChart);
-        showMonthVsMonth();
+        compareTwoMonths();
         return view;
     }
 
-    private void showMonthVsMonth(){
+    private void compareTwoMonths() {
         BarDataSet barDataSet1 = new BarDataSet(foodEntries(), "DataSet 1");
         barDataSet1.setColor(Color.RED);
         BarDataSet barDataSet2 = new BarDataSet(restaurantEntries(), "DataSet 2");
@@ -41,14 +44,13 @@ public class CompareMonthsFragment extends Fragment {
         BarDataSet barDataSet4 = new BarDataSet(alcoholEntries(), "DataSet 4");
         barDataSet4.setColor(Color.GREEN);
 
-        BarData data = new BarData(barDataSet1, barDataSet2);
-
+        BarData data = new BarData(barDataSet1, barDataSet2, barDataSet3, barDataSet4);
         mpBarChart.setData(data);
         mpBarChart.getDescription().setEnabled(false);
         mpBarChart.getLegend().setEnabled(false);
 
         String[] days = new String[]{
-                "August 2021", "September 2021"
+                "January", "February"
         };
         XAxis xAxis = mpBarChart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(days));
@@ -87,13 +89,15 @@ public class CompareMonthsFragment extends Fragment {
         ArrayList<BarEntry> barEntries = new ArrayList<>();
         barEntries.add(new BarEntry(1,900));
         barEntries.add(new BarEntry(2,631));
+
         return barEntries;
     }
 
     private ArrayList<BarEntry> houseRentEntries(){
         ArrayList<BarEntry> barEntries = new ArrayList<>();
-        barEntries.add(new BarEntry(1, 5900));
-        barEntries.add(new BarEntry(2, 5900));
+        for(int i = 1; i <= 2; i++){
+            barEntries.add(new BarEntry(i, 5900));
+        }
         return barEntries;
     }
 
@@ -101,8 +105,8 @@ public class CompareMonthsFragment extends Fragment {
         ArrayList<BarEntry> barEntries = new ArrayList<>();
         barEntries.add(new BarEntry(1,100));
         barEntries.add(new BarEntry(2,291));
+
         return barEntries;
     }
-
 
 }

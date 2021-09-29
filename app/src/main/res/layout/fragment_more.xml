@@ -21,27 +21,41 @@
         app:layout_constraintVertical_bias="0.05" />
 
     <Button
-        android:id="@+id/edit_category_button"
+        android:id="@+id/compare_month_button"
         android:layout_width="140dp"
         android:layout_height="100dp"
-        android:layout_marginTop="80dp"
-        android:text="Edit \n Categories"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="40dp"
+        android:text="Compare \n Months"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.199"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/compare_month_button"
-        android:layout_width="118dp"
+        android:id="@+id/edit_category_button"
+        android:layout_width="140dp"
         android:layout_height="100dp"
-        android:layout_marginTop="80dp"
-        android:text="Compare \n Months"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/edit_category_button"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="Edit \n Categories"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/new_category_button"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/new_category_button"
+        app:layout_constraintTop_toBottomOf="@+id/new_category_button"
+        app:layout_constraintVertical_bias="0.105" />
+
+    <Button
+        android:id="@+id/new_category_button"
+        android:layout_width="140dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="40dp"
+        android:text="New \n Category"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/compare_month_button" />
+
     <FrameLayout
         android:id="@+id/FrameLayout_more"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="75dp"
+        tools:layout_editor_absoluteY="0dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

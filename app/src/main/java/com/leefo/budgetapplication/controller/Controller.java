@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.CategoryHandler;
+import com.leefo.budgetapplication.model.DataHandler;
 import com.leefo.budgetapplication.model.DatabaseInitializer;
 import com.leefo.budgetapplication.model.ObserverHandler;
 import com.leefo.budgetapplication.model.Transaction;
@@ -11,25 +12,21 @@ import com.leefo.budgetapplication.model.TransactionHandler;
 import com.leefo.budgetapplication.view.ModelObserver;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Controller class represents the Controller in the Model-View-Controller pattern.
  * The class responsibility is to listen to the View and respond by modifying the model and updating
  * the view.
  *
- * @author Felix Edholm
+ * @author Felix Edholm, Linus Lundgren
  */
 public class Controller {
 
     /**
-     * The handler for transaction modification and retrieval.
+     * Object handling logic for all transactions and categories.
      */
-    private static TransactionHandler transactionHandler;
-
-    /**
-     * The handler for category modification and retrieval.
-     */
-    private static CategoryHandler categoryHandler;
+    private static DataHandler dataHandler;
 
 
 
@@ -41,8 +38,7 @@ public class Controller {
     {
         DatabaseInitializer.InitializeDatabase(context);
 
-        transactionHandler = new TransactionHandler();
-        categoryHandler = new CategoryHandler();
+        dataHandler = new DataHandler();
     }
 
     /**
@@ -58,12 +54,11 @@ public class Controller {
      * Edits the name and color of a category with the given id. Color must be a String of a hexadecimal
      * color code with the format: #XXXXXX.
      *
-     * @param id    The id of the category to be edited.
-     * @param name  The new name of the category.
-     * @param color The new color of the category.
+     * @param oldCategory Object of category to be changed.
+     * @param newCategory Updated category.
      */
-    public static void editCategoryInfo(int id, String name, String color, boolean isIncome) {
-        categoryHandler.editCategory(id, name, color, isIncome);
+    public static void editCategoryInfo(Category oldCategory, Category newCategory) {
+        dataHandler.editCategory(oldCategory, newCategory);
     }
 
     /**
@@ -73,8 +68,10 @@ public class Controller {
      * @param name  The name of the new category.
      * @param color The color of the new category.
      */
-    public static void addNewCategory(String name, String color, boolean isIncome) {
-        categoryHandler.addCategory(name, color, isIncome);
+    public static void addNewCategory(String name, String color) {
+        Category newCategory = new Category(name, color);
+
+        dataHandler.addCategory(newCategory);
     }
 
 
@@ -82,10 +79,10 @@ public class Controller {
      * Removes category with the given id from the database. Transactions under the removed category
      * are automatically moved to the Other category.
      *
-     * @param id The id of the category to be removed.
+     * @param category category to removed
      */
-    public static void removeCategory(int id) {
-        categoryHandler.removeCategory(id);
+    public static void removeCategory(Category category) {
+        dataHandler.deleteCategory(category);
     }
 
     /**
@@ -94,7 +91,7 @@ public class Controller {
      * @return a list of all the categories in the database.
      */
     public static ArrayList<Category> getAllCategories() {
-        return categoryHandler.getEveryCategory();
+        return (ArrayList<Category>) dataHandler.getCategoryList();
     }
 
     /**
@@ -103,77 +100,51 @@ public class Controller {
      * @param amount      The amount of the transaction.
      * @param description A description of the transaction
      * @param date        The date the transaction was made.
-     * @param categoryId  The id for the category of the added transaction.
+     * @param category    Category of the new transaction.
      */
-    public static void addNewTransaction(float amount, String description, String date, int categoryId) {
-        transactionHandler.addTransaction(amount, description, date, categoryId);
+    public static void addNewTransaction(float amount, String description, String date, Category category) {
+        Transaction newTransaction = new Transaction(amount, description, date, category);
+
+        dataHandler.addTransaction(newTransaction);
     }
 
     /**
      * Edits the information of a transaction with the given Id.
      *
-     * @param id The id of the transaction to be edited.
-     * @param amount The new amount of the transaction.
-     * @param description The new description of the transaction.
-     * @param date The new date of the transaction.
-     * @param CatId The new id for the transactions category.
+     * @param oldTransaction Object of transaction to be changed.
+     * @param newTransaction Updated transaction.
      */
-    public static void editTransactionInfo(int id, int amount, String description, String date, int CatId){
-        transactionHandler.editTransaction(id, amount, description, date, CatId);
+    public static void editTransaction(Transaction oldTransaction, Transaction newTransaction){
+        dataHandler.editTransaction(oldTransaction, newTransaction);
     }
 
     /**
      * Removes transaction with the given id from the database.
      *
-     * @param transId The id of the transaction to be removed.
+     * @param transaction Transaction to be removed.
      */
-    public static void removeTransaction(int transId){
-        transactionHandler.removeTransaction(transId);
+    public static void removeTransaction(Transaction transaction){
+        dataHandler.deleteTransaction(transaction);
     }
 
     /**
-     * Gets a list of every transaction in the database.
-     * @return List of every transaction in the database.
+     * Retrieves all transactions within the parameters of the TransactionRequest.
+     * @param request Specifies what transactions should be returned.
+     * @return A list of transactions specified by request.
      */
-    public static ArrayList<Transaction> getAllTransactions(){
-        return transactionHandler.getAllTransactions();
+    public List<Transaction> getTransactions(TransactionRequest request)
+    {
+        return dataHandler.searchTransactions(request);
     }
 
     /**
-     * Returns a list of transactions made in a given year and month.
-     *
-     * @param year  The year the transactions were made.
-     * @param month The month the transactions were made.
-     * @return A list with transactions made in the given year and month.
+     * Gets sum of all transactions within parameters of the TransactionRequest.
+     * @param request Specifies what transactions should be added to sum.
+     * @return Sum of transactions.
      */
-    public static ArrayList<Transaction> searchTransactionsByMonth(String year, String month) {
-        return transactionHandler.searchByMonth(year, month);
-    }
-
-    /**
-     * Returns a list of transactions made in a given year and month filtered by a specific
-     * category
-     *
-     * @param year       The year the transactions were made.
-     * @param month      The month the transactions were made.
-     * @param categoryId The id of the category to filter by.
-     * @return A list with the transactions made in the given year and month filtered by category.
-     */
-    public static ArrayList<Transaction> searchTransactionsByMonthAndCategory(String year, String month, int categoryId) {
-        return transactionHandler.searchByMonthAndCategory(year, month, categoryId);
-    }
-
-    /**
-     * Gets the category corresponding to a given category id.
-     * @param id id of the category wished to get.
-     * @return the Category corresponding to the given id.
-     */
-    public static Category getCategoryFromId(int id){
-        return categoryHandler.getCategoryFromId(id);
-    }
-
-    public static double getCategorySumByMonth(int id, String year, String month){
-        return transactionHandler.getCategorySumByMonth(id, year, month);
+    public float getTransactionSum(TransactionRequest request)
+    {
+        return dataHandler.getSum(request);
     }
 
 }
