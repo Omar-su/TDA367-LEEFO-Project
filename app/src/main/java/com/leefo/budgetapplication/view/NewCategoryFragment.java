@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 
-//import yuku.ambilwarna.AmbilWarnaDialog;
+import yuku.ambilwarna.AmbilWarnaDialog;
 
 /**
  * The class that represents the fragment for adding a new category
@@ -45,13 +45,13 @@ public class NewCategoryFragment extends Fragment {
         defaultColor = ContextCompat.getColor(getContext(), R.color.design_default_color_primary);
 
         // init save button onClick
-        //initSaveButtonOnClickListener();
-        //initChangeColorButtonOnClickListener();
+        initSaveButtonOnClickListener();
+        initChangeColorButtonOnClickListener();
 
 
         return view;
     }
-    /*
+
 
     private void initSaveButtonOnClickListener(){
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -72,8 +72,8 @@ public class NewCategoryFragment extends Fragment {
     }
 
 
-     */
-/*
+
+
     private void openColorPicker(){
         AmbilWarnaDialog ambilWarnaDialog = new AmbilWarnaDialog(getContext(), defaultColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
             @Override
@@ -102,7 +102,7 @@ public class NewCategoryFragment extends Fragment {
     private void addCategory(){
         String name = nameInput.getText().toString();
         String color = "#" + Integer.toHexString(defaultColor);
-        Controller.addNewCategory(name, color);
+        Controller.addNewCategory(name, color, true); // TODO
     }
 
     //Method to make a Toast. Use to test
@@ -113,5 +113,5 @@ public class NewCategoryFragment extends Fragment {
         t.show();
     }
 
- */
+
 }
