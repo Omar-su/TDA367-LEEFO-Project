@@ -248,7 +248,7 @@ public class TransactionModel {
      */
     public float getTotalExpense(TransactionRequest request){
         float expense = 0;
-        for (Category c : getIncomeCategories()){
+        for (Category c : getExpenseCategories()){
             request.setCategory(c);
             expense = expense + getTransactionSum(request);
         }
