@@ -83,18 +83,6 @@ public class EditTransactionFragment extends Fragment {
     }
 
     private void setOldTranscactionValues(FinancialTransaction transaction){
-        /*
-         boolean isExpense = radioGroup.getCheckedRadioButtonId() == R.id.radioExpense;
-        String description = noteInput.getText().toString();
-        float amount = Float.parseFloat(amountInput.getText().toString());
-        Category category = (Category) categorySpinner.getSelectedItem();
-        LocalDate date = myCalendar.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // convert Date to LocalDate
-
-        if (isExpense){
-            amount = amount * -1;
-        }
-        Controller.editTransaction(oldTransaction, amount, description, date, category );
-         */
         noteInput.setText(transaction.getDescription());
         amountInput.setText(Float.toString(transaction.getAmount()));
         Category oldCateory = transaction.getCategory();
@@ -104,7 +92,20 @@ public class EditTransactionFragment extends Fragment {
         } else {
             radioGroup.check(R.id.edit_transaction_radioExpense);
         }
+        if (oldCateory.isIncome()){
+            ArrayList<Category> newIncomeList = new ArrayList<>(income);
+            newIncomeList.remove(oldCateory);
+            newIncomeList.add(0, oldCateory);
+            SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), newIncomeList);
+            categorySpinner.setAdapter(spinnerAdapter);
 
+        } else {
+            ArrayList<Category> newExpenseList = new ArrayList<>(expense);
+            newExpenseList.remove(oldCateory);
+            newExpenseList.add(0, oldCateory);
+            SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), newExpenseList);
+            categorySpinner.setAdapter(spinnerAdapter);
+        }
 
     }
 
@@ -172,6 +173,7 @@ public class EditTransactionFragment extends Fragment {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateDateLabel();
             }
         };
 
@@ -181,7 +183,7 @@ public class EditTransactionFragment extends Fragment {
                 new DatePickerDialog(getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-        updateDateLabel();
+
 
     }
 
