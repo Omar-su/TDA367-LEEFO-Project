@@ -77,15 +77,8 @@ public class EditTransactionFragment extends Fragment {
 
     private void initSpinner(){
         ArrayList<Category> income, expense;
-        income = new ArrayList<>();
-        expense = new ArrayList<>();
-        for (Category c : Controller.getAllCategories()){
-            if (c.isIncome()){
-                income.add(c);
-            } else {
-                expense.add(c);
-            }
-        }
+        income = Controller.getIncomeCategories();
+        expense = Controller.getExpenseCategories();
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), expense);
         categorySpinner.setAdapter(spinnerAdapter);
 
