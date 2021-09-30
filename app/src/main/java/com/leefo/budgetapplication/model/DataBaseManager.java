@@ -36,7 +36,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
         for (Category c : categories){
             if (c.getName().equals("Other")) return;
         }
-        addCategory("Other", "#8A9094", true);
+        saveData(new Category("Other", "#8A9094", true));
     }
 
 
@@ -93,6 +93,10 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
     }
 
+    /**
+     * Saves a financial transactions information in the database
+     * @param transaction Transaction to be saved.
+     */
     public void saveData(FinancialTransaction transaction)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -107,6 +111,10 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
     }
 
+    /**
+     * Saves the categories information in the database
+     * @param category Category to be saved.
+     */
     public void saveData(Category category)
     {
         int i = category.isIncome() ? 1 : 0;
@@ -120,12 +128,17 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
         db.close();
     }
 
+    /**
+     * Removes a certain financial transaction information from the database
+     * Removes only one row at a time
+     * @param transaction Transaction to be removed.
+     */
     public void removeData(FinancialTransaction transaction)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        String sql = "DELETE FROM " + TRANSACTIONS_TABLE + " WHERE " + TRANSACTIONS_DESC + " = " + transaction.getDescription()
-                    + TRANSACTION_DATE + " = " + transaction.getDate().toString() + TRANSACTION_AMOUNT + " = " + transaction.getAmount()
-                    + CATEGORY_FK_NAME + " = " + transaction.getCategory() + " LIMIT 1";
+        String sql = "DELETE FROM " + TRANSACTIONS_TABLE + " WHERE " + TRANSACTIONS_DESC + " = '" + transaction.getDescription() + "' AND "
+                    + TRANSACTION_DATE + " = '" + transaction.getDate().toString() + "' AND " + TRANSACTION_AMOUNT + " = " + transaction.getAmount() + " AND "
+                    + CATEGORY_FK_NAME + " = '" + transaction.getCategory() + "' LIMIT 1";
 
 
         db.execSQL(sql);
@@ -133,87 +146,40 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
     }
 
+    /**
+     * Removes a certain removable category's information from the database
+     * @param category Category to be removed.
+     */
     public void removeData(Category category)
     {
-
-    }
-
-    /**
-     * Adds a transaction into the database
-     * @param description The description of the transaction
-     * @param amount The amount of money spent or earned
-     * @param date The date the transaction was made
-     * @param categoryName Which category name the transaction relates to
-     */
-    public void saveTransaction(String description, float amount, String date, int categoryName ){
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(TRANSACTIONS_DESC, description);
-        cv.put(TRANSACTION_AMOUNT, amount);
-        cv.put(TRANSACTION_DATE, date);
-        cv.put(CATEGORY_FK_NAME, categoryName);
-
-        db.insert(TRANSACTIONS_TABLE, null, cv);
-        db.close();
-    }
-
-    /**
-     * Adds a category into the database
-     * @param catName The name of the category
-     * @param catColor The color of the category
-     * @param catIsIncome Decides if the category is an income or an expense
-     */
-    public void addCategory(String catName, String catColor, boolean catIsIncome){
-        int i = catIsIncome ? 1 : 0;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(CATEGORY_NAME, catName);
-        cv.put(CATEGORY_COLOR, catColor);
-        cv.put(CATEGORY_IS_INCOME, i);
-        db.insert(CATEGORY_TABLE, null, cv);
-        db.close();
-    }
-
-
-    /**
-     * Deletes a specific transaction from the database
-     * @param transId The transaction id needed to know which category to delete
-     */
-    public void deleteTransaction(int transId){
-        SQLiteDatabase db = this.getWritableDatabase();
-        String sql = "DELETE FROM " + TRANSACTIONS_TABLE + " WHERE " + TRANSACTIONS_ID + " = " + transId;
-        db.execSQL(sql);
-        db.close();
-    }
-
-
-    /**
-     * Deletes a specific category from the database and calls a method
-     * that changes the category id of all transactions with the same category id.
-     * @param catName The category name needed to know which category to delete
-     */
-    public void deleteCategory(String catName){
         initOtherCategory();
         SQLiteDatabase db = this.getWritableDatabase();
-        if ("Other".equals(catName)) return; // you cannot remove the category called Other
-        String sql = "DELETE FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_NAME + " = " + catName;
-        updateTransactionCatID(catName, db); // updates the transactions which category was deleted to the "Other" category ID
+        if ("Other".equals(category.getName())) return; // you cannot remove the category called Other
+        String sql = "DELETE FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_NAME + " = '" + category.getName() + "'";
+        updateTransactionCatName(category.getName(), db); // updates the transactions which category was deleted to the "Other" category ID
         db.execSQL(sql);
         db.close();
+
     }
 
 
-    private void updateTransactionCatID(String catName, SQLiteDatabase db) {
-        String sql = " UPDATE "+ TRANSACTIONS_TABLE + " SET "+ CATEGORY_FK_NAME + " =  'Other'" + " WHERE " + CATEGORY_FK_NAME + " = " + catName;
+    /**
+     * Updates the transaction tale when deleting a category and checks and changes the category name
+     * associated with the transaction if there exists to the default category which is Other
+     * @param catName
+     * @param db
+     */
+    private void updateTransactionCatName(String catName, SQLiteDatabase db) {
+        String sql = " UPDATE "+ TRANSACTIONS_TABLE + " SET "+ CATEGORY_FK_NAME + " =  'Other'" + " WHERE " + CATEGORY_FK_NAME + " = '" + catName + "'";
         db.execSQL(sql);
     }
+
+
 
 
     /**
      * Created all categories that are in the database
-     * @return Returns a list of all category objects in the database
+     * @return Returns a list of all categories's information in the database as category objects
      */
     public ArrayList<Category> getCategories(){
 
