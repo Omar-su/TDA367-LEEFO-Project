@@ -4,16 +4,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.ModelObserver;
 import com.leefo.budgetapplication.model.FinancialTransaction;
+import com.leefo.budgetapplication.view.MainActivity;
+import com.leefo.budgetapplication.view.SharedViewData;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
 import java.time.LocalDate;
@@ -58,6 +62,13 @@ public class HomeListViewFragment extends Fragment implements ModelObserver {
             listView.setAdapter(adapter);
         }
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ((MainActivity)getActivity()).openEditTransactionFragment();
+                SharedViewData.singleTransaction = (FinancialTransaction) adapterView.getItemAtPosition(i);
+            }
+        });
 
         return view;
     }

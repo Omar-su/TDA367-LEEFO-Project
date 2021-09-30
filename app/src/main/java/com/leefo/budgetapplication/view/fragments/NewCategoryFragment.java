@@ -10,11 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.view.MainActivity;
+import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -28,6 +30,9 @@ public class NewCategoryFragment extends Fragment {
     private Button changeColorButton;
     private int defaultColor;
     private View view;
+    private RadioGroup radioGroup;
+
+
 
     /**
      * Method that runs when the fragment is being created.
@@ -42,6 +47,9 @@ public class NewCategoryFragment extends Fragment {
         saveButton = view.findViewById(R.id.new_category_save_button);
         nameInput = view.findViewById(R.id.new_category_name_input);
         changeColorButton = view.findViewById(R.id.new_category_change_color_button);
+        radioGroup = view.findViewById(R.id.new_category_radio_group);
+
+
 
         defaultColor = ContextCompat.getColor(getContext(), R.color.design_default_color_primary);
 
@@ -52,6 +60,7 @@ public class NewCategoryFragment extends Fragment {
 
         return view;
     }
+
 
 
     private void initSaveButtonOnClickListener(){
@@ -101,9 +110,10 @@ public class NewCategoryFragment extends Fragment {
     }
 
     private void addCategory(){
+        boolean isIncome = radioGroup.getCheckedRadioButtonId() == R.id.new_category_radio_income;
         String name = nameInput.getText().toString();
         String color = "#" + Integer.toHexString(defaultColor);
-        Controller.addNewCategory(name, color, true); // TODO
+        Controller.addNewCategory(name, color, isIncome);
     }
 
     //Method to make a Toast. Use to test

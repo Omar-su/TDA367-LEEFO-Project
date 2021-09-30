@@ -28,7 +28,7 @@ public class SingleCategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_single_category, container, false);
 
-        Category category = SharedViewData.singleCatgery;
+        Category category = SharedViewData.singleCategory;
         list = Controller.getTransactions(category); // TODO
 
         TextView textView = view.findViewById(R.id.title_category);
