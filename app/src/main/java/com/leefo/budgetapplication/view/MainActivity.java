@@ -14,6 +14,8 @@ import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.fragments.BudgetFragment;
+import com.leefo.budgetapplication.view.fragments.EditCategoryFragment;
+import com.leefo.budgetapplication.view.fragments.EditTransactionFragment;
 import com.leefo.budgetapplication.view.fragments.HomeFragment;
 import com.leefo.budgetapplication.view.fragments.MoreFragment;
 import com.leefo.budgetapplication.view.fragments.NewCategoryFragment;
@@ -118,6 +120,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void openSingleCategoryFragment(){
         openFragmentInMainFrameLayout(new SingleCategoryFragment());
+    }
+
+    public void openEditTransactionFragment(){
+        openFragmentInMainFrameLayout(new EditTransactionFragment());
+        bottomNav.setVisibility(View.GONE);
     }
 
     private void initBottomNavigationOnClick(){

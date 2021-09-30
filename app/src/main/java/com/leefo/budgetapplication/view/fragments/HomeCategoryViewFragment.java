@@ -54,7 +54,7 @@ public class HomeCategoryViewFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 ((MainActivity)getActivity()).openSingleCategoryFragment();
-                SharedViewData.singleCatgery = (Category) adapterView.getItemAtPosition(i);
+                SharedViewData.singleCategory = (Category) adapterView.getItemAtPosition(i);
             }
         });
 
