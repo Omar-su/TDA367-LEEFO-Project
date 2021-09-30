@@ -183,7 +183,7 @@ public class TransactionModel {
         if (!request.timeIsSpecified() && !request.categoryIsSpecified()){ // get all, no condition for category or time
             return getTransactionList();
         }
-        if (!request.timeIsSpecified() && request.categoryIsSpecified()){ // get based on condition, no term for time
+        if (!request.timeIsSpecified() && request.categoryIsSpecified()){ // get based on category, no term for time
             Category category = request.getCategory();
             ArrayList<FinancialTransaction> transactions = new ArrayList<>();
             for (FinancialTransaction t : getTransactionList()){
@@ -265,20 +265,21 @@ public class TransactionModel {
         return getTotalIncome(request) + getTotalExpense(request);
     }
 
+    // dataBase methods ----
     private void saveTransactionToDatabase(FinancialTransaction transaction){
-        database.saveData(transaction);
+        //database.saveData(transaction);
     }
 
     private void saveCategoryToDatabase(Category category){
-        database.saveData(category);
+        //database.saveData(category);
     }
 
     private void deleteTransactionFromDatabase(FinancialTransaction transaction){
-        database.removeData(transaction);
+        //database.removeData(transaction);
     }
 
     private void deleteCategoryFromDatabase(Category category){
-        database.removeData(category);
+        //database.removeData(category);
     }
 
 
