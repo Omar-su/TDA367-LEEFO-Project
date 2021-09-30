@@ -255,4 +255,35 @@ public class Controller {
     public static ArrayList<Category> getExpenseCategories(){
         return transactionModel.getExpenseCategories();
     }
+
+    public static double getTotalIncome(String month, String year){
+        TransactionRequest request = new TransactionRequest(null, month, year);
+        return transactionModel.getTotalIncome(request);
+    }
+
+    public static double getTotalIncome(){
+        TransactionRequest request = new TransactionRequest(null, null, null);
+        return transactionModel.getTotalIncome(request);
+    }
+
+    public static double getTotalExpense(String month, String year){
+        TransactionRequest request = new TransactionRequest(null, month, year);
+        return transactionModel.getTotalExpense(request);
+    }
+
+    public static double getTotalExpense(){
+        TransactionRequest request = new TransactionRequest(null, null, null);
+        return transactionModel.getTotalExpense(request);
+    }
+
+    public static double getTransactionBalance(String month, String year){
+        TransactionRequest request = new TransactionRequest(null, month, year);
+        return transactionModel.getTransactionBalance(request);
+    }
+
+    public static double getTransactionBalance(){
+        TransactionRequest request = new TransactionRequest(null, null, null);
+        return transactionModel.getTransactionBalance(request);
+    }
+
 }
