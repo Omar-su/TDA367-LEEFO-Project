@@ -162,11 +162,11 @@ public class TransactionModel {
     public float getTransactionSum(TransactionRequest request){
         // not finished i think, just wrote this quick.
 
-        double sum = 0;
+        float sum = 0;
         for (FinancialTransaction t : searchTransactions(request)){
             sum = sum + t.getAmount();
         }
-        return (float)sum;
+        return sum;
     }
 
     public ArrayList<FinancialTransaction> searchTransactions(TransactionRequest request){
