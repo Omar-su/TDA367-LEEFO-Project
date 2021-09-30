@@ -64,7 +64,7 @@ public class HomeCategoryViewFragment extends Fragment {
     private void initList(){
         ArrayList<Category> notEmptyCategories = new ArrayList<>();
         for (Category c : Controller.getAllCategories()){
-            if (!Controller.getTransactions(c).isEmpty()){
+            if (!Controller.getTransactions(c).isEmpty() && !c.isIncome()){
                 notEmptyCategories.add(c);
             }
         }
@@ -90,18 +90,12 @@ public class HomeCategoryViewFragment extends Fragment {
 
         double sum = 0;
         for(Category c :  Controller.getAllCategories()){
-            /*
-            sum = 0;
-            for(Transaction t : Controller.getAllTransactions()){
-                if(t.getCategoryId() == c.getId()){
-                    sum += t.getAmount();
+            if (!c.isIncome()){
+                sum = Controller.getTransactionSum(c); // TODO dates
+                if (sum != 0){
+                    entries.add(new PieEntry((float)(sum*-1),c.getName()));
+                    myColors.add(Color.parseColor(c.getColor()));
                 }
-            }
-             */
-            sum = Controller.getTransactionSum(c); // TODO dates
-            if (sum != 0){
-                entries.add(new PieEntry((float)(sum*-1),c.getName()));
-                myColors.add(Color.parseColor(c.getColor()));
             }
         }
 
