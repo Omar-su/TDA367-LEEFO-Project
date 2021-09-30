@@ -3,8 +3,8 @@ package com.leefo.budgetapplication.controller;
 import android.content.Context;
 
 import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.model.DataBaseManager;
 import com.leefo.budgetapplication.model.TransactionModel;
-import com.leefo.budgetapplication.model.DatabaseInitializer;
 import com.leefo.budgetapplication.model.ObserverHandler;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.model.ModelObserver;
@@ -34,9 +34,9 @@ public class Controller {
      */
     public static void InitializeBackend(Context context)
     {
-        DatabaseInitializer.InitializeDatabase(context);
+        DataBaseManager database = new DataBaseManager(context);
 
-        transactionModel = new TransactionModel();
+        transactionModel = new TransactionModel(database);
     }
 
     /**

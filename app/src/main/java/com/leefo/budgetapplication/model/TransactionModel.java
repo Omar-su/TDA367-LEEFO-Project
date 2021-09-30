@@ -27,13 +27,14 @@ public class TransactionModel {
 
     private  Category otherExpense = new Category( "Other expense", "701313", false);
 
-   // private final DataSaver datasaver;
+   private final IDatabase database;
 
 
     /**
      * Constructor for creating a TransactionModel instance.
      */
-    public TransactionModel() {
+    public TransactionModel(IDatabase database) {
+        this.database = database;
        // loadTransactionList(); and sort the list
        // loadCategoryList(); and sort the list
         // When running for the first time, before database has saved default categories

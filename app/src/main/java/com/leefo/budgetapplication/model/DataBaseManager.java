@@ -31,25 +31,6 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
     private static final String CATEGORY_IS_INCOME = "CATEGORY_IS_INCOME";
 
 
-    private static DataBaseManager instance;
-
-    /**
-     * @return Instance of database manager
-     */
-    public static synchronized DataBaseManager getInstance()
-    {
-        return instance;
-    }
-
-    /**
-     * Initializes database with given context
-     * @param context Main activity context.
-     */
-    public static void initialize(Context context)
-    {
-        instance = new DataBaseManager(context);
-    }
-
     private void initOtherCategory(){
         ArrayList<Category> categories = getCategories();
         for (Category c : categories){
@@ -59,7 +40,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
     }
 
 
-    private DataBaseManager(@Nullable Context context) {
+    public DataBaseManager(@Nullable Context context) {
         super(context, "category_transaction_db", null, 1);
     }
 
@@ -114,7 +95,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
     public void saveData(FinancialTransaction transaction)
     {
-        SQLiteDatabase db = instance.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(TRANSACTIONS_DESC, transaction.getDescription());
         cv.put(TRANSACTION_AMOUNT, transaction.getAmount());
@@ -130,7 +111,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
     {
         int i = category.isIncome() ? 1 : 0;
 
-        SQLiteDatabase db = instance.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(CATEGORY_NAME, category.getName());
         cv.put(CATEGORY_COLOR, category.getColor());
@@ -141,7 +122,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
     public void removeData(FinancialTransaction transaction)
     {
-        SQLiteDatabase db = instance.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         String sql = "DELETE FROM " + TRANSACTIONS_TABLE + " WHERE " + TRANSACTIONS_DESC + " = " + transaction.getDescription()
                     + TRANSACTION_DATE + " = " + transaction.getDate().toString() + TRANSACTION_AMOUNT + " = " + transaction.getAmount()
                     + CATEGORY_FK_NAME + " = " + transaction.getCategory() + " LIMIT 1";
@@ -166,7 +147,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      */
     public void saveTransaction(String description, float amount, String date, int categoryName ){
 
-        SQLiteDatabase db = instance.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(TRANSACTIONS_DESC, description);
         cv.put(TRANSACTION_AMOUNT, amount);
@@ -186,7 +167,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
     public void addCategory(String catName, String catColor, boolean catIsIncome){
         int i = catIsIncome ? 1 : 0;
 
-        SQLiteDatabase db = instance.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(CATEGORY_NAME, catName);
         cv.put(CATEGORY_COLOR, catColor);
@@ -201,7 +182,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      * @param transId The transaction id needed to know which category to delete
      */
     public void deleteTransaction(int transId){
-        SQLiteDatabase db = instance.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         String sql = "DELETE FROM " + TRANSACTIONS_TABLE + " WHERE " + TRANSACTIONS_ID + " = " + transId;
         db.execSQL(sql);
         db.close();
@@ -215,7 +196,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      */
     public void deleteCategory(String catName){
         initOtherCategory();
-        SQLiteDatabase db = instance.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         if ("Other".equals(catName)) return; // you cannot remove the category called Other
         String sql = "DELETE FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_NAME + " = " + catName;
         updateTransactionCatID(catName, db); // updates the transactions which category was deleted to the "Other" category ID
@@ -240,7 +221,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
         String queryString = "SELECT * FROM " + CATEGORY_TABLE;
 
-        SQLiteDatabase db = instance.getReadableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
 
         if (cursor.moveToFirst()){
@@ -273,7 +254,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
         String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " ORDER BY " + TRANSACTION_DATE + " DESC ";
 
-        SQLiteDatabase db = instance.getReadableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
 
         if (cursor.moveToFirst()){
