@@ -3,7 +3,7 @@ package com.leefo.budgetapplication.controller;
 import android.content.Context;
 
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.model.DataHandler;
+import com.leefo.budgetapplication.model.TransactionModel;
 import com.leefo.budgetapplication.model.DatabaseInitializer;
 import com.leefo.budgetapplication.model.ObserverHandler;
 import com.leefo.budgetapplication.model.FinancialTransaction;
@@ -24,7 +24,7 @@ public class Controller {
     /**
      * Object handling logic for all transactions and categories.
      */
-    private static DataHandler dataHandler;
+    private static TransactionModel transactionModel;
 
 
 
@@ -36,7 +36,7 @@ public class Controller {
     {
         DatabaseInitializer.InitializeDatabase(context);
 
-        dataHandler = new DataHandler();
+        transactionModel = new TransactionModel();
     }
 
     /**
@@ -57,7 +57,7 @@ public class Controller {
     public static void editCategoryInfo(Category oldCategory, String newName, String newColor, boolean isIncome) {
         Category newCategory = new Category(newName, newColor, isIncome);
 
-        dataHandler.editCategory(oldCategory, newCategory);
+        transactionModel.editCategory(oldCategory, newCategory);
     }
 
     /**
@@ -70,7 +70,7 @@ public class Controller {
     public static void addNewCategory(String name, String color, boolean isIncome) {
         Category newCategory = new Category(name, color, isIncome);
 
-        dataHandler.addCategory(newCategory);
+        transactionModel.addCategory(newCategory);
     }
 
 
@@ -81,7 +81,7 @@ public class Controller {
      * @param category category to removed
      */
     public static void removeCategory(Category category) {
-        dataHandler.deleteCategory(category);
+        transactionModel.deleteCategory(category);
     }
 
     /**
@@ -90,7 +90,7 @@ public class Controller {
      * @return a list of all the categories in the database.
      */
     public static ArrayList<Category> getAllCategories() {
-        return (ArrayList<Category>) dataHandler.getCategoryList();
+        return (ArrayList<Category>) transactionModel.getCategoryList();
     }
 
     /**
@@ -104,7 +104,7 @@ public class Controller {
     public static void addNewTransaction(float amount, String description, LocalDate date, Category category) {
         FinancialTransaction newTransaction = new FinancialTransaction(amount, description, date, category);
 
-        dataHandler.addTransaction(newTransaction);
+        transactionModel.addTransaction(newTransaction);
     }
 
     /**
@@ -115,7 +115,7 @@ public class Controller {
     public static void editTransaction(FinancialTransaction oldTransaction, float newAmount, String newDesc, LocalDate newDate, Category newCategory){
         FinancialTransaction newTransaction = new FinancialTransaction(newAmount, newDesc, newDate, newCategory);
 
-        dataHandler.editTransaction(oldTransaction, newTransaction);
+        transactionModel.editTransaction(oldTransaction, newTransaction);
     }
 
     /**
@@ -124,7 +124,7 @@ public class Controller {
      * @param transaction Transaction to be removed.
      */
     public static void removeTransaction(FinancialTransaction transaction){
-        dataHandler.deleteTransaction(transaction);
+        transactionModel.deleteTransaction(transaction);
     }
 
     /**
@@ -139,7 +139,7 @@ public class Controller {
     {
         TransactionRequest request = new TransactionRequest(category, null, null);
 
-        return dataHandler.searchTransactions(request);
+        return transactionModel.searchTransactions(request);
     }
 
     /**
@@ -155,7 +155,7 @@ public class Controller {
     {
         TransactionRequest request = new TransactionRequest(null, month, year);
 
-        return dataHandler.searchTransactions(request);
+        return transactionModel.searchTransactions(request);
     }
 
     /**
@@ -169,7 +169,7 @@ public class Controller {
     {
         TransactionRequest request = new TransactionRequest(null, null, null);
 
-        return dataHandler.searchTransactions(request);
+        return transactionModel.searchTransactions(request);
     }
 
     /**
@@ -186,7 +186,7 @@ public class Controller {
     {
         TransactionRequest request = new TransactionRequest(category, month, year);
 
-        return dataHandler.searchTransactions(request);
+        return transactionModel.searchTransactions(request);
     }
 
     /**
@@ -200,7 +200,7 @@ public class Controller {
     {
         TransactionRequest request = new TransactionRequest(category, month, year);
 
-        return dataHandler.getSum(request);
+        return transactionModel.getTransactionSum(request);
     }
 
     /**
@@ -211,7 +211,7 @@ public class Controller {
     {
         TransactionRequest request = new TransactionRequest(null, null, null);
 
-        return dataHandler.getSum(request);
+        return transactionModel.getTransactionSum(request);
     }
 
     /**
@@ -223,7 +223,7 @@ public class Controller {
     {
         TransactionRequest request = new TransactionRequest(category, null, null);
 
-        return dataHandler.getSum(request);
+        return transactionModel.getTransactionSum(request);
     }
 
     /**
@@ -236,7 +236,7 @@ public class Controller {
     {
         TransactionRequest request = new TransactionRequest(null, month, year);
 
-        return dataHandler.getSum(request);
+        return transactionModel.getTransactionSum(request);
     }
 
     /**
@@ -245,14 +245,14 @@ public class Controller {
      */
     public static ArrayList<Category> getCategories()
     {
-        return dataHandler.getCategoryList();
+        return transactionModel.getCategoryList();
     }
 
     public static ArrayList<Category> getIncomeCategories(){
-        return dataHandler.getIncomeCategories();
+        return transactionModel.getIncomeCategories();
     }
 
     public static ArrayList<Category> getExpenseCategories(){
-        return dataHandler.getExpenseCategories();
+        return transactionModel.getExpenseCategories();
     }
 }

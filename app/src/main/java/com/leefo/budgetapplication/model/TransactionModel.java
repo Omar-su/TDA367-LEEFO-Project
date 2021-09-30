@@ -4,7 +4,7 @@ import com.leefo.budgetapplication.controller.TransactionRequest;
 
 import java.util.ArrayList;
 
-public class DataHandler {
+public class TransactionModel {
 
     private final ArrayList<FinancialTransaction> transactionList = new ArrayList<>();
 
@@ -17,7 +17,7 @@ public class DataHandler {
    // private final DataSaver datasaver;
 
 
-    public DataHandler() {
+    public TransactionModel() {
        // loadTransactionList();
        // loadCategoryList();
         // When running for the first time, before database has saved default categories
@@ -111,7 +111,7 @@ public class DataHandler {
 
     //TODO implement these methods
 
-    public float getSum(TransactionRequest request){
+    public float getTransactionSum(TransactionRequest request){
         // not finished, just quick. for categories not cheked for time condition, every transaction. someone can redo this better
         Category category = request.getCategory();
         double sum = 0;
