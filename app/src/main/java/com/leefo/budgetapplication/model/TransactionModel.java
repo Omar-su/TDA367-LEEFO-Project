@@ -35,8 +35,8 @@ public class TransactionModel {
      */
     public TransactionModel(IDatabase database) {
         this.database = database;
-       // loadTransactionList(); and sort the list
-       // loadCategoryList(); and sort the list
+
+
         // When running for the first time, before database has saved default categories
         // we need to somehow add them to the list.
         // categoryList.add(otherIncome);
@@ -51,7 +51,8 @@ public class TransactionModel {
     public void addTransaction(FinancialTransaction transaction) {
         transactionList.add(transaction);
 
-        //saveToDatabase();
+        saveTransactionToDatabase(transaction);
+
         ObserverHandler.updateObservers();
     }
 
@@ -63,7 +64,8 @@ public class TransactionModel {
     public void deleteTransaction(FinancialTransaction transaction) {
         transactionList.remove(transaction);
 
-        //saveToDatabase();
+        deleteTransactionFromDatabase(transaction);
+
         ObserverHandler.updateObservers();
     }
 
@@ -74,7 +76,8 @@ public class TransactionModel {
     public void addCategory(Category category) {
         categoryList.add(category);
 
-        //saveToDatabase();
+        saveCategoryToDatabase(category);
+
         ObserverHandler.updateObservers();
     }
 
@@ -101,7 +104,9 @@ public class TransactionModel {
             }
         }
         categoryList.remove(category);
-        //saveToDatabase();
+
+        deleteCategoryFromDatabase(category);
+
         ObserverHandler.updateObservers();
     }
 
@@ -115,7 +120,9 @@ public class TransactionModel {
         deleteTransaction(oldTransaction);
         addTransaction(editedTransaction);
 
-        //saveToDatabase();
+        deleteTransactionFromDatabase(oldTransaction);
+        saveTransactionToDatabase(editedTransaction);
+
         ObserverHandler.updateObservers();
     }
 
@@ -130,7 +137,9 @@ public class TransactionModel {
         deleteCategory(oldCategory);
         addCategory(editedCategory);
 
-        //saveToDatabase();
+        deleteCategoryFromDatabase(oldCategory);
+        saveCategoryToDatabase(editedCategory);
+
         ObserverHandler.updateObservers();
     }
 
@@ -186,19 +195,10 @@ public class TransactionModel {
         }
         return getTransactionList();
     }
-    /*
-    private void loadTransactionList(){
-        transactionList.addAll(datasaver.getTransactionList());
-    }
 
-    private void loadCategoryList(){
-        categoryList.addAll(datasaver.getCategoryList());
-    }
 
-    private void saveToDatabase(){
-        datasaver.saveData(transactionList, categoryList);
-    }
-*/
+
+
 
     /**
      * Returns a list of income categories.
@@ -263,6 +263,22 @@ public class TransactionModel {
      */
     public float getTransactionBalance(TransactionRequest request){
         return getTotalIncome(request) + getTotalExpense(request);
+    }
+
+    private void saveTransactionToDatabase(FinancialTransaction transaction){
+        database.saveData(transaction);
+    }
+
+    private void saveCategoryToDatabase(Category category){
+        database.saveData(category);
+    }
+
+    private void deleteTransactionFromDatabase(FinancialTransaction transaction){
+        database.removeData(transaction);
+    }
+
+    private void deleteCategoryFromDatabase(Category category){
+        database.removeData(category);
     }
 
 
