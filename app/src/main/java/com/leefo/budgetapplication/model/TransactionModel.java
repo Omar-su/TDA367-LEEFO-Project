@@ -253,7 +253,7 @@ public class TransactionModel {
             request.setCategory(c);
             expense = expense + getTransactionSum(request);
         }
-        return expense;
+        return Math.abs(expense);
     }
 
     /**
@@ -262,7 +262,7 @@ public class TransactionModel {
      * @return The calculated balance.
      */
     public float getTransactionBalance(TransactionRequest request){
-        return getTotalIncome(request) + getTotalExpense(request);
+        return getTotalIncome(request) - getTotalExpense(request);
     }
 
     // dataBase methods ----

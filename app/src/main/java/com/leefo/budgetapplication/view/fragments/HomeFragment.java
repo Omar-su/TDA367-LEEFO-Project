@@ -5,17 +5,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import androidx.fragment.app.Fragment;
 
 import com.leefo.budgetapplication.R;
+import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.model.ModelObserver;
 
 /**
  * Class that represents the fragment for the Home page
  */
 public class HomeFragment extends Fragment {
 
+    private TextView income, expense, balance;
 
     /**
      * Method that runs when the fragment is being created.
@@ -29,9 +33,22 @@ public class HomeFragment extends Fragment {
         // Start with displaying category fragment
         getActivity().getSupportFragmentManager().beginTransaction().add(R.id.FrameLayout_middleSection_Home, new HomeListViewFragment()).commit();
 
+        // get views
+        income = view.findViewById(R.id.income_text_view);
+        expense = view.findViewById(R.id.expense_text_view);
+        balance = view.findViewById(R.id.balance_text_view);
+
+        // init
         initToggleButton(view);
+        updateHeaderValues();
 
         return view;
+    }
+
+    private void updateHeaderValues(){
+        income.setText(String.valueOf(Controller.getTotalIncome()));
+        expense.setText(String.valueOf(Controller.getTotalExpense()));
+        balance.setText(String.valueOf(Controller.getTransactionBalance()));
     }
 
     private void initToggleButton(View view) {
