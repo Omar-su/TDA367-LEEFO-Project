@@ -9,4 +9,5 @@ public class SharedViewData {
 
     static public Category singleCategory;
     static public FinancialTransaction singleTransaction;
+    static public boolean lastOpenedViewWasCategoryView;
 }

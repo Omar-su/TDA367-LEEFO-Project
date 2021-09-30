@@ -102,7 +102,7 @@ public class EditCategoryFragment extends Fragment {
             return;
         }
         editCategory();
-        ((MainActivity)getActivity()).openHomeFragment(view);
+        ((MainActivity)getActivity()).openFragmentInMainFrameLayout(new ManageCategoriesFragment());
     }
 
     private void editCategory(){

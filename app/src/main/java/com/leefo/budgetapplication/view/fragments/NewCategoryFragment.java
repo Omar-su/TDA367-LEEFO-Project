@@ -88,7 +88,6 @@ public class NewCategoryFragment extends Fragment {
         AmbilWarnaDialog ambilWarnaDialog = new AmbilWarnaDialog(getContext(), defaultColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
             @Override
             public void onCancel(AmbilWarnaDialog dialog) {
-
             }
 
             @Override
@@ -106,7 +105,7 @@ public class NewCategoryFragment extends Fragment {
             return;
         }
         addCategory();
-        ((MainActivity)getActivity()).openHomeFragment(view);
+        ((MainActivity)getActivity()).openFragmentInMainFrameLayout(new ManageCategoriesFragment());
     }
 
     private void addCategory(){

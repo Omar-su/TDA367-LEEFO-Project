@@ -14,13 +14,10 @@ import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.fragments.BudgetFragment;
-import com.leefo.budgetapplication.view.fragments.EditCategoryFragment;
 import com.leefo.budgetapplication.view.fragments.EditTransactionFragment;
 import com.leefo.budgetapplication.view.fragments.HomeFragment;
 import com.leefo.budgetapplication.view.fragments.MoreFragment;
-import com.leefo.budgetapplication.view.fragments.NewCategoryFragment;
 import com.leefo.budgetapplication.view.fragments.NewTransactionFragment;
-import com.leefo.budgetapplication.view.fragments.SingleCategoryFragment;
 
 import java.time.LocalDate;
 
@@ -55,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
             //textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
             //textView.setBackgroundColor(Color.parseColor("#A0A0A0"));
 
+        SharedViewData.lastOpenedViewWasCategoryView = true;
     }
 
     private void removeAllCategories(){
@@ -81,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         //Income
         Controller.addNewCategory("Salary", "#FCFF64", true);
         Controller.addNewCategory("Gift", "#6473FF", true);
+
+        Controller.addNewTransaction(-100, "", LocalDate.now(), Controller.getAllCategories().get(0));
     }
 
 
