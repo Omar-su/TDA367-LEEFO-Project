@@ -200,8 +200,8 @@ public class TransactionModel {
 */
 
     /**
-     * Get the income categories
-     * @return income categories
+     * Returns a list of income categories.
+     * @return a list of income categories.
      */
     public ArrayList<Category> getIncomeCategories(){
         ArrayList<Category> list = new ArrayList<>();
@@ -214,8 +214,8 @@ public class TransactionModel {
     }
 
     /**
-     * Get the expense categories
-     * @return expense categories
+     * Returns a list of expense categories.
+     * @return a list of expense categories.
      */
     public ArrayList<Category> getExpenseCategories(){
         ArrayList<Category> list = new ArrayList<>();
@@ -227,9 +227,13 @@ public class TransactionModel {
         return list;
     }
 
-
-    public double getTotalIncome(TransactionRequest request){ // month, year. category irrelevant
-        double income = 0;
+    /**
+     * Returns the total income amount for a specific TransactionRequest.
+     * @param request The object with the request to calculate total income from.
+     * @return The total income amount. for the specific request.
+     */
+    public float getTotalIncome(TransactionRequest request){ // month, year. category irrelevant
+        float income = 0;
         for (Category c : getIncomeCategories()){
             request.setCategory(c);
             income = income + getTransactionSum(request);
@@ -237,8 +241,13 @@ public class TransactionModel {
         return income;
     }
 
-    public double getTotalExpense(TransactionRequest request){
-        double expense = 0;
+    /**
+     * Returns the total expense amount for a specific TransactionRequest.
+     * @param request The object with the request to calculate total expense from.
+     * @return The total expense amount for the specific request.
+     */
+    public float getTotalExpense(TransactionRequest request){
+        float expense = 0;
         for (Category c : getIncomeCategories()){
             request.setCategory(c);
             expense = expense + getTransactionSum(request);
@@ -246,7 +255,12 @@ public class TransactionModel {
         return expense;
     }
 
-    public double getTransactionBalance(TransactionRequest request){
+    /**
+     * Returns the balance between income and expense for a specific TransactionRequest.
+     * @param request The object with the request to calculate balance from.
+     * @return The calculated balance.
+     */
+    public float getTransactionBalance(TransactionRequest request){
         return getTotalIncome(request) + getTotalExpense(request);
     }
 

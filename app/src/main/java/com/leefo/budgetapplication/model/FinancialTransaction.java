@@ -23,13 +23,13 @@ public class FinancialTransaction {
     /**
      * Total currency amount handled by the transaction.
      */
-    private final double amount;
+    private final float amount;
     /**
      * Description for transaction, optional.
      */
     private final String description;
 
-    public FinancialTransaction(double amount, String description, LocalDate date, Category category)
+    public FinancialTransaction(float amount, String description, LocalDate date, Category category)
     {
         this.amount = amount;
         this.description = description;
@@ -62,7 +62,7 @@ public class FinancialTransaction {
         return date;
     }
 
-    public double getAmount()
+    public float getAmount()
     {
         return amount;
     }
