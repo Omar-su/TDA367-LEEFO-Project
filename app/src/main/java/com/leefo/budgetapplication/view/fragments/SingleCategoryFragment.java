@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.model.Transaction;
+import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.SharedViewData;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class SingleCategoryFragment extends Fragment {
 
     ListView listView;
-    ArrayList<Transaction> list;
+    ArrayList<FinancialTransaction> list;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class SingleCategoryFragment extends Fragment {
     }
 
     private void addDateRowInTransactionList(int index, String date){
-        list.add(index, new Transaction(0,date, LocalDate.now(), new Category("DATE", "", true)));
+        list.add(index, new FinancialTransaction(0,date, LocalDate.now(), new Category("DATE", "", true)));
     }
 
     private void putDatesIntoTransactionList(){

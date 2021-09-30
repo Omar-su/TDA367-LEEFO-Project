@@ -12,7 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.model.Transaction;
+import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.fragments.BudgetFragment;
 import com.leefo.budgetapplication.view.fragments.HomeFragment;
 import com.leefo.budgetapplication.view.fragments.MoreFragment;
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void removeAllTransactions(){
-        for (Transaction t : Controller.getTransactions(null, null, null)){
+        for (FinancialTransaction t : Controller.getTransactions(null, null, null)){
             Controller.removeTransaction(t);
         }
     }

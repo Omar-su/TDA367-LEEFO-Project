@@ -40,7 +40,7 @@ public class Category {
      * @param transaction Transaction to be checked.
      * @return True if transaction belongs to category.
      */
-    public boolean transactionBelongs(Transaction transaction)
+    public boolean transactionBelongs(FinancialTransaction transaction)
     {
         return Equals(transaction.getCategory());
     }

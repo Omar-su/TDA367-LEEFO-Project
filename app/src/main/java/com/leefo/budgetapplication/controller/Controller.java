@@ -6,7 +6,7 @@ import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.DataHandler;
 import com.leefo.budgetapplication.model.DatabaseInitializer;
 import com.leefo.budgetapplication.model.ObserverHandler;
-import com.leefo.budgetapplication.model.Transaction;
+import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.model.ModelObserver;
 
 import java.time.LocalDate;
@@ -102,7 +102,7 @@ public class Controller {
      * @param category    Category of the new transaction.
      */
     public static void addNewTransaction(float amount, String description, LocalDate date, Category category) {
-        Transaction newTransaction = new Transaction(amount, description, date, category);
+        FinancialTransaction newTransaction = new FinancialTransaction(amount, description, date, category);
 
         dataHandler.addTransaction(newTransaction);
     }
@@ -112,8 +112,8 @@ public class Controller {
      *
      * @param oldTransaction Object of transaction to be changed.
      */
-    public static void editTransaction(Transaction oldTransaction, float newAmount, String newDesc, LocalDate newDate, Category newCategory){
-        Transaction newTransaction = new Transaction(newAmount, newDesc, newDate, newCategory);
+    public static void editTransaction(FinancialTransaction oldTransaction, float newAmount, String newDesc, LocalDate newDate, Category newCategory){
+        FinancialTransaction newTransaction = new FinancialTransaction(newAmount, newDesc, newDate, newCategory);
 
         dataHandler.editTransaction(oldTransaction, newTransaction);
     }
@@ -123,7 +123,7 @@ public class Controller {
      *
      * @param transaction Transaction to be removed.
      */
-    public static void removeTransaction(Transaction transaction){
+    public static void removeTransaction(FinancialTransaction transaction){
         dataHandler.deleteTransaction(transaction);
     }
 
@@ -135,7 +135,7 @@ public class Controller {
      * @param category Category that the transactions belong to, optional.
      * @return A list of transactions specified by request.
      */
-    public static ArrayList<Transaction> getTransactions(Category category)
+    public static ArrayList<FinancialTransaction> getTransactions(Category category)
     {
         TransactionRequest request = new TransactionRequest(category, null, null);
 
@@ -151,7 +151,7 @@ public class Controller {
      * @param year Year transactions were made, optional.
      * @return A list of transactions specified by request.
      */
-    public static ArrayList<Transaction> getTransactions(String month, String year)
+    public static ArrayList<FinancialTransaction> getTransactions(String month, String year)
     {
         TransactionRequest request = new TransactionRequest(null, month, year);
 
@@ -165,7 +165,7 @@ public class Controller {
      *
      * @return A list of transactions specified by request.
      */
-    public static ArrayList<Transaction> getTransactions()
+    public static ArrayList<FinancialTransaction> getTransactions()
     {
         TransactionRequest request = new TransactionRequest(null, null, null);
 
@@ -182,7 +182,7 @@ public class Controller {
      * @param year Year transactions were made, optional.
      * @return A list of transactions specified by request.
      */
-    public static ArrayList<Transaction> getTransactions(Category category, String month, String year)
+    public static ArrayList<FinancialTransaction> getTransactions(Category category, String month, String year)
     {
         TransactionRequest request = new TransactionRequest(category, month, year);
 

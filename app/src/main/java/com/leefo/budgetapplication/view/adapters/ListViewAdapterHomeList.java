@@ -16,10 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.model.Transaction;
-import com.leefo.budgetapplication.view.MainActivity;
+import com.leefo.budgetapplication.model.FinancialTransaction;
 
 
 import java.util.ArrayList;
@@ -27,11 +25,11 @@ import java.util.ArrayList;
 /**
  * Class that represents the adapter for the list in the HomeListViewFragment
  */
-public class ListViewAdapterHomeList extends ArrayAdapter<Transaction> {
+public class ListViewAdapterHomeList extends ArrayAdapter<FinancialTransaction> {
 
     Context context;
 
-    public ListViewAdapterHomeList(@NonNull Context context, ArrayList<Transaction> list) {
+    public ListViewAdapterHomeList(@NonNull Context context, ArrayList<FinancialTransaction> list) {
         super(context, R.layout.list_row_home, list);
         this.context = context;
     }
@@ -53,7 +51,7 @@ public class ListViewAdapterHomeList extends ArrayAdapter<Transaction> {
             convertView = layoutInflater.inflate(R.layout.list_row_home, null);
 
             // The Transaction object in the list
-            Transaction transaction = getItem(position);
+            FinancialTransaction transaction = getItem(position);
             // The transaction's category
             Category categoryObject = transaction.getCategory();
 

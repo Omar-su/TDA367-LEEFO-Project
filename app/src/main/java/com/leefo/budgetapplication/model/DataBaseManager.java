@@ -285,10 +285,10 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * Creates transaction objects of all the transactions registered in the database
      * @return Returns a list of all transactions in he database
      */
-    public ArrayList<Transaction> getAllTransactions(){
+    public ArrayList<FinancialTransaction> getAllTransactions(){
         ArrayList<Category> categories = getEveryCategory();
 
-        ArrayList<Transaction> returnList = new ArrayList<>();
+        ArrayList<FinancialTransaction> returnList = new ArrayList<>();
 
         String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " ORDER BY " + TRANSACTION_DATE + " DESC ";
 
@@ -316,7 +316,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
                 LocalDate date = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
 
-                Transaction newTransaction = new Transaction(transactionAmount ,transactionDesc, date, category);
+                FinancialTransaction newTransaction = new FinancialTransaction(transactionAmount ,transactionDesc, date, category);
                 returnList.add(newTransaction);
 
             }while (cursor.moveToNext());

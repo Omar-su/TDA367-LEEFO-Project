@@ -10,7 +10,7 @@ import java.time.LocalDate;
  *
  * @author Linus Lundgren
 * */
-public class Transaction {
+public class FinancialTransaction {
 
     /**
      * Id of the category that the transaction belongs to.
@@ -29,7 +29,7 @@ public class Transaction {
      */
     private final String description;
 
-    public Transaction(double amount, String description, LocalDate date, Category category)
+    public FinancialTransaction(double amount, String description, LocalDate date, Category category)
     {
         this.amount = amount;
         this.description = description;

@@ -13,7 +13,7 @@ import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.ModelObserver;
-import com.leefo.budgetapplication.model.Transaction;
+import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
 import java.time.LocalDate;
@@ -26,7 +26,7 @@ public class HomeListViewFragment extends Fragment implements ModelObserver {
 
     ListView listView;
     ListViewAdapterHomeList adapter;
-    ArrayList<Transaction> transactions;
+    ArrayList<FinancialTransaction> transactions;
 
     /**
      * Method that runs when the fragment is being created.
@@ -64,7 +64,7 @@ public class HomeListViewFragment extends Fragment implements ModelObserver {
 
 
     private void addDateRowInTransactionList(int index, String date){
-        transactions.add(index, new Transaction(0,date,LocalDate.now(), new Category("DATE", "", true)));
+        transactions.add(index, new FinancialTransaction(0,date,LocalDate.now(), new Category("DATE", "", true)));
     }
 
     private void putDatesIntoTransactionList(){

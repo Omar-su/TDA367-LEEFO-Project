@@ -2,13 +2,11 @@ package com.leefo.budgetapplication.model;
 
 import com.leefo.budgetapplication.controller.TransactionRequest;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DataHandler {
 
-    private final ArrayList<Transaction> transactionList = new ArrayList<>();
+    private final ArrayList<FinancialTransaction> transactionList = new ArrayList<>();
 
     private final ArrayList<Category> categoryList = new ArrayList<>();
 
@@ -28,14 +26,14 @@ public class DataHandler {
         // categoryList.add(otherExpense);
     }
 
-    public void addTransaction(Transaction transaction) {
+    public void addTransaction(FinancialTransaction transaction) {
         transactionList.add(transaction);
 
         //saveToDatabase();
         ObserverHandler.updateObservers();
     }
 
-    public void deleteTransaction(Transaction transaction) {
+    public void deleteTransaction(FinancialTransaction transaction) {
         transactionList.remove(transaction);
 
         //saveToDatabase();
@@ -51,16 +49,16 @@ public class DataHandler {
 
     public void deleteCategory(Category category) {
         if (category.isIncome()) {
-            for (Transaction t : transactionList) {
+            for (FinancialTransaction t : transactionList) {
                 if (category.transactionBelongs(t)) {
-                    editTransaction(t, new Transaction(t.getAmount(), t.getDescription(),
+                    editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(),
                             t.getDate(), otherIncome));
                 }
             }
         } else {
-            for (Transaction t : transactionList) {
+            for (FinancialTransaction t : transactionList) {
                 if (category.transactionBelongs(t)) {
-                    editTransaction(t, new Transaction(t.getAmount(), t.getDescription(),
+                    editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(),
                             t.getDate(), otherExpense));
                 }
             }
@@ -70,7 +68,7 @@ public class DataHandler {
         ObserverHandler.updateObservers();
     }
 
-    public void editTransaction(Transaction oldTransaction, Transaction editedTransaction){
+    public void editTransaction(FinancialTransaction oldTransaction, FinancialTransaction editedTransaction){
         deleteTransaction(oldTransaction);
         addTransaction(editedTransaction);
 
@@ -88,9 +86,9 @@ public class DataHandler {
     }
 
     private void replaceTransactionsCategory(Category oldCategory, Category newCategory){
-        for(Transaction t : transactionList){
+        for(FinancialTransaction t : transactionList){
             if(oldCategory.transactionBelongs(t)){
-                editTransaction(t, new Transaction(t.getAmount(), t.getDescription(), t.getDate(),
+                editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(), t.getDate(),
                         newCategory));
             }
         }
@@ -99,7 +97,7 @@ public class DataHandler {
      * Returns a copy of the transactionList
      * @return copy if transactionList
      */
-    public ArrayList<Transaction> getTransactionList() {
+    public ArrayList<FinancialTransaction> getTransactionList() {
         return new ArrayList<>(transactionList);
     }
 
@@ -117,20 +115,20 @@ public class DataHandler {
         // not finished, just quick. for categories not cheked for time condition, every transaction. someone can redo this better
         Category category = request.getCategory();
         double sum = 0;
-        for (Transaction t : searchTransactions(new TransactionRequest(category, null, null))){
+        for (FinancialTransaction t : searchTransactions(new TransactionRequest(category, null, null))){
             sum = sum + t.getAmount();
         }
         return (float)sum;
     }
 
-    public ArrayList<Transaction> searchTransactions(TransactionRequest request){
+    public ArrayList<FinancialTransaction> searchTransactions(TransactionRequest request){
         if (!request.timeIsSpecified() && !request.categoryIsSpecified()){ // get all, no condition for category or time
             return getTransactionList();
         }
         if (!request.timeIsSpecified() && request.categoryIsSpecified()){ // get based on condition, no term for time
             Category category = request.getCategory();
-            ArrayList<Transaction> transactions = new ArrayList<>();
-            for (Transaction t : getTransactionList()){
+            ArrayList<FinancialTransaction> transactions = new ArrayList<>();
+            for (FinancialTransaction t : getTransactionList()){
                 if (t.getCategory() == category){
                     transactions.add(t);
                 }
