@@ -56,7 +56,7 @@ public class CategoryViewListAdapter extends ArrayAdapter<Category> {
         View circle = convertView.findViewById(R.id.category_circle);
         TextView numberOfTransactionsTextView = convertView.findViewById(R.id.number_of_transactions);
 
-        sum.setText(String.valueOf(-1*(Controller.getTransactionSum(cat)))); // TODO time period
+        sum.setText(String.valueOf(Controller.getTransactionSum(cat))); // TODO time period
         name.setText(cat.getName());
         circle.getBackground().setColorFilter(Color.parseColor(cat.getColor()), PorterDuff.Mode.SRC_ATOP);
         if (numberOfTransactions == 1){

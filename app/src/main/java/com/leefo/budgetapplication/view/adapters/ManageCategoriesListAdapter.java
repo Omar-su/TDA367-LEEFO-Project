@@ -47,7 +47,6 @@ public class ManageCategoriesListAdapter extends ArrayAdapter<Category> {
 
         Category cat = getItem(position);
 
-
         TextView name = convertView.findViewById(R.id.category_name);
         View circle = convertView.findViewById(R.id.category_circle);
 

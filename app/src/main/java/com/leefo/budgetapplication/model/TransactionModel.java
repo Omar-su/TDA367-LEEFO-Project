@@ -176,7 +176,7 @@ public class TransactionModel {
         for (FinancialTransaction t : searchTransactions(request)){
             sum = sum + t.getAmount();
         }
-        return sum;
+        return Math.abs(sum);
     }
 
     public ArrayList<FinancialTransaction> searchTransactions(TransactionRequest request){

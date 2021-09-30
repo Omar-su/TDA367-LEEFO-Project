@@ -62,12 +62,12 @@ public class ListViewAdapterHomeList extends ArrayAdapter<FinancialTransaction> 
             TextView date = convertView.findViewById(R.id.date);
             RelativeLayout row = convertView.findViewById(R.id.row);
 
-            // Some Transaction objects in the list have been given the description "DATE" to mark that this is not a transaction
+            // Some Transaction objects in the list have been given the category name "DATE" to mark that this is not a transaction
             // instead this row in the list should be a date row displaying only a date. // TODO
             boolean dateRow = false; // start with false
             if (transaction.getCategory().getName().equals("DATE")) dateRow = true;
 
-            // if dateRow is true this row needs another design shoving a date instead of transaction
+            // if dateRow is true this row needs another design showing a date instead of transaction
             // new design in the if block
             if (dateRow){
                 dateRow = false;

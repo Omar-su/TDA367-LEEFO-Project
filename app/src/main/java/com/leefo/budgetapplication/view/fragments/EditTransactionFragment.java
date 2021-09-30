@@ -68,15 +68,10 @@ public class EditTransactionFragment extends Fragment {
         income = Controller.getIncomeCategories();
         expense = Controller.getExpenseCategories();
 
-        // init category spinner
+        // init
         initSpinner();
-
-        // init date picker
         initDatePickerDialog();
-
         setOldTranscactionValues(oldTransaction);
-
-        // init save button onClick
         initSaveButtonOnClickListener();
 
         return view;
@@ -92,20 +87,21 @@ public class EditTransactionFragment extends Fragment {
         } else {
             radioGroup.check(R.id.edit_transaction_radioExpense);
         }
+
+        SpinnerAdapter spinnerAdapter;
         if (oldCateory.isIncome()){
             ArrayList<Category> newIncomeList = new ArrayList<>(income);
             newIncomeList.remove(oldCateory);
             newIncomeList.add(0, oldCateory);
-            SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), newIncomeList);
-            categorySpinner.setAdapter(spinnerAdapter);
+            spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), newIncomeList);
 
         } else {
             ArrayList<Category> newExpenseList = new ArrayList<>(expense);
             newExpenseList.remove(oldCateory);
             newExpenseList.add(0, oldCateory);
-            SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), newExpenseList);
-            categorySpinner.setAdapter(spinnerAdapter);
+            spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), newExpenseList);
         }
+        categorySpinner.setAdapter(spinnerAdapter);
 
     }
 

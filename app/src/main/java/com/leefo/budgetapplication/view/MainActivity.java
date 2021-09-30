@@ -33,10 +33,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         // initialize database
         Controller.InitializeBackend(this);
-
-
 
         // start app with displaying Home Fragment
         getSupportFragmentManager().beginTransaction().add(R.id.FrameLayout_main, new HomeFragment()).commit();
@@ -47,8 +46,7 @@ public class MainActivity extends AppCompatActivity {
         // init components
         initBottomNavigationOnClick();
 
-        // so we have some categories for testing
-        if (Controller.getAllCategories().size() == 1){
+        if (Controller.getAllCategories().isEmpty()){
             setDefaultCategories();
         }
 
@@ -56,10 +54,6 @@ public class MainActivity extends AppCompatActivity {
             TextView textView;
             //textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
             //textView.setBackgroundColor(Color.parseColor("#A0A0A0"));
-
-
-
-        setDefaultCategories();
 
     }
 
@@ -89,9 +83,6 @@ public class MainActivity extends AppCompatActivity {
         Controller.addNewCategory("Gift", "#6473FF", true);
     }
 
-    public void openNewCategoriesFragment(){
-        openFragmentInMainFrameLayout(new NewCategoryFragment());
-    }
 
     public void openHomeFragment(View v){
         openFragmentInMainFrameLayout(new HomeFragment());
@@ -102,14 +93,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, fragment).commit();
     }
 
-
     public void plusButton(View v){
         openFragmentInMainFrameLayout(new NewTransactionFragment());
         bottomNav.setVisibility(View.GONE);
-    }
-
-    public void openSingleCategoryFragment(){
-        openFragmentInMainFrameLayout(new SingleCategoryFragment());
     }
 
     public void openEditTransactionFragment(){

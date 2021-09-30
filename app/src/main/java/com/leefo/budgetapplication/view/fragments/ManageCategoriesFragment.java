@@ -48,7 +48,7 @@ public class ManageCategoriesFragment extends Fragment {
         newCategoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)getActivity()).openNewCategoriesFragment();
+                ((MainActivity)getActivity()).openFragmentInMainFrameLayout(new NewCategoryFragment());
             }
         });
     }

@@ -51,8 +51,6 @@ public class HomeListViewFragment extends Fragment implements ModelObserver {
         transactions = Controller.getTransactions();
 
 
-
-
         if (transactions.isEmpty()){
             noTransactoins1.setVisibility(View.VISIBLE);
             noTransactoins2.setVisibility(View.VISIBLE);
