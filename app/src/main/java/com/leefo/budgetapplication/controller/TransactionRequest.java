@@ -14,7 +14,7 @@ public class TransactionRequest {
     /**
      * Specifies what category of transactions.
      */
-    private final Category category; // can be null
+    private Category category; // can be null
 
     /**
      * Specifies what time transaction was made.
@@ -69,4 +69,7 @@ public class TransactionRequest {
         return year;
     }
 
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 }

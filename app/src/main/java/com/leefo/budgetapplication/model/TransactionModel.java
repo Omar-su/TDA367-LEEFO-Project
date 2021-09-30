@@ -112,10 +112,10 @@ public class TransactionModel {
     //TODO implement these methods
 
     public float getTransactionSum(TransactionRequest request){
-        // not finished, just quick. for categories not cheked for time condition, every transaction. someone can redo this better
-        Category category = request.getCategory();
+        // not finished i think, just wrote this quick.
+
         double sum = 0;
-        for (FinancialTransaction t : searchTransactions(new TransactionRequest(category, null, null))){
+        for (FinancialTransaction t : searchTransactions(request)){
             sum = sum + t.getAmount();
         }
         return (float)sum;
@@ -180,6 +180,27 @@ public class TransactionModel {
     }
 
 
+    public double getTotalIncome(TransactionRequest request){ // month, year. category irrelevant
+        double income = 0;
+        for (Category c : getIncomeCategories()){
+            request.setCategory(c);
+            income = income + getTransactionSum(request);
+        }
+        return income;
+    }
+
+    public double getTotalExpense(TransactionRequest request){
+        double expense = 0;
+        for (Category c : getIncomeCategories()){
+            request.setCategory(c);
+            expense = expense + getTransactionSum(request);
+        }
+        return expense;
+    }
+
+    public double getTransactionBalance(TransactionRequest request){
+        return getTotalIncome(request) + getTotalExpense(request);
+    }
 
 
 }
