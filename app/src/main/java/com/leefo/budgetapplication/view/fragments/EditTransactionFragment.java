@@ -69,10 +69,36 @@ public class EditTransactionFragment extends Fragment {
         // init date picker
         initDatePickerDialog();
 
+        setOldTranscactionValues(oldTransaction);
+
         // init save button onClick
         initSaveButtonOnClickListener();
 
         return view;
+    }
+
+    private void setOldTranscactionValues(FinancialTransaction transaction){
+        /*
+         boolean isExpense = radioGroup.getCheckedRadioButtonId() == R.id.radioExpense;
+        String description = noteInput.getText().toString();
+        float amount = Float.parseFloat(amountInput.getText().toString());
+        Category category = (Category) categorySpinner.getSelectedItem();
+        LocalDate date = myCalendar.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // convert Date to LocalDate
+
+        if (isExpense){
+            amount = amount * -1;
+        }
+        Controller.editTransaction(oldTransaction, amount, description, date, category );
+         */
+        noteInput.setText(transaction.getDescription());
+        amountInput.setText(Float.toString(transaction.getAmount()));
+        Category oldCateory = transaction.getCategory();
+        dateInput.setText(oldTransaction.getDate().toString());
+        if(oldCateory.isIncome()){
+            radioGroup.check(R.id.edit_transaction_radioIncome);
+        } else {
+            radioGroup.check(R.id.edit_transaction_radioExpense);
+        }
     }
 
     private void initSpinner(){
@@ -142,7 +168,6 @@ public class EditTransactionFragment extends Fragment {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateDateLabel();
             }
         };
 
