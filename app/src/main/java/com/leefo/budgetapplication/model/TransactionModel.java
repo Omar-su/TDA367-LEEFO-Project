@@ -4,10 +4,23 @@ import com.leefo.budgetapplication.controller.TransactionRequest;
 
 import java.util.ArrayList;
 
+/**
+ * The TransactionModel class contains methods for manipulating, adding and removing categories and
+ * transactions. The TransactionModel class also saves every change it does to the database for
+ * persistance storage.
+ *
+ * @author Felix Edholm, Emelie Edberg
+ */
 public class TransactionModel {
 
+    /**
+     * The list of FinancialTransactions used in the application
+     */
     private final ArrayList<FinancialTransaction> transactionList = new ArrayList<>();
 
+    /**
+     * The list of Categories used in the application
+     */
     private final ArrayList<Category> categoryList = new ArrayList<>();
 
     private  Category otherIncome = new Category( "Other income", "#13702A", true);
@@ -17,6 +30,9 @@ public class TransactionModel {
    // private final DataSaver datasaver;
 
 
+    /**
+     * Constructor for creating a TransactionModel instance.
+     */
     public TransactionModel() {
        // loadTransactionList();
        // loadCategoryList();
@@ -26,6 +42,11 @@ public class TransactionModel {
         // categoryList.add(otherExpense);
     }
 
+    /**
+     * Adds a financial transaction to the list of financial transactions.
+     * Also saves the changes to the persistence storage.
+     * @param transaction The financial transaction to be added.
+     */
     public void addTransaction(FinancialTransaction transaction) {
         transactionList.add(transaction);
 
@@ -33,6 +54,11 @@ public class TransactionModel {
         ObserverHandler.updateObservers();
     }
 
+    /**
+     * Deletes a financial transaction from the list of financial transactions.
+     * Also saves the changes to the persistence storage.
+     * @param transaction The financial transaction to be deleted.
+     */
     public void deleteTransaction(FinancialTransaction transaction) {
         transactionList.remove(transaction);
 
@@ -40,6 +66,10 @@ public class TransactionModel {
         ObserverHandler.updateObservers();
     }
 
+    /**
+     * Adds a category to the list of categories. Also saves the changes to the persistence storage.
+     * @param category The category to be added.
+     */
     public void addCategory(Category category) {
         categoryList.add(category);
 
@@ -47,6 +77,12 @@ public class TransactionModel {
         ObserverHandler.updateObservers();
     }
 
+    /**
+     * Deletes a category from the list of categories. If a FinancialTransaction is of the deleted
+     * category, that FinancialTransactions category is switched to a default category.
+     * Also saves the changes to the persistence storage.
+     * @param category The category to be deleted.
+     */
     public void deleteCategory(Category category) {
         if (category.isIncome()) {
             for (FinancialTransaction t : transactionList) {
@@ -68,6 +104,12 @@ public class TransactionModel {
         ObserverHandler.updateObservers();
     }
 
+    /**
+     * Edits the information of a financial transaction.
+     * Also saves the changes to the persistence storage.
+     * @param oldTransaction The transaction with the information to be edited.
+     * @param editedTransaction The transaction with the edited information.
+     */
     public void editTransaction(FinancialTransaction oldTransaction, FinancialTransaction editedTransaction){
         deleteTransaction(oldTransaction);
         addTransaction(editedTransaction);
@@ -76,6 +118,12 @@ public class TransactionModel {
         ObserverHandler.updateObservers();
     }
 
+    /**
+     * Edits the information of a category.
+     * Also saves the changes to the persistence storage.
+     * @param oldCategory The category with the information to be edited.
+     * @param editedCategory The category with the edited information.
+     */
     public void editCategory(Category oldCategory, Category editedCategory){
         replaceTransactionsCategory(oldCategory, editedCategory);
         deleteCategory(oldCategory);
