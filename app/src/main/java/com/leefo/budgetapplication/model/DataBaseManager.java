@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Creates the database needed for saving the transactions and categories information
  * and handling inserting, deleting and requesting any information that is in the database
  */
-public class DataBaseManager extends SQLiteOpenHelper {
+public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
     private static final String CATEGORY_TABLE = "CATEGORY_TABLE";
     private static final String CATEGORY_NAME = "CATEGORY_NAME";
@@ -50,7 +50,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
     }
 
     private void initOtherCategory(){
-        ArrayList<Category> categories = getEveryCategory();
+        ArrayList<Category> categories = getCategories();
         for (Category c : categories){
             if (c.getName().equals("Other")) return;
         }
@@ -111,6 +111,25 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
+    public void saveData(FinancialTransaction transaction)
+    {
+
+    }
+
+    public void saveData(Category category)
+    {
+
+    }
+
+    public void removeData(FinancialTransaction transaction)
+    {
+
+    }
+
+    public void removeData(Category category)
+    {
+
+    }
 
     /**
      * Adds a transaction into the database
@@ -119,7 +138,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param date The date the transaction was made
      * @param categoryName Which category name the transaction relates to
      */
-    public void addTransaction(String description, float amount, String date, int categoryName ){
+    public void saveTransaction(String description, float amount, String date, int categoryName ){
 
         SQLiteDatabase db = instance.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -189,7 +208,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * Created all categories that are in the database
      * @return Returns a list of all category objects in the database
      */
-    public ArrayList<Category> getEveryCategory(){
+    public ArrayList<Category> getCategories(){
 
         ArrayList<Category> returnList = new ArrayList<>();
 
@@ -285,8 +304,8 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * Creates transaction objects of all the transactions registered in the database
      * @return Returns a list of all transactions in he database
      */
-    public ArrayList<FinancialTransaction> getAllTransactions(){
-        ArrayList<Category> categories = getEveryCategory();
+    public ArrayList<FinancialTransaction> getFinancialTransactions(){
+        ArrayList<Category> categories = getCategories();
 
         ArrayList<FinancialTransaction> returnList = new ArrayList<>();
 
