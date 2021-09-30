@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setVisibility(View.VISIBLE);
     }
 
-    private void openFragmentInMainFrameLayout(Fragment fragment){
+    public void openFragmentInMainFrameLayout(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, fragment).commit();
     }
 

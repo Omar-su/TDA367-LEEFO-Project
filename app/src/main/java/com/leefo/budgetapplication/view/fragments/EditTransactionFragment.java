@@ -44,6 +44,8 @@ public class EditTransactionFragment extends Fragment {
     private View view;
     private FinancialTransaction oldTransaction;
 
+    ArrayList<Category> income, expense;
+
     /**
      * Method that runs when the fragment is being created.
      * Connects the fragment xml file to the fragment class and initializes the fragment's components.
@@ -63,11 +65,16 @@ public class EditTransactionFragment extends Fragment {
         saveButton = view.findViewById(R.id.edit_transaction_save_button);
         radioGroup = view.findViewById(R.id.edit_transaction_radioGroup);
 
+        income = Controller.getIncomeCategories();
+        expense = Controller.getExpenseCategories();
+
         // init category spinner
         initSpinner();
 
         // init date picker
         initDatePickerDialog();
+
+        setOldTranscactionValues(oldTransaction);
 
         // init save button onClick
         initSaveButtonOnClickListener();
@@ -75,10 +82,34 @@ public class EditTransactionFragment extends Fragment {
         return view;
     }
 
+    private void setOldTranscactionValues(FinancialTransaction transaction){
+        noteInput.setText(transaction.getDescription());
+        amountInput.setText(Float.toString(transaction.getAmount()));
+        Category oldCateory = transaction.getCategory();
+        dateInput.setText(oldTransaction.getDate().toString());
+        if(oldCateory.isIncome()){
+            radioGroup.check(R.id.edit_transaction_radioIncome);
+        } else {
+            radioGroup.check(R.id.edit_transaction_radioExpense);
+        }
+        if (oldCateory.isIncome()){
+            ArrayList<Category> newIncomeList = new ArrayList<>(income);
+            newIncomeList.remove(oldCateory);
+            newIncomeList.add(0, oldCateory);
+            SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), newIncomeList);
+            categorySpinner.setAdapter(spinnerAdapter);
+
+        } else {
+            ArrayList<Category> newExpenseList = new ArrayList<>(expense);
+            newExpenseList.remove(oldCateory);
+            newExpenseList.add(0, oldCateory);
+            SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), newExpenseList);
+            categorySpinner.setAdapter(spinnerAdapter);
+        }
+
+    }
+
     private void initSpinner(){
-        ArrayList<Category> income, expense;
-        income = Controller.getIncomeCategories();
-        expense = Controller.getExpenseCategories();
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), expense);
         categorySpinner.setAdapter(spinnerAdapter);
 
@@ -152,7 +183,7 @@ public class EditTransactionFragment extends Fragment {
                 new DatePickerDialog(getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-        updateDateLabel();
+
 
     }
 
