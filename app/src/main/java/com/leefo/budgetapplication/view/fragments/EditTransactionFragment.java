@@ -86,7 +86,7 @@ public class EditTransactionFragment extends Fragment {
         {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.radioExpense){
+                if (checkedId == R.id.edit_transaction_radioExpense){
                     SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), expense);
                     categorySpinner.setAdapter(spinnerAdapter);
                 } else {
