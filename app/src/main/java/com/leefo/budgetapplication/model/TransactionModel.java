@@ -18,8 +18,8 @@ public class TransactionModel {
 
 
     public TransactionModel() {
-       // loadTransactionList();
-       // loadCategoryList();
+       // loadTransactionList(); and sort the list
+       // loadCategoryList(); and sort the list
         // When running for the first time, before database has saved default categories
         // we need to somehow add them to the list.
         // categoryList.add(otherIncome);
