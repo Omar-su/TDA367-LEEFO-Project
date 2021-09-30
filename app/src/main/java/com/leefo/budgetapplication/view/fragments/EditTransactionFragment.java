@@ -44,6 +44,8 @@ public class EditTransactionFragment extends Fragment {
     private View view;
     private FinancialTransaction oldTransaction;
 
+    ArrayList<Category> income, expense;
+
     /**
      * Method that runs when the fragment is being created.
      * Connects the fragment xml file to the fragment class and initializes the fragment's components.
@@ -62,6 +64,9 @@ public class EditTransactionFragment extends Fragment {
         dateInput = view.findViewById(R.id.edit_transaction_dateInput);
         saveButton = view.findViewById(R.id.edit_transaction_save_button);
         radioGroup = view.findViewById(R.id.edit_transaction_radioGroup);
+
+        income = Controller.getIncomeCategories();
+        expense = Controller.getExpenseCategories();
 
         // init category spinner
         initSpinner();
@@ -99,12 +104,11 @@ public class EditTransactionFragment extends Fragment {
         } else {
             radioGroup.check(R.id.edit_transaction_radioExpense);
         }
+
+
     }
 
     private void initSpinner(){
-        ArrayList<Category> income, expense;
-        income = Controller.getIncomeCategories();
-        expense = Controller.getExpenseCategories();
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), expense);
         categorySpinner.setAdapter(spinnerAdapter);
 
