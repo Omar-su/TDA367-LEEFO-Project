@@ -22,14 +22,14 @@ import java.util.ArrayList;
 public class Controller {
 
     /**
-     * Object handling logic for all transactions and categories.
+     * The object handling logic for all transactions and categories.
      */
     private static TransactionModel transactionModel;
 
 
 
     /**
-     * Initializes database as well as the TransactionHandler and CategoryHandler.
+     * Initializes database as well as the Transactionmodel.
      * @param context Application context for database.
      */
     public static void InitializeBackend(Context context)
@@ -240,19 +240,88 @@ public class Controller {
     }
 
     /**
-     * Getter for all categories in model.
-     * @return A list of categories.
+     * Returns a list of all categories in the model.
+     * @return A list of all categories in the model.
      */
     public static ArrayList<Category> getCategories()
     {
         return transactionModel.getCategoryList();
     }
 
+    /**
+     * Returns a list of all income categories in the model.
+     * @return A list of all income categories in the model.
+     */
     public static ArrayList<Category> getIncomeCategories(){
         return transactionModel.getIncomeCategories();
     }
 
+    /**
+     * Returns a list of a all expense categories in the model.
+     * @return Alist of all expense categories in the model.
+     */
     public static ArrayList<Category> getExpenseCategories(){
         return transactionModel.getExpenseCategories();
     }
+
+    /**
+     * Returns the total income amount for a specific month and year.
+     * @param month The month to calculate income amount for.
+     * @param year The year to calculate income amount for.
+     * @return The total income amount for the specified time period.
+     */
+    public static double getTotalIncome(String month, String year){
+        TransactionRequest request = new TransactionRequest(null, month, year);
+        return transactionModel.getTotalIncome(request);
+    }
+
+    /**
+     * Returns the total income amount for all financial transactions in the model.
+     * @return The total income amount.
+     */
+    public static double getTotalIncome(){
+        TransactionRequest request = new TransactionRequest(null, null, null);
+        return transactionModel.getTotalIncome(request);
+    }
+
+    /**
+     * Returns the total expense amount for a specific month and year.
+     * @param month The month to calculate expense amount for.
+     * @param year The year to calculate expense amount for.
+     * @return The total expense amount for the specified time period.
+     */
+    public static float getTotalExpense(String month, String year){
+        TransactionRequest request = new TransactionRequest(null, month, year);
+        return transactionModel.getTotalExpense(request);
+    }
+
+    /**
+     * Returns the total income amount for all financial transactions in the model.
+     * @return The total expense amount.
+     */
+    public static float getTotalExpense(){
+        TransactionRequest request = new TransactionRequest(null, null, null);
+        return transactionModel.getTotalExpense(request);
+    }
+
+    /**
+     * Returns the balance between income amount and expense amount for a specific month and year.
+     * @param month The month to calculate the balance for.
+     * @param year The year to calculate the balance for.
+     * @return The calculated balance.
+     */
+    public static float getTransactionBalance(String month, String year){
+        TransactionRequest request = new TransactionRequest(null, month, year);
+        return transactionModel.getTransactionBalance(request);
+    }
+
+    /**
+     * Returns the balance between income amount and expense amount for all transactions ever made.
+     * @return The calculated balance.
+     */
+    public static float getTransactionBalance(){
+        TransactionRequest request = new TransactionRequest(null, null, null);
+        return transactionModel.getTransactionBalance(request);
+    }
+
 }

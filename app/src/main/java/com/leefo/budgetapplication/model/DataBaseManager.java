@@ -10,12 +10,13 @@ import androidx.annotation.Nullable;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Creates the database needed for saving the transactions and categories information
  * and handling inserting, deleting and requesting any information that is in the database
  */
-public class DataBaseManager extends SQLiteOpenHelper {
+public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
     private static final String CATEGORY_TABLE = "CATEGORY_TABLE";
     private static final String CATEGORY_NAME = "CATEGORY_NAME";
@@ -50,7 +51,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
     }
 
     private void initOtherCategory(){
-        ArrayList<Category> categories = getEveryCategory();
+        ArrayList<Category> categories = getCategories();
         for (Category c : categories){
             if (c.getName().equals("Other")) return;
         }
@@ -111,6 +112,50 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
+    public void saveData(FinancialTransaction transaction)
+    {
+        SQLiteDatabase db = instance.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(TRANSACTIONS_DESC, transaction.getDescription());
+        cv.put(TRANSACTION_AMOUNT, transaction.getAmount());
+        cv.put(TRANSACTION_DATE, transaction.getDate().toString());
+        cv.put(CATEGORY_FK_NAME, transaction.getCategory().getName());
+
+        db.insert(TRANSACTIONS_TABLE, null, cv);
+        db.close();
+
+    }
+
+    public void saveData(Category category)
+    {
+        int i = category.isIncome() ? 1 : 0;
+
+        SQLiteDatabase db = instance.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(CATEGORY_NAME, category.getName());
+        cv.put(CATEGORY_COLOR, category.getColor());
+        cv.put(CATEGORY_IS_INCOME, i);
+        db.insert(CATEGORY_TABLE, null, cv);
+        db.close();
+    }
+
+    public void removeData(FinancialTransaction transaction)
+    {
+        SQLiteDatabase db = instance.getWritableDatabase();
+        String sql = "DELETE FROM " + TRANSACTIONS_TABLE + " WHERE " + TRANSACTIONS_DESC + " = " + transaction.getDescription()
+                    + TRANSACTION_DATE + " = " + transaction.getDate().toString() + TRANSACTION_AMOUNT + " = " + transaction.getAmount()
+                    + CATEGORY_FK_NAME + " = " + transaction.getCategory() + " LIMIT 1";
+
+
+        db.execSQL(sql);
+        db.close();
+
+    }
+
+    public void removeData(Category category)
+    {
+
+    }
 
     /**
      * Adds a transaction into the database
@@ -119,7 +164,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * @param date The date the transaction was made
      * @param categoryName Which category name the transaction relates to
      */
-    public void addTransaction(String description, float amount, String date, int categoryName ){
+    public void saveTransaction(String description, float amount, String date, int categoryName ){
 
         SQLiteDatabase db = instance.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -189,7 +234,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * Created all categories that are in the database
      * @return Returns a list of all category objects in the database
      */
-    public ArrayList<Category> getEveryCategory(){
+    public ArrayList<Category> getCategories(){
 
         ArrayList<Category> returnList = new ArrayList<>();
 
@@ -216,77 +261,13 @@ public class DataBaseManager extends SQLiteOpenHelper {
     }
 
 
-    /*
-     * Gets a specific category from the database
-     * @param CatName The name of the category that is wanted
-     * @return returns the wanted category
-     */ /*
-    public Category getCategoryByName(String CatName){
-        initOtherCategory();
-
-        String queryString = " SELECT * FROM " + CATEGORY_TABLE +" WHERE " + CATEGORY_NAME + " = " + CatName;
-        SQLiteDatabase db = instance.getReadableDatabase();
-
-        Cursor cursor = db.rawQuery(queryString, null);
-        String categoryName = cursor.getString(0);
-        String categoryColor = cursor.getString(1);
-        int categoryIsIncome = cursor.getInt(2);
-        cursor.close();
-
-        Category category = new Category(categoryName, categoryColor, categoryIsIncome); // TODO
-        db.close();
-        return category;
-    }
-    */
-
-
-
-    /*
-     * Creates transaction objects with the data that is stored in the database by specifying the date
-     * @param year The year the transaction was made
-     * @param month The month the transaction was made
-     * @return Returns a list of all the transactions that is in a specific month and year
-     */
-    /*
-    public ArrayList<Transaction> getTransactionsByMonth(String year, String month){
-
-
-        ArrayList<Transaction> returnList = new ArrayList<>();
-
-        String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + "'" + year + "-"  + month + "-" + "01' "
-                            + " AND " + "'" + year + "-"  + month + "-"  + "31' ORDER BY " + TRANSACTION_DATE + " DESC ";
-
-        SQLiteDatabase db = instance.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
-
-        if (cursor.moveToFirst()){
-            do {
-                int transactionID = cursor.getInt(0);
-                int transactionAmount = cursor.getInt(1);
-                String transactionDesc = cursor.getString(2);
-                String transactionDate = cursor.getString(3);
-                String categoryFKName = cursor.getString(4);
-
-                Transaction newTransaction = new Transaction(transactionID, transactionAmount ,transactionDesc, transactionDate, categoryFKName);
-                returnList.add(newTransaction);
-
-            }while (cursor.moveToNext());
-
-        }
-
-        cursor.close();
-        db.close();
-        return returnList;
-
-    }
-
 
     /**
      * Creates transaction objects of all the transactions registered in the database
      * @return Returns a list of all transactions in he database
      */
-    public ArrayList<FinancialTransaction> getAllTransactions(){
-        ArrayList<Category> categories = getEveryCategory();
+    public ArrayList<FinancialTransaction> getFinancialTransactions(){
+        ArrayList<Category> categories = getCategories();
 
         ArrayList<FinancialTransaction> returnList = new ArrayList<>();
 
@@ -326,45 +307,6 @@ public class DataBaseManager extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return returnList;
-
-    }
-
-
-    /**
-     * Creates transaction objects with the data that is stored in the database by specifying the date and the category
-     * @param year The year the transaction was made
-     * @param month The month the transaction was made
-     * @param categoryName The name of the category that all the wanted transactions have
-     * @return Returns a list of all the transactions that is in a specific month and year with a specific category
-     */
-    /*
-    public ArrayList<Transaction> getTransactionsByMonthAndCat(String year, String month, String categoryName) {
-        ArrayList<Transaction> returnList = new ArrayList<>();
-        String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "+ TRANSACTION_DATE + " BETWEEN " + "'" + year + "-"  + month + "-" + "01' "
-                + " AND " + "'" + year + "-"  + month + "-" + "31'" + " AND " + CATEGORY_FK_NAME + " = '" + categoryName + "' ORDER BY " + TRANSACTION_DATE + " DESC " ;
-
-        SQLiteDatabase db = instance.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
-
-        if (cursor.moveToFirst()){
-            do {
-                int transactionID = cursor.getInt(0);
-                int transactionAmount = cursor.getInt(1);
-                String transactionDesc = cursor.getString(2);
-                String transactionDate = cursor.getString(3);
-                String categoryFKName = cursor.getString(4);
-
-                Transaction newTransaction = new Transaction(transactionID, transactionAmount ,transactionDesc, transactionDate, categoryFKName);
-                returnList.add(newTransaction);
-
-            }while (cursor.moveToNext());
-
-        }
-
-        cursor.close();
-        db.close();
-        return returnList;
-
 
     }
 
