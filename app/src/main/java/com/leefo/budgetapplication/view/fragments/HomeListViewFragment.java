@@ -64,8 +64,12 @@ public class HomeListViewFragment extends Fragment implements ModelObserver, Vie
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                FinancialTransaction transaction = (FinancialTransaction) adapterView.getItemAtPosition(i);
+                if (transaction.getCategory().getName().equals("DATE")){ // then it is a date row, should not be clickable
+                    return;
+                }
                 ((MainActivity)getActivity()).openEditTransactionFragment();
-                SharedViewData.singleTransaction = (FinancialTransaction) adapterView.getItemAtPosition(i);
+                SharedViewData.singleTransaction = transaction;
             }
         });
     }

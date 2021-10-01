@@ -146,13 +146,12 @@ public class EditTransactionFragment extends Fragment {
     }
 
     private void editTransaction(){
-        boolean isExpense = radioGroup.getCheckedRadioButtonId() == R.id.radioExpense;
         String description = noteInput.getText().toString();
         float amount = Float.parseFloat(amountInput.getText().toString());
         Category category = (Category) categorySpinner.getSelectedItem();
         LocalDate date = myCalendar.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // convert Date to LocalDate
 
-        if (isExpense){
+        if (!category.isIncome()){
             amount = Math.abs(amount) * -1;
         }
         Controller.editTransaction(oldTransaction, amount, description, date, category );

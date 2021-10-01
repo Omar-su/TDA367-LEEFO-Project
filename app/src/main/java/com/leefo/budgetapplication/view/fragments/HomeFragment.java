@@ -14,11 +14,13 @@ import androidx.fragment.app.FragmentManager;
 
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.SharedViewData;
 import com.leefo.budgetapplication.view.ViewObserverHandler;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 
 /**
  * Class that represents the fragment for the Home page
@@ -48,10 +50,13 @@ public class HomeFragment extends Fragment {
         forward_arrow = view.findViewById(R.id.Arrow_forward);
 
         // init
-        openCorrectFragment();
+
         initToggleButton(view);
         updateHeaderValues();
         initTimePeriod();
+        openCorrectFragment();
+
+        ArrayList<FinancialTransaction> list = Controller.getTransactions();
 
         return view;
     }
@@ -116,9 +121,12 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateHeaderValues(){
-        income.setText(String.valueOf(Controller.getTotalIncome()));
-        expense.setText(String.valueOf(Controller.getTotalExpense()));
-        balance.setText(String.valueOf(Controller.getTransactionBalance()));
+        float in = Controller.getTotalIncome(SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
+        float ex = Controller.getTotalExpense(SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
+        float ba = Controller.getTransactionBalance(SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
+        income.setText(String.valueOf(in));
+        expense.setText(String.valueOf(ex));
+        balance.setText(String.valueOf(ba));
     }
 
     private void initToggleButton(View view) {

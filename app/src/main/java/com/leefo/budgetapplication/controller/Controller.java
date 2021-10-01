@@ -270,7 +270,7 @@ public class Controller {
      * @param year The year to calculate income amount for.
      * @return The total income amount for the specified time period.
      */
-    public static double getTotalIncome(int month, int year){
+    public static float getTotalIncome(int month, int year){
         TransactionRequest request = new TransactionRequest(null, month, year);
         return transactionModel.getTotalIncome(request);
     }
@@ -279,7 +279,7 @@ public class Controller {
      * Returns the total income amount for all financial transactions in the model.
      * @return The total income amount.
      */
-    public static double getTotalIncome(){
+    public static float getTotalIncome(){
         TransactionRequest request = new TransactionRequest(null, 0, 0);
         return transactionModel.getTotalIncome(request);
     }

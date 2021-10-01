@@ -42,6 +42,12 @@ public class TransactionModel {
         initDefaultCategories();
     }
 
+    private void removeAllTransactions(){
+        for (FinancialTransaction t : getTransactionList()){
+            deleteTransaction(t);
+        }
+    }
+
     private void initDefaultCategories() {
         for (Category c : getCategoryList()){
             if (c.getName().equals("Other income")){

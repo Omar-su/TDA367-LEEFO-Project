@@ -106,7 +106,7 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
     }
 
     private void setupPieChart(){
-        pieChart.setDrawHoleEnabled(true); // false for pie chart, true for donut chart
+        pieChart.setDrawHoleEnabled(false); // false for pie chart, true for donut chart
         pieChart.setUsePercentValues(true);
         pieChart.setDrawEntryLabels(false);
         pieChart.getDescription().setEnabled(false);
