@@ -48,7 +48,10 @@ public class HomeListViewFragment extends Fragment implements ModelObserver {
         TextView noTransactoins1 = view.findViewById(R.id.noTransactionsYetText1);
         TextView noTransactoins2 = view.findViewById(R.id.noTransactionsYetText2);
 
-        transactions = Controller.getTransactions();
+
+
+
+        transactions = Controller.getTransactions(SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
 
 
         if (transactions.isEmpty()){

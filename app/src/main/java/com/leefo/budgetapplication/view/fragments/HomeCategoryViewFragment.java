@@ -54,14 +54,18 @@ public class HomeCategoryViewFragment extends Fragment {
         TextView noTransactoins1 = view.findViewById(R.id.noTransactionsYetText1);
         TextView noTransactoins2 = view.findViewById(R.id.noTransactionsYetText2);
 
-        if (Controller.getTransactions().isEmpty()){
-            noTransactoins1.setVisibility(View.VISIBLE);
-            noTransactoins2.setVisibility(View.VISIBLE);
-        } else {
-
-            loadPieChartData();
-            initList();
+        boolean noTransactions = true;
+        for (Category c : Controller.getExpenseCategories()){
+            if (!Controller.getTransactions(c, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear()).isEmpty()){
+                loadPieChartData();
+                initList();
+                noTransactions = false;
+            }
         }
+       if (noTransactions) {
+           noTransactoins1.setVisibility(View.VISIBLE);
+           noTransactoins2.setVisibility(View.VISIBLE);
+       }
 
         return view;
     }
@@ -69,7 +73,7 @@ public class HomeCategoryViewFragment extends Fragment {
     private void initList(){
         ArrayList<Category> notEmptyCategories = new ArrayList<>();
         for (Category c : Controller.getExpenseCategories()){
-            if (!Controller.getTransactions(c).isEmpty()){
+            if (!Controller.getTransactions(c, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear()).isEmpty()){
                 notEmptyCategories.add(c);
             }
         }

@@ -135,7 +135,7 @@ public class Controller {
      * @param category Category that the transactions belong to, optional.
      * @return A list of transactions specified by request.
      */
-    public static ArrayList<FinancialTransaction> getTransactions(Category category)
+    public static ArrayList<FinancialTransaction> getTransactions(Category category) // dont need
     {
         TransactionRequest request = new TransactionRequest(category, 0, 0);
 
@@ -165,7 +165,7 @@ public class Controller {
      *
      * @return A list of transactions specified by request.
      */
-    public static ArrayList<FinancialTransaction> getTransactions()
+    public static ArrayList<FinancialTransaction> getTransactions() // dont need
     {
         TransactionRequest request = new TransactionRequest(null, 0, 0);
 
@@ -207,7 +207,7 @@ public class Controller {
      * Gets sum of all transactions within parameters of the TransactionRequest.
      * @return Sum of transactions.
      */
-    public static float getTransactionSum()
+    public static float getTransactionSum() // dont need
     {
         TransactionRequest request = new TransactionRequest(null, 0, 0);
 
@@ -219,7 +219,7 @@ public class Controller {
      * @param category Category that the transactions belong to, optional.
      * @return Sum of transactions.
      */
-    public static float getTransactionSum(Category category)
+    public static float getTransactionSum(Category category) // dont need
     {
         TransactionRequest request = new TransactionRequest(category, 0, 0);
 
@@ -232,7 +232,7 @@ public class Controller {
      * @param year Year transactions were made.
      * @return Sum of transactions.
      */
-    public static float getTransactionSum(int month, int year)
+    public static float getTransactionSum(int month, int year) // dont need
     {
         TransactionRequest request = new TransactionRequest(null, month, year);
 
