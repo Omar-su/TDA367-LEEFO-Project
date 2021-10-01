@@ -19,7 +19,7 @@ public class TransactionRequest {
     /**
      * Specifies what time transaction was made.
      */
-    private final int month, year; // can be null
+    private final int month, year; // can be 0
 
     public TransactionRequest(Category category, int month, int year)
     {

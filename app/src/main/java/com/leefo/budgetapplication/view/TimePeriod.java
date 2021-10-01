@@ -2,7 +2,7 @@ package com.leefo.budgetapplication.view;
 
 public class TimePeriod {
 
-    private int year, month;
+    private int year, month; // can be 0
 
     public TimePeriod(int year, int month) {
         this.year = year;

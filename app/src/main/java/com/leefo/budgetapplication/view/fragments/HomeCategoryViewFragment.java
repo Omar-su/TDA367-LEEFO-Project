@@ -105,7 +105,7 @@ public class HomeCategoryViewFragment extends Fragment {
         double sum = 0;
         for(Category c :  Controller.getAllCategories()){
             if (!c.isIncome()){
-                sum = Controller.getTransactionSum(c); // TODO dates
+                sum = Controller.getTransactionSum(c, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
                 if (sum != 0){
                     entries.add(new PieEntry((float)sum,c.getName()));
                     myColors.add(Color.parseColor(c.getColor()));

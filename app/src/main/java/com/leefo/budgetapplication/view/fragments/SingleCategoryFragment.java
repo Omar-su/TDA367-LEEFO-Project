@@ -29,7 +29,7 @@ public class SingleCategoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_single_category, container, false);
 
         Category category = SharedViewData.singleCategory;
-        list = Controller.getTransactions(category); // TODO
+        list = Controller.getTransactions(category, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
 
         TextView textView = view.findViewById(R.id.title_category);
         textView.setText(category.getName());

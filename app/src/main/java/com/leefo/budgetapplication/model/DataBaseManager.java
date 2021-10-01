@@ -189,7 +189,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
                 String categoryColor = cursor.getString(1);
                 int categoryIsIncome = cursor.getInt(2);
                 boolean b = categoryIsIncome == 1;
-                Category newCategory = new Category(categoryName, categoryColor, b); //TODO
+                Category newCategory = new Category(categoryName, categoryColor, b);
                 returnList.add(newCategory);
 
             }while (cursor.moveToNext());
