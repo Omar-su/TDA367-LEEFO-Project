@@ -315,7 +315,7 @@ public class TransactionModel {
     }
 
     private void saveCategoryToDatabase(Category category){
-        //database.saveData(category);
+        database.saveData(category);
     }
 
     private void deleteTransactionFromDatabase(FinancialTransaction transaction){

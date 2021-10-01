@@ -5,8 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
 
     public DataBaseManager(@Nullable Context context) {
-        super(context, "category_transaction_db", null, 1);
+        super(context, "category_trans_db", null, 2);
     }
 
 
@@ -60,8 +62,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
                                     + CATEGORY_COLOR + " TEXT, "
                                     + CATEGORY_IS_INCOME + " INTEGER " + " )";
 
-        String createTableTransactions = " CREATE TABLE " + TRANSACTIONS_TABLE + " ( " + TRANSACTIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                        + TRANSACTION_AMOUNT + " REAL, "
+        String createTableTransactions = " CREATE TABLE " + TRANSACTIONS_TABLE + " ( " + TRANSACTION_AMOUNT + " REAL, "
                                         + TRANSACTIONS_DESC + " TEXT, "
                                         + TRANSACTION_DATE + " TEXT, "
                                         + CATEGORY_FK_NAME + " INTEGER, FOREIGN KEY(" + CATEGORY_FK_NAME + ") REFERENCES " + CATEGORY_TABLE + " ( " + CATEGORY_NAME + " ) ON DELETE SET NULL)";
@@ -205,6 +206,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      * Creates transaction objects of all the transactions registered in the database
      * @return Returns a list of all transactions in he database
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public ArrayList<FinancialTransaction> getFinancialTransactions(){
         ArrayList<Category> categories = getCategories();
 
