@@ -2,6 +2,7 @@ package com.leefo.budgetapplication.model;
 
 import com.leefo.budgetapplication.controller.TransactionRequest;
 
+import java.net.FileNameMap;
 import java.util.ArrayList;
 
 /**
@@ -229,21 +230,30 @@ public class TransactionModel {
         return Math.abs(sum);
     }
 
-    public ArrayList<FinancialTransaction> searchTransactions(TransactionRequest request){
-        if (!request.timeIsSpecified() && !request.categoryIsSpecified()){ // get all, no condition for category or time
-            return getTransactionList();
+    public ArrayList<FinancialTransaction> searchTransactions(TransactionRequest request)
+    {
+        ArrayList<FinancialTransaction> result = new ArrayList<>();
+
+        // loops through every transaction
+        for(FinancialTransaction transaction : getTransactionList())
+        {
+            // unnecessarily complicated method of retrieving year and month from LocalDate object
+            // because older API versions don't support getMonthValue() and getYearValue()
+            int transactionYear = Integer.parseInt(transaction.getDate().toString().substring(0, 4));
+            int transactionMonth = Integer.parseInt(transaction.getDate().toString().substring(5, 7));
+
+            // moves on to next transaction if current transaction does not match time specification
+            if(request.getYear() != transactionYear || request.getMonth() != transactionMonth)
+                continue;
+
+            // moves on to next transaction if current transaction category does not match requested category
+            if(!request.getCategory().Equals(transaction.getCategory()))
+                continue;
+
+            result.add(transaction); // adds transaction to result if transaction passes checks
         }
-        if (!request.timeIsSpecified() && request.categoryIsSpecified()){ // get based on category, no term for time
-            Category category = request.getCategory();
-            ArrayList<FinancialTransaction> transactions = new ArrayList<>();
-            for (FinancialTransaction t : getTransactionList()){
-                if (t.getCategory() == category){
-                    transactions.add(t);
-                }
-            }
-            return transactions;
-        }
-        return getTransactionList();
+
+        return result;
     }
 
 
