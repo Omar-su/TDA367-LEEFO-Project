@@ -34,10 +34,10 @@ public class TransactionModel {
      */
     public TransactionModel(IDatabase database) {
         this.database = database;
-        transactionList = new ArrayList<>();
-        categoryList = new ArrayList<>();
-        //transactionList = getFinancialTransactions(); // not finished should be sorted first
-        //categoryList = getCategories();
+        //transactionList = new ArrayList<>();
+        //categoryList = new ArrayList<>();
+        transactionList = getFinancialTransactions(); // not finished should be sorted first
+        categoryList = getCategories();
 
         initDefaultCategories();
     }
@@ -311,11 +311,11 @@ public class TransactionModel {
 
     // dataBase methods ----
     private void saveTransactionToDatabase(FinancialTransaction transaction){
-        //database.saveData(transaction);
+        database.saveData(transaction);
     }
 
     private void saveCategoryToDatabase(Category category){
-        //database.saveData(category);
+        database.saveData(category);
     }
 
     private void deleteTransactionFromDatabase(FinancialTransaction transaction){
