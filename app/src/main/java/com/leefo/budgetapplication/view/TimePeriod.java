@@ -42,4 +42,13 @@ public class TimePeriod {
     private void decrementYear(){
         year--;
     }
+
+    public void setNoSpecifiedTimePeriod(){
+        year = month = 0;
+    }
+
+    public void setSpecifiedTimePeriod(int year, int month){
+        this.year = year;
+        this.month = month;
+    }
 }

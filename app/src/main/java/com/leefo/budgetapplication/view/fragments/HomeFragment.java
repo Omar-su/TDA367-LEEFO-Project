@@ -15,6 +15,7 @@ import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.view.SharedViewData;
 
+import java.time.LocalDate;
 import java.time.Month;
 
 /**
@@ -70,6 +71,17 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 SharedViewData.timePeriod.incrementMonth();
                 updateTimePeriodButtonLabel();
+            }
+        });
+
+        time_period_toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    SharedViewData.timePeriod.setNoSpecifiedTimePeriod();
+                } else {
+                    SharedViewData.timePeriod.setSpecifiedTimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
+                    updateTimePeriodButtonLabel();
+                }
             }
         });
     }
