@@ -137,7 +137,7 @@ public class Controller {
      */
     public static ArrayList<FinancialTransaction> getTransactions(Category category)
     {
-        TransactionRequest request = new TransactionRequest(category, null, null);
+        TransactionRequest request = new TransactionRequest(category, 0, 0);
 
         return transactionModel.searchTransactions(request);
     }
@@ -151,7 +151,7 @@ public class Controller {
      * @param year Year transactions were made, optional.
      * @return A list of transactions specified by request.
      */
-    public static ArrayList<FinancialTransaction> getTransactions(String month, String year)
+    public static ArrayList<FinancialTransaction> getTransactions(int month, int year)
     {
         TransactionRequest request = new TransactionRequest(null, month, year);
 
@@ -167,7 +167,7 @@ public class Controller {
      */
     public static ArrayList<FinancialTransaction> getTransactions()
     {
-        TransactionRequest request = new TransactionRequest(null, null, null);
+        TransactionRequest request = new TransactionRequest(null, 0, 0);
 
         return transactionModel.searchTransactions(request);
     }
@@ -182,7 +182,7 @@ public class Controller {
      * @param year Year transactions were made, optional.
      * @return A list of transactions specified by request.
      */
-    public static ArrayList<FinancialTransaction> getTransactions(Category category, String month, String year)
+    public static ArrayList<FinancialTransaction> getTransactions(Category category, int month, int year)
     {
         TransactionRequest request = new TransactionRequest(category, month, year);
 
@@ -196,7 +196,7 @@ public class Controller {
      * @param year Year transactions were made.
      * @return Sum of transactions.
      */
-    public static float getTransactionSum(Category category, String month, String year)
+    public static float getTransactionSum(Category category, int month, int year)
     {
         TransactionRequest request = new TransactionRequest(category, month, year);
 
@@ -209,7 +209,7 @@ public class Controller {
      */
     public static float getTransactionSum()
     {
-        TransactionRequest request = new TransactionRequest(null, null, null);
+        TransactionRequest request = new TransactionRequest(null, 0, 0);
 
         return transactionModel.getTransactionSum(request);
     }
@@ -221,7 +221,7 @@ public class Controller {
      */
     public static float getTransactionSum(Category category)
     {
-        TransactionRequest request = new TransactionRequest(category, null, null);
+        TransactionRequest request = new TransactionRequest(category, 0, 0);
 
         return transactionModel.getTransactionSum(request);
     }
@@ -232,7 +232,7 @@ public class Controller {
      * @param year Year transactions were made.
      * @return Sum of transactions.
      */
-    public static float getTransactionSum(String month, String year)
+    public static float getTransactionSum(int month, int year)
     {
         TransactionRequest request = new TransactionRequest(null, month, year);
 
@@ -270,7 +270,7 @@ public class Controller {
      * @param year The year to calculate income amount for.
      * @return The total income amount for the specified time period.
      */
-    public static double getTotalIncome(String month, String year){
+    public static double getTotalIncome(int month, int year){
         TransactionRequest request = new TransactionRequest(null, month, year);
         return transactionModel.getTotalIncome(request);
     }
@@ -280,7 +280,7 @@ public class Controller {
      * @return The total income amount.
      */
     public static double getTotalIncome(){
-        TransactionRequest request = new TransactionRequest(null, null, null);
+        TransactionRequest request = new TransactionRequest(null, 0, 0);
         return transactionModel.getTotalIncome(request);
     }
 
@@ -290,7 +290,7 @@ public class Controller {
      * @param year The year to calculate expense amount for.
      * @return The total expense amount for the specified time period.
      */
-    public static float getTotalExpense(String month, String year){
+    public static float getTotalExpense(int month, int year){
         TransactionRequest request = new TransactionRequest(null, month, year);
         return transactionModel.getTotalExpense(request);
     }
@@ -300,7 +300,7 @@ public class Controller {
      * @return The total expense amount.
      */
     public static float getTotalExpense(){
-        TransactionRequest request = new TransactionRequest(null, null, null);
+        TransactionRequest request = new TransactionRequest(null, 0, 0);
         return transactionModel.getTotalExpense(request);
     }
 
@@ -310,7 +310,7 @@ public class Controller {
      * @param year The year to calculate the balance for.
      * @return The calculated balance.
      */
-    public static float getTransactionBalance(String month, String year){
+    public static float getTransactionBalance(int month, int year){
         TransactionRequest request = new TransactionRequest(null, month, year);
         return transactionModel.getTransactionBalance(request);
     }
@@ -320,7 +320,7 @@ public class Controller {
      * @return The calculated balance.
      */
     public static float getTransactionBalance(){
-        TransactionRequest request = new TransactionRequest(null, null, null);
+        TransactionRequest request = new TransactionRequest(null, 0, 0);
         return transactionModel.getTransactionBalance(request);
     }
 

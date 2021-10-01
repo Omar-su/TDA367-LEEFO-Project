@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void removeAllTransactions(){
-        for (FinancialTransaction t : Controller.getTransactions(null, null, null)){
+        for (FinancialTransaction t : Controller.getTransactions(null, 0, 0)){
             Controller.removeTransaction(t);
         }
     }

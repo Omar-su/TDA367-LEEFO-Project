@@ -19,16 +19,16 @@ public class TransactionRequest {
     /**
      * Specifies what time transaction was made.
      */
-    private final String month, year; // can be null
+    private final int month, year; // can be null
 
-    public TransactionRequest(Category category, String month, String year)
+    public TransactionRequest(Category category, int month, int year)
     {
         this.category = category;
         this.month = month;
         this.year = year;
 
-        if(month == null || year == null)
-            month = year = null;
+        if(month == 0 || year == 0)
+            month = year = 0;
     }
 
     /**
@@ -37,7 +37,7 @@ public class TransactionRequest {
      */
     public boolean timeIsSpecified()
     {
-        return month != null && year != null;
+        return month != 0 && year != 0;
     }
 
     /**
@@ -59,12 +59,12 @@ public class TransactionRequest {
         return category;
     }
 
-    public String getMonth()
+    public int getMonth()
     {
         return month;
     }
 
-    public String getYear()
+    public int getYear()
     {
         return year;
     }
