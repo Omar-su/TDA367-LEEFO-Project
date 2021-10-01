@@ -2,7 +2,9 @@ package com.leefo.budgetapplication.model;
 
 import com.leefo.budgetapplication.controller.TransactionRequest;
 
+import java.lang.reflect.Array;
 import java.net.FileNameMap;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -325,6 +327,9 @@ public class TransactionModel {
         return getTotalIncome(request) - getTotalExpense(request);
     }
 
+
+
+
     // dataBase methods ----
     private void saveTransactionToDatabase(FinancialTransaction transaction){
         database.saveData(transaction);
@@ -343,11 +348,104 @@ public class TransactionModel {
     }
 
     private ArrayList<FinancialTransaction> getFinancialTransactions(){
-        return database.getFinancialTransactions(); // should be sorted by date
+
+        ArrayList<FinancialTransaction> transactions = database.getFinancialTransactions();
+
+        // transactions are not in order inside the database, so they must be sorted when they are retrieved.
+        // lower index means that the transaction has been made more recently.
+        bubbleSortTransactions(transactions);
+
+        return transactions; // should be sorted by date
     }
 
     private ArrayList<Category> getCategories(){
         return database.getCategories();
     }
+
+
+    // sorting ----
+
+    /**
+     * Sorts an array list of transactions so that the most recent transactions will have a lower index.
+     *
+     * Uses the bubble sort algorithm. https://en.wikipedia.org/wiki/Bubble_sort
+     *
+     * @param transactions List to be sorted.
+     */
+    private void bubbleSortTransactions(ArrayList<FinancialTransaction> transactions)
+    {
+        boolean notCompleted = true; // will be set to false in the last loop through the list of transactions
+
+        while (notCompleted)
+        {
+            notCompleted = false; // will be reset to true if a swap is made
+
+            // will be iterated until the list is sorted
+            for(int i = 0; i < transactions.size() - 2; i++)
+            {
+                FinancialTransaction first = transactions.get(i);
+                FinancialTransaction second = transactions.get(i+1);
+
+                // lower index transactions should be most recent
+                if (dateIsBefore(first.getDate(), second.getDate())) {
+                    swap(transactions, i, i + 1); // swaps transactions in array list
+                    notCompleted = true;
+                }
+            }
+        }
+    }
+
+    /**
+     * If isBefore is a date before isAfter, then this method returns true.
+     *
+     * If isBefore is a date after isAfter, or if the dates are the same, then it returns false.
+     *
+     * This method is only needed because older API versions don't support isAfter() or isBefore()
+     * methods in LocalDate.
+     *
+     * @param isBefore Date which should be before isAfter to return true.
+     * @param isAfter Date which should be after isBefore to return true;
+     * @return True if isBefore < isAfter.
+     */
+    private boolean dateIsBefore(LocalDate isBefore, LocalDate isAfter)
+    {
+        String before = isBefore.toString();
+        String after = isAfter.toString();
+
+        // unnecessarily complicated method of retrieving year and month from LocalDate object
+        // because older API versions don't support getMonthValue() and getYearValue()
+        int yearBefore = Integer.parseInt(before.substring(0, 4));
+        int yearAfter = Integer.parseInt(after.substring(0, 4));
+
+        if(yearBefore < yearAfter) return true;
+        if(yearBefore > yearAfter) return false;
+
+        int monthBefore = Integer.parseInt(before.substring(5, 7));
+        int monthAfter = Integer.parseInt(after.substring(5, 7));
+
+        if(monthBefore < monthAfter) return true;
+        if(monthBefore > monthAfter) return false;
+
+        int dayBefore = Integer.parseInt(before.substring(8, 10));
+        int dayAfter = Integer.parseInt(after.substring(8, 10));
+
+        return dayBefore < dayAfter; // if the day is the same, then the first is not before the other
+    }
+
+    /**
+     * Swaps the position of two transactions in a list.
+     *
+     * @param transactions List in which they will be swapped.
+     * @param i1 Index of first transaction.
+     * @param i2 Index of second transaction.
+     */
+    private void swap(ArrayList<FinancialTransaction> transactions, int i1, int i2)
+    {
+        FinancialTransaction temp = transactions.get(i1); // stores i1 temporarily
+
+        transactions.set(i1, transactions.get(i2)); // sets i1 to i2
+        transactions.set(i2, temp); // sets i2 to temp
+    }
+
 
 }
