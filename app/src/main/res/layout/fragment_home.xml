@@ -103,12 +103,14 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <ToggleButton
+            android:stateListAnimator="@null"
             android:id="@+id/toggleButton"
             android:layout_width="154dp"
             android:layout_height="35dp"
             android:layout_marginEnd="15dp"
             android:background="@color/white"
             android:text="ToggleButton"
+            android:textColor="@color/black"
             android:textOff="Category"
             android:textOn="List"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -116,6 +118,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
+            android:stateListAnimator="@null"
             android:id="@+id/Arrow_back"
             android:layout_width="30dp"
             android:layout_height="35dp"
@@ -123,9 +126,11 @@
             android:background="@color/white"
             android:src="@drawable/ic_baseline_arrow_back_ios_new_24_black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/toggleButton" />
+            app:layout_constraintTop_toTopOf="@+id/toggleButton"
+            app:tint="@color/black" />
 
         <ImageButton
+            android:stateListAnimator="@null"
             android:id="@+id/Arrow_forward"
             android:layout_width="30dp"
             android:layout_height="35dp"
@@ -133,14 +138,17 @@
             android:background="@color/white"
             android:src="@drawable/ic_baseline_arrow_forward_ios_24"
             app:layout_constraintEnd_toStartOf="@+id/toggleButton"
-            app:layout_constraintTop_toTopOf="@+id/toggleButton" />
+            app:layout_constraintTop_toTopOf="@+id/toggleButton"
+            app:tint="@color/black" />
 
         <ToggleButton
+            android:stateListAnimator="@null"
             android:id="@+id/time_period_toggle"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:background="@color/white"
             android:text="ToggleButton"
+            android:textColor="@color/black"
             android:textOff="month"
             android:textOn="All transactions"
             app:layout_constraintEnd_toStartOf="@+id/Arrow_forward"

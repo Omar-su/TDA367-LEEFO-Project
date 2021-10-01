@@ -1,5 +1,6 @@
 package com.leefo.budgetapplication.view.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,12 +89,16 @@ public class HomeFragment extends Fragment {
                     SharedViewData.timePeriod.setNoSpecifiedTimePeriod();
                     back_arrow.setEnabled(false);
                     forward_arrow.setEnabled(false);
+                    forward_arrow.setColorFilter(Color.WHITE);
+                    back_arrow.setColorFilter(Color.WHITE);
                     ViewObserverHandler.updateObservers();
                 } else {
                     SharedViewData.timePeriod.setSpecifiedTimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
                     updateTimePeriodButtonLabel();
                     back_arrow.setEnabled(true);
                     forward_arrow.setEnabled(true);
+                    forward_arrow.clearColorFilter();
+                    back_arrow.clearColorFilter();
                     ViewObserverHandler.updateObservers();
                 }
             }
