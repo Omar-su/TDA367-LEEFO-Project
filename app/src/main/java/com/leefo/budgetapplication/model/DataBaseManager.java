@@ -31,14 +31,6 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
     private static final String CATEGORY_IS_INCOME = "CATEGORY_IS_INCOME";
 
 
-    private void initOtherCategory(){
-        ArrayList<Category> categories = getCategories();
-        for (Category c : categories){
-            if (c.getName().equals("Other")) return;
-        }
-        saveData(new Category("Other", "#8A9094", true));
-    }
-
 
     public DataBaseManager(@Nullable Context context) {
         super(context, "category_transaction_db", null, 1);
@@ -152,11 +144,10 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      */
     public void removeData(Category category)
     {
-        initOtherCategory();
         SQLiteDatabase db = this.getWritableDatabase();
-        if ("Other".equals(category.getName())) return; // you cannot remove the category called Other
+        //if ("Other".equals(category.getName())) return; // you cannot remove the category called Other. Done in ,model
         String sql = "DELETE FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_NAME + " = '" + category.getName() + "'";
-        updateTransactionCatName(category.getName(), db); // updates the transactions which category was deleted to the "Other" category ID
+        //updateTransactionCatName(category.getName(), db); // updates the transactions which category was deleted to the "Other" category ID. done in model
         db.execSQL(sql);
         db.close();
 
@@ -170,6 +161,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      * @param db
      */
     private void updateTransactionCatName(String catName, SQLiteDatabase db) {
+        // done in model
         String sql = " UPDATE "+ TRANSACTIONS_TABLE + " SET "+ CATEGORY_FK_NAME + " =  'Other'" + " WHERE " + CATEGORY_FK_NAME + " = '" + catName + "'";
         db.execSQL(sql);
     }

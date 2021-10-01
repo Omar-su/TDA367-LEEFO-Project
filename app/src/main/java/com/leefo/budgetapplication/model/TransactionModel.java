@@ -23,9 +23,8 @@ public class TransactionModel {
      */
     private final ArrayList<Category> categoryList = new ArrayList<>();
 
-    private  Category otherIncome = new Category( "Other income", "#13702A", true);
-
-    private  Category otherExpense = new Category( "Other expense", "701313", false);
+    //private  Category otherIncome = new Category( "Other income", "#13702A", true);
+    //private  Category otherExpense = new Category( "Other expense", "701313", false);
 
    private final IDatabase database;
 
@@ -37,10 +36,34 @@ public class TransactionModel {
         this.database = database;
 
 
-        // When running for the first time, before database has saved default categories
-        // we need to somehow add them to the list.
-        // categoryList.add(otherIncome);
-        // categoryList.add(otherExpense);
+        initCategories();
+    }
+
+    private void initCategories() {
+        for (Category c : getCategoryList()){
+            if (c.getName().equals("Other income")){
+                return;
+            }
+        }
+        setDefaultCategories();
+    }
+
+    private void setDefaultCategories(){
+        // Other
+        addCategory(new Category("Other income", "#C4C4C4", true));
+        addCategory(new Category("Other expense", "#C4C4C4", false));
+
+        // Expenses
+        addCategory(new Category("Home", "#FF6464", false));
+        addCategory(new Category("Food", "#64FF7D", false));
+        addCategory(new Category("Transportation", "#64BEFF", false));
+        addCategory(new Category("Clothes", "#FF64DD", false));
+        addCategory(new Category("Entertainment", "#FFAE64", false));
+        addCategory(new Category("Electronics", "#64FFEC",false));
+
+        //Income
+        addCategory(new Category("Salary", "#FCFF64", true));
+        addCategory(new Category("Gift", "#6473FF", true));
     }
 
     /**
@@ -88,18 +111,21 @@ public class TransactionModel {
      * @param category The category to be deleted.
      */
     public void deleteCategory(Category category) {
+        if (category == getOtherExpenseCategory()) return; // not allowed tp remove that one
+        if (category == getOtherIncomeCategory()) return;; // not allowed to remove that one
+
         if (category.isIncome()) {
             for (FinancialTransaction t : transactionList) {
                 if (category.transactionBelongs(t)) {
                     editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(),
-                            t.getDate(), otherIncome));
+                            t.getDate(), getOtherIncomeCategory()));
                 }
             }
         } else {
             for (FinancialTransaction t : transactionList) {
                 if (category.transactionBelongs(t)) {
                     editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(),
-                            t.getDate(), otherExpense));
+                            t.getDate(), getOtherExpenseCategory()));
                 }
             }
         }
@@ -108,6 +134,24 @@ public class TransactionModel {
         deleteCategoryFromDatabase(category);
 
         ObserverHandler.updateObservers();
+    }
+
+    private Category getOtherIncomeCategory(){
+        for (Category c : getCategoryList()){
+            if (c.getName().equals("Other income")){
+                return c;
+            }
+        }
+        return null; // will never happen
+    }
+
+    private Category getOtherExpenseCategory(){
+        for (Category c : getCategoryList()){
+            if (c.getName().equals("Other expense")){
+                return c;
+            }
+        }
+        return null; // will never happen
     }
 
     /**
