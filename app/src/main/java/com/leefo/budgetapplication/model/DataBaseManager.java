@@ -66,7 +66,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
         String createTableCategory = " CREATE TABLE " + CATEGORY_TABLE + " ( " + CATEGORY_NAME + " TEXT PRIMARY KEY, "
                                     + CATEGORY_COLOR + " TEXT, "
-                                    + CATEGORY_IS_INCOME + " INTGER " + " )";
+                                    + CATEGORY_IS_INCOME + " INTEGER " + " )";
 
         String createTableTransactions = " CREATE TABLE " + TRANSACTIONS_TABLE + " ( " + TRANSACTIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                                         + TRANSACTION_AMOUNT + " REAL, "
