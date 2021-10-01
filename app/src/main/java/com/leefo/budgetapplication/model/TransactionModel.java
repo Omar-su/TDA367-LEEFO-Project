@@ -34,6 +34,7 @@ public class TransactionModel {
      */
     public TransactionModel(IDatabase database) {
         this.database = database;
+        //transactionList = new ArrayList<>();
         transactionList = getFinancialTransactions(); // not finished should be sorted first
         categoryList = getCategories();
 
@@ -312,7 +313,7 @@ public class TransactionModel {
 
     // dataBase methods ----
     private void saveTransactionToDatabase(FinancialTransaction transaction){
-        //database.saveData(transaction);
+        database.saveData(transaction);
     }
 
     private void saveCategoryToDatabase(Category category){
