@@ -16,12 +16,12 @@ public class TransactionModel {
     /**
      * The list of FinancialTransactions used in the application
      */
-    private final ArrayList<FinancialTransaction> transactionList = new ArrayList<>();
+    private  ArrayList<FinancialTransaction> transactionList;
 
     /**
      * The list of Categories used in the application
      */
-    private final ArrayList<Category> categoryList = new ArrayList<>();
+    private  ArrayList<Category> categoryList;
 
     //private  Category otherIncome = new Category( "Other income", "#13702A", true);
     //private  Category otherExpense = new Category( "Other expense", "701313", false);
@@ -34,7 +34,8 @@ public class TransactionModel {
      */
     public TransactionModel(IDatabase database) {
         this.database = database;
-
+        transactionList = database.getFinancialTransactions(); // not finished should be sorted first
+        categoryList = database.getCategories();
 
         initDefaultCategories();
     }
@@ -214,7 +215,7 @@ public class TransactionModel {
     //TODO implement these methods
 
     public float getTransactionSum(TransactionRequest request){
-        // not finished i think, just wrote this quick.
+        //  finished i think, just wrote this quick.
 
         float sum = 0;
         for (FinancialTransaction t : searchTransactions(request)){
