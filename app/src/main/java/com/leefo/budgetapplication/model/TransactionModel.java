@@ -36,10 +36,10 @@ public class TransactionModel {
         this.database = database;
 
 
-        initCategories();
+        initDefaultCategories();
     }
 
-    private void initCategories() {
+    private void initDefaultCategories() {
         for (Category c : getCategoryList()){
             if (c.getName().equals("Other income")){
                 return;
