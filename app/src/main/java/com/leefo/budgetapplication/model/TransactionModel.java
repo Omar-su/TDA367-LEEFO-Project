@@ -34,8 +34,8 @@ public class TransactionModel {
      */
     public TransactionModel(IDatabase database) {
         this.database = database;
-        transactionList = database.getFinancialTransactions(); // not finished should be sorted first
-        categoryList = database.getCategories();
+        transactionList = getFinancialTransactions(); // not finished should be sorted first
+        categoryList = getCategories();
 
         initDefaultCategories();
     }
@@ -327,5 +327,12 @@ public class TransactionModel {
         //database.removeData(category);
     }
 
+    private ArrayList<FinancialTransaction> getFinancialTransactions(){
+        return database.getFinancialTransactions(); // should be sorted by date
+    }
+
+    private ArrayList<Category> getCategories(){
+        return database.getCategories();
+    }
 
 }
