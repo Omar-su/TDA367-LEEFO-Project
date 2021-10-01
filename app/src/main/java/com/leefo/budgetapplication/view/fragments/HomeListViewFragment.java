@@ -9,7 +9,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
@@ -18,6 +17,8 @@ import com.leefo.budgetapplication.model.ModelObserver;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.SharedViewData;
+import com.leefo.budgetapplication.view.ViewObserver;
+import com.leefo.budgetapplication.view.ViewObserverHandler;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
 import java.time.LocalDate;
@@ -26,11 +27,12 @@ import java.util.ArrayList;
 /**
  * The class that represents the fragment for the list view inside the HomeFragment
  */
-public class HomeListViewFragment extends Fragment implements ModelObserver {
+public class HomeListViewFragment extends Fragment implements ModelObserver, ViewObserver {
 
     ListView listView;
     ListViewAdapterHomeList adapter;
     ArrayList<FinancialTransaction> transactions;
+    TextView noTransactoins1, noTransactoins2;
 
     /**
      * Method that runs when the fragment is being created.
@@ -42,15 +44,33 @@ public class HomeListViewFragment extends Fragment implements ModelObserver {
         View view = inflater.inflate(R.layout.fragment_home_list_view, container, false);
 
         Controller.addObserver(this);
+        ViewObserverHandler.addObserver(this);
+
 
         // get views
         listView = view.findViewById(R.id.listView_home);
-        TextView noTransactoins1 = view.findViewById(R.id.noTransactionsYetText1);
-        TextView noTransactoins2 = view.findViewById(R.id.noTransactionsYetText2);
+        noTransactoins1 = view.findViewById(R.id.noTransactionsYetText1);
+        noTransactoins2 = view.findViewById(R.id.noTransactionsYetText2);
 
 
+        updateList();
 
+        initList();
 
+        return view;
+    }
+
+    private void initList() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ((MainActivity)getActivity()).openEditTransactionFragment();
+                SharedViewData.singleTransaction = (FinancialTransaction) adapterView.getItemAtPosition(i);
+            }
+        });
+    }
+
+    private void updateList() {
         transactions = Controller.getTransactions(SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
 
 
@@ -62,16 +82,6 @@ public class HomeListViewFragment extends Fragment implements ModelObserver {
             adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(),transactions);
             listView.setAdapter(adapter);
         }
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ((MainActivity)getActivity()).openEditTransactionFragment();
-                SharedViewData.singleTransaction = (FinancialTransaction) adapterView.getItemAtPosition(i);
-            }
-        });
-
-        return view;
     }
 
 
@@ -114,6 +124,8 @@ public class HomeListViewFragment extends Fragment implements ModelObserver {
 
     @Override
     public void update() {
-
+        if (!SharedViewData.lastOpenedViewWasCategoryView) {
+            updateList();
+        }
     }
 }

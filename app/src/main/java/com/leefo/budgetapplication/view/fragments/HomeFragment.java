@@ -10,10 +10,12 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.view.SharedViewData;
+import com.leefo.budgetapplication.view.ViewObserverHandler;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -78,9 +80,11 @@ public class HomeFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     SharedViewData.timePeriod.setNoSpecifiedTimePeriod();
+                    ViewObserverHandler.updateObservers();
                 } else {
                     SharedViewData.timePeriod.setSpecifiedTimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
                     updateTimePeriodButtonLabel();
+                    ViewObserverHandler.updateObservers();
                 }
             }
         });

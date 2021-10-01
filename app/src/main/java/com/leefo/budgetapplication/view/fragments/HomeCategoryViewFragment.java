@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -24,6 +23,8 @@ import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.SharedViewData;
+import com.leefo.budgetapplication.view.ViewObserver;
+import com.leefo.budgetapplication.view.ViewObserverHandler;
 import com.leefo.budgetapplication.view.adapters.CategoryViewListAdapter;
 
 import java.util.ArrayList;
@@ -31,11 +32,12 @@ import java.util.ArrayList;
 /**
  * The class that represents the fragment for the category view inside the HomeFragment
  */
-public class HomeCategoryViewFragment extends Fragment {
+public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
 
     PieChart pieChart;
     ListView listView;
     CategoryViewListAdapter adapter;
+    TextView noTransactoins1, noTransactoins2;
 
     /**
      * Method that runs when the fragment is being created.
@@ -46,31 +48,53 @@ public class HomeCategoryViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_category_view, container, false);
 
+        ViewObserverHandler.addObserver(this);
+
         pieChart = view.findViewById(R.id.pie_chart);
         listView = view.findViewById(R.id.listOfPieChart);
 
         setupPieChart();
+        initList();
 
-        TextView noTransactoins1 = view.findViewById(R.id.noTransactionsYetText1);
-        TextView noTransactoins2 = view.findViewById(R.id.noTransactionsYetText2);
+        noTransactoins1 = view.findViewById(R.id.noTransactionsYetText1);
+        noTransactoins2 = view.findViewById(R.id.noTransactionsYetText2);
 
-        boolean noTransactions = true;
-        for (Category c : Controller.getExpenseCategories()){
-            if (!Controller.getTransactions(c, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear()).isEmpty()){
-                loadPieChartData();
-                initList();
-                noTransactions = false;
-            }
-        }
-       if (noTransactions) {
-           noTransactoins1.setVisibility(View.VISIBLE);
-           noTransactoins2.setVisibility(View.VISIBLE);
-       }
+        updateData();
 
         return view;
     }
 
+    private void updateData() {
+        boolean noTransactions = true;
+        for (Category c : Controller.getExpenseCategories()){
+            if (!Controller.getTransactions(c, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear()).isEmpty()){
+                loadPieChartData();
+                updateList();
+                noTransactions = false;
+                noTransactoins1.setVisibility(View.INVISIBLE);
+                noTransactoins2.setVisibility(View.INVISIBLE);
+            }
+        }
+        if (noTransactions) {
+            noTransactoins1.setVisibility(View.VISIBLE);
+            noTransactoins2.setVisibility(View.VISIBLE);
+            unLoadPieChartData();
+        }
+    }
+
+
+
     private void initList(){
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ((MainActivity)getActivity()).openFragmentInMainFrameLayout(new SingleCategoryFragment());
+                SharedViewData.singleCategory = (Category) adapterView.getItemAtPosition(i);
+            }
+        });
+    }
+
+    private void updateList() {
         ArrayList<Category> notEmptyCategories = new ArrayList<>();
         for (Category c : Controller.getExpenseCategories()){
             if (!Controller.getTransactions(c, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear()).isEmpty()){
@@ -79,14 +103,6 @@ public class HomeCategoryViewFragment extends Fragment {
         }
         adapter = new CategoryViewListAdapter(getActivity().getApplicationContext(),notEmptyCategories);
         listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ((MainActivity)getActivity()).openFragmentInMainFrameLayout(new SingleCategoryFragment());
-                SharedViewData.singleCategory = (Category) adapterView.getItemAtPosition(i);
-            }
-        });
     }
 
     private void setupPieChart(){
@@ -99,6 +115,9 @@ public class HomeCategoryViewFragment extends Fragment {
         //Disable the auto generated list of pie chart
         Legend l = pieChart.getLegend();
         l.setEnabled(false);
+    }
+    private void unLoadPieChartData(){
+        pieChart.clear();
     }
 
     private void loadPieChartData(){
@@ -117,8 +136,6 @@ public class HomeCategoryViewFragment extends Fragment {
             }
         }
 
-
-
         PieDataSet dataSet = new PieDataSet(entries,"");
         dataSet.setColors(myColors);
 
@@ -135,4 +152,10 @@ public class HomeCategoryViewFragment extends Fragment {
         pieChart.animateY(1000, Easing.EaseInOutQuad);
     }
 
+    @Override
+    public void update() {
+        if (SharedViewData.lastOpenedViewWasCategoryView){
+            updateData();
+        }
+    }
 }
