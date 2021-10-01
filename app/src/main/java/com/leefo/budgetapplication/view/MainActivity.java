@@ -43,9 +43,7 @@ public class MainActivity extends AppCompatActivity {
         // init components
         initBottomNavigationOnClick();
 
-        if (Controller.getAllCategories().isEmpty()){
-            setDefaultCategories();
-        }
+
 
             // color example, because i always forget how to write this
             TextView textView;
@@ -67,21 +65,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setDefaultCategories(){
-        // Expenses, need an attribute for setting income/expense
-        Controller.addNewCategory("Home", "#FF6464", false);
-        Controller.addNewCategory("Food", "#64FF7D", false);
-        Controller.addNewCategory("Transportation", "#64BEFF", false);
-        Controller.addNewCategory("Clothes", "#FF64DD", false);
-        Controller.addNewCategory("Entertainment", "#FFAE64", false);
-        Controller.addNewCategory("Electronics", "#64FFEC",false);
 
-        //Income
-        Controller.addNewCategory("Salary", "#FCFF64", true);
-        Controller.addNewCategory("Gift", "#6473FF", true);
-
-        Controller.addNewTransaction(-100, "", LocalDate.now(), Controller.getAllCategories().get(0));
-    }
 
 
     public void openHomeFragment(View v){
