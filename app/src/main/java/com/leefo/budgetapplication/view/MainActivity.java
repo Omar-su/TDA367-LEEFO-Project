@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         // initialize database
         Controller.InitializeBackend(this);
 
+        SharedViewData.mainActivityContext = getApplicationContext();
+
         // start app with displaying Home Fragment
         getSupportFragmentManager().beginTransaction().add(R.id.FrameLayout_main, new HomeFragment()).commit();
 
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         // init components
         initBottomNavigationOnClick();
+
 
 
 

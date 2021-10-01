@@ -1,5 +1,7 @@
 package com.leefo.budgetapplication.view;
 
+import android.content.Context;
+
 import androidx.fragment.app.FragmentTransaction;
 
 import com.leefo.budgetapplication.controller.TransactionRequest;
@@ -12,4 +14,5 @@ public class SharedViewData {
     static public FinancialTransaction singleTransaction;
     static public boolean lastOpenedViewWasCategoryView;
     static public TimePeriod timePeriod;
+    static public Context mainActivityContext;
 }

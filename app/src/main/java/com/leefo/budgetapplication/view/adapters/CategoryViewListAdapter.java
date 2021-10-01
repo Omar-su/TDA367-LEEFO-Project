@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class CategoryViewListAdapter extends ArrayAdapter<Category> {
     Context context;
 
-    public CategoryViewListAdapter(@NonNull Context context, @NonNull ArrayList<Category> list) {
+    public CategoryViewListAdapter(Context context, @NonNull ArrayList<Category> list) {
         super(context, R.layout.list_row_category, list);
         this.context = context;
     }

@@ -79,7 +79,7 @@ public class HomeListViewFragment extends Fragment implements ModelObserver, Vie
             noTransactoins2.setVisibility(View.VISIBLE);
         } else {
             putDatesIntoTransactionList();
-            adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(),transactions);
+            adapter = new ListViewAdapterHomeList(SharedViewData.mainActivityContext,transactions);
             listView.setAdapter(adapter);
         }
     }

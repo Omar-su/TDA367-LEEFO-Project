@@ -73,6 +73,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 SharedViewData.timePeriod.incrementMonth();
                 updateTimePeriodButtonLabel();
+                ViewObserverHandler.updateObservers();
             }
         });
 
@@ -80,10 +81,14 @@ public class HomeFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     SharedViewData.timePeriod.setNoSpecifiedTimePeriod();
+                    back_arrow.setEnabled(false);
+                    forward_arrow.setEnabled(false);
                     ViewObserverHandler.updateObservers();
                 } else {
                     SharedViewData.timePeriod.setSpecifiedTimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
                     updateTimePeriodButtonLabel();
+                    back_arrow.setEnabled(true);
+                    forward_arrow.setEnabled(true);
                     ViewObserverHandler.updateObservers();
                 }
             }

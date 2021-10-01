@@ -101,7 +101,7 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
                 notEmptyCategories.add(c);
             }
         }
-        adapter = new CategoryViewListAdapter(getActivity().getApplicationContext(),notEmptyCategories);
+        adapter = new CategoryViewListAdapter(SharedViewData.mainActivityContext,notEmptyCategories);
         listView.setAdapter(adapter);
     }
 

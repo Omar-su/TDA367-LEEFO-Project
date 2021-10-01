@@ -153,7 +153,7 @@ public class EditTransactionFragment extends Fragment {
         LocalDate date = myCalendar.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // convert Date to LocalDate
 
         if (isExpense){
-            amount = amount * -1;
+            amount = Math.abs(amount) * -1;
         }
         Controller.editTransaction(oldTransaction, amount, description, date, category );
     }
