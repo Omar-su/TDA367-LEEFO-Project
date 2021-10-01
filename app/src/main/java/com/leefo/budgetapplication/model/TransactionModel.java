@@ -166,9 +166,6 @@ public class TransactionModel {
         deleteTransaction(oldTransaction);
         addTransaction(editedTransaction);
 
-        deleteTransactionFromDatabase(oldTransaction);
-        saveTransactionToDatabase(editedTransaction);
-
         ObserverHandler.updateObservers();
     }
 
