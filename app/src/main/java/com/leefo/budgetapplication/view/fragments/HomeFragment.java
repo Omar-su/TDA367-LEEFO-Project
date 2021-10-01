@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -14,15 +15,16 @@ import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.view.SharedViewData;
 
+import java.time.LocalDate;
+
 /**
  * Class that represents the fragment for the Home page
  */
 public class HomeFragment extends Fragment {
 
     private TextView income, expense, balance;
-    private boolean openListViewFirst;
-    ToggleButton toggle;
-    boolean lastOpenedViewWasCategoryView;
+    private ToggleButton view_toggle, time_period_toggle;
+    private ImageButton back_arrow, forward_arrow;
 
     /**
      * Method that runs when the fragment is being created.
@@ -33,27 +35,59 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        toggle = view.findViewById(R.id.toggleButton);
-        lastOpenedViewWasCategoryView = SharedViewData.lastOpenedViewWasCategoryView;
-
-        // toggle is set to listView mode as default, if categoryView shall open first it needs to be toggled
-        if (lastOpenedViewWasCategoryView) {
-            toggle.toggle();
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_middleSection_Home, new HomeCategoryViewFragment()).commit();
-        } else {
-            getActivity().getSupportFragmentManager().beginTransaction().add(R.id.FrameLayout_middleSection_Home, new HomeListViewFragment()).commit();
-        }
-
         // get views
         income = view.findViewById(R.id.income_text_view);
         expense = view.findViewById(R.id.expense_text_view);
         balance = view.findViewById(R.id.balance_text_view);
+        time_period_toggle = view.findViewById(R.id.time_period_toggle);
+        view_toggle = view.findViewById(R.id.toggleButton);
+        back_arrow = view.findViewById(R.id.Arrow_back);
+        forward_arrow = view.findViewById(R.id.Arrow_forward);
 
         // init
+        openCorrectFragment();
         initToggleButton(view);
         updateHeaderValues();
+        initTimePeriod();
 
         return view;
+    }
+
+
+
+    private void initTimePeriod() {
+        if (SharedViewData.timePeriod == null){
+            setTimePeriodText(LocalDate.now().getMonth().toString() + " " + LocalDate.now().getYear());
+        } else {
+            String text = SharedViewData.timePeriod.getMonth() + " " + SharedViewData.timePeriod.getYear();
+        }
+        back_arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        forward_arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+    }
+
+    private void setTimePeriodText(String text) {
+        time_period_toggle.setText(text);
+        time_period_toggle.setTextOff(text);
+    }
+
+    private void openCorrectFragment() {
+        // toggle is set to listView mode as default, if categoryView shall open first it needs to be toggled
+        if (SharedViewData.lastOpenedViewWasCategoryView) {
+            view_toggle.toggle();
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_middleSection_Home, new HomeCategoryViewFragment()).commit();
+        } else {
+            getActivity().getSupportFragmentManager().beginTransaction().add(R.id.FrameLayout_middleSection_Home, new HomeListViewFragment()).commit();
+        }
     }
 
     private void updateHeaderValues(){
@@ -63,7 +97,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void initToggleButton(View view) {
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        view_toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_middleSection_Home, new HomeCategoryViewFragment()).commit();
