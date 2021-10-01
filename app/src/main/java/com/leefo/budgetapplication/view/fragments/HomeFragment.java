@@ -15,7 +15,7 @@ import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.view.SharedViewData;
 
-import java.time.LocalDate;
+import java.time.Month;
 
 /**
  * Class that represents the fragment for the Home page
@@ -56,23 +56,27 @@ public class HomeFragment extends Fragment {
 
 
     private void initTimePeriod() {
-        if (SharedViewData.timePeriod == null){
-            setTimePeriodText(LocalDate.now().getMonth().toString() + " " + LocalDate.now().getYear());
-        } else {
-            String text = SharedViewData.timePeriod.getMonth() + " " + SharedViewData.timePeriod.getYear();
-        }
+        updateTimePeriodButtonLabel();
+
         back_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                SharedViewData.timePeriod.decrementMonth();
+                updateTimePeriodButtonLabel();
             }
         });
         forward_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                SharedViewData.timePeriod.incrementMonth();
+                updateTimePeriodButtonLabel();
             }
         });
+    }
+
+    private void updateTimePeriodButtonLabel() {
+        String text = Month.of(SharedViewData.timePeriod.getMonth()) + " " + SharedViewData.timePeriod.getYear();
+        setTimePeriodText(text);
     }
 
     private void setTimePeriodText(String text) {

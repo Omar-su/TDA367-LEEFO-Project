@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
             //textView.setBackgroundColor(Color.parseColor("#A0A0A0"));
 
         SharedViewData.lastOpenedViewWasCategoryView = true;
+        SharedViewData.timePeriod = new TimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
     }
 
     private void removeAllCategories(){
