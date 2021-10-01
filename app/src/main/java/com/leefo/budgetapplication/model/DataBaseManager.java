@@ -17,6 +17,8 @@ import java.util.List;
 /**
  * Creates the database needed for saving the transactions and categories information
  * and handling inserting, deleting and requesting any information that is in the database
+ *
+ *@author Omar Sulaiman
  */
 public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
@@ -25,7 +27,6 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
     private static final String CATEGORY_COLOR = "CATEGORY_COLOR";
 
     private static final String TRANSACTIONS_TABLE = "TRANSACTIONS_TABLE";
-    private static final String TRANSACTIONS_ID = "TRANSACTIONS_ID";
     private static final String TRANSACTIONS_DESC = "TRANSACTIONS_DESCRIPTION";
     private static final String TRANSACTION_DATE = "TRANSACTION_DATE";
     private static final String TRANSACTION_AMOUNT = "TRANSACTION_AMOUNT";
@@ -35,7 +36,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
 
     public DataBaseManager(@Nullable Context context) {
-        super(context, "category_trans_db", null, 2);
+        super(context, "cat_trans_db", null, 1);
     }
 
 
@@ -131,7 +132,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
         SQLiteDatabase db = this.getWritableDatabase();
         String sql = "DELETE FROM " + TRANSACTIONS_TABLE + " WHERE " + TRANSACTIONS_DESC + " = '" + transaction.getDescription() + "' AND "
                     + TRANSACTION_DATE + " = '" + transaction.getDate().toString() + "' AND " + TRANSACTION_AMOUNT + " = " + transaction.getAmount() + " AND "
-                    + CATEGORY_FK_NAME + " = '" + transaction.getCategory() + "' LIMIT 1";
+                    + CATEGORY_FK_NAME + " = '" + transaction.getCategory() + "'";
 
 
         db.execSQL(sql);
@@ -146,25 +147,10 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
     public void removeData(Category category)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        //if ("Other".equals(category.getName())) return; // you cannot remove the category called Other. Done in ,model
         String sql = "DELETE FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_NAME + " = '" + category.getName() + "'";
-        //updateTransactionCatName(category.getName(), db); // updates the transactions which category was deleted to the "Other" category ID. done in model
         db.execSQL(sql);
         db.close();
 
-    }
-
-
-    /**
-     * Updates the transaction tale when deleting a category and checks and changes the category name
-     * associated with the transaction if there exists to the default category which is Other
-     * @param catName
-     * @param db
-     */
-    private void updateTransactionCatName(String catName, SQLiteDatabase db) {
-        // done in model
-        String sql = " UPDATE "+ TRANSACTIONS_TABLE + " SET "+ CATEGORY_FK_NAME + " =  'Other'" + " WHERE " + CATEGORY_FK_NAME + " = '" + catName + "'";
-        db.execSQL(sql);
     }
 
 
@@ -206,7 +192,6 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      * Creates transaction objects of all the transactions registered in the database
      * @return Returns a list of all transactions in he database
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public ArrayList<FinancialTransaction> getFinancialTransactions(){
         ArrayList<Category> categories = getCategories();
 
@@ -219,11 +204,10 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
         if (cursor.moveToFirst()){
             do {
-                int transactionID = cursor.getInt(0);
-                int transactionAmount = cursor.getInt(1);
-                String transactionDesc = cursor.getString(2);
-                String transactionDate = cursor.getString(3);
-                String categoryFKName = cursor.getString(4);
+                int transactionAmount = cursor.getInt(0);
+                String transactionDesc = cursor.getString(1);
+                String transactionDate = cursor.getString(2);
+                String categoryFKName = cursor.getString(3);
                 Category category = new Category("", "", true);
                 for (Category c : categories){
                     if (categoryFKName.equals(c.getName())){
@@ -252,48 +236,5 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
     }
 
 
-    /**
-     * Edits the category in the database
-     * @param name The name of the category that needs editing
-     * @param color The new color of the category
-     * @param catIsIncome Decides if the category is an income or an expense
-     */
-    /*
-    public void editCategory(String name, String color, int catIsIncome) {
-
-        SQLiteDatabase db = instance.getWritableDatabase();
-        String sql = " UPDATE " + CATEGORY_TABLE + " SET " + CATEGORY_NAME + " = " + name
-                    + CATEGORY_COLOR + " = " + color
-                    + CATEGORY_IS_INCOME + " = " + catIsIncome +" WHERE " + CATEGORY_NAME + " = " + name;
-        db.execSQL(sql);
-        db.close();
-    }
-
-
-    /**
-     * Edits the transaction in the database
-     * @param id The id of the transaction that needs to change
-     * @param amount The transaction new amount
-     * @param description Transaction new description
-     * @param date The new date of the transaction
-     * @param catName The related category name for the transaction
-     */
-    /*
-    public void editTransaction(int id, float amount, String description, String date, int catName) {
-
-        SQLiteDatabase db = instance.getWritableDatabase();
-        String sql = " UPDATE " + TRANSACTIONS_TABLE + " SET " + TRANSACTION_AMOUNT + " = " + amount + ","
-                    + TRANSACTIONS_DESC + " = " + description + " , "
-                    + TRANSACTION_DATE + " = " + date + " , "
-                    + CATEGORY_FK_NAME + " = " + catName
-                    +" WHERE " + TRANSACTIONS_ID + " = " + id;
-
-        db.execSQL(sql);
-        db.close();
-
-    }
-
-
-     */
 
 }

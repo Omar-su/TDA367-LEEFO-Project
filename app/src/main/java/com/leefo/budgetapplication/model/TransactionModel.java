@@ -321,11 +321,11 @@ public class TransactionModel {
     }
 
     private void deleteTransactionFromDatabase(FinancialTransaction transaction){
-        //database.removeData(transaction);
+        database.removeData(transaction);
     }
 
     private void deleteCategoryFromDatabase(Category category){
-        //database.removeData(category);
+        database.removeData(category);
     }
 
     private ArrayList<FinancialTransaction> getFinancialTransactions(){
