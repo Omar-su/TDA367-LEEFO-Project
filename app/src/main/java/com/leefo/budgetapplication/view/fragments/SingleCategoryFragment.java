@@ -19,30 +19,40 @@ import com.leefo.budgetapplication.view.SharedViewData;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 
 public class SingleCategoryFragment extends Fragment {
 
     ListView listView;
     ArrayList<FinancialTransaction> list;
+    TextView timePeriodTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_single_category, container, false);
 
-        Category category = SharedViewData.singleCategory;
         list = Controller.getTransactions(SharedViewData.singleCategory, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
-
-        TextView textView = view.findViewById(R.id.title_category);
-        textView.setText(category.getName());
-
         putDatesIntoTransactionList();
         listView = view.findViewById(R.id.listview_single_category);
         ListViewAdapterHomeList adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(),list);
         listView.setAdapter(adapter);
 
         initListOnItemClick();
+
+        timePeriodTextView = view.findViewById(R.id.time_period);
+        setTimePeriodLabel();
         return view;
+    }
+
+    private void setTimePeriodLabel(){
+        String text;
+        if (SharedViewData.timePeriod.isTimeSpecified()) {
+            text = Month.of(SharedViewData.timePeriod.getMonth()) + " " + SharedViewData.timePeriod.getYear();
+        } else {
+            text = "All transactions";
+        }
+        timePeriodTextView.setText(text);
     }
 
     private void initListOnItemClick(){
