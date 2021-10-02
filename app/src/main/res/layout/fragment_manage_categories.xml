@@ -35,6 +35,7 @@
     </RadioGroup>
 
     <ListView
+        android:overScrollMode="never"
         android:id="@+id/listView_manage_categories"
         android:layout_width="match_parent"
         android:layout_height="0dp"
