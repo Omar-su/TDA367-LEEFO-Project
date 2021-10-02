@@ -346,9 +346,7 @@ public class TransactionModel {
                 float sum1 = getTransactionSum(new TransactionRequest(list.get(i), request.getMonth(), request.getYear()));
                 float sum2 = getTransactionSum(new TransactionRequest(list.get(i+1), request.getMonth(), request.getYear()));
                 if (sum1 < sum2){
-                    Category save = list.get(i);
-                    list.set(i, list.get(i+1));
-                    list.set(i+1, save);
+                    swap(list, i, i+1);
                 }
             }
         }
@@ -459,18 +457,18 @@ public class TransactionModel {
     }
 
     /**
-     * Swaps the position of two transactions in a list.
+     * Swaps the position of two objects in a list.
      *
-     * @param transactions List in which they will be swapped.
-     * @param i1 Index of first transaction.
-     * @param i2 Index of second transaction.
+     * @param list List in which they will be swapped.
+     * @param i1 Index of first object.
+     * @param i2 Index of second object.
      */
-    private void swap(ArrayList<FinancialTransaction> transactions, int i1, int i2)
+    private <T> void swap(ArrayList<T> list, int i1, int i2)
     {
-        FinancialTransaction temp = transactions.get(i1); // stores i1 temporarily
+        T temp = list.get(i1); // stores i1 temporarily
 
-        transactions.set(i1, transactions.get(i2)); // sets i1 to i2
-        transactions.set(i2, temp); // sets i2 to temp
+        list.set(i1, list.get(i2)); // sets i1 to i2
+        list.set(i2, temp); // sets i2 to temp
     }
 
 
