@@ -111,8 +111,8 @@
             android:stateListAnimator="@null"
             android:text="ToggleButton"
             android:textColor="@color/black"
-            android:textOff="Category"
-            android:textOn="List"
+            android:textOff="List"
+            android:textOn="Pie chart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
