@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.FinancialTransaction;
+import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.SharedViewData;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
@@ -29,7 +31,7 @@ public class SingleCategoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_single_category, container, false);
 
         Category category = SharedViewData.singleCategory;
-        list = Controller.getTransactions(category, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
+        list = Controller.getTransactions(SharedViewData.singleCategory, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
 
         TextView textView = view.findViewById(R.id.title_category);
         textView.setText(category.getName());
@@ -38,7 +40,23 @@ public class SingleCategoryFragment extends Fragment {
         listView = view.findViewById(R.id.listview_single_category);
         ListViewAdapterHomeList adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(),list);
         listView.setAdapter(adapter);
+
+        initListOnItemClick();
         return view;
+    }
+
+    private void initListOnItemClick(){
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                FinancialTransaction transaction = (FinancialTransaction) adapterView.getItemAtPosition(i);
+                if (transaction.getCategory().getName().equals("DATE")){ // then it is a date row, should not be clickable
+                    return;
+                }
+                ((MainActivity)getActivity()).openEditTransactionFragment();
+                SharedViewData.singleTransaction = transaction;
+            }
+        });
     }
 
     private void addDateRowInTransactionList(int index, String date){
