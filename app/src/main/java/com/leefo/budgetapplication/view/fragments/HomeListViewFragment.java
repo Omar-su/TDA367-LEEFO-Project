@@ -61,6 +61,7 @@ public class HomeListViewFragment extends Fragment implements ModelObserver, Vie
     }
 
     private void initList() {
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -83,9 +84,11 @@ public class HomeListViewFragment extends Fragment implements ModelObserver, Vie
             noTransactoins2.setVisibility(View.VISIBLE);
         } else {
             putDatesIntoTransactionList();
-            adapter = new ListViewAdapterHomeList(SharedViewData.mainActivityContext,transactions);
-            listView.setAdapter(adapter);
+            noTransactoins1.setVisibility(View.INVISIBLE);
+            noTransactoins2.setVisibility(View.INVISIBLE);
         }
+        adapter = new ListViewAdapterHomeList(SharedViewData.mainActivityContext,transactions);
+        listView.setAdapter(adapter);
     }
 
 

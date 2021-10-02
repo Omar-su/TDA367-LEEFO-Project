@@ -69,7 +69,6 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
         for (Category c : Controller.getExpenseCategories()){
             if (!Controller.getTransactions(c, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear()).isEmpty()){
                 loadPieChartData();
-                updateList();
                 noTransactions = false;
                 noTransactoins1.setVisibility(View.INVISIBLE);
                 noTransactoins2.setVisibility(View.INVISIBLE);
@@ -80,8 +79,8 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
             noTransactoins2.setVisibility(View.VISIBLE);
             unLoadPieChartData();
         }
+        updateList();
     }
-
 
 
     private void initList(){
