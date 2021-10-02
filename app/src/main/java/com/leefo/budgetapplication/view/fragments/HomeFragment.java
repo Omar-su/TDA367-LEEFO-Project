@@ -65,13 +65,20 @@ public class HomeFragment extends Fragment {
 
 
     private void initTimePeriod() {
-        updateTimePeriodButtonLabel();
+        if (!SharedViewData.timePeriod.isTimeSpecified()){
+            time_period_toggle.toggle();
+            disabelArrowButtons();
+        } else {
+            updateTimePeriodButtonLabel();
+        }
 
         back_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SharedViewData.timePeriod.decrementMonth();
                 updateTimePeriodButtonLabel();
+                updateHeaderValues();
+                ViewObserverHandler.updateObservers();
             }
         });
         forward_arrow.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +86,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 SharedViewData.timePeriod.incrementMonth();
                 updateTimePeriodButtonLabel();
+                updateHeaderValues();
                 ViewObserverHandler.updateObservers();
             }
         });
@@ -87,10 +95,8 @@ public class HomeFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     SharedViewData.timePeriod.setNoSpecifiedTimePeriod();
-                    back_arrow.setEnabled(false);
-                    forward_arrow.setEnabled(false);
-                    forward_arrow.setColorFilter(Color.WHITE);
-                    back_arrow.setColorFilter(Color.WHITE);
+                    disabelArrowButtons();
+                    updateHeaderValues();
                     ViewObserverHandler.updateObservers();
                 } else {
                     SharedViewData.timePeriod.setSpecifiedTimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
@@ -99,10 +105,18 @@ public class HomeFragment extends Fragment {
                     forward_arrow.setEnabled(true);
                     forward_arrow.clearColorFilter();
                     back_arrow.clearColorFilter();
+                    updateHeaderValues();
                     ViewObserverHandler.updateObservers();
                 }
             }
         });
+    }
+
+    private void disabelArrowButtons() {
+        back_arrow.setEnabled(false);
+        forward_arrow.setEnabled(false);
+        forward_arrow.setColorFilter(Color.WHITE);
+        back_arrow.setColorFilter(Color.WHITE);
     }
 
     private void updateTimePeriodButtonLabel() {
