@@ -55,4 +55,8 @@ public class TimePeriod {
         this.year = year;
         this.month = month;
     }
+
+    public boolean isTimeSpecified(){
+        return month != 0;
+    }
 }
