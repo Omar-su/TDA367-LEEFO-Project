@@ -81,16 +81,29 @@ public class TransactionModel {
     }
 
     /**
-     * Adds a financial transaction to the list of financial transactions.
+     * Adds a financial transaction to the list of financial transactions at appropriate index by date (lower index --> more recent).
      * Also saves the changes to the persistence storage.
      * @param transaction The financial transaction to be added.
      */
     public void addTransaction(FinancialTransaction transaction) {
-        transactionList.add(transaction);
 
-        saveTransactionToDatabase(transaction);
+        ArrayList<FinancialTransaction> transactions = getTransactionList();
 
-        ObserverHandler.updateObservers();
+        // loops through transactions to find where new transaction should be inserted
+        for(int i = 0; i < transactions.size(); i++)
+        {
+            // if the transaction to be added is NOT made before this iteration's transaction, then the index of the new transaction
+            // should be the index of the current iteration's transaction
+            if(!dateIsBefore(transaction.getDate(), transactions.get(i).getDate()))
+            {
+                transactions.add(i, transaction); // adds transaction at index i (note: does NOT replace)
+                break;
+            }
+        }
+
+        saveTransactionToDatabase(transaction); // saves to database for persistence
+
+        ObserverHandler.updateObservers(); // updates views
     }
 
     /**
