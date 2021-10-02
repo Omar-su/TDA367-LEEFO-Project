@@ -68,5 +68,16 @@ public class CategoryViewListAdapter extends ArrayAdapter<Category> {
 
         return convertView;
     }
+    @Override
+    public int getViewTypeCount() {
+        if (getCount() == 0) return 1;
+        return getCount();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+
+        return position;
+    }
 }
 

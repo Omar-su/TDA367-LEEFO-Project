@@ -87,4 +87,16 @@ public class ListViewAdapterHomeList extends ArrayAdapter<FinancialTransaction> 
         }
         return convertView;
     }
+
+    @Override
+    public int getViewTypeCount() {
+        if (getCount() == 0) return 1;
+        return getCount();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+
+        return position;
+    }
 }
