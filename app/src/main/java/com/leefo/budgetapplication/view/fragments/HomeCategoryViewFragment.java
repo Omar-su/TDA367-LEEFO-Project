@@ -65,21 +65,21 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
     }
 
     private void updateData() {
-        boolean noTransactions = true;
-        for (Category c : Controller.getExpenseCategories()){
-            if (!Controller.getTransactions(c, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear()).isEmpty()){
-                loadPieChartData();
-                noTransactions = false;
-                noTransactoins1.setVisibility(View.INVISIBLE);
-                noTransactoins2.setVisibility(View.INVISIBLE);
-            }
-        }
-        if (noTransactions) {
+
+        ArrayList<Category> list = Controller.removeEmptyCategories(Controller.getExpenseCategories(), SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
+        list = Controller.sortCategoryListBySum(list, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
+
+        if (list.isEmpty()){
             noTransactoins1.setVisibility(View.VISIBLE);
             noTransactoins2.setVisibility(View.VISIBLE);
-            unLoadPieChartData();
+            pieChart.clear();
+        } else {
+            loadPieChartData(list);
+            noTransactoins1.setVisibility(View.INVISIBLE);
+            noTransactoins2.setVisibility(View.INVISIBLE);
         }
-        updateList();
+
+        updateList(list);
     }
 
 
@@ -93,14 +93,8 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
         });
     }
 
-    private void updateList() {
-        ArrayList<Category> notEmptyCategories = new ArrayList<>();
-        for (Category c : Controller.getExpenseCategories()){
-            if (!Controller.getTransactions(c, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear()).isEmpty()){
-                notEmptyCategories.add(c);
-            }
-        }
-        adapter = new CategoryViewListAdapter(SharedViewData.mainActivityContext,notEmptyCategories);
+    private void updateList(ArrayList<Category> list) {
+        adapter = new CategoryViewListAdapter(SharedViewData.mainActivityContext, list);
         listView.setAdapter(adapter);
     }
 
@@ -115,24 +109,18 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
         Legend l = pieChart.getLegend();
         l.setEnabled(false);
     }
-    private void unLoadPieChartData(){
-        pieChart.clear();
-    }
 
-    private void loadPieChartData(){
+
+    private void loadPieChartData(ArrayList<Category> list){
 
         ArrayList<PieEntry> entries = new ArrayList<>();
         ArrayList<Integer> myColors = new ArrayList<>();
 
-        double sum = 0;
-        for(Category c :  Controller.getAllCategories()){
-            if (!c.isIncome()){
-                sum = Controller.getTransactionSum(c, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
-                if (sum != 0){
-                    entries.add(new PieEntry((float)sum,c.getName()));
-                    myColors.add(Color.parseColor(c.getColor()));
-                }
-            }
+        float sum = 0;
+        for(Category c :  list){
+            sum = Controller.getTransactionSum(c, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
+            entries.add(new PieEntry(sum,c.getName()));
+            myColors.add(Color.parseColor(c.getColor()));
         }
 
         PieDataSet dataSet = new PieDataSet(entries,"");

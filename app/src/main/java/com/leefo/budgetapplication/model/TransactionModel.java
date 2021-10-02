@@ -339,6 +339,7 @@ public class TransactionModel {
         return notEmpty;
     }
 
+    // largest first
     public ArrayList<Category> sortCategoryListBySum(ArrayList<Category> list, TransactionRequest request){
         for (int x = 0; x < list.size() ; x++){
             for (int i = 0; i < list.size()-1; i++){
