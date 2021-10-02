@@ -353,7 +353,7 @@ public class TransactionModel {
 
         ArrayList<FinancialTransaction> transactions = database.getFinancialTransactions();
 
-        // transactions are not in order inside the database, so they must be sorted when they are retrieved.
+        // transactions may not be in order when retrieved from database, so they must be sorted.
         // lower index means that the transaction has been made more recently.
         bubbleSortTransactions(transactions);
 
