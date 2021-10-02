@@ -324,4 +324,14 @@ public class Controller {
         return transactionModel.getTransactionBalance(request);
     }
 
+    public static ArrayList<Category> removeEmptyCategories(ArrayList<Category> list, int month, int year){
+        TransactionRequest request = new TransactionRequest(null, month, year);
+        return transactionModel.removeEmptyCategories(list, request);
+    }
+
+    public static ArrayList<Category> sortCategoryListBySum(ArrayList<Category> list, int month, int year){
+        TransactionRequest request = new TransactionRequest(null, month, year);
+        return transactionModel.sortCategoryListBySum(list, request);
+    }
+
 }

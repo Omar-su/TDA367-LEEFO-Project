@@ -1,6 +1,8 @@
 package com.leefo.budgetapplication.model;
 
+import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.controller.TransactionRequest;
+import com.leefo.budgetapplication.view.SharedViewData;
 
 import java.lang.reflect.Array;
 import java.net.FileNameMap;
@@ -261,9 +263,6 @@ public class TransactionModel {
     }
 
 
-
-
-
     /**
      * Returns a list of income categories.
      * @return a list of income categories.
@@ -329,7 +328,31 @@ public class TransactionModel {
         return getTotalIncome(request) - getTotalExpense(request);
     }
 
+    public ArrayList<Category> removeEmptyCategories(ArrayList<Category> list, TransactionRequest request){
+        ArrayList<Category> notEmpty = new ArrayList<>();
+        for (Category c : list){
+            request.setCategory(c);
+            if (!searchTransactions(request).isEmpty()){
+                notEmpty.add(c);
+            }
+        }
+        return notEmpty;
+    }
 
+    public ArrayList<Category> sortCategoryListBySum(ArrayList<Category> list, TransactionRequest request){
+        for (int x = 0; x < list.size() ; x++){
+            for (int i = 0; i < list.size()-1; i++){
+                float sum1 = getTransactionSum(new TransactionRequest(list.get(i), request.getMonth(), request.getYear()));
+                float sum2 = getTransactionSum(new TransactionRequest(list.get(i+1), request.getMonth(), request.getYear()));
+                if (sum1 < sum2){
+                    Category save = list.get(i);
+                    list.set(i, list.get(i+1));
+                    list.set(i+1, save);
+                }
+            }
+        }
+        return list;
+    }
 
 
     // dataBase methods ----
