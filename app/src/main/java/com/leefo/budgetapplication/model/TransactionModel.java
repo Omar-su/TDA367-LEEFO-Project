@@ -245,12 +245,14 @@ public class TransactionModel {
             int transactionMonth = Integer.parseInt(transaction.getDate().toString().substring(5, 7));
 
             // moves on to next transaction if current transaction does not match time specification
-            if(request.getYear() != transactionYear || request.getMonth() != transactionMonth)
-                continue;
+            if(request.timeIsSpecified())
+                if(request.getYear() != transactionYear || request.getMonth() != transactionMonth)
+                    continue;
 
             // moves on to next transaction if current transaction category does not match requested category
-            if(!request.getCategory().Equals(transaction.getCategory()))
-                continue;
+            if(request.categoryIsSpecified())
+                if(!request.getCategory().Equals(transaction.getCategory()))
+                    continue;
 
             result.add(transaction); // adds transaction to result if transaction passes checks
         }
