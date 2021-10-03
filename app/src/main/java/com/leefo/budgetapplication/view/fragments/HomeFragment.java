@@ -3,6 +3,7 @@ package com.leefo.budgetapplication.view.fragments;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -13,6 +14,7 @@ import android.widget.ToggleButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.FinancialTransaction;
@@ -57,7 +59,9 @@ public class HomeFragment extends Fragment {
         initTimePeriod();
         openCorrectFragment();
 
-        ArrayList<FinancialTransaction> list = Controller.getTransactions();
+        BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottomNavigation);
+        MenuItem item = bottomNav.getMenu().findItem(R.id.nav_home);
+        item.setChecked(true);
 
         return view;
     }

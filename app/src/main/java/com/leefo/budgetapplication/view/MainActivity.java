@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
         initBottomNavigationOnClick();
 
 
-
-
             // color example, because i always forget how to write this
             TextView textView;
             //textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
@@ -57,17 +56,6 @@ public class MainActivity extends AppCompatActivity {
         SharedViewData.timePeriod = new TimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
     }
 
-    private void removeAllCategories(){
-        for (Category c : Controller.getAllCategories()){
-            Controller.removeCategory(c);
-        }
-    }
-
-    private void removeAllTransactions(){
-        for (FinancialTransaction t : Controller.getTransactions(null, 0, 0)){
-            Controller.removeTransaction(t);
-        }
-    }
 
     public void openHomeFragment(View v){
         openFragmentInMainFrameLayout(new HomeFragment());
@@ -111,14 +99,5 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-    //Method to make a Toast. Use to test
-    Toast t;
-    private void makeToast(String s){
-        if(t != null) t.cancel();
-        t = Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT);
-        t.show();
-    }
-
 
 }

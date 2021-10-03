@@ -2,6 +2,7 @@ package com.leefo.budgetapplication.view.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -9,8 +10,10 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.view.MainActivity;
+import com.leefo.budgetapplication.view.SharedViewData;
 
 /**
  * Class that represents the fragment for the More page
@@ -27,8 +30,15 @@ public class MoreFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_more, container, false);
+
+
         btnCompareMonths = view.findViewById(R.id.compare_month_button);
         btnManageCategory = view.findViewById(R.id.manage_categories_button);
+
+        BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottomNavigation);
+        MenuItem item = bottomNav.getMenu().findItem(R.id.nav_more);
+        item.setChecked(true);
+
         init_btnCompareMonths_OnClickListener();
         init_btnManageCategory_OnClickListener();
         return view;
