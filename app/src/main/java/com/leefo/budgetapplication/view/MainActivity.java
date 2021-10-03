@@ -47,31 +47,14 @@ public class MainActivity extends AppCompatActivity {
         initBottomNavigationOnClick();
 
 
-
-
             // color example, because i always forget how to write this
             TextView textView;
             //textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
             //textView.setBackgroundColor(Color.parseColor("#A0A0A0"));
 
-        SharedViewData.bottomNavigationView = bottomNav;
         SharedViewData.lastOpenedViewWasCategoryView = true;
         SharedViewData.timePeriod = new TimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
     }
-
-    private void removeAllCategories(){
-        for (Category c : Controller.getAllCategories()){
-            Controller.removeCategory(c);
-        }
-    }
-
-    private void removeAllTransactions(){
-        for (FinancialTransaction t : Controller.getTransactions(null, 0, 0)){
-            Controller.removeTransaction(t);
-        }
-    }
-
-
 
 
     public void openHomeFragment(View v){
@@ -116,14 +99,5 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-    //Method to make a Toast. Use to test
-    Toast t;
-    private void makeToast(String s){
-        if(t != null) t.cancel();
-        t = Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT);
-        t.show();
-    }
-
 
 }

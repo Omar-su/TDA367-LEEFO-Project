@@ -35,7 +35,7 @@ public class MoreFragment extends Fragment {
         btnCompareMonths = view.findViewById(R.id.compare_month_button);
         btnManageCategory = view.findViewById(R.id.manage_categories_button);
 
-        BottomNavigationView bottomNav = SharedViewData.bottomNavigationView;
+        BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottomNavigation);
         MenuItem item = bottomNav.getMenu().findItem(R.id.nav_more);
         item.setChecked(true);
 

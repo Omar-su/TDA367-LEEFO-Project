@@ -16,5 +16,4 @@ public class SharedViewData {
     static public boolean lastOpenedViewWasCategoryView;
     static public TimePeriod timePeriod;
     static public Context mainActivityContext;
-    static public BottomNavigationView bottomNavigationView;
 }
