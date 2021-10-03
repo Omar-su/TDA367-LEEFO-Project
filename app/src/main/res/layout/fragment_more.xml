@@ -7,25 +7,14 @@
     android:background="@color/white"
     tools:context=".view.fragments.MoreFragment">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="More options and tools"
-        android:textSize="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.46"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05" />
-
     <Button
         android:id="@+id/compare_month_button"
-        android:layout_width="140dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="100dp"
+        android:layout_width="160dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="50dp"
+        android:backgroundTint="@color/purple_light"
         android:text="Compare \n Months"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/manage_categories_button"
@@ -33,9 +22,11 @@
 
     <Button
         android:id="@+id/manage_categories_button"
-        android:layout_width="140dp"
-        android:layout_height="100dp"
+        android:layout_width="160dp"
+        android:layout_height="120dp"
+        android:backgroundTint="@color/purple_light"
         android:text="Manage \n categories"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/compare_month_button"
         app:layout_constraintEnd_toStartOf="@+id/compare_month_button"
         app:layout_constraintHorizontal_bias="0.5"

@@ -11,4 +11,5 @@
     <string name="Edit_Transaction">Edit Transaction</string>
     <string name="New_Category">New Category</string>
     <string name="Edit_Category">Edit Category</string>
+    <string name="Manage_Categories">Manage categories</string>
 </resources>
