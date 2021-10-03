@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -32,11 +33,11 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
     private static final String TRANSACTION_AMOUNT = "TRANSACTION_AMOUNT";
     private static final String CATEGORY_FK_NAME = "TRANS_FOREIGN_ID";
     private static final String CATEGORY_IS_INCOME = "CATEGORY_IS_INCOME";
-
+    public static final String TRANSACTION_ID = "TRANSACTION_ID";
 
 
     public DataBaseManager(@Nullable Context context) {
-        super(context, "cat_trans_db", null, 1);
+        super(context, "category_transaction_db", null, 2);
     }
 
 
@@ -63,13 +64,16 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
                                     + CATEGORY_COLOR + " TEXT, "
                                     + CATEGORY_IS_INCOME + " INTEGER " + " )";
 
-        String createTableTransactions = " CREATE TABLE " + TRANSACTIONS_TABLE + " ( " + TRANSACTION_AMOUNT + " REAL, "
+        String createTableTransactions = " CREATE TABLE " + TRANSACTIONS_TABLE + " ( "  + TRANSACTION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                                        + TRANSACTION_AMOUNT + " REAL, "
                                         + TRANSACTIONS_DESC + " TEXT, "
                                         + TRANSACTION_DATE + " TEXT, "
-                                        + CATEGORY_FK_NAME + " INTEGER, FOREIGN KEY(" + CATEGORY_FK_NAME + ") REFERENCES " + CATEGORY_TABLE + " ( " + CATEGORY_NAME + " ) ON DELETE SET NULL)";
+                                        + CATEGORY_FK_NAME + " TEXT, FOREIGN KEY(" + CATEGORY_FK_NAME + ") REFERENCES " + CATEGORY_TABLE + " ( " + CATEGORY_NAME + " ) ON DELETE SET NULL)";
 
         sqLiteDatabase.execSQL(createTableCategory);
         sqLiteDatabase.execSQL(createTableTransactions);
+
+
 
     }
 
@@ -85,6 +89,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
+
     }
 
     /**
@@ -95,6 +100,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
+
         cv.put(TRANSACTIONS_DESC, transaction.getDescription());
         cv.put(TRANSACTION_AMOUNT, transaction.getAmount());
         cv.put(TRANSACTION_DATE, transaction.getDate().toString());
@@ -123,21 +129,44 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
     }
 
     /**
-     * Removes a certain financial transaction information from the database
-     * Removes only one row at a time
+     * Deletes only one transaction from the database that matches the data of the transaction given
      * @param transaction Transaction to be removed.
      */
     public void removeData(FinancialTransaction transaction)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        String sql = "DELETE FROM " + TRANSACTIONS_TABLE + " WHERE " + TRANSACTIONS_DESC + " = '" + transaction.getDescription() + "' AND "
-                    + TRANSACTION_DATE + " = '" + transaction.getDate().toString() + "' AND " + TRANSACTION_AMOUNT + " = " + transaction.getAmount() + " AND "
-                    + CATEGORY_FK_NAME + " = '" + transaction.getCategory() + "'";
 
+        int deletedTransaction = getDeletedTransaction(transaction, db);
 
+        // Deletes a random transaction from identical transactions and a specific transaction if there is one that satisfies the requirements
+        String sql = "DELETE FROM " + TRANSACTIONS_TABLE + " WHERE " + TRANSACTION_ID + " = " + deletedTransaction;
         db.execSQL(sql);
+
         db.close();
 
+    }
+
+    /**
+     * Checks if there are several identical rows that satisfy the requirements of the transaction's data
+     * and gets the id of a random one
+     * @param transaction The transaction that is to be deleted
+     * @param db Access to the database
+     * @return Returns an id of one transaction if there are identical transactions
+     */
+    private int getDeletedTransaction(FinancialTransaction transaction, SQLiteDatabase db) {
+        // Gets all the identical rows/transactions in the database
+        String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "  + TRANSACTIONS_DESC + " = '" + transaction.getDescription() + "' AND "
+                + TRANSACTION_DATE + " = '" + transaction.getDate().toString() + "' AND " + TRANSACTION_AMOUNT + " = " + transaction.getAmount() + " AND "
+                + CATEGORY_FK_NAME + " = '" + transaction.getCategory().getName() + "'";
+
+
+        Cursor cursor = db.rawQuery(queryString, null);
+        cursor.moveToFirst();
+        // Saves the id of one of the identical transactions
+        int deletedTransaction = cursor.getInt(0);
+        cursor.close();
+
+        return deletedTransaction;
     }
 
     /**
@@ -204,10 +233,10 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
         if (cursor.moveToFirst()){
             do {
-                int transactionAmount = cursor.getInt(0);
-                String transactionDesc = cursor.getString(1);
-                String transactionDate = cursor.getString(2);
-                String categoryFKName = cursor.getString(3);
+                int transactionAmount = cursor.getInt(1);
+                String transactionDesc = cursor.getString(2);
+                String transactionDate = cursor.getString(3);
+                String categoryFKName = cursor.getString(4);
                 Category category = new Category("", "", true);
                 for (Category c : categories){
                     if (categoryFKName.equals(c.getName())){

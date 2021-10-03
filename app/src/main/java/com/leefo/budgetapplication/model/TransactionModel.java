@@ -377,7 +377,7 @@ public class TransactionModel {
     }
 
     private void deleteTransactionFromDatabase(FinancialTransaction transaction){
-        //database.removeData(transaction);
+        database.removeData(transaction);
     }
 
     private void deleteCategoryFromDatabase(Category category){
