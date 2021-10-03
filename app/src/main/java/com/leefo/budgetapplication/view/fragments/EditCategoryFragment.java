@@ -1,6 +1,7 @@
 package com.leefo.budgetapplication.view.fragments;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -47,7 +48,6 @@ public class EditCategoryFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_edit_category, container, false);
 
         oldCategory = SharedViewData.singleCategory;
-
         // get views
         saveButton = view.findViewById(R.id.edit_category_save_button);
         deleteButton = view.findViewById(R.id.edit_category_delete_button);
@@ -66,8 +66,7 @@ public class EditCategoryFragment extends Fragment {
 
     private void setOldCategoryValues(Category category){
         nameInput.setText(category.getName());
-        int colorInt = Integer.decode(category.getColor());
-        defaultColor = colorInt;
+        defaultColor = Color.parseColor(category.getColor());
         if(oldCategory.isIncome()){
             radioGroup.check(R.id.edit_category_radio_income);
         } else {
@@ -146,7 +145,7 @@ public class EditCategoryFragment extends Fragment {
         Controller.editCategoryInfo(oldCategory,name,color,isIncome);
     }
 
-    //Method to make a Toast. Use to test
+
     Toast t;
     private void makeToast(String s){
         if(t != null) t.cancel();
