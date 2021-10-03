@@ -1,8 +1,10 @@
 package com.leefo.budgetapplication.view.fragments;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -37,6 +39,7 @@ public class EditTransactionFragment extends Fragment {
 
     private EditText amountInput, noteInput, dateInput;
     private Button saveButton;
+    private Button deleteButton;
     private Spinner categorySpinner;
     private RadioGroup radioGroup;
 
@@ -63,6 +66,7 @@ public class EditTransactionFragment extends Fragment {
         noteInput = view.findViewById(R.id.edit_transaction_note_input);
         dateInput = view.findViewById(R.id.edit_transaction_dateInput);
         saveButton = view.findViewById(R.id.edit_transaction_save_button);
+        deleteButton = view.findViewById(R.id.edit_transaction_delete_button);
         radioGroup = view.findViewById(R.id.edit_transaction_radioGroup);
 
         income = Controller.getIncomeCategories();
@@ -73,6 +77,7 @@ public class EditTransactionFragment extends Fragment {
         initDatePickerDialog();
         setOldTranscactionValues(oldTransaction);
         initSaveButtonOnClickListener();
+        initDeleteButtonOnClickListener();
 
         return view;
     }
@@ -133,8 +138,6 @@ public class EditTransactionFragment extends Fragment {
         });
     }
 
-
-
     private void saveButton(){
         if (amountInput.getText().toString().equals("")){
             makeToast("You need to enter an amount");
@@ -142,7 +145,30 @@ public class EditTransactionFragment extends Fragment {
         }
         editTransaction();
         ((MainActivity)getActivity()).openHomeFragment(view);
+    }
 
+    private void initDeleteButtonOnClickListener(){
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(getContext())
+                        .setMessage("Are you sure you want to delete this transaction?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                deleteTransaction();
+                                ((MainActivity)getActivity()).openHomeFragment(view);
+                            }
+                        })
+                        .setNegativeButton("No",null)
+                        .show();
+            }
+        });
+    }
+
+    private void deleteTransaction(){
+        Controller.removeTransaction(oldTransaction);
     }
 
     private void editTransaction(){
