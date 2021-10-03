@@ -38,7 +38,7 @@ public class ManageCategoriesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_manage_categories, container, false);
         radioGroup = view.findViewById(R.id.manage_categories_radioGroup);
         listView = view.findViewById(R.id.listView_manage_categories);
-        adapter = new ManageCategoriesListAdapter(getActivity().getApplicationContext(), Controller.getExpenseCategories());
+        adapter = new ManageCategoriesListAdapter(getActivity().getApplicationContext(), getExpenseCategoriesWithoutOther());
         listView.setAdapter(adapter);
         initRadioGroup();
 
@@ -46,6 +46,28 @@ public class ManageCategoriesFragment extends Fragment {
         initNewCategoryButtonOnClickListener();
         initClickOnListItem();
         return view;
+    }
+
+    private ArrayList<Category> getExpenseCategoriesWithoutOther(){
+        ArrayList<Category> list = Controller.getExpenseCategories();
+        for (Category c : list){
+            if (c.getName().equals("Other expense")){
+                list.remove(c);
+                break;
+            }
+        }
+        return list;
+    }
+
+    private ArrayList<Category> getIncomeCategoriesWithoutOther(){
+        ArrayList<Category> list = Controller.getIncomeCategories();
+        for (Category c : list){
+            if (c.getName().equals("Other income")){
+                list.remove(c);
+                break;
+            }
+        }
+        return list;
     }
 
     private void initClickOnListItem(){
@@ -75,9 +97,9 @@ public class ManageCategoriesFragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.manage_categories_radio_expense){
-                    adapter = new ManageCategoriesListAdapter(getActivity().getApplicationContext(), Controller.getExpenseCategories());
+                    adapter = new ManageCategoriesListAdapter(getActivity().getApplicationContext(), getExpenseCategoriesWithoutOther());
                 } else {
-                    adapter = new ManageCategoriesListAdapter(getActivity().getApplicationContext(), Controller.getIncomeCategories());
+                    adapter = new ManageCategoriesListAdapter(getActivity().getApplicationContext(), getIncomeCategoriesWithoutOther());
                 }
                 listView.setAdapter(adapter);
             }
