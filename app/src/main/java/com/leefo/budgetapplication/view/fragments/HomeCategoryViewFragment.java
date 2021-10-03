@@ -119,7 +119,7 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
         float sum = 0;
         for(Category c :  list){
             sum = Controller.getTransactionSum(c, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
-            entries.add(new PieEntry(sum,c.getName()));
+            entries.add(new PieEntry(sum,""));
             myColors.add(Color.parseColor(c.getColor()));
         }
 
@@ -129,14 +129,15 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
         PieData data = new PieData(dataSet);
 
         data.setDrawValues(true);
-        data.setValueFormatter(new PercentFormatter(pieChart));
-        data.setValueTextSize(20f);
+        //data.setValueFormatter(new PercentFormatter(pieChart));
+
+        data.setValueTextSize(18f);
         data.setValueTextColor(Color.BLACK);
 
         pieChart.setData(data);
         pieChart.invalidate(); // update
 
-        pieChart.animateY(1000, Easing.EaseInOutQuad);
+        pieChart.animateY(800, Easing.EaseInOutQuad);
     }
 
     @Override

@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Total_Income_title"
-            android:textColor="@color/white"
+            android:textColor="@color/purple_light"
             app:layout_constraintEnd_toEndOf="@+id/income_text_view"
             app:layout_constraintEnd_toStartOf="@+id/textView7"
             app:layout_constraintHorizontal_bias="0.5"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/Total_Expense_title"
-            android:textColor="@color/white"
+            android:textColor="@color/purple_light"
             app:layout_constraintEnd_toStartOf="@+id/textView5"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/textView6"
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Balance_title"
-            android:textColor="@color/white"
+            android:textColor="@color/purple_light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/textView7"
@@ -57,10 +57,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="8dp"
             android:text="0"
             android:textColor="@color/white"
-            android:textSize="22sp"
+            android:textSize="26sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/textView7"
             app:layout_constraintHorizontal_bias="0.5"
@@ -73,7 +73,7 @@
 
             android:text="0"
             android:textColor="@color/white"
-            android:textSize="22sp"
+            android:textSize="26sp"
             app:layout_constraintEnd_toEndOf="@+id/textView5"
             app:layout_constraintStart_toStartOf="@+id/textView5"
             app:layout_constraintTop_toTopOf="@+id/expense_text_view" />
@@ -85,7 +85,7 @@
 
             android:text="0"
             android:textColor="@color/white"
-            android:textSize="22sp"
+            android:textSize="26sp"
             app:layout_constraintEnd_toEndOf="@+id/textView6"
             app:layout_constraintStart_toStartOf="@+id/textView6"
             app:layout_constraintTop_toTopOf="@+id/expense_text_view" />
