@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
             //textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
             //textView.setBackgroundColor(Color.parseColor("#A0A0A0"));
 
+        SharedViewData.bottomNavigationView = bottomNav;
         SharedViewData.lastOpenedViewWasCategoryView = true;
         SharedViewData.timePeriod = new TimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
     }
