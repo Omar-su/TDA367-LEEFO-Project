@@ -1,7 +1,9 @@
 package com.leefo.budgetapplication.view.fragments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -10,18 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.MainActivity;
-import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
+import com.leefo.budgetapplication.view.SharedViewData;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
-
-// import yuku.ambilwarna.AmbilWarnaDialog;
 
 /**
  * The class that represents the fragment for editing an existing category
@@ -30,10 +30,12 @@ public class EditCategoryFragment extends Fragment {
 
     private EditText nameInput;
     private Button saveButton;
+    private Button deleteButton;
     private Button changeColorButton;
     private int defaultColor;
-    //private Spinner categorySpinner;
     private View view;
+    private RadioGroup radioGroup;
+    private Category oldCategory;
 
     /**
      * Method that runs when the fragment is being created.
@@ -44,34 +46,66 @@ public class EditCategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_edit_category, container, false);
 
-        //get views
+        oldCategory = SharedViewData.singleCategory;
+
+        // get views
         saveButton = view.findViewById(R.id.edit_category_save_button);
+        deleteButton = view.findViewById(R.id.edit_category_delete_button);
         nameInput = view.findViewById(R.id.edit_category_name_input);
         changeColorButton = view.findViewById(R.id.edit_category_change_color_button);
-        defaultColor = ContextCompat.getColor(getContext(), R.color.design_default_color_primary);
-        //categorySpinner = view.findViewById(R.id.edit_category_name_spinner);
+        radioGroup = view.findViewById(R.id.edit_category_radio_group);
 
-        //init category spinner
-       // SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), Controller.getAllCategories());
-        //categorySpinner.setAdapter(spinnerAdapter);
-
-        // init save button onClick
+        // init
+        setOldCategoryValues(oldCategory);
         initSaveButtonOnClickListener();
-        //initChangeColorButtonOnClickListener();
+        initDeleteButtonOnClickListener();
+        initChangeColorButtonOnClickListener();
 
         return view;
+    }
+
+    private void setOldCategoryValues(Category category){
+        nameInput.setText(category.getName());
+        int colorInt = Integer.decode(category.getColor());
+        defaultColor = colorInt;
+        if(oldCategory.isIncome()){
+            radioGroup.check(R.id.edit_category_radio_income);
+        } else {
+            radioGroup.check(R.id.edit_category_radio_expense);
+        }
     }
 
     private void initSaveButtonOnClickListener(){
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //saveButton();
+                saveButton();
+            }
+        });
+    }
+
+    private void initDeleteButtonOnClickListener(){
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(getContext())
+                        .setMessage("Are you sure you want to delete this category?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Controller.removeCategory(oldCategory);
+                                ((MainActivity)getActivity()).openHomeFragment(view);
+                            }
+                        })
+                        .setNegativeButton("No",null)
+                        .show();
             }
         });
     }
 
     private void initChangeColorButtonOnClickListener(){
+        changeColorButton.setBackgroundColor(defaultColor);
         changeColorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,20 +140,12 @@ public class EditCategoryFragment extends Fragment {
     }
 
     private void editCategory(){
-        //Category cat = (Category) categorySpinner.getSelectedItem();
+        boolean isIncome = radioGroup.getCheckedRadioButtonId() == R.id.edit_category_radio_income;
         String name = nameInput.getText().toString();
         String color = "#" + Integer.toHexString(defaultColor);
-        //Controller.editCategoryInfo(id, name, color);
+        Controller.editCategoryInfo(oldCategory,name,color,isIncome);
     }
 
-    /*
-    public static void editCategoryInfo(Category oldCategory, String newName,
-    String newColor, boolean isIncome) {
-        Category newCategory = new Category(newName, newColor, isIncome);
-
-        dataHandler.editCategory(oldCategory, newCategory);
-    }
-     */
     //Method to make a Toast. Use to test
     Toast t;
     private void makeToast(String s){

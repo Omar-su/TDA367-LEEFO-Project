@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.view.MainActivity;
-import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -31,8 +30,6 @@ public class NewCategoryFragment extends Fragment {
     private int defaultColor;
     private View view;
     private RadioGroup radioGroup;
-
-
 
     /**
      * Method that runs when the fragment is being created.
@@ -49,19 +46,14 @@ public class NewCategoryFragment extends Fragment {
         changeColorButton = view.findViewById(R.id.new_category_change_color_button);
         radioGroup = view.findViewById(R.id.new_category_radio_group);
 
-
-
         defaultColor = ContextCompat.getColor(getContext(), R.color.design_default_color_primary);
 
         // init save button onClick
         initSaveButtonOnClickListener();
         initChangeColorButtonOnClickListener();
 
-
         return view;
     }
-
-
 
     private void initSaveButtonOnClickListener(){
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -80,9 +72,6 @@ public class NewCategoryFragment extends Fragment {
             }
         });
     }
-
-
-
 
     private void openColorPicker(){
         AmbilWarnaDialog ambilWarnaDialog = new AmbilWarnaDialog(getContext(), defaultColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {

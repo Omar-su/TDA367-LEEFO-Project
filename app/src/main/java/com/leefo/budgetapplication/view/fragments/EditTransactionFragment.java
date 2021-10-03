@@ -75,35 +75,35 @@ public class EditTransactionFragment extends Fragment {
         // init
         initSpinner();
         initDatePickerDialog();
-        setOldTranscactionValues(oldTransaction);
+        setOldTransactionValues(oldTransaction);
         initSaveButtonOnClickListener();
         initDeleteButtonOnClickListener();
 
         return view;
     }
 
-    private void setOldTranscactionValues(FinancialTransaction transaction){
+    private void setOldTransactionValues(FinancialTransaction transaction){
         noteInput.setText(transaction.getDescription());
         amountInput.setText(Double.toString(Math.abs(transaction.getAmount())));
-        Category oldCateory = transaction.getCategory();
+        Category oldCategory = transaction.getCategory();
         dateInput.setText(oldTransaction.getDate().toString());
-        if(oldCateory.isIncome()){
+        if(oldCategory.isIncome()){
             radioGroup.check(R.id.edit_transaction_radioIncome);
         } else {
             radioGroup.check(R.id.edit_transaction_radioExpense);
         }
 
         SpinnerAdapter spinnerAdapter;
-        if (oldCateory.isIncome()){
+        if (oldCategory.isIncome()){
             ArrayList<Category> newIncomeList = new ArrayList<>(income);
-            newIncomeList.remove(oldCateory);
-            newIncomeList.add(0, oldCateory);
+            newIncomeList.remove(oldCategory);
+            newIncomeList.add(0, oldCategory);
             spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), newIncomeList);
 
         } else {
             ArrayList<Category> newExpenseList = new ArrayList<>(expense);
-            newExpenseList.remove(oldCateory);
-            newExpenseList.add(0, oldCateory);
+            newExpenseList.remove(oldCategory);
+            newExpenseList.add(0, oldCategory);
             spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), newExpenseList);
         }
         categorySpinner.setAdapter(spinnerAdapter);
@@ -157,7 +157,7 @@ public class EditTransactionFragment extends Fragment {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                deleteTransaction();
+                                Controller.removeTransaction(oldTransaction);
                                 ((MainActivity)getActivity()).openHomeFragment(view);
                             }
                         })
@@ -165,10 +165,6 @@ public class EditTransactionFragment extends Fragment {
                         .show();
             }
         });
-    }
-
-    private void deleteTransaction(){
-        Controller.removeTransaction(oldTransaction);
     }
 
     private void editTransaction(){
