@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -15,7 +16,9 @@ import android.widget.RadioGroup;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.MainActivity;
+import com.leefo.budgetapplication.view.SharedViewData;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 import com.leefo.budgetapplication.view.adapters.ManageCategoriesListAdapter;
 import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
@@ -41,7 +44,19 @@ public class ManageCategoriesFragment extends Fragment {
 
         newCategoryButton = view.findViewById(R.id.button_add_new_cat_in_manage_cat);
         initNewCategoryButtonOnClickListener();
+        initClickOnListItem();
         return view;
+    }
+
+    private void initClickOnListItem(){
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Category category = (Category) adapterView.getItemAtPosition(i);
+                ((MainActivity)getActivity()).openFragmentInMainFrameLayout(new EditCategoryFragment());
+                SharedViewData.singleCategory = category;
+            }
+        });
     }
 
     private void initNewCategoryButtonOnClickListener(){

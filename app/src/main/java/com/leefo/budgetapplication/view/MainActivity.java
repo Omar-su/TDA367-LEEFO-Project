@@ -69,9 +69,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-
     public void openHomeFragment(View v){
         openFragmentInMainFrameLayout(new HomeFragment());
         bottomNav.setVisibility(View.VISIBLE);
