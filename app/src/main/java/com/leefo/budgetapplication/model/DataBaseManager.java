@@ -37,7 +37,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
 
     public DataBaseManager(@Nullable Context context) {
-        super(context, "category_transaction_db", null, 2);
+        super(context, "category_transaction_db_v3", null, 3);
     }
 
 
