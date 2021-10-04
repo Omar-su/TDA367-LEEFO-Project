@@ -30,13 +30,7 @@ import java.util.List;
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
 
-    DataBaseManager db;
 
-    TransactionModel tm;
-
-    FinancialTransaction testTransaction1;
-    Category testCategory1;
-    LocalDate testDate1;
 
     @Test
     public void useAppContext() {
@@ -45,28 +39,7 @@ public class ExampleInstrumentedTest {
         assertEquals("com.leefo.budgetapplication", appContext.getPackageName());
     }
 
-    @Before
-    public void init(){
-        Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        db = new DataBaseManager(c);
-        tm = new TransactionModel(db);
-        testCategory1 = new Category("Test", "#FFFFFF", true);
-        testDate1 = LocalDate.now();
-        testTransaction1 = new FinancialTransaction((float)16.9, "test", testDate1,
-                testCategory1);
-    }
 
-    @Test
-    public void canAddTransaction() {
-        tm.addTransaction(testTransaction1);
-
-        assertTrue(tm.getTransactionList().contains(testTransaction1));
-    }
-
-    @Test
-    public void canRemoveTransaction() {
-
-    }
 
 
 }
