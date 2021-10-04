@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +12,16 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.model.FinancialTransaction;
+import com.leefo.budgetapplication.view.fragments.BudgetFragment;
+import com.leefo.budgetapplication.view.fragments.EditTransactionFragment;
+import com.leefo.budgetapplication.view.fragments.HomeFragment;
+import com.leefo.budgetapplication.view.fragments.ManageCategoriesFragment;
+import com.leefo.budgetapplication.view.fragments.MoreFragment;
+import com.leefo.budgetapplication.view.fragments.NewTransactionFragment;
+
+import java.time.LocalDate;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,9 +36,10 @@ public class MainActivity extends AppCompatActivity {
         // initialize database
         Controller.InitializeBackend(this);
 
+        SharedViewData.mainActivityContext = getApplicationContext();
+
         // start app with displaying Home Fragment
         getSupportFragmentManager().beginTransaction().add(R.id.FrameLayout_main, new HomeFragment()).commit();
-
 
         // get views
         bottomNav = findViewById(R.id.bottomNavigation);
@@ -36,22 +48,26 @@ public class MainActivity extends AppCompatActivity {
         initBottomNavigationOnClick();
 
 
-
-        // color example, because i always forget how to write this
+            // color example, because i always forget how to write this
             TextView textView;
             //textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
             //textView.setBackgroundColor(Color.parseColor("#A0A0A0"));
 
+        SharedViewData.lastOpenedViewWasCategoryView = true;
+        SharedViewData.timePeriod = new TimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
     }
 
 
-
-    public void closeNewtransactionFragment(View v){
+    public void openHomeFragment(View v){
         openFragmentInMainFrameLayout(new HomeFragment());
         bottomNav.setVisibility(View.VISIBLE);
     }
 
-    private void openFragmentInMainFrameLayout(Fragment fragment){
+    public void openManageCatgeries(View v){
+        openFragmentInMainFrameLayout(new ManageCategoriesFragment());
+    }
+
+    public void openFragmentInMainFrameLayout(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, fragment).commit();
     }
 
@@ -60,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setVisibility(View.GONE);
     }
 
+    public void openEditTransactionFragment(){
+        openFragmentInMainFrameLayout(new EditTransactionFragment());
+        bottomNav.setVisibility(View.GONE);
+    }
 
     private void initBottomNavigationOnClick(){
         bottomNav.setOnItemSelectedListener(item -> {
@@ -84,14 +104,5 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-    //Method to make a Toast. Use to test
-    Toast t;
-    private void makeToast(String s){
-        if(t != null) t.cancel();
-        t = Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT);
-        t.show();
-    }
-
 
 }

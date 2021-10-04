@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".view.fragments.NewTransactionFragment">
+    tools:context=".view.fragments.EditTransactionFragment">
 
     <ImageButton
         android:id="@+id/imageButton"
@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="@string/New_Transaction"
+        android:text="@string/Edit_Transaction"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -84,25 +84,33 @@
         android:layout_height="1dp"
         android:layout_marginTop="16dp"
         android:background="@color/grey"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionInput"
+        app:layout_constraintTop_toBottomOf="@+id/edit_transaction_note_input"
         tools:layout_editor_absoluteX="0dp" />
 
     <Button
-        android:id="@+id/edit_category_save_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="159dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="158dp"
-        android:layout_marginBottom="241dp"
-        android:text="save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/edit_transaction_save_button"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_transaction_delete_button"
+        app:layout_constraintEnd_toStartOf="@+id/edit_transaction_delete_button"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_transaction_delete_button" />
+
+    <Button
+        android:id="@+id/edit_transaction_delete_button"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:text="Delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/edit_transaction_save_button"
         app:layout_constraintTop_toBottomOf="@+id/view6" />
 
     <Spinner
-        android:id="@+id/spinner_category"
+        android:id="@+id/edit_transaction_spinner_category"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -163,7 +171,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view4" />
 
     <EditText
-        android:id="@+id/edit_category_name_input"
+        android:id="@+id/edit_transaction_amount_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -179,7 +187,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <EditText
-        android:id="@+id/descriptionInput"
+        android:id="@+id/edit_transaction_note_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -195,7 +203,7 @@
         app:layout_constraintTop_toTopOf="@+id/noteTitle" />
 
     <EditText
-        android:id="@+id/dateInput"
+        android:id="@+id/edit_transaction_dateInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -212,7 +220,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view3" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/edit_transaction_radioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -222,7 +230,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
-            android:id="@+id/radioExpense"
+            android:id="@+id/edit_transaction_radioExpense"
             android:paddingRight="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -232,7 +240,7 @@
             />
 
         <RadioButton
-            android:id="@+id/radioIncome"
+            android:id="@+id/edit_transaction_radioIncome"
             android:layout_width="match_parent"
             android:textSize="20sp"
             android:layout_height="wrap_content"

@@ -16,10 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.model.Transaction;
-import com.leefo.budgetapplication.view.MainActivity;
+import com.leefo.budgetapplication.model.FinancialTransaction;
 
 
 import java.util.ArrayList;
@@ -27,11 +25,11 @@ import java.util.ArrayList;
 /**
  * Class that represents the adapter for the list in the HomeListViewFragment
  */
-public class ListViewAdapterHomeList extends ArrayAdapter<Transaction> {
+public class ListViewAdapterHomeList extends ArrayAdapter<FinancialTransaction> {
 
     Context context;
 
-    public ListViewAdapterHomeList(@NonNull Context context, ArrayList<Transaction> list) {
+    public ListViewAdapterHomeList(@NonNull Context context, ArrayList<FinancialTransaction> list) {
         super(context, R.layout.list_row_home, list);
         this.context = context;
     }
@@ -53,9 +51,9 @@ public class ListViewAdapterHomeList extends ArrayAdapter<Transaction> {
             convertView = layoutInflater.inflate(R.layout.list_row_home, null);
 
             // The Transaction object in the list
-            Transaction transaction = getItem(position);
+            FinancialTransaction transaction = getItem(position);
             // The transaction's category
-            Category categoryObject = Controller.getCategoryFromId(transaction.getCategoryId());
+            Category categoryObject = transaction.getCategory();
 
             // get views
             TextView amount = convertView.findViewById(R.id.amount);
@@ -64,19 +62,19 @@ public class ListViewAdapterHomeList extends ArrayAdapter<Transaction> {
             TextView date = convertView.findViewById(R.id.date);
             RelativeLayout row = convertView.findViewById(R.id.row);
 
-            // Some Transaction objects in the list have been given the description "DATE" to mark that this is not a transaction
+            // Some Transaction objects in the list have been given the category name "DATE" to mark that this is not a transaction
             // instead this row in the list should be a date row displaying only a date.
             boolean dateRow = false; // start with false
-            if (transaction.getDescription().equals("DATE")) dateRow = true;
+            if (transaction.getCategory().getName().equals("DATE")) dateRow = true;
 
-            // if dateRow is true this row needs another design shoving a date instead of transaction
+            // if dateRow is true this row needs another design showing a date instead of transaction
             // new design in the if block
             if (dateRow){
                 dateRow = false;
                 amount.setVisibility(View.GONE);
                 category.setVisibility(View.GONE);
                 circle.setVisibility(View.GONE);
-                date.setText(transaction.getDate());
+                date.setText(transaction.getDescription());
                 row.setBackgroundColor(ContextCompat.getColor(context, R.color.grey_background));
 
             // else the row is a normal transaction and gets the transaction design
@@ -88,5 +86,17 @@ public class ListViewAdapterHomeList extends ArrayAdapter<Transaction> {
             }
         }
         return convertView;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        if (getCount() == 0) return 1;
+        return getCount();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+
+        return position;
     }
 }

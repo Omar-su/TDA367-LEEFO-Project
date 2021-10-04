@@ -1,4 +1,4 @@
-package com.leefo.budgetapplication.view;
+package com.leefo.budgetapplication.view.fragments;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -17,9 +17,13 @@ import androidx.fragment.app.Fragment;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -29,8 +33,8 @@ import java.util.Locale;
 public class NewTransactionFragment extends Fragment {
 
     private EditText amountInput, descriptionInput, dateInput;
-    private Spinner categorySpinner;
     private Button saveButton;
+    private Spinner categorySpinner;
     private RadioGroup radioGroup;
 
     final Calendar myCalendar = Calendar.getInstance();
@@ -43,20 +47,18 @@ public class NewTransactionFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-         view = inflater.inflate(R.layout.fragment_new_transaction, container, false);
-
+        view = inflater.inflate(R.layout.fragment_new_transaction, container, false);
 
         // get views
-        categorySpinner = view.findViewById(R.id.spinner_categoty);
-        amountInput = view.findViewById(R.id.amountInput);
+        categorySpinner = view.findViewById(R.id.spinner_category);
+        amountInput = view.findViewById(R.id.edit_category_name_input);
         descriptionInput = view.findViewById(R.id.descriptionInput);
         dateInput = view.findViewById(R.id.dateInput);
-        saveButton = view.findViewById(R.id.saveButton);
+        saveButton = view.findViewById(R.id.edit_category_save_button);
         radioGroup = view.findViewById(R.id.radioGroup);
 
         // init category spinner
-        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), Controller.getAllCategories());
-        categorySpinner.setAdapter(spinnerAdapter);
+        initSpinner();
 
         // init date picker
         initDatePickerDialog();
@@ -65,6 +67,28 @@ public class NewTransactionFragment extends Fragment {
         initSaveButtonOnClickListener();
 
         return view;
+    }
+
+    private void initSpinner(){
+        ArrayList<Category> income, expense;
+        income = Controller.getIncomeCategories();
+        expense = Controller.getExpenseCategories();
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), expense);
+        categorySpinner.setAdapter(spinnerAdapter);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.radioExpense){
+                    SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), expense);
+                    categorySpinner.setAdapter(spinnerAdapter);
+                } else {
+                    SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), income);
+                    categorySpinner.setAdapter(spinnerAdapter);
+                }
+            }
+        });
     }
 
     private void initSaveButtonOnClickListener(){
@@ -84,22 +108,22 @@ public class NewTransactionFragment extends Fragment {
             return;
         }
         addTransaction();
-        ((MainActivity)getActivity()).closeNewtransactionFragment(view);
+        ((MainActivity)getActivity()).openHomeFragment(view);
 
     }
 
     private void addTransaction(){
         boolean isExpense = radioGroup.getCheckedRadioButtonId() == R.id.radioExpense;
-        String date = dateInput.getText().toString();
         String description = descriptionInput.getText().toString();
         float amount = Float.parseFloat(amountInput.getText().toString());
         Category category = (Category) categorySpinner.getSelectedItem();
+        LocalDate date = myCalendar.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // convert Date to LocalDate
 
         if (isExpense){
             amount = amount * -1;
         }
 
-        Controller.addNewTransaction(amount, description, date, category.getId());
+        Controller.addNewTransaction(amount, description, date, category);
     }
 
     /**
@@ -131,7 +155,7 @@ public class NewTransactionFragment extends Fragment {
      * Updates the edittext edittext_date with the date from the myCalendar chosen by the datePickerDialog.
      */
     private void updateDateLabel() {
-        String myFormat = "dd/MM/yy";
+        String myFormat = "yyyy-MM-dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.UK);
 
         dateInput.setText(sdf.format(myCalendar.getTime()));
