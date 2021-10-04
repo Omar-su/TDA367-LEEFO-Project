@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.model.CategoryHandler;
+
 
 import java.util.List;
 import com.leefo.budgetapplication.view.MainActivity;
@@ -27,7 +27,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 public class CategoryHandlerTest {
-
+/*
     @Mock
     private Context mockAppContext;
 

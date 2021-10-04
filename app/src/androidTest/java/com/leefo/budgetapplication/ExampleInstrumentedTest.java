@@ -14,10 +14,7 @@ import static org.junit.Assert.*;
 
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.model.CategoryHandler;
 import com.leefo.budgetapplication.model.DataBaseManager;
-import com.leefo.budgetapplication.model.Transaction;
-import com.leefo.budgetapplication.model.TransactionHandler;
 
 import java.util.List;
 
@@ -31,7 +28,7 @@ public class ExampleInstrumentedTest {
     @Before
     public void init() {
         Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        DataBaseManager.initialize(c);
+        DataBaseManager dataBaseManager = new DataBaseManager(c);
     }
 
     @Test
@@ -41,11 +38,5 @@ public class ExampleInstrumentedTest {
         assertEquals("com.leefo.budgetapplication", appContext.getPackageName());
     }
 
-    @Test
-    public void canAddTransaction() {
-        TransactionHandler th = new TransactionHandler();
-            th.addTransaction(14, "sf", "2021/05/03", 1);
-            List<Transaction> transactionList = th.getAllTransactions();
-            assertEquals(1, transactionList.size());
-    }
+
 }
