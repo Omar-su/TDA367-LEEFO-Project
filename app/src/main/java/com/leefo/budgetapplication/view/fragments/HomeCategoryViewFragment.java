@@ -151,7 +151,7 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
 
     @Override
     public void update() {
-        if (viewModel.lastOpenedViewWasCategoryView){
+        if (getActivity() != null){ // if getActivity == null it means that this fragment is not currently activated, and don't need to be updated
             updateData();
         }
     }
