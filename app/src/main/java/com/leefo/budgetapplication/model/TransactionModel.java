@@ -89,6 +89,10 @@ public class TransactionModel {
 
         ArrayList<FinancialTransaction> transactions = getTransactionList();
 
+        if (transactions.isEmpty()){
+            transactionList.add(transaction);
+        }
+
         // loops through transactions to find where new transaction should be inserted
         for(int i = 0; i < transactions.size(); i++)
         {
