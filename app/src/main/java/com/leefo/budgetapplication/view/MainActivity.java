@@ -2,6 +2,9 @@ package com.leefo.budgetapplication.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -53,8 +56,10 @@ public class MainActivity extends AppCompatActivity {
             //textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
             //textView.setBackgroundColor(Color.parseColor("#A0A0A0"));
 
+        SharedViewModel viewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+        viewModel.setTimePeriod(new TimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue()));
+
         SharedViewData.lastOpenedViewWasCategoryView = true;
-        SharedViewData.timePeriod = new TimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
     }
 
 

@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
@@ -16,6 +17,8 @@ import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.SharedViewData;
+import com.leefo.budgetapplication.view.SharedViewModel;
+import com.leefo.budgetapplication.view.TimePeriod;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
 import java.time.LocalDate;
@@ -27,12 +30,16 @@ public class SingleCategoryFragment extends Fragment {
     ListView listView;
     ArrayList<FinancialTransaction> list;
     TextView timePeriodTextView;
+    TimePeriod timePeriod;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_single_category, container, false);
 
-        list = Controller.getTransactions(SharedViewData.singleCategory, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
+        SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        timePeriod = viewModel.getTimePeriod().getValue();
+
+        list = Controller.getTransactions(SharedViewData.singleCategory, timePeriod.getMonth(), timePeriod.getYear());
         putDatesIntoTransactionList();
         listView = view.findViewById(R.id.listview_single_category);
         ListViewAdapterHomeList adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(),list);
@@ -47,8 +54,8 @@ public class SingleCategoryFragment extends Fragment {
 
     private void setTimePeriodLabel(){
         String text;
-        if (SharedViewData.timePeriod.isTimeSpecified()) {
-            text = Month.of(SharedViewData.timePeriod.getMonth()) + " " + SharedViewData.timePeriod.getYear();
+        if (timePeriod.isTimeSpecified()) {
+            text = Month.of(timePeriod.getMonth()) + " " + timePeriod.getYear();
         } else {
             text = "All transactions";
         }

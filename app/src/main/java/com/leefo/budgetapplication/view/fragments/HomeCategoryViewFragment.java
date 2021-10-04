@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -23,6 +24,8 @@ import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.SharedViewData;
+import com.leefo.budgetapplication.view.SharedViewModel;
+import com.leefo.budgetapplication.view.TimePeriod;
 import com.leefo.budgetapplication.view.ViewObserver;
 import com.leefo.budgetapplication.view.ViewObserverHandler;
 import com.leefo.budgetapplication.view.adapters.CategoryViewListAdapter;
@@ -38,6 +41,7 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
     ListView listView;
     CategoryViewListAdapter adapter;
     TextView noTransactoins1, noTransactoins2;
+    TimePeriod timePeriod;
 
     /**
      * Method that runs when the fragment is being created.
@@ -49,6 +53,9 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
         View view = inflater.inflate(R.layout.fragment_home_category_view, container, false);
 
         ViewObserverHandler.addObserver(this);
+
+        SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        timePeriod = viewModel.getTimePeriod().getValue();
 
         pieChart = view.findViewById(R.id.pie_chart);
         listView = view.findViewById(R.id.listOfPieChart);
@@ -66,8 +73,8 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
 
     private void updateData() {
 
-        ArrayList<Category> list = Controller.removeEmptyCategories(Controller.getExpenseCategories(), SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
-        list = Controller.sortCategoryListBySum(list, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
+        ArrayList<Category> list = Controller.removeEmptyCategories(Controller.getExpenseCategories(), timePeriod.getMonth(), timePeriod.getYear());
+        list = Controller.sortCategoryListBySum(list, timePeriod.getMonth(), timePeriod.getYear());
 
         if (list.isEmpty()){
             noTransactoins1.setVisibility(View.VISIBLE);
@@ -94,7 +101,7 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
     }
 
     private void updateList(ArrayList<Category> list) {
-        adapter = new CategoryViewListAdapter(SharedViewData.mainActivityContext, list);
+        adapter = new CategoryViewListAdapter(SharedViewData.mainActivityContext, list, timePeriod);
         listView.setAdapter(adapter);
     }
 
@@ -118,7 +125,7 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
 
         float sum = 0;
         for(Category c :  list){
-            sum = Controller.getTransactionSum(c, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
+            sum = Controller.getTransactionSum(c, timePeriod.getMonth(), timePeriod.getYear());
             entries.add(new PieEntry(sum,""));
             myColors.add(Color.parseColor(c.getColor()));
         }

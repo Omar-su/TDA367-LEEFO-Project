@@ -13,12 +13,15 @@ import android.widget.ToggleButton;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.SharedViewData;
+import com.leefo.budgetapplication.view.SharedViewModel;
+import com.leefo.budgetapplication.view.TimePeriod;
 import com.leefo.budgetapplication.view.ViewObserverHandler;
 
 import java.time.LocalDate;
@@ -33,6 +36,7 @@ public class HomeFragment extends Fragment {
     private TextView income, expense, balance;
     private ToggleButton view_toggle, time_period_toggle;
     private ImageButton back_arrow, forward_arrow;
+    private TimePeriod timePeriod;
 
     /**
      * Method that runs when the fragment is being created.
@@ -52,14 +56,16 @@ public class HomeFragment extends Fragment {
         back_arrow = view.findViewById(R.id.Arrow_back);
         forward_arrow = view.findViewById(R.id.Arrow_forward);
 
-        // init
+        SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        timePeriod = viewModel.getTimePeriod().getValue();
 
+        // init
         initToggleButton(view);
         updateHeaderValues();
         initTimePeriod();
         openCorrectFragment();
 
-        BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottomNavigation);
+        BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottomNavigation);
         MenuItem item = bottomNav.getMenu().findItem(R.id.nav_home);
         item.setChecked(true);
 
@@ -69,7 +75,7 @@ public class HomeFragment extends Fragment {
 
 
     private void initTimePeriod() {
-        if (!SharedViewData.timePeriod.isTimeSpecified()){
+        if (!timePeriod.isTimeSpecified()){
             time_period_toggle.toggle();
             disabelArrowButtons();
         } else {
@@ -79,7 +85,7 @@ public class HomeFragment extends Fragment {
         back_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedViewData.timePeriod.decrementMonth();
+                timePeriod.decrementMonth();
                 updateTimePeriodButtonLabel();
                 updateHeaderValues();
                 ViewObserverHandler.updateObservers();
@@ -88,7 +94,7 @@ public class HomeFragment extends Fragment {
         forward_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedViewData.timePeriod.incrementMonth();
+                timePeriod.incrementMonth();
                 updateTimePeriodButtonLabel();
                 updateHeaderValues();
                 ViewObserverHandler.updateObservers();
@@ -98,12 +104,12 @@ public class HomeFragment extends Fragment {
         time_period_toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    SharedViewData.timePeriod.setNoSpecifiedTimePeriod();
+                    timePeriod.setNoSpecifiedTimePeriod();
                     disabelArrowButtons();
                     updateHeaderValues();
                     ViewObserverHandler.updateObservers();
                 } else {
-                    SharedViewData.timePeriod.setSpecifiedTimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
+                    timePeriod.setSpecifiedTimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
                     updateTimePeriodButtonLabel();
                     back_arrow.setEnabled(true);
                     forward_arrow.setEnabled(true);
@@ -124,7 +130,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateTimePeriodButtonLabel() {
-        String text = Month.of(SharedViewData.timePeriod.getMonth()) + " " + SharedViewData.timePeriod.getYear();
+        String text = Month.of(timePeriod.getMonth()) + " " + timePeriod.getYear();
         setTimePeriodText(text);
     }
 
@@ -144,9 +150,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateHeaderValues(){
-        float in = Controller.getTotalIncome(SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
-        float ex = Controller.getTotalExpense(SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
-        float ba = Controller.getTransactionBalance(SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
+        float in = Controller.getTotalIncome(timePeriod.getMonth(), timePeriod.getYear());
+        float ex = Controller.getTotalExpense(timePeriod.getMonth(), timePeriod.getYear());
+        float ba = Controller.getTransactionBalance(timePeriod.getMonth(), timePeriod.getYear());
         income.setText(String.valueOf(in));
         expense.setText(String.valueOf(ex));
         balance.setText(String.valueOf(ba));

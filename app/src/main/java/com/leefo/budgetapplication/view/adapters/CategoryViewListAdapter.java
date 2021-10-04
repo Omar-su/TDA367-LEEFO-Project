@@ -17,6 +17,7 @@ import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.SharedViewData;
+import com.leefo.budgetapplication.view.TimePeriod;
 
 import java.util.ArrayList;
 
@@ -25,10 +26,12 @@ import java.util.ArrayList;
  */
 public class CategoryViewListAdapter extends ArrayAdapter<Category> {
     Context context;
+    TimePeriod timePeriod;
 
-    public CategoryViewListAdapter(Context context, @NonNull ArrayList<Category> list) {
+    public CategoryViewListAdapter(Context context, @NonNull ArrayList<Category> list, TimePeriod timePeriod) {
         super(context, R.layout.list_row_category, list);
         this.context = context;
+        this.timePeriod = timePeriod;
     }
 
     /**
@@ -50,14 +53,14 @@ public class CategoryViewListAdapter extends ArrayAdapter<Category> {
         Category cat = getItem(position);
 
         int numberOfTransactions = 0;
-        numberOfTransactions = Controller.getTransactions(cat, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear()).size();
+        numberOfTransactions = Controller.getTransactions(cat, timePeriod.getMonth(), timePeriod.getYear()).size();
 
         TextView sum = convertView.findViewById(R.id.category_sum);
         TextView name = convertView.findViewById(R.id.category_name);
         View circle = convertView.findViewById(R.id.category_circle);
         TextView numberOfTransactionsTextView = convertView.findViewById(R.id.number_of_transactions);
 
-        sum.setText(String.valueOf(Controller.getTransactionSum(cat, SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear())));
+        sum.setText(String.valueOf(Controller.getTransactionSum(cat, timePeriod.getMonth(), timePeriod.getYear())));
         name.setText(cat.getName());
         circle.getBackground().setColorFilter(Color.parseColor(cat.getColor()), PorterDuff.Mode.SRC_ATOP);
         if (numberOfTransactions == 1){

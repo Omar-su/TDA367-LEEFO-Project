@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
@@ -17,6 +18,8 @@ import com.leefo.budgetapplication.model.ModelObserver;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.SharedViewData;
+import com.leefo.budgetapplication.view.SharedViewModel;
+import com.leefo.budgetapplication.view.TimePeriod;
 import com.leefo.budgetapplication.view.ViewObserver;
 import com.leefo.budgetapplication.view.ViewObserverHandler;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
@@ -33,7 +36,7 @@ public class HomeListViewFragment extends Fragment implements ModelObserver, Vie
     ListViewAdapterHomeList adapter;
     ArrayList<FinancialTransaction> transactions;
     TextView noTransactoins1, noTransactoins2;
-
+    TimePeriod timePeriod;
     /**
      * Method that runs when the fragment is being created.
      * Connects the fragment xml file to the fragment class and initializes the fragment's components.
@@ -43,15 +46,17 @@ public class HomeListViewFragment extends Fragment implements ModelObserver, Vie
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_list_view, container, false);
 
-        Controller.addObserver(this);
-        ViewObserverHandler.addObserver(this);
-
-
         // get views
         listView = view.findViewById(R.id.listView_home);
         noTransactoins1 = view.findViewById(R.id.noTransactionsYetText1);
         noTransactoins2 = view.findViewById(R.id.noTransactionsYetText2);
 
+        Controller.addObserver(this);
+
+        SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        timePeriod = viewModel.getTimePeriod().getValue();
+
+        
 
         updateList();
 
@@ -76,7 +81,7 @@ public class HomeListViewFragment extends Fragment implements ModelObserver, Vie
     }
 
     private void updateList() {
-        transactions = Controller.getTransactions(SharedViewData.timePeriod.getMonth(), SharedViewData.timePeriod.getYear());
+        transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
 
 
         if (transactions.isEmpty()){
