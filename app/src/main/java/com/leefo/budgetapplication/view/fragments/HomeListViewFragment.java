@@ -17,7 +17,6 @@ import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.ModelObserver;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.MainActivity;
-import com.leefo.budgetapplication.view.SharedViewData;
 import com.leefo.budgetapplication.view.SharedViewModel;
 import com.leefo.budgetapplication.view.TimePeriod;
 import com.leefo.budgetapplication.view.ViewObserver;
@@ -30,7 +29,7 @@ import java.util.ArrayList;
 /**
  * The class that represents the fragment for the list view inside the HomeFragment
  */
-public class HomeListViewFragment extends Fragment implements ModelObserver, ViewObserver {
+public class HomeListViewFragment extends Fragment implements ViewObserver {
 
     ListView listView;
     ListViewAdapterHomeList adapter;
@@ -52,7 +51,7 @@ public class HomeListViewFragment extends Fragment implements ModelObserver, Vie
         noTransactoins1 = view.findViewById(R.id.noTransactionsYetText1);
         noTransactoins2 = view.findViewById(R.id.noTransactionsYetText2);
 
-        Controller.addObserver(this);
+        ViewObserverHandler.addObserver(this);
 
         viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         timePeriod = viewModel.getTimePeriod().getValue();

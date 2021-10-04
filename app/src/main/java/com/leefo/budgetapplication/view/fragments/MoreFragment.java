@@ -8,12 +8,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.view.MainActivity;
-import com.leefo.budgetapplication.view.SharedViewData;
 
 /**
  * Class that represents the fragment for the More page

@@ -1,11 +1,7 @@
 package com.leefo.budgetapplication.model;
 
-import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.controller.TransactionRequest;
-import com.leefo.budgetapplication.view.SharedViewData;
 
-import java.lang.reflect.Array;
-import java.net.FileNameMap;
 import java.time.LocalDate;
 import java.util.ArrayList;
 

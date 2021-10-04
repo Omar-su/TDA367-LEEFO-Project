@@ -23,7 +23,6 @@ import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.MainActivity;
-import com.leefo.budgetapplication.view.SharedViewData;
 import com.leefo.budgetapplication.view.SharedViewModel;
 import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 

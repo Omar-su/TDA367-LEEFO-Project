@@ -12,11 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.github.mikephil.charting.data.PieEntry;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.view.SharedViewData;
 import com.leefo.budgetapplication.view.TimePeriod;
 
 import java.util.ArrayList;

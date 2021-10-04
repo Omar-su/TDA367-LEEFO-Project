@@ -3,7 +3,6 @@ package com.leefo.budgetapplication.view.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -17,13 +16,9 @@ import android.widget.RadioGroup;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.MainActivity;
-import com.leefo.budgetapplication.view.SharedViewData;
 import com.leefo.budgetapplication.view.SharedViewModel;
-import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 import com.leefo.budgetapplication.view.adapters.ManageCategoriesListAdapter;
-import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 
 import java.util.ArrayList;
 

@@ -12,21 +12,17 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
-import com.leefo.budgetapplication.model.FinancialTransaction;
-import com.leefo.budgetapplication.view.SharedViewData;
 import com.leefo.budgetapplication.view.SharedViewModel;
 import com.leefo.budgetapplication.view.TimePeriod;
 import com.leefo.budgetapplication.view.ViewObserverHandler;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
 
 /**
  * Class that represents the fragment for the Home page
