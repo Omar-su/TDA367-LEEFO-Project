@@ -24,6 +24,7 @@ import com.leefo.budgetapplication.model.TransactionModel;
 
 import java.time.LocalDate;
 import java.util.List;
+
 import androidx.test.core.app.ApplicationProvider.*;
 import androidx.test.core.app.ApplicationProvider;
 
@@ -38,13 +39,13 @@ public class TransactionModelTest {
     LocalDate testDate1;
 
     @Before
-    public void init(){
+    public void init() {
         Context c = InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext();
         db = new DataBaseManager(c);
         tm = new TransactionModel(db);
         testCategory1 = new Category("Test", "#FFFFFF", true);
         testDate1 = LocalDate.now();
-        testTransaction1 = new FinancialTransaction((float)16.9, "test", testDate1,
+        testTransaction1 = new FinancialTransaction((float) 16.9, "test", testDate1,
                 testCategory1);
     }
 
@@ -59,16 +60,21 @@ public class TransactionModelTest {
     public void canRemoveTransaction() {
         tm.addTransaction(testTransaction1);
         tm.deleteTransaction(testTransaction1);
-        assertEquals(tm.getTransactionList().size(), 0);
+        assertFalse(tm.getTransactionList().contains(testTransaction1));
     }
 
     @Test
     public void canEditTransaction() {
         tm.addTransaction(testTransaction1);
-        tm.editTransaction(testTransaction1, new FinancialTransaction((float) 17.0, "tested",
+        String editedDescription = "EditedTestTransaction";
+        tm.editTransaction(testTransaction1, new FinancialTransaction((float) 16.9, editedDescription,
                 testDate1, testCategory1));
-        FinancialTransaction editedTransaction = tm.getTransactionList().get(0);
-        assertEquals(editedTransaction.getAmount(), 17.0);
+        for (FinancialTransaction t : tm.getTransactionList()) {
+            if (t.getDescription().equals(editedDescription)) {
+                assertTrue(true);
+            }
+        }
+        fail();
     }
 
     @Test
@@ -77,5 +83,36 @@ public class TransactionModelTest {
         assertTrue(tm.getCategoryList().contains(testCategory1));
     }
 
+    @Test
+    public void canRemoveCategory() {
+        tm.addCategory(testCategory1);
+        tm.deleteCategory(testCategory1);
+        assertFalse(tm.getCategoryList().contains(testCategory1));
+    }
+
+    @Test
+    public void removingCategoryChangesTransactionsCategoryToOther() {
+        tm.addCategory(testCategory1);
+        tm.addTransaction(testTransaction1);
+
+        tm.deleteCategory(testCategory1);
+
+        assertEquals(testTransaction1.getCategory().getName(), "Other income");
+    }
+
+    @Test
+    public void canEditCategory() {
+        tm.addCategory(testCategory1);
+        String editedColor = "#FFFFF5";
+        String editedName = "EditedTestCategoryName";
+        tm.editCategory(testCategory1, new Category(editedName, editedColor, true));
+
+        for (Category c : tm.getCategoryList()) {
+            if (c.getName().equals(editedName) && c.getColor().equals(editedColor)) {
+                assertTrue(true);
+            }
+        }
+        fail();
+    }
 
 }
