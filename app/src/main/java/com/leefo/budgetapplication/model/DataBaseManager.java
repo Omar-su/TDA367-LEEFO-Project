@@ -16,26 +16,71 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Creates the database needed for saving the transactions and categories information
+ * Creates the database needed for saving the information of the transactions and categories
  * and handling inserting, deleting and requesting any information that is in the database
  *
- *@author Omar Sulaiman
+ * @author Omar Sulaiman
  */
 public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
+    /**
+     * The name of the category table used to simplify the referencing of the table
+     */
     private static final String CATEGORY_TABLE = "CATEGORY_TABLE";
+
+    /**
+     * The name of the first column in the category table used to store category names
+     */
     private static final String CATEGORY_NAME = "CATEGORY_NAME";
+
+    /**
+     * The name of the second column in the category table used to store colors
+     */
     private static final String CATEGORY_COLOR = "CATEGORY_COLOR";
 
-    private static final String TRANSACTIONS_TABLE = "TRANSACTIONS_TABLE";
-    private static final String TRANSACTIONS_DESC = "TRANSACTIONS_DESCRIPTION";
-    private static final String TRANSACTION_DATE = "TRANSACTION_DATE";
-    private static final String TRANSACTION_AMOUNT = "TRANSACTION_AMOUNT";
-    private static final String CATEGORY_FK_NAME = "TRANS_FOREIGN_ID";
+    /**
+     * The name of the third column in the category table used to store a value which indicates if the category has income transactions or expenses
+     */
     private static final String CATEGORY_IS_INCOME = "CATEGORY_IS_INCOME";
+
+
+
+    /**
+     * The name of the transaction's table used to simplify the referencing of the table
+     */
+    private static final String TRANSACTIONS_TABLE = "TRANSACTIONS_TABLE";
+
+    /**
+     * The name of the first column in the transaction table used for storing a brief description of the transaction
+     */
+    private static final String TRANSACTIONS_DESC = "TRANSACTIONS_DESCRIPTION";
+
+    /**
+     * The name of the second column in the transaction table used for storing the date the transaction was made
+     */
+    private static final String TRANSACTION_DATE = "TRANSACTION_DATE";
+
+    /**
+     * The name of the third column in the transaction table used for storing the amount of money spent on a single transaction
+     */
+    private static final String TRANSACTION_AMOUNT = "TRANSACTION_AMOUNT";
+
+    /**
+     * The name of the fourth column in the transaction table used for storing the name of the category a transaction is related to
+     */
+    private static final String CATEGORY_FK_NAME = "TRANS_FOREIGN_ID";
+
+    /**
+     * The name of the fifth column in the transaction table used for storing the id of every transaction
+     * which helps in separating the transaction and safely deleting a specific transaction without worrying about deleting multiple similar transactions
+     */
     public static final String TRANSACTION_ID = "TRANSACTION_ID";
 
 
+    /**
+     * Creates a database in which the tables created are stored in
+     * @param context The main activity of the program
+     */
     public DataBaseManager(@Nullable Context context) {
         super(context, "category_transaction_db_v1", null, 3);
     }
@@ -68,7 +113,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
                                         + TRANSACTION_AMOUNT + " REAL, "
                                         + TRANSACTIONS_DESC + " TEXT, "
                                         + TRANSACTION_DATE + " TEXT, "
-                                        + CATEGORY_FK_NAME + " TEXT)";
+                                        + CATEGORY_FK_NAME + " TEXT , FOREIGN KEY( " + CATEGORY_FK_NAME + ") REFERENCES " + CATEGORY_TABLE + " ( "  + CATEGORY_NAME + "))";
 
         sqLiteDatabase.execSQL(createTableCategory);
         sqLiteDatabase.execSQL(createTableTransactions);

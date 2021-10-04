@@ -195,9 +195,9 @@ public class TransactionModel {
      * @param editedCategory The category with the edited information.
      */
     public void editCategory(Category oldCategory, Category editedCategory){
+        addCategory(editedCategory);
         replaceTransactionsCategory(oldCategory, editedCategory);
         deleteCategory(oldCategory);
-        addCategory(editedCategory);
     }
 
     private void replaceTransactionsCategory(Category oldCategory, Category newCategory){
