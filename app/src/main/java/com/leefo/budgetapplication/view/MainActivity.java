@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         viewModel.setTimePeriod(new TimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue()));
 
         viewModel.lastOpenedViewWasCategoryView = true;
-        viewModel.mainActivityContext = getApplicationContext();
     }
 
 

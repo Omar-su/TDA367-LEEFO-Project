@@ -25,7 +25,4 @@ public class SharedViewModel extends ViewModel {
      public Category singleCategory;
      public FinancialTransaction singleTransaction;
      public boolean lastOpenedViewWasCategoryView;
-
-     @SuppressLint("StaticFieldLeak")
-     public Context mainActivityContext;
 }

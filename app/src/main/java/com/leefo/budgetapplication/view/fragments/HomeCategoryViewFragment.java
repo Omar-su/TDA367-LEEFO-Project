@@ -100,8 +100,11 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
     }
 
     private void updateList(ArrayList<Category> list) {
-        adapter = new CategoryViewListAdapter(viewModel.mainActivityContext, list, timePeriod);
-        listView.setAdapter(adapter);
+        if (getActivity() != null){
+            adapter = new CategoryViewListAdapter(getActivity().getApplicationContext(), list, timePeriod);
+            listView.setAdapter(adapter);
+        }
+
     }
 
     private void setupPieChart(){

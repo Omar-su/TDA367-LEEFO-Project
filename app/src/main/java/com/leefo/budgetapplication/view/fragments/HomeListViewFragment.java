@@ -81,19 +81,20 @@ public class HomeListViewFragment extends Fragment implements ViewObserver {
     }
 
     private void updateList() {
-        transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+        if (getActivity() != null) {
+            transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
 
-
-        if (transactions.isEmpty()){
-            noTransactoins1.setVisibility(View.VISIBLE);
-            noTransactoins2.setVisibility(View.VISIBLE);
-        } else {
-            putDatesIntoTransactionList();
-            noTransactoins1.setVisibility(View.INVISIBLE);
-            noTransactoins2.setVisibility(View.INVISIBLE);
+            if (transactions.isEmpty()) {
+                noTransactoins1.setVisibility(View.VISIBLE);
+                noTransactoins2.setVisibility(View.VISIBLE);
+            } else {
+                putDatesIntoTransactionList();
+                noTransactoins1.setVisibility(View.INVISIBLE);
+                noTransactoins2.setVisibility(View.INVISIBLE);
+            }
+            adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(), transactions);
+            listView.setAdapter(adapter);
         }
-        adapter = new ListViewAdapterHomeList(viewModel.mainActivityContext,transactions);
-        listView.setAdapter(adapter);
     }
 
 
