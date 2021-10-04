@@ -413,7 +413,7 @@ public class TransactionModel {
             notCompleted = false; // will be reset to true if a swap is made
 
             // will be iterated until the list is sorted
-            for(int i = 0; i < transactions.size() - 2; i++)
+            for(int i = 0; i < transactions.size() - 1; i++)
             {
                 FinancialTransaction first = transactions.get(i);
                 FinancialTransaction second = transactions.get(i+1);
