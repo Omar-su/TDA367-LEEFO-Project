@@ -213,6 +213,7 @@ public class TransactionModel {
                         newCategory));
             }
         }
+
     }
     /**
      * Returns a copy of the transactionList
