@@ -201,9 +201,6 @@ public class TransactionModel {
         deleteCategory(oldCategory);
         addCategory(editedCategory);
 
-        deleteCategoryFromDatabase(oldCategory);
-        saveCategoryToDatabase(editedCategory);
-
         ObserverHandler.updateObservers();
     }
 
