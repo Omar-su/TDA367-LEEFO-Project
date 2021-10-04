@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.SharedViewData;
+import com.leefo.budgetapplication.view.SharedViewModel;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -47,7 +49,9 @@ public class EditCategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_edit_category, container, false);
 
-        oldCategory = SharedViewData.singleCategory;
+        SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
+        oldCategory = viewModel.singleCategory;
         // get views
         saveButton = view.findViewById(R.id.edit_category_save_button);
         deleteButton = view.findViewById(R.id.edit_category_delete_button);

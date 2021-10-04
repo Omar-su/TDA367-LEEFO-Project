@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.SharedViewData;
+import com.leefo.budgetapplication.view.SharedViewModel;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 import com.leefo.budgetapplication.view.adapters.ManageCategoriesListAdapter;
 import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
@@ -32,10 +34,13 @@ public class ManageCategoriesFragment extends Fragment {
     private ListView listView;
     private RadioGroup radioGroup;
     private ManageCategoriesListAdapter adapter;
-
+    private SharedViewModel viewModel;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_manage_categories, container, false);
+
+         viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
         radioGroup = view.findViewById(R.id.manage_categories_radioGroup);
         listView = view.findViewById(R.id.listView_manage_categories);
         adapter = new ManageCategoriesListAdapter(getActivity().getApplicationContext(), getExpenseCategoriesWithoutOther());
@@ -76,7 +81,7 @@ public class ManageCategoriesFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Category category = (Category) adapterView.getItemAtPosition(i);
                 ((MainActivity)getActivity()).openFragmentInMainFrameLayout(new EditCategoryFragment());
-                SharedViewData.singleCategory = category;
+                viewModel.singleCategory = category;
             }
         });
     }

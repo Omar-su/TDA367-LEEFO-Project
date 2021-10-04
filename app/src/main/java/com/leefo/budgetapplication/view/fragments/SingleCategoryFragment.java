@@ -31,15 +31,16 @@ public class SingleCategoryFragment extends Fragment {
     ArrayList<FinancialTransaction> list;
     TextView timePeriodTextView;
     TimePeriod timePeriod;
+    SharedViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_single_category, container, false);
 
-        SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         timePeriod = viewModel.getTimePeriod().getValue();
 
-        list = Controller.getTransactions(SharedViewData.singleCategory, timePeriod.getMonth(), timePeriod.getYear());
+        list = Controller.getTransactions(viewModel.singleCategory, timePeriod.getMonth(), timePeriod.getYear());
         putDatesIntoTransactionList();
         listView = view.findViewById(R.id.listview_single_category);
         ListViewAdapterHomeList adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(),list);
@@ -71,7 +72,7 @@ public class SingleCategoryFragment extends Fragment {
                     return;
                 }
                 ((MainActivity)getActivity()).openEditTransactionFragment();
-                SharedViewData.singleTransaction = transaction;
+                viewModel.singleTransaction = transaction;
             }
         });
     }

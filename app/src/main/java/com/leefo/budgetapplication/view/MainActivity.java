@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         // initialize database
         Controller.InitializeBackend(this);
 
-        SharedViewData.mainActivityContext = getApplicationContext();
 
         // start app with displaying Home Fragment
         getSupportFragmentManager().beginTransaction().add(R.id.FrameLayout_main, new HomeFragment()).commit();
@@ -59,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
         SharedViewModel viewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         viewModel.setTimePeriod(new TimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue()));
 
-        SharedViewData.lastOpenedViewWasCategoryView = true;
+        viewModel.lastOpenedViewWasCategoryView = true;
+        viewModel.mainActivityContext = getApplicationContext();
     }
 
 

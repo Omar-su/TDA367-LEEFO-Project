@@ -37,6 +37,7 @@ public class HomeListViewFragment extends Fragment implements ModelObserver, Vie
     ArrayList<FinancialTransaction> transactions;
     TextView noTransactoins1, noTransactoins2;
     TimePeriod timePeriod;
+    SharedViewModel viewModel;
     /**
      * Method that runs when the fragment is being created.
      * Connects the fragment xml file to the fragment class and initializes the fragment's components.
@@ -53,10 +54,10 @@ public class HomeListViewFragment extends Fragment implements ModelObserver, Vie
 
         Controller.addObserver(this);
 
-        SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         timePeriod = viewModel.getTimePeriod().getValue();
 
-        
+
 
         updateList();
 
@@ -75,7 +76,7 @@ public class HomeListViewFragment extends Fragment implements ModelObserver, Vie
                     return;
                 }
                 ((MainActivity)getActivity()).openEditTransactionFragment();
-                SharedViewData.singleTransaction = transaction;
+                viewModel.singleTransaction = transaction;
             }
         });
     }
@@ -92,7 +93,7 @@ public class HomeListViewFragment extends Fragment implements ModelObserver, Vie
             noTransactoins1.setVisibility(View.INVISIBLE);
             noTransactoins2.setVisibility(View.INVISIBLE);
         }
-        adapter = new ListViewAdapterHomeList(SharedViewData.mainActivityContext,transactions);
+        adapter = new ListViewAdapterHomeList(viewModel.mainActivityContext,transactions);
         listView.setAdapter(adapter);
     }
 
@@ -136,7 +137,7 @@ public class HomeListViewFragment extends Fragment implements ModelObserver, Vie
 
     @Override
     public void update() {
-        if (!SharedViewData.lastOpenedViewWasCategoryView) {
+        if (!viewModel.lastOpenedViewWasCategoryView) {
             updateList();
         }
     }

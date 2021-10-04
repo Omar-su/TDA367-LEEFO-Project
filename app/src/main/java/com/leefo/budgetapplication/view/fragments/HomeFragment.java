@@ -37,6 +37,7 @@ public class HomeFragment extends Fragment {
     private ToggleButton view_toggle, time_period_toggle;
     private ImageButton back_arrow, forward_arrow;
     private TimePeriod timePeriod;
+    private SharedViewModel viewModel;
 
     /**
      * Method that runs when the fragment is being created.
@@ -56,7 +57,7 @@ public class HomeFragment extends Fragment {
         back_arrow = view.findViewById(R.id.Arrow_back);
         forward_arrow = view.findViewById(R.id.Arrow_forward);
 
-        SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         timePeriod = viewModel.getTimePeriod().getValue();
 
         // init
@@ -141,7 +142,7 @@ public class HomeFragment extends Fragment {
 
     private void openCorrectFragment() {
         // toggle is set to listView mode as default, if categoryView shall open first it needs to be toggled
-        if (SharedViewData.lastOpenedViewWasCategoryView) {
+        if (viewModel.lastOpenedViewWasCategoryView) {
             view_toggle.toggle();
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_middleSection_Home, new HomeCategoryViewFragment()).commit();
         } else {
@@ -163,10 +164,10 @@ public class HomeFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_middleSection_Home, new HomeCategoryViewFragment()).commit();
-                    SharedViewData.lastOpenedViewWasCategoryView = true;
+                    viewModel.lastOpenedViewWasCategoryView = true;
                 } else {
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_middleSection_Home, new HomeListViewFragment()).commit();
-                    SharedViewData.lastOpenedViewWasCategoryView = false;
+                    viewModel.lastOpenedViewWasCategoryView = false;
                 }
             }
         });

@@ -42,6 +42,7 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
     CategoryViewListAdapter adapter;
     TextView noTransactoins1, noTransactoins2;
     TimePeriod timePeriod;
+    SharedViewModel viewModel;
 
     /**
      * Method that runs when the fragment is being created.
@@ -54,7 +55,7 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
 
         ViewObserverHandler.addObserver(this);
 
-        SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         timePeriod = viewModel.getTimePeriod().getValue();
 
         pieChart = view.findViewById(R.id.pie_chart);
@@ -95,13 +96,13 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 ((MainActivity)getActivity()).openFragmentInMainFrameLayout(new SingleCategoryFragment());
-                SharedViewData.singleCategory = (Category) adapterView.getItemAtPosition(i);
+                viewModel.singleCategory = (Category) adapterView.getItemAtPosition(i);
             }
         });
     }
 
     private void updateList(ArrayList<Category> list) {
-        adapter = new CategoryViewListAdapter(SharedViewData.mainActivityContext, list, timePeriod);
+        adapter = new CategoryViewListAdapter(viewModel.mainActivityContext, list, timePeriod);
         listView.setAdapter(adapter);
     }
 
@@ -149,7 +150,7 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
 
     @Override
     public void update() {
-        if (SharedViewData.lastOpenedViewWasCategoryView){
+        if (viewModel.lastOpenedViewWasCategoryView){
             updateData();
         }
     }
