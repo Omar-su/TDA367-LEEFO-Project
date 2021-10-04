@@ -94,7 +94,7 @@ public class EditCategoryFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Controller.removeCategory(oldCategory);
-                                ((MainActivity)getActivity()).openHomeFragment(view);
+                                ((MainActivity)getActivity()).openFragmentInMainFrameLayout(new ManageCategoriesFragment());
                             }
                         })
                         .setNegativeButton("No",null)
