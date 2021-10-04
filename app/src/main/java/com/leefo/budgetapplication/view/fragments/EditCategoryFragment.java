@@ -144,8 +144,25 @@ public class EditCategoryFragment extends Fragment {
         boolean isIncome = radioGroup.getCheckedRadioButtonId() == R.id.edit_category_radio_income;
         String name = nameInput.getText().toString();
         String color = "#" + Integer.toHexString(defaultColor);
+        if (!nameIsUnique(name)) {
+            makeToast("OBS this Category name is already in use");
+            return;
+        }
         Controller.editCategoryInfo(oldCategory,name,color,isIncome);
     }
+
+    /**
+     * Checks if name in already used
+     * @param name The name of the new category
+     * @return Returns true if the name is available and false if not
+     */
+    private boolean nameIsUnique(String name) {
+        for (Category c: Controller.getAllCategories()) {
+            if (c.getName().equals(name)) return false;
+        }
+        return true;
+    }
+
 
 
     Toast t;

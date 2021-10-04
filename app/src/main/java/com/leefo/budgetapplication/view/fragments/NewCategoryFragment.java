@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.MainActivity;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
@@ -101,7 +102,23 @@ public class NewCategoryFragment extends Fragment {
         boolean isIncome = radioGroup.getCheckedRadioButtonId() == R.id.new_category_radio_income;
         String name = nameInput.getText().toString();
         String color = "#" + Integer.toHexString(defaultColor);
+        if (!nameIsUnique(name)) {
+            makeToast("OBS this Category name is already in use");
+            return;
+        }
         Controller.addNewCategory(name, color, isIncome);
+    }
+
+    /**
+     * Checks if name in already used
+     * @param name The name of the new category
+     * @return Returns true if the name is available and false if not
+     */
+    private boolean nameIsUnique(String name) {
+        for (Category c: Controller.getAllCategories()) {
+            if (c.getName().equals(name)) return false;
+        }
+        return true;
     }
 
     //Method to make a Toast. Use to test
