@@ -186,8 +186,6 @@ public class TransactionModel {
     public void editTransaction(FinancialTransaction oldTransaction, FinancialTransaction editedTransaction){
         deleteTransaction(oldTransaction);
         addTransaction(editedTransaction);
-
-        ObserverHandler.updateObservers();
     }
 
     /**
@@ -200,8 +198,6 @@ public class TransactionModel {
         replaceTransactionsCategory(oldCategory, editedCategory);
         deleteCategory(oldCategory);
         addCategory(editedCategory);
-
-        ObserverHandler.updateObservers();
     }
 
     private void replaceTransactionsCategory(Category oldCategory, Category newCategory){
