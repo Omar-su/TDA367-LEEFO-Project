@@ -138,8 +138,8 @@ public class TransactionModel {
         if (category == getOtherIncomeCategory()) return;; // not allowed to remove that one
 
         if (category.isIncome()) {
-            for (int i = 0; i < transactionList.size(); i++) {
-                FinancialTransaction t = transactionList.get(i);
+            for (int i = 0; i < getTransactionList().size(); i++) {
+                FinancialTransaction t = getTransactionList().get(i);
 
                 if (category.transactionBelongs(t)) {
                     editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(),
@@ -147,8 +147,8 @@ public class TransactionModel {
                 }
             }
         } else {
-            for (int i = 0; i < transactionList.size(); i++) {
-                FinancialTransaction t = transactionList.get(i);
+            for (int i = 0; i < getTransactionList().size(); i++) {
+                FinancialTransaction t = getTransactionList().get(i);
 
                 if (category.transactionBelongs(t)) {
                     editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(),
