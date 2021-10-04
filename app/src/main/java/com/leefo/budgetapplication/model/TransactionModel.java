@@ -39,18 +39,10 @@ public class TransactionModel {
      */
     public TransactionModel(IDatabase database) {
         this.database = database;
-        //transactionList = new ArrayList<>();
-        //categoryList = new ArrayList<>();
-        transactionList = getFinancialTransactions(); // not finished should be sorted first
+        transactionList = getFinancialTransactions();
         categoryList = getCategories();
 
         initDefaultCategories();
-    }
-
-    private void removeAllTransactions(){
-        for (FinancialTransaction t : getTransactionList()){
-            deleteTransaction(t);
-        }
     }
 
     private void initDefaultCategories() {
@@ -216,7 +208,7 @@ public class TransactionModel {
     }
 
     private void replaceTransactionsCategory(Category oldCategory, Category newCategory){
-        for(FinancialTransaction t : transactionList){
+        for(FinancialTransaction t : getTransactionList()){
             if(oldCategory.transactionBelongs(t)){
                 editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(), t.getDate(),
                         newCategory));
