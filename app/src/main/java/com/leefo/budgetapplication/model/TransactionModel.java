@@ -205,7 +205,9 @@ public class TransactionModel {
     }
 
     private void replaceTransactionsCategory(Category oldCategory, Category newCategory){
-        for(FinancialTransaction t : getTransactionList()){
+        for(int i = 0; i < getTransactionList().size(); i++){
+            FinancialTransaction t = getTransactionList().get(i);
+
             if(oldCategory.transactionBelongs(t)){
                 editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(), t.getDate(),
                         newCategory));
