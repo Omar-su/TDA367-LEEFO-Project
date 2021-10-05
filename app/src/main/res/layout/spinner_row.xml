@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-
+Layout Resource file used by SpinnerAdapter
 Author: Emelie Edberg, Eugene Dvoryankov
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"

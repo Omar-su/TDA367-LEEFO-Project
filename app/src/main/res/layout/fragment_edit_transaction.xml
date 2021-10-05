@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-
+Layout Resource file used by EditTransactionFragment
 Author: Emelie Edberg, Eugene Dvoryankov
 -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
