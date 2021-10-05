@@ -22,7 +22,5 @@ public class SharedViewModel extends ViewModel {
         return timePeriod;
     }
 
-     public Category singleCategory;
-     public FinancialTransaction singleTransaction;
-     public boolean lastOpenedViewWasCategoryView;
+
 }

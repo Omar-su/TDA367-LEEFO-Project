@@ -57,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
         SharedViewModel viewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         viewModel.setTimePeriod(new TimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue()));
-
-        viewModel.lastOpenedViewWasCategoryView = true;
     }
 
 

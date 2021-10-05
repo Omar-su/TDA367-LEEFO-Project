@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +19,9 @@ import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.MainActivity;
-import com.leefo.budgetapplication.view.SharedViewModel;
+import com.leefo.budgetapplication.view.ParcelableCategory;
+
+import java.util.MissingResourceException;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -47,9 +48,16 @@ public class EditCategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_edit_category, container, false);
 
-        SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 
-        oldCategory = viewModel.singleCategory;
+        Bundle bundle = this.getArguments();
+        if (bundle != null){
+            ParcelableCategory chosen_category_to_edit = bundle.getParcelable("CHOSEN_CATEGORY_TO_EDIT");
+            oldCategory = chosen_category_to_edit.category;
+        } else {
+            throw new MissingResourceException("No chosen category was sent with the fragment, hence fragment cannot be created", ParcelableCategory.class.toString(), "CHOSEN_CATEGORY_TO_EDIT" );
+        }
+
+
         // get views
         saveButton = view.findViewById(R.id.edit_category_save_button);
         deleteButton = view.findViewById(R.id.edit_category_delete_button);

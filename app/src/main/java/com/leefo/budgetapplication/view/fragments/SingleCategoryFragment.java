@@ -16,6 +16,8 @@ import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.MainActivity;
+import com.leefo.budgetapplication.view.ParcelableTransaction;
+import com.leefo.budgetapplication.view.ParcelableCategory;
 import com.leefo.budgetapplication.view.SharedViewModel;
 import com.leefo.budgetapplication.view.TimePeriod;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
@@ -23,6 +25,7 @@ import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.MissingResourceException;
 
 public class SingleCategoryFragment extends Fragment {
 
@@ -36,10 +39,20 @@ public class SingleCategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_single_category, container, false);
 
+        Category chosenCategory;
+
         viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         timePeriod = viewModel.getTimePeriod().getValue();
 
-        list = Controller.getTransactions(viewModel.singleCategory, timePeriod.getMonth(), timePeriod.getYear());
+        Bundle bundle = this.getArguments();
+        if (bundle != null){
+            ParcelableCategory chosen_category = bundle.getParcelable("CHOSEN_CATEGORY");
+            chosenCategory = chosen_category.category;
+        } else {
+            throw new MissingResourceException("No chosen category was sent with the fragment, hence fragment cannot be created", ParcelableCategory.class.toString(), "CHOSEN_CATEGORY" );
+        }
+
+        list = Controller.getTransactions(chosenCategory, timePeriod.getMonth(), timePeriod.getYear());
         putDatesIntoTransactionList();
         listView = view.findViewById(R.id.listview_single_category);
         ListViewAdapterHomeList adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(),list);
@@ -70,8 +83,11 @@ public class SingleCategoryFragment extends Fragment {
                 if (transaction.getCategory().getName().equals("DATE")){ // then it is a date row, should not be clickable
                     return;
                 }
-                ((MainActivity)getActivity()).openEditTransactionFragment();
-                viewModel.singleTransaction = transaction;
+                Fragment fragment = new EditTransactionFragment();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("CHOSEN_TRANSACTION", new ParcelableTransaction(transaction));
+                fragment.setArguments(bundle);
+                ((MainActivity)getActivity()).openFragmentInMainFrameLayout(fragment);
             }
         });
     }

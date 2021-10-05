@@ -17,6 +17,7 @@ import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.MainActivity;
+import com.leefo.budgetapplication.view.ParcelableCategory;
 import com.leefo.budgetapplication.view.SharedViewModel;
 import com.leefo.budgetapplication.view.adapters.ManageCategoriesListAdapter;
 
@@ -75,8 +76,12 @@ public class ManageCategoriesFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Category category = (Category) adapterView.getItemAtPosition(i);
-                ((MainActivity)getActivity()).openFragmentInMainFrameLayout(new EditCategoryFragment());
-                viewModel.singleCategory = category;
+
+                Fragment fragment = new EditCategoryFragment();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("CHOSEN_CATEGORY_TO_EDIT", new ParcelableCategory(category));
+                fragment.setArguments(bundle);
+                ((MainActivity)getActivity()).openFragmentInMainFrameLayout(fragment);
             }
         });
     }

@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,7 @@ import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.MainActivity;
-import com.leefo.budgetapplication.view.SharedViewModel;
+import com.leefo.budgetapplication.view.ParcelableTransaction;
 import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 
 import java.text.SimpleDateFormat;
@@ -32,6 +31,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.MissingResourceException;
 
 /**
  * The class that represents the fragment for editing an existing transaction
@@ -59,8 +59,13 @@ public class EditTransactionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_edit_transaction, container, false);
 
-        SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        oldTransaction = viewModel.singleTransaction;
+        Bundle bundle = this.getArguments();
+        if (bundle != null){
+            ParcelableTransaction chosen_transaction = bundle.getParcelable("CHOSEN_TRANSACTION");
+            oldTransaction = chosen_transaction.financialTransaction;
+        } else {
+            throw new MissingResourceException("No chosen transaction was sent with the fragment, hence fragment cannot be created", ParcelableTransaction.class.toString(), "CHOSEN_TRANSACTION" );
+        }
 
         // get views
         categorySpinner = view.findViewById(R.id.edit_transaction_spinner_category);

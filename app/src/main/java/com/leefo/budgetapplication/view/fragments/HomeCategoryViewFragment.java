@@ -22,6 +22,7 @@ import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.MainActivity;
+import com.leefo.budgetapplication.view.ParcelableCategory;
 import com.leefo.budgetapplication.view.SharedViewModel;
 import com.leefo.budgetapplication.view.TimePeriod;
 import com.leefo.budgetapplication.view.ViewObserver;
@@ -93,8 +94,12 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ((MainActivity)getActivity()).openFragmentInMainFrameLayout(new SingleCategoryFragment());
-                viewModel.singleCategory = (Category) adapterView.getItemAtPosition(i);
+                Category category = (Category) adapterView.getItemAtPosition(i);
+                Fragment fragment = new SingleCategoryFragment();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("CHOSEN_CATEGORY", new ParcelableCategory(category));
+                fragment.setArguments(bundle);
+                ((MainActivity)getActivity()).openFragmentInMainFrameLayout(fragment);
             }
         });
     }
@@ -151,7 +156,7 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
 
     @Override
     public void update() {
-        if (getActivity() != null){ // if getActivity == null it means that this fragment is not currently activated, and don't need to be updated
+        if (getActivity() != null){ // if getActivity == null it means that this fragment is not currently attached to an Activity, and don't need to be updated
             updateData();
         }
     }
