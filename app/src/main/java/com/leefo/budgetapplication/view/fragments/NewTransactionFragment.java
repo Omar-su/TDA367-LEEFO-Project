@@ -8,12 +8,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
@@ -36,6 +38,8 @@ public class NewTransactionFragment extends Fragment {
     private Button saveButton;
     private Spinner categorySpinner;
     private RadioGroup radioGroup;
+    private ImageButton cross;
+    private BottomNavigationView bottomNav;
 
     final Calendar myCalendar = Calendar.getInstance();
     private View view;
@@ -56,24 +60,33 @@ public class NewTransactionFragment extends Fragment {
         dateInput = view.findViewById(R.id.dateInput);
         saveButton = view.findViewById(R.id.edit_category_save_button);
         radioGroup = view.findViewById(R.id.radioGroup);
+        cross = view.findViewById(R.id.cross_new_transaction);
+        bottomNav = requireActivity().findViewById(R.id.bottomNavigation);
 
-        // init category spinner
+        // init
         initSpinner();
-
-        // init date picker
         initDatePickerDialog();
-
-        // init save button onClick
         initSaveButtonOnClickListener();
+        initCross();
 
         return view;
+    }
+
+    private void initCross(){
+        cross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new HomeFragment()).commit();
+                bottomNav.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private void initSpinner(){
         ArrayList<Category> income, expense;
         income = Controller.getIncomeCategories();
         expense = Controller.getExpenseCategories();
-        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), expense);
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity().getApplicationContext(), expense);
         categorySpinner.setAdapter(spinnerAdapter);
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
@@ -81,10 +94,10 @@ public class NewTransactionFragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.radioExpense){
-                    SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), expense);
+                    SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity().getApplicationContext(), expense);
                     categorySpinner.setAdapter(spinnerAdapter);
                 } else {
-                    SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), income);
+                    SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity().getApplicationContext(), income);
                     categorySpinner.setAdapter(spinnerAdapter);
                 }
             }
@@ -108,8 +121,8 @@ public class NewTransactionFragment extends Fragment {
             return;
         }
         addTransaction();
-        ((MainActivity)getActivity()).openHomeFragment(view);
-
+        bottomNav.setVisibility(View.VISIBLE);
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new HomeFragment()).commit();
     }
 
     private void addTransaction(){
@@ -161,7 +174,6 @@ public class NewTransactionFragment extends Fragment {
         dateInput.setText(sdf.format(myCalendar.getTime()));
     }
 
-    //Method to make a Toast. Use to test
     Toast t;
     private void makeToast(String s){
         if(t != null) t.cancel();

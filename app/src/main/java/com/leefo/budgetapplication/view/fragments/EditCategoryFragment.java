@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class EditCategoryFragment extends Fragment {
     private View view;
     private RadioGroup radioGroup;
     private Category oldCategory;
+    private ImageButton cross;
 
     /**
      * Method that runs when the fragment is being created.
@@ -64,14 +66,25 @@ public class EditCategoryFragment extends Fragment {
         nameInput = view.findViewById(R.id.edit_category_name_input);
         changeColorButton = view.findViewById(R.id.edit_category_change_color_button);
         radioGroup = view.findViewById(R.id.edit_category_radio_group);
+        cross = view.findViewById(R.id.cross_edit_category);
 
         // init
         setOldCategoryValues(oldCategory);
         initSaveButtonOnClickListener();
         initDeleteButtonOnClickListener();
         initChangeColorButtonOnClickListener();
+        initCross();
 
         return view;
+    }
+
+    private void initCross(){
+        cross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new ManageCategoriesFragment()).commit();
+            }
+        });
     }
 
     private void setOldCategoryValues(Category category){
@@ -104,7 +117,7 @@ public class EditCategoryFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Controller.removeCategory(oldCategory);
-                                ((MainActivity)getActivity()).openFragmentInMainFrameLayout(new ManageCategoriesFragment());
+                                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new ManageCategoriesFragment()).commit();
                             }
                         })
                         .setNegativeButton("No",null)
@@ -144,18 +157,19 @@ public class EditCategoryFragment extends Fragment {
             makeToast("You need to enter a name");
             return;
         }
+        String name = nameInput.getText().toString();
+        if (!nameIsUnique(name)) {
+            makeToast("OBS this Category name is already in use");
+            return;
+        }
         editCategory();
-        ((MainActivity)getActivity()).openFragmentInMainFrameLayout(new ManageCategoriesFragment());
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new ManageCategoriesFragment()).commit();
     }
 
     private void editCategory(){
         boolean isIncome = radioGroup.getCheckedRadioButtonId() == R.id.edit_category_radio_income;
         String name = nameInput.getText().toString();
         String color = "#" + Integer.toHexString(defaultColor);
-        if (!nameIsUnique(name)) {
-            makeToast("OBS this Category name is already in use");
-            return;
-        }
         Controller.editCategoryInfo(oldCategory,name,color,isIncome);
     }
 
@@ -166,7 +180,7 @@ public class EditCategoryFragment extends Fragment {
      */
     private boolean nameIsUnique(String name) {
         for (Category c: Controller.getAllCategories()) {
-            if (c.getName().equals(name)) return false;
+            if (c.getName().equals(name) && !c.equals(oldCategory)) return false;
         }
         return true;
     }

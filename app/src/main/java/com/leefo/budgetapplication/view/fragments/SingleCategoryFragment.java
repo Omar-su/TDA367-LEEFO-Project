@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ public class SingleCategoryFragment extends Fragment {
     TextView timePeriodTextView;
     TimePeriod timePeriod;
     SharedTimePeriodViewModel viewModel;
+    ImageButton back_button;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,14 +57,25 @@ public class SingleCategoryFragment extends Fragment {
         list = Controller.getTransactions(chosenCategory, timePeriod.getMonth(), timePeriod.getYear());
         putDatesIntoTransactionList();
         listView = view.findViewById(R.id.listview_single_category);
-        ListViewAdapterHomeList adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(),list);
+        ListViewAdapterHomeList adapter = new ListViewAdapterHomeList(requireActivity().getApplicationContext(),list);
         listView.setAdapter(adapter);
 
         initListOnItemClick();
 
         timePeriodTextView = view.findViewById(R.id.time_period);
+        back_button = view.findViewById(R.id.back_button);
+        initBackButton();
         setTimePeriodLabel();
         return view;
+    }
+
+    private void initBackButton(){
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new HomeFragment()).commit();
+            }
+        });
     }
 
     private void setTimePeriodLabel(){
@@ -87,7 +100,7 @@ public class SingleCategoryFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("CHOSEN_TRANSACTION", new ParcelableTransaction(transaction));
                 fragment.setArguments(bundle);
-                ((MainActivity)getActivity()).openFragmentInMainFrameLayout(fragment);
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, fragment).commit();
             }
         });
     }

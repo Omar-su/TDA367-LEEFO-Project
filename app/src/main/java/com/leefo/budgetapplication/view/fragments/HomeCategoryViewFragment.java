@@ -103,7 +103,7 @@ public class HomeCategoryViewFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("CHOSEN_CATEGORY", new ParcelableCategory(category));
                 fragment.setArguments(bundle);
-                ((MainActivity)getActivity()).openFragmentInMainFrameLayout(fragment);
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, fragment).commit();
             }
         });
     }

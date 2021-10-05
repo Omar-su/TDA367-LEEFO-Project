@@ -81,7 +81,7 @@ public class HomeListViewFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("CHOSEN_TRANSACTION", new ParcelableTransaction(transaction));
                 fragment.setArguments(bundle);
-                ((MainActivity)getActivity()).openFragmentInMainFrameLayout(fragment);
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, fragment).commit();
             }
         });
     }

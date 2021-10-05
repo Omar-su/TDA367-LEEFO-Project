@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ public class NewCategoryFragment extends Fragment {
     private int defaultColor;
     private View view;
     private RadioGroup radioGroup;
+    private ImageButton cross;
 
     /**
      * Method that runs when the fragment is being created.
@@ -46,14 +48,25 @@ public class NewCategoryFragment extends Fragment {
         nameInput = view.findViewById(R.id.new_category_name_input);
         changeColorButton = view.findViewById(R.id.new_category_change_color_button);
         radioGroup = view.findViewById(R.id.new_category_radio_group);
+        cross = view.findViewById(R.id.cross_new_category);
 
         defaultColor = ContextCompat.getColor(getContext(), R.color.design_default_color_primary);
 
-        // init save button onClick
+        // init onClick
         initSaveButtonOnClickListener();
         initChangeColorButtonOnClickListener();
+        initCross();
 
         return view;
+    }
+
+    private void initCross(){
+        cross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new ManageCategoriesFragment()).commit();
+            }
+        });
     }
 
     private void initSaveButtonOnClickListener(){
@@ -94,18 +107,19 @@ public class NewCategoryFragment extends Fragment {
             makeToast("You need to enter a name");
             return;
         }
+        String name = nameInput.getText().toString();
+        if (!nameIsUnique(name)) {
+            makeToast("OBS this Category name is already in use");
+            return;
+        }
         addCategory();
-        ((MainActivity)getActivity()).openFragmentInMainFrameLayout(new ManageCategoriesFragment());
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new ManageCategoriesFragment()).commit();
     }
 
     private void addCategory(){
         boolean isIncome = radioGroup.getCheckedRadioButtonId() == R.id.new_category_radio_income;
         String name = nameInput.getText().toString();
         String color = "#" + Integer.toHexString(defaultColor);
-        if (!nameIsUnique(name)) {
-            makeToast("OBS this Category name is already in use");
-            return;
-        }
         Controller.addNewCategory(name, color, isIncome);
     }
 
@@ -121,7 +135,6 @@ public class NewCategoryFragment extends Fragment {
         return true;
     }
 
-    //Method to make a Toast. Use to test
     Toast t;
     private void makeToast(String s){
         if(t != null) t.cancel();

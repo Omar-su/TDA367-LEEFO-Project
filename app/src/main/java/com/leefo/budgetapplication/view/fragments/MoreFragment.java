@@ -29,11 +29,10 @@ public class MoreFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_more, container, false);
 
-
         btnCompareMonths = view.findViewById(R.id.compare_month_button);
         btnManageCategory = view.findViewById(R.id.manage_categories_button);
 
-        BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottomNavigation);
+        BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottomNavigation);
         MenuItem item = bottomNav.getMenu().findItem(R.id.nav_more);
         item.setChecked(true);
 
@@ -46,7 +45,7 @@ public class MoreFragment extends Fragment {
         btnManageCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)getActivity()).openFragmentInMainFrameLayout(new ManageCategoriesFragment());
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new ManageCategoriesFragment()).commit();
             }
         });
     }
@@ -55,7 +54,7 @@ public class MoreFragment extends Fragment {
         btnCompareMonths.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)getActivity()).openFragmentInMainFrameLayout(new CompareMonthsFragment());
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new CompareMonthsFragment()).commit();
             }
         });
     }

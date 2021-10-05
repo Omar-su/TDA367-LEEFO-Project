@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ public class EditTransactionFragment extends Fragment {
     private Button deleteButton;
     private Spinner categorySpinner;
     private RadioGroup radioGroup;
+    private ImageButton cross;
 
     final Calendar myCalendar = Calendar.getInstance();
     private View view;
@@ -75,6 +77,7 @@ public class EditTransactionFragment extends Fragment {
         saveButton = view.findViewById(R.id.edit_transaction_save_button);
         deleteButton = view.findViewById(R.id.edit_transaction_delete_button);
         radioGroup = view.findViewById(R.id.edit_transaction_radioGroup);
+        cross = view.findViewById(R.id.cross_edit_transaction);
 
         income = Controller.getIncomeCategories();
         expense = Controller.getExpenseCategories();
@@ -85,8 +88,18 @@ public class EditTransactionFragment extends Fragment {
         setOldTransactionValues(oldTransaction);
         initSaveButtonOnClickListener();
         initDeleteButtonOnClickListener();
+        initCross();
 
         return view;
+    }
+
+    private void initCross(){
+        cross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new HomeFragment()).commit();
+            }
+        });
     }
 
     private void setOldTransactionValues(FinancialTransaction transaction){
@@ -151,7 +164,7 @@ public class EditTransactionFragment extends Fragment {
             return;
         }
         editTransaction();
-        ((MainActivity)getActivity()).openHomeFragment(view);
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new HomeFragment()).commit();
     }
 
     private void initDeleteButtonOnClickListener(){
@@ -165,7 +178,7 @@ public class EditTransactionFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Controller.removeTransaction(oldTransaction);
-                                ((MainActivity)getActivity()).openHomeFragment(view);
+                                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new HomeFragment()).commit();
                             }
                         })
                         .setNegativeButton("No",null)

@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -23,6 +25,7 @@ import java.time.LocalDate;
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNav;
+    private ImageButton plusButton;
 
 
     @Override
@@ -39,40 +42,23 @@ public class MainActivity extends AppCompatActivity {
 
         // get views
         bottomNav = findViewById(R.id.bottomNavigation);
+        plusButton = findViewById(R.id.plusButton);
 
         // init components
         initBottomNavigationOnClick();
-
-
-            // color example, because i always forget how to write this
-            TextView textView;
-            //textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
-            //textView.setBackgroundColor(Color.parseColor("#A0A0A0"));
+        initPlusButton();
 
     }
 
 
-    public void openHomeFragment(View v){
-        openFragmentInMainFrameLayout(new HomeFragment());
-        bottomNav.setVisibility(View.VISIBLE);
-    }
-
-    public void openManageCatgeries(View v){
-        openFragmentInMainFrameLayout(new ManageCategoriesFragment());
-    }
-
-    public void openFragmentInMainFrameLayout(Fragment fragment){
-        getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, fragment).commit();
-    }
-
-    public void plusButton(View v){
-        openFragmentInMainFrameLayout(new NewTransactionFragment());
-        bottomNav.setVisibility(View.GONE);
-    }
-
-    public void openEditTransactionFragment(){
-        openFragmentInMainFrameLayout(new EditTransactionFragment());
-        bottomNav.setVisibility(View.GONE);
+    public void initPlusButton(){
+        plusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new NewTransactionFragment()).commit();
+                bottomNav.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void initBottomNavigationOnClick(){
@@ -92,8 +78,7 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new MoreFragment();
                     break;
             }
-
-            openFragmentInMainFrameLayout(fragment);
+            getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, fragment).commit();
             return true;
         });
 
