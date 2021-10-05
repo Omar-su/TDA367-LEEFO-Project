@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.view.HomeViewModel;
 import com.leefo.budgetapplication.view.SharedViewModel;
 import com.leefo.budgetapplication.view.TimePeriod;
 import com.leefo.budgetapplication.view.ViewObserverHandler;
@@ -33,7 +34,7 @@ public class HomeFragment extends Fragment {
     private ToggleButton view_toggle, time_period_toggle;
     private ImageButton back_arrow, forward_arrow;
     private TimePeriod timePeriod;
-    private SharedViewModel viewModel;
+    private HomeViewModel homeViewModel;
 
     /**
      * Method that runs when the fragment is being created.
@@ -44,6 +45,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+
         // get views
         income = view.findViewById(R.id.income_text_view);
         expense = view.findViewById(R.id.expense_text_view);
@@ -53,8 +55,9 @@ public class HomeFragment extends Fragment {
         back_arrow = view.findViewById(R.id.Arrow_back);
         forward_arrow = view.findViewById(R.id.Arrow_forward);
 
-        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        timePeriod = viewModel.getTimePeriod().getValue();
+        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+        SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        timePeriod = sharedViewModel.getTimePeriod().getValue();
 
         // init
         initToggleButton(view);
@@ -138,7 +141,7 @@ public class HomeFragment extends Fragment {
 
     private void openCorrectFragment() {
         // toggle is set to listView mode as default, if categoryView shall open first it needs to be toggled
-        if (viewModel.lastOpenedViewWasCategoryView) {
+        if (homeViewModel.lastOpenedViewWasCategoryView) {
             view_toggle.toggle();
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_middleSection_Home, new HomeCategoryViewFragment()).commit();
         } else {
@@ -159,10 +162,10 @@ public class HomeFragment extends Fragment {
         view_toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    viewModel.lastOpenedViewWasCategoryView = true;
+                    homeViewModel.lastOpenedViewWasCategoryView = true;
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_middleSection_Home, new HomeCategoryViewFragment()).commit();
                 } else {
-                    viewModel.lastOpenedViewWasCategoryView = false;
+                    homeViewModel.lastOpenedViewWasCategoryView = false;
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_middleSection_Home, new HomeListViewFragment()).commit();
                 }
             }
