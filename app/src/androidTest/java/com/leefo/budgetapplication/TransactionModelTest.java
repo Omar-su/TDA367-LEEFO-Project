@@ -280,7 +280,7 @@ public class TransactionModelTest {
         LocalDate d1 = LocalDate.of(1905, 1, 2);
         LocalDate d2 = LocalDate.of(1902, 3, 16);
         LocalDate d3 = LocalDate.of(1905, 1, 27);
-        LocalDate d4 = LocalDate.of(1905,1,15);
+        LocalDate d4 = LocalDate.of(1905, 1, 15);
 
         Category incomeCat1 = new Category("IncomeTest1", "#111111", true);
         Category incomeCat2 = new Category("IncomeTest2", "#555555", true);
@@ -310,7 +310,7 @@ public class TransactionModelTest {
         LocalDate d1 = LocalDate.of(1905, 1, 2);
         LocalDate d2 = LocalDate.of(1902, 3, 16);
         LocalDate d3 = LocalDate.of(1905, 1, 27);
-        LocalDate d4 = LocalDate.of(1905,1,15);
+        LocalDate d4 = LocalDate.of(1905, 1, 15);
 
         Category expenseCat1 = new Category("expenseTest1", "#111111", false);
         Category expenseCat2 = new Category("expenseTest2", "#555555", false);
@@ -338,7 +338,7 @@ public class TransactionModelTest {
     @Test
     public void canCalculateBalanceForSpecificRequest() {
         LocalDate d1 = LocalDate.of(1899, 8, 10);
-        LocalDate d2 = LocalDate.of(1899,8, 16);
+        LocalDate d2 = LocalDate.of(1899, 8, 16);
         LocalDate d3 = LocalDate.of(1965, 8, 15);
         LocalDate d4 = LocalDate.of(1965, 8, 15);
 
@@ -368,7 +368,7 @@ public class TransactionModelTest {
     @Test
     public void canGetNonEmptyCategoriesForSpecificRequest() {
         LocalDate d1 = LocalDate.of(1899, 8, 10);
-        LocalDate d2 = LocalDate.of(1899,8, 16);
+        LocalDate d2 = LocalDate.of(1899, 8, 16);
         LocalDate d3 = LocalDate.of(1965, 8, 15);
         LocalDate d4 = LocalDate.of(1965, 8, 15);
 
@@ -393,9 +393,9 @@ public class TransactionModelTest {
         List<Category> nonEmptyList = tm.removeEmptyCategories(tm.getCategoryList(), request);
 
         boolean outcome = true;
-        for(Category c : nonEmptyList){
+        for (Category c : nonEmptyList) {
             request.setCategory(c);
-            if(tm.searchTransactions(request).isEmpty()) { //If category is empty for the specific months test -> fail
+            if (tm.searchTransactions(request).isEmpty()) { //If category is empty for the specific months test -> fail
                 outcome = false;
                 break;
             }
@@ -405,7 +405,43 @@ public class TransactionModelTest {
 
     @Test
     public void categoriesAreSortedWithLargestFirst() {
+        LocalDate d1 = LocalDate.of(1897, 3, 10);
+        LocalDate d2 = LocalDate.of(1897, 3, 16);
+        LocalDate d3 = LocalDate.of(1897, 3, 15);
+        LocalDate d4 = LocalDate.of(1897, 3, 15);
 
+        Category testCat1 = new Category("testcat1", "#111111", false);
+        Category testCat2 = new Category("testcat2", "#555555", false);
+        Category testCat3 = new Category("testcat3", "#555555", false);
+        Category testCat4 = new Category("testcat4", "#555555", false);
+
+        tm.addCategory(testCat1);
+        tm.addCategory(testCat2);
+        tm.addCategory(testCat3);
+        tm.addCategory(testCat4);
+
+        FinancialTransaction t1 = new FinancialTransaction((float) 255.0, "t1", d1, testCat1);
+        FinancialTransaction t2 = new FinancialTransaction((float) 180.4, "t2", d2, testCat2);
+        FinancialTransaction t3 = new FinancialTransaction((float) 500.2, "t3", d3, testCat3);
+        FinancialTransaction t4 = new FinancialTransaction((float) 60.2, "t4", d4, testCat4);
+
+        tm.addTransaction(t1);
+        tm.addTransaction(t2);
+        tm.addTransaction(t3);
+        tm.addTransaction(t4);
+
+        TransactionRequest request = new TransactionRequest(null, 3, 1897);
+        List<Category> sortedList = tm.sortCategoryListBySum(tm.getCategoryList(), request);
+
+        boolean outcome = true;
+        for (int i = 0; i < sortedList.size() - 1; i++) {
+            float sum1 = tm.getTransactionSum(new TransactionRequest(sortedList.get(i), request.getMonth(), request.getYear()));
+            float sum2 = tm.getTransactionSum(new TransactionRequest(sortedList.get(i + 1), request.getMonth(), request.getYear()));
+            if (sum1 < sum2) {
+                outcome = false;
+            }
+        }
+        assertTrue(outcome);
     }
 
 }
