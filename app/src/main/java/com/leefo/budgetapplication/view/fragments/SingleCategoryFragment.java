@@ -27,8 +27,11 @@ import java.util.ArrayList;
 import java.util.MissingResourceException;
 
 /**
- * This class represents the fragment opened when selecting a specific category in the list in HomeCategoryViewFragment
+ * This class represents the fragment opened when selecting a specific category in the list in HomeCategoryViewFragment.
  * It displays the transactions belonging to the chosen category and the current time period.
+ * Used by (opened from) HomeCategoryViewFragment.
+ * Uses SharedTimePeriodViewModel for getting the time period data. Uses ListViewAdapterHomeList.
+ * Uses (opens) Home and EditTransaction fragments
  * @author Emelie Edberg
  */
 public class SingleCategoryFragment extends Fragment {
@@ -74,7 +77,7 @@ public class SingleCategoryFragment extends Fragment {
 
     private void initList(){
         transactionList = Controller.getTransactions(chosenCategory, timePeriod.getMonth(), timePeriod.getYear());
-        putDatesIntoTransactionList();
+        putDatesIntoTransactionList(transactionList);
         ListViewAdapterHomeList adapter = new ListViewAdapterHomeList(requireActivity().getApplicationContext(), transactionList);
         listView.setAdapter(adapter);
     }
@@ -96,10 +99,15 @@ public class SingleCategoryFragment extends Fragment {
 
     private void initListOnItemClick(){
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            // get data from model
             FinancialTransaction transaction = (FinancialTransaction) adapterView.getItemAtPosition(i);
-            if (transaction.getCategory().getName().equals("DATE")){ // then it is a date row, should not be clickable
+
+            // check if it is a date row, should not be clickable
+            if (transaction.getCategory().getName().equals("DATE")){
                 return;
             }
+
+            // attach clicked category as argument to EditTransactionFragment and open the fragment
             Fragment fragment = new EditTransactionFragment();
             Bundle bundle = new Bundle();
             bundle.putParcelable("CHOSEN_TRANSACTION", new ParcelableTransaction(transaction));
@@ -108,33 +116,40 @@ public class SingleCategoryFragment extends Fragment {
         });
     }
 
-    private void addDateRowInTransactionList(int index, String date){
-        transactionList.add(index, new FinancialTransaction(0,date, LocalDate.now(), new Category("DATE", "", true)));
+    private void addDateRowInTransactionList(ArrayList<FinancialTransaction> list, int index, String date){
+        list.add(index, new FinancialTransaction(0,date, LocalDate.now(), new Category("DATE", "", true)));
     }
 
-    private void putDatesIntoTransactionList(){
+    /**
+     * In order to display date rows within the list. We must add extra objects in the list where we want the date row to be
+     * then when the list is sent to the list adapter it can differentiate between normal Transaction objects and the ones representing date rows and display those differently.
+     *
+     * The method works on lists sorted by date.
+     * Inputs special date Transaction objects in front of every object with a new date.
+     */
+    private void putDatesIntoTransactionList(ArrayList<FinancialTransaction> list){
         LocalDate today = LocalDate.now();
         LocalDate yesterday = LocalDate.now().minusDays(1);
-        LocalDate date = transactionList.get(0).getDate(); // first date
+        LocalDate date = list.get(0).getDate(); // first date
 
         if (date.isEqual(today)){
-            addDateRowInTransactionList(0, "Today");
+            addDateRowInTransactionList(list, 0, "Today");
         } else if (date.isEqual(yesterday)){
-            addDateRowInTransactionList(0, "Yesterday");
+            addDateRowInTransactionList(list, 0, "Yesterday");
         } else{
-            addDateRowInTransactionList(0,date.toString());
+            addDateRowInTransactionList(list, 0,date.toString());
         }
 
-        for (int i = 2; i <= transactionList.size()-1;){
+        for (int i = 2; i <= list.size()-1;){
 
-            if (!date.isEqual(transactionList.get(i).getDate())){
-                date = transactionList.get(i).getDate();
+            if (!date.isEqual(list.get(i).getDate())){
+                date = list.get(i).getDate();
                 if (date.isEqual(today)){
-                    addDateRowInTransactionList(i, "Today");
+                    addDateRowInTransactionList(list, i, "Today");
                 } else if (date.isEqual(yesterday)){
-                    addDateRowInTransactionList(i, "Yesterday");
+                    addDateRowInTransactionList(list, i, "Yesterday");
                 } else{
-                    addDateRowInTransactionList(i,date.toString());
+                    addDateRowInTransactionList(list, i,date.toString());
                 }
                 i++;
             }

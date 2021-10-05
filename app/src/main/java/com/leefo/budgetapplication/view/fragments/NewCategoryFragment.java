@@ -21,7 +21,9 @@ import com.leefo.budgetapplication.model.Category;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 /**
- * The class that represents the fragment for adding a new category
+ * The class that represents the fragment for adding a new category.
+ * Used by (opened from) ManageCategoriesFragment. Uses (opens) ManageCategoriesFragment.
+ * Uses AmbilWarnaDialog for color picking.
  * @author Emelie Edberg, Eugene Dvoryankov, Omar Suliman
  */
 public class NewCategoryFragment extends Fragment {

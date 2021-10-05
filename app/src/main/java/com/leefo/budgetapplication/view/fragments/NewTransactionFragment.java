@@ -29,7 +29,10 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * This class represents the fragment for adding a new transaction
+ * This class represents the fragment for adding a new transaction.
+ * Here the user can specify values for a new transaction an save it.
+ * Used by (opened from) MainActivity.
+ * Uses (opens) HomeFragment. Uses Calendar and DatePickerDialog.
  * @author Emelie Edberg
  */
 public class NewTransactionFragment extends Fragment {
