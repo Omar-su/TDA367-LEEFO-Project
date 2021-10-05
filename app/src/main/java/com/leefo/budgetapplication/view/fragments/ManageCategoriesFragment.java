@@ -18,7 +18,7 @@ import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.ParcelableCategory;
-import com.leefo.budgetapplication.view.SharedViewModel;
+import com.leefo.budgetapplication.view.SharedTimePeriodViewModel;
 import com.leefo.budgetapplication.view.adapters.ManageCategoriesListAdapter;
 
 import java.util.ArrayList;
@@ -30,12 +30,12 @@ public class ManageCategoriesFragment extends Fragment {
     private ListView listView;
     private RadioGroup radioGroup;
     private ManageCategoriesListAdapter adapter;
-    private SharedViewModel viewModel;
+    private SharedTimePeriodViewModel viewModel;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_manage_categories, container, false);
 
-         viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+         viewModel = new ViewModelProvider(requireActivity()).get(SharedTimePeriodViewModel.class);
 
         radioGroup = view.findViewById(R.id.manage_categories_radioGroup);
         listView = view.findViewById(R.id.listView_manage_categories);

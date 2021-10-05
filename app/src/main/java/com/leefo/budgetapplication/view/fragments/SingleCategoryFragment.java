@@ -18,7 +18,7 @@ import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.ParcelableTransaction;
 import com.leefo.budgetapplication.view.ParcelableCategory;
-import com.leefo.budgetapplication.view.SharedViewModel;
+import com.leefo.budgetapplication.view.SharedTimePeriodViewModel;
 import com.leefo.budgetapplication.view.TimePeriod;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
@@ -33,7 +33,7 @@ public class SingleCategoryFragment extends Fragment {
     ArrayList<FinancialTransaction> list;
     TextView timePeriodTextView;
     TimePeriod timePeriod;
-    SharedViewModel viewModel;
+    SharedTimePeriodViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,8 +41,8 @@ public class SingleCategoryFragment extends Fragment {
 
         Category chosenCategory;
 
-        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        timePeriod = viewModel.getTimePeriod().getValue();
+        viewModel = new ViewModelProvider(requireActivity()).get(SharedTimePeriodViewModel.class);
+        timePeriod = viewModel.getTimePeriodLiveData().getValue();
 
         Bundle bundle = this.getArguments();
         if (bundle != null){

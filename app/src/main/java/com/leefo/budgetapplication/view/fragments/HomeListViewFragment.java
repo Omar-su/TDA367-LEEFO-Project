@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.leefo.budgetapplication.R;
@@ -17,10 +18,8 @@ import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.ParcelableTransaction;
-import com.leefo.budgetapplication.view.SharedViewModel;
+import com.leefo.budgetapplication.view.SharedTimePeriodViewModel;
 import com.leefo.budgetapplication.view.TimePeriod;
-import com.leefo.budgetapplication.view.ViewObserver;
-import com.leefo.budgetapplication.view.ViewObserverHandler;
 import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
 
 import java.time.LocalDate;
@@ -29,14 +28,13 @@ import java.util.ArrayList;
 /**
  * The class that represents the fragment for the list view inside the HomeFragment
  */
-public class HomeListViewFragment extends Fragment implements ViewObserver {
+public class HomeListViewFragment extends Fragment {
 
     ListView listView;
     ListViewAdapterHomeList adapter;
     ArrayList<FinancialTransaction> transactions;
     TextView noTransactoins1, noTransactoins2;
     TimePeriod timePeriod;
-    SharedViewModel viewModel;
     /**
      * Method that runs when the fragment is being created.
      * Connects the fragment xml file to the fragment class and initializes the fragment's components.
@@ -51,11 +49,15 @@ public class HomeListViewFragment extends Fragment implements ViewObserver {
         noTransactoins1 = view.findViewById(R.id.noTransactionsYetText1);
         noTransactoins2 = view.findViewById(R.id.noTransactionsYetText2);
 
-        ViewObserverHandler.addObserver(this);
-
-        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        timePeriod = viewModel.getTimePeriod().getValue();
-
+        SharedTimePeriodViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedTimePeriodViewModel.class);
+        timePeriod = viewModel.getTimePeriodLiveData().getValue();
+        viewModel.getTimePeriodLiveData().observe(getViewLifecycleOwner(), new Observer<TimePeriod>() {
+            @Override
+            public void onChanged(TimePeriod newTimePeriod) {
+               // timePeriod = newTimePeriod;
+                updateList();
+            }
+        });
 
 
         updateList();
@@ -133,16 +135,6 @@ public class HomeListViewFragment extends Fragment implements ViewObserver {
                 i++;
             }
             i++;
-        }
-    }
-
-
-
-
-    @Override
-    public void update() {
-        if (getActivity() != null){ // if getActivity == null it means that this fragment is not currently activated, and don't need to be updated
-            updateList();
         }
     }
 }

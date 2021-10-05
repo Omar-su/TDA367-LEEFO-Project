@@ -12,15 +12,15 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.view.HomeViewModel;
-import com.leefo.budgetapplication.view.SharedViewModel;
+import com.leefo.budgetapplication.view.SharedTimePeriodViewModel;
 import com.leefo.budgetapplication.view.TimePeriod;
-import com.leefo.budgetapplication.view.ViewObserverHandler;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -33,8 +33,10 @@ public class HomeFragment extends Fragment {
     private TextView income, expense, balance;
     private ToggleButton view_toggle, time_period_toggle;
     private ImageButton back_arrow, forward_arrow;
-    private TimePeriod timePeriod;
+    //private TimePeriod timePeriod;
     private HomeViewModel homeViewModel;
+    private SharedTimePeriodViewModel sharedTimePeriodViewModel;
+    private LiveData<TimePeriod> liveData;
 
     /**
      * Method that runs when the fragment is being created.
@@ -56,8 +58,9 @@ public class HomeFragment extends Fragment {
         forward_arrow = view.findViewById(R.id.Arrow_forward);
 
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
-        SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        timePeriod = sharedViewModel.getTimePeriod().getValue();
+        sharedTimePeriodViewModel = new ViewModelProvider(requireActivity()).get(SharedTimePeriodViewModel.class);
+        //timePeriod = sharedViewModel.getTimePeriodLiveData().getValue();
+        liveData = sharedTimePeriodViewModel.getTimePeriodLiveData();
 
         // init
         initToggleButton(view);
@@ -75,7 +78,7 @@ public class HomeFragment extends Fragment {
 
 
     private void initTimePeriod() {
-        if (!timePeriod.isTimeSpecified()){
+        if (!liveData.getValue().isTimeSpecified()){
             time_period_toggle.toggle();
             disabelArrowButtons();
         } else {
@@ -85,38 +88,34 @@ public class HomeFragment extends Fragment {
         back_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                timePeriod.decrementMonth();
+                sharedTimePeriodViewModel.decrementMonth();
                 updateTimePeriodButtonLabel();
                 updateHeaderValues();
-                ViewObserverHandler.updateObservers();
             }
         });
         forward_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                timePeriod.incrementMonth();
+                sharedTimePeriodViewModel.incrementMonth();
                 updateTimePeriodButtonLabel();
                 updateHeaderValues();
-                ViewObserverHandler.updateObservers();
             }
         });
 
         time_period_toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    timePeriod.setNoSpecifiedTimePeriod();
+                    sharedTimePeriodViewModel.setNoSpecifiedTimePeriod();
                     disabelArrowButtons();
                     updateHeaderValues();
-                    ViewObserverHandler.updateObservers();
                 } else {
-                    timePeriod.setSpecifiedTimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
+                    sharedTimePeriodViewModel.setSpecifiedTimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
                     updateTimePeriodButtonLabel();
                     back_arrow.setEnabled(true);
                     forward_arrow.setEnabled(true);
                     forward_arrow.clearColorFilter();
                     back_arrow.clearColorFilter();
                     updateHeaderValues();
-                    ViewObserverHandler.updateObservers();
                 }
             }
         });
@@ -130,7 +129,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateTimePeriodButtonLabel() {
-        String text = Month.of(timePeriod.getMonth()) + " " + timePeriod.getYear();
+        String text = Month.of(liveData.getValue().getMonth()) + " " + liveData.getValue().getYear();
         setTimePeriodText(text);
     }
 
@@ -150,9 +149,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateHeaderValues(){
-        float in = Controller.getTotalIncome(timePeriod.getMonth(), timePeriod.getYear());
-        float ex = Controller.getTotalExpense(timePeriod.getMonth(), timePeriod.getYear());
-        float ba = Controller.getTransactionBalance(timePeriod.getMonth(), timePeriod.getYear());
+        float in = Controller.getTotalIncome(liveData.getValue().getMonth(), liveData.getValue().getYear());
+        float ex = Controller.getTotalExpense(liveData.getValue().getMonth(), liveData.getValue().getYear());
+        float ba = Controller.getTransactionBalance(liveData.getValue().getMonth(), liveData.getValue().getYear());
         income.setText(String.valueOf(in));
         expense.setText(String.valueOf(ex));
         balance.setText(String.valueOf(ba));

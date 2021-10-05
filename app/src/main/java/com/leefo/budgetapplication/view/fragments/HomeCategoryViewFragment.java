@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -23,10 +24,8 @@ import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.ParcelableCategory;
-import com.leefo.budgetapplication.view.SharedViewModel;
+import com.leefo.budgetapplication.view.SharedTimePeriodViewModel;
 import com.leefo.budgetapplication.view.TimePeriod;
-import com.leefo.budgetapplication.view.ViewObserver;
-import com.leefo.budgetapplication.view.ViewObserverHandler;
 import com.leefo.budgetapplication.view.adapters.CategoryViewListAdapter;
 
 import java.util.ArrayList;
@@ -34,14 +33,13 @@ import java.util.ArrayList;
 /**
  * The class that represents the fragment for the category view inside the HomeFragment
  */
-public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
+public class HomeCategoryViewFragment extends Fragment {
 
     PieChart pieChart;
     ListView listView;
     CategoryViewListAdapter adapter;
     TextView noTransactoins1, noTransactoins2;
     TimePeriod timePeriod;
-    SharedViewModel viewModel;
 
     /**
      * Method that runs when the fragment is being created.
@@ -52,10 +50,16 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_category_view, container, false);
 
-        ViewObserverHandler.addObserver(this);
+        SharedTimePeriodViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedTimePeriodViewModel.class);
+        timePeriod = viewModel.getTimePeriodLiveData().getValue();
 
-        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        timePeriod = viewModel.getTimePeriod().getValue();
+        viewModel.getTimePeriodLiveData().observe(getViewLifecycleOwner(), new Observer<TimePeriod>() {
+            @Override
+            public void onChanged(TimePeriod newTimePeriod) {
+                //timePeriod = newTimePeriod; // not needed apparently. the data is ALIVE :)
+                updateData();
+            }
+        });
 
         pieChart = view.findViewById(R.id.pie_chart);
         listView = view.findViewById(R.id.listOfPieChart);
@@ -154,10 +158,4 @@ public class HomeCategoryViewFragment extends Fragment implements ViewObserver {
         pieChart.animateY(800, Easing.EaseInOutQuad);
     }
 
-    @Override
-    public void update() {
-        if (getActivity() != null){ // if getActivity == null it means that this fragment is not currently attached to an Activity, and don't need to be updated
-            updateData();
-        }
-    }
 }

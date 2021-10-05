@@ -2,21 +2,15 @@ package com.leefo.budgetapplication.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
-import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.fragments.BudgetFragment;
 import com.leefo.budgetapplication.view.fragments.EditTransactionFragment;
 import com.leefo.budgetapplication.view.fragments.HomeFragment;
@@ -55,8 +49,6 @@ public class MainActivity extends AppCompatActivity {
             //textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
             //textView.setBackgroundColor(Color.parseColor("#A0A0A0"));
 
-        SharedViewModel viewModel = new ViewModelProvider(this).get(SharedViewModel.class);
-        viewModel.setTimePeriod(new TimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue()));
     }
 
 
