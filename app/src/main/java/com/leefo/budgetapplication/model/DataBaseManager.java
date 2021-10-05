@@ -183,9 +183,10 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
         int deletedTransaction = getDeletedTransaction(transaction, db);
 
-        // Deletes a random transaction from identical transactions and a specific transaction if there is one that satisfies the requirements
+        //Deletes a random transaction from identical transactions and a specific transaction if there is one that satisfies the requirements
         String sql = "DELETE FROM " + TRANSACTIONS_TABLE + " WHERE " + TRANSACTION_ID + " = " + deletedTransaction;
         db.execSQL(sql);
+
 
         db.close();
 

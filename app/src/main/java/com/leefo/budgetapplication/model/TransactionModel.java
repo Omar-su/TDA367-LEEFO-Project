@@ -86,7 +86,7 @@ public class TransactionModel {
         {
             // if the transaction to be added is NOT made before this iteration's transaction, then the index of the new transaction
             // should be the index of the current iteration's transaction
-            if(!dateIsBefore(transaction.getDate(), transactions.get(i).getDate()))
+            if(dateIsBefore(transactions.get(i).getDate(), transaction.getDate()))
             {
                 transactionList.add(i, transaction); // adds transaction at index i (note: does NOT replace)
                 break;
