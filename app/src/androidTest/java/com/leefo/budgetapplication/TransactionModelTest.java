@@ -127,11 +127,11 @@ public class TransactionModelTest {
 
     @Test
     public void canFindTransactionMadeInSpecificMonth() {
-        LocalDate d1 = LocalDate.of(2020, 5, 3);
-        LocalDate d2 = LocalDate.of(2020, 5, 14);
-        LocalDate d3 = LocalDate.of(2019, 5, 14); //Same month and day as above but different year
-        LocalDate d4 = LocalDate.of(2020, 12, 24);
-        LocalDate d5 = LocalDate.of(2020, 5, 20);
+        LocalDate d1 = LocalDate.of(1900, 5, 3);
+        LocalDate d2 = LocalDate.of(1900, 5, 14);
+        LocalDate d3 = LocalDate.of(1901, 5, 14); //Same month and day as above but different year
+        LocalDate d4 = LocalDate.of(1900, 12, 24);
+        LocalDate d5 = LocalDate.of(1900, 5, 20);
 
         FinancialTransaction t1 = new FinancialTransaction((float) 200.5, "t1", d1, testCategory1);
         FinancialTransaction t2 = new FinancialTransaction((float) 15.4, "t2", d2, testCategory1);
@@ -158,16 +158,17 @@ public class TransactionModelTest {
                 break;
             }
         }
-        assertTrue(outcome);
+        int expectedSize = 3;
+        assertTrue(outcome && searchedList.size() == expectedSize);
     }
 
     @Test
     public void canFindTransactionWithSpecificCategory() {
-        LocalDate d1 = LocalDate.of(2020, 5, 3);
-        LocalDate d2 = LocalDate.of(2020, 5, 14);
-        LocalDate d3 = LocalDate.of(2019, 5, 14); //Same month and day as above but different year
-        LocalDate d4 = LocalDate.of(2020, 12, 24);
-        LocalDate d5 = LocalDate.of(2020, 5, 20);
+        LocalDate d1 = LocalDate.of(1900, 6, 3);
+        LocalDate d2 = LocalDate.of(1900, 6, 14);
+        LocalDate d3 = LocalDate.of(1901, 5, 14);
+        LocalDate d4 = LocalDate.of(1900, 12, 24);
+        LocalDate d5 = LocalDate.of(1900, 6, 20);
 
         Category testCategory2 = new Category("Unique Test Category Name 2", "#F25A57", false);
 
@@ -196,7 +197,8 @@ public class TransactionModelTest {
                 break;
             }
         }
-        assertTrue(outcome);
+        int expectedSize = 1;
+        assertTrue(outcome && searchedList.size() == expectedSize);
     }
 
     @Test
@@ -225,5 +227,185 @@ public class TransactionModelTest {
         assertTrue(outcome);
     }
 
+    @Test
+    public void canGetAllExpenseCategories() {
+        Category c1 = new Category("c1", "#FFFFFF", true);
+        Category c2 = new Category("c1", "#FFFFFF", false);
+        Category c3 = new Category("c1", "#FFFFFF", true);
+        Category c4 = new Category("c1", "#FFFFFF", true);
+        Category c5 = new Category("c1", "#FFFFFF", false);
+
+        tm.addCategory(c1);
+        tm.addCategory(c2);
+        tm.addCategory(c3);
+        tm.addCategory(c4);
+        tm.addCategory(c5);
+
+        List<Category> returnedList = tm.getIncomeCategories();
+
+        boolean outcome = true;
+        for (Category c : returnedList) {
+            if (!c.isIncome()) {
+                outcome = false;
+                break;
+            }
+        }
+        assertTrue(outcome);
+    }
+
+    @Test
+    public void canGetSumForSpecificRequest() {
+        LocalDate d1 = LocalDate.of(1905, 1, 2);
+        LocalDate d2 = LocalDate.of(1902, 3, 16);
+        LocalDate d3 = LocalDate.of(1905, 1, 27); //Same month and day as above but different year
+
+        FinancialTransaction t1 = new FinancialTransaction((float) 200.0, "t1", d1, testCategory1);
+        FinancialTransaction t2 = new FinancialTransaction((float) 15.0, "t2", d2, testCategory1);
+        FinancialTransaction t3 = new FinancialTransaction((float) 17.0, "t3", d3, testCategory1);
+
+        tm.addTransaction(t1);
+        tm.addTransaction(t2);
+        tm.addTransaction(t3);
+
+        float expectedSum = t1.getAmount() + t3.getAmount();
+
+        TransactionRequest request = new TransactionRequest(null, 1905, 1);
+        float calculatedSum = tm.getTransactionSum(request);
+
+        assertEquals(calculatedSum, expectedSum);
+    }
+
+    @Test
+    public void canGetTotalIncomeForSpecificRequest() {
+        LocalDate d1 = LocalDate.of(1905, 1, 2);
+        LocalDate d2 = LocalDate.of(1902, 3, 16);
+        LocalDate d3 = LocalDate.of(1905, 1, 27);
+        LocalDate d4 = LocalDate.of(1905,1,15);
+
+        Category incomeCat1 = new Category("IncomeTest1", "#111111", true);
+        Category incomeCat2 = new Category("IncomeTest2", "#555555", true);
+        tm.addCategory(incomeCat1);
+        tm.addCategory(incomeCat2);
+
+        FinancialTransaction t1 = new FinancialTransaction((float) 200.0, "t1", d1, incomeCat1);
+        FinancialTransaction t2 = new FinancialTransaction((float) 15.0, "t2", d2, incomeCat1);
+        FinancialTransaction t3 = new FinancialTransaction((float) 17.0, "t3", d3, incomeCat1);
+        FinancialTransaction t4 = new FinancialTransaction((float) 116.0, "t4", d4, incomeCat2);
+
+        tm.addTransaction(t1);
+        tm.addTransaction(t2);
+        tm.addTransaction(t3);
+        tm.addTransaction(t4);
+
+        float expectedSum = t1.getAmount() + t3.getAmount() + t4.getAmount();
+        TransactionRequest request = new TransactionRequest(null, 1, 1905);
+
+        float calculatedSum = tm.getTotalIncome(request);
+
+        assertEquals(expectedSum, calculatedSum);
+    }
+
+    @Test
+    public void canGetTotalExpenseForSpecificRequest() {
+        LocalDate d1 = LocalDate.of(1905, 1, 2);
+        LocalDate d2 = LocalDate.of(1902, 3, 16);
+        LocalDate d3 = LocalDate.of(1905, 1, 27);
+        LocalDate d4 = LocalDate.of(1905,1,15);
+
+        Category expenseCat1 = new Category("expenseTest1", "#111111", false);
+        Category expenseCat2 = new Category("expenseTest2", "#555555", false);
+        tm.addCategory(expenseCat1);
+        tm.addCategory(expenseCat2);
+
+        FinancialTransaction t1 = new FinancialTransaction((float) 200.0, "t1", d1, expenseCat1);
+        FinancialTransaction t2 = new FinancialTransaction((float) 15.0, "t2", d2, expenseCat1);
+        FinancialTransaction t3 = new FinancialTransaction((float) 17.0, "t3", d3, expenseCat1);
+        FinancialTransaction t4 = new FinancialTransaction((float) 116.0, "t4", d4, expenseCat2);
+
+        tm.addTransaction(t1);
+        tm.addTransaction(t2);
+        tm.addTransaction(t3);
+        tm.addTransaction(t4);
+
+        float expectedSum = t1.getAmount() + t3.getAmount() + t4.getAmount();
+        TransactionRequest request = new TransactionRequest(null, 1, 1905);
+
+        float calculatedSum = tm.getTotalExpense(request);
+
+        assertEquals(expectedSum, calculatedSum);
+    }
+
+    @Test
+    public void canCalculateBalanceForSpecificRequest() {
+        LocalDate d1 = LocalDate.of(1899, 8, 10);
+        LocalDate d2 = LocalDate.of(1899,8, 16);
+        LocalDate d3 = LocalDate.of(1965, 8, 15);
+        LocalDate d4 = LocalDate.of(1965, 8, 15);
+
+        Category incomeCat1 = new Category("incomeTest1", "#111111", true);
+        Category expenseCat1 = new Category("expenseTest1", "#555555", false);
+        tm.addCategory(incomeCat1);
+        tm.addCategory(expenseCat1);
+
+        FinancialTransaction t1 = new FinancialTransaction((float) 255.0, "t1", d1, incomeCat1);
+        FinancialTransaction t2 = new FinancialTransaction((float) 180.4, "t2", d2, expenseCat1);
+        FinancialTransaction t3 = new FinancialTransaction((float) 500.2, "t3", d3, incomeCat1);
+        FinancialTransaction t4 = new FinancialTransaction((float) 60.2, "t4", d4, expenseCat1);
+
+        tm.addTransaction(t1);
+        tm.addTransaction(t2);
+        tm.addTransaction(t3);
+        tm.addTransaction(t4);
+
+        float expectedBalance = t1.getAmount() - t2.getAmount();
+        TransactionRequest request = new TransactionRequest(null, 8, 1899);
+
+        float calculatedBalance = tm.getTransactionBalance(request);
+
+        assertEquals(expectedBalance, calculatedBalance);
+    }
+
+    @Test
+    public void canGetNonEmptyCategoriesForSpecificRequest() {
+        LocalDate d1 = LocalDate.of(1899, 8, 10);
+        LocalDate d2 = LocalDate.of(1899,8, 16);
+        LocalDate d3 = LocalDate.of(1965, 8, 15);
+        LocalDate d4 = LocalDate.of(1965, 8, 15);
+
+        Category incomeCat1 = new Category("incomeTest1", "#111111", true);
+        Category expenseCat1 = new Category("expenseTest1", "#555555", false);
+        Category emptyCategory = new Category("ImEmpty", "#FFFFFF", true);
+        tm.addCategory(incomeCat1);
+        tm.addCategory(expenseCat1);
+        tm.addCategory(emptyCategory);
+
+        FinancialTransaction t1 = new FinancialTransaction((float) 255.0, "t1", d1, incomeCat1);
+        FinancialTransaction t2 = new FinancialTransaction((float) 180.4, "t2", d2, expenseCat1);
+        FinancialTransaction t3 = new FinancialTransaction((float) 500.2, "t3", d3, incomeCat1);
+        FinancialTransaction t4 = new FinancialTransaction((float) 60.2, "t4", d4, expenseCat1);
+
+        tm.addTransaction(t1);
+        tm.addTransaction(t2);
+        tm.addTransaction(t3);
+        tm.addTransaction(t4);
+
+        TransactionRequest request = new TransactionRequest(null, 1899, 8);
+        List<Category> nonEmptyList = tm.removeEmptyCategories(tm.getCategoryList(), request);
+
+        boolean outcome = true;
+        for(Category c : nonEmptyList){
+            request.setCategory(c);
+            if(tm.searchTransactions(request).isEmpty()) { //If category is empty for the specific months test -> fail
+                outcome = false;
+                break;
+            }
+        }
+        assertTrue(outcome);
+    }
+
+    @Test
+    public void categoriesAreSortedWithLargestFirst() {
+
+    }
 
 }
