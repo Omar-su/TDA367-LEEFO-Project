@@ -5,15 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Creates the database needed for saving the information of the transactions and categories
@@ -233,7 +229,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
     /**
      * Created all categories that are in the database
-     * @return Returns a list of all categories's information in the database as category objects
+     * @return Returns a list of all categories information in the database as category objects
      */
     public ArrayList<Category> getCategories(){
 

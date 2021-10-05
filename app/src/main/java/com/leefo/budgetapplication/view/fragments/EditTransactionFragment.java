@@ -22,7 +22,6 @@ import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.FinancialTransaction;
-import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.ParcelableTransaction;
 import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 
@@ -45,9 +44,9 @@ public class EditTransactionFragment extends Fragment {
     private Spinner categorySpinner;
     private RadioGroup radioGroup;
     private ImageButton cross;
+    private boolean newDateIsPicked = false;
 
     final Calendar myCalendar = Calendar.getInstance();
-    private View view;
     private FinancialTransaction oldTransaction;
 
     ArrayList<Category> income, expense;
@@ -59,7 +58,7 @@ public class EditTransactionFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_edit_transaction, container, false);
+        View view = inflater.inflate(R.layout.fragment_edit_transaction, container, false);
 
         Bundle bundle = this.getArguments();
         if (bundle != null){
@@ -118,33 +117,33 @@ public class EditTransactionFragment extends Fragment {
             ArrayList<Category> newIncomeList = new ArrayList<>(income);
             newIncomeList.remove(oldCategory);
             newIncomeList.add(0, oldCategory);
-            spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), newIncomeList);
+            spinnerAdapter = new SpinnerAdapter(requireActivity().getApplicationContext(), newIncomeList);
 
         } else {
             ArrayList<Category> newExpenseList = new ArrayList<>(expense);
             newExpenseList.remove(oldCategory);
             newExpenseList.add(0, oldCategory);
-            spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), newExpenseList);
+            spinnerAdapter = new SpinnerAdapter(requireActivity().getApplicationContext(), newExpenseList);
         }
         categorySpinner.setAdapter(spinnerAdapter);
 
     }
 
     private void initSpinner(){
-        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), expense);
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity().getApplicationContext(), expense);
         categorySpinner.setAdapter(spinnerAdapter);
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                SpinnerAdapter spinnerAdapter;
                 if (checkedId == R.id.edit_transaction_radioExpense){
-                    SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), expense);
-                    categorySpinner.setAdapter(spinnerAdapter);
+                    spinnerAdapter = new SpinnerAdapter(requireActivity().getApplicationContext(), expense);
                 } else {
-                    SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), income);
-                    categorySpinner.setAdapter(spinnerAdapter);
+                    spinnerAdapter = new SpinnerAdapter(requireActivity().getApplicationContext(), income);
                 }
+                categorySpinner.setAdapter(spinnerAdapter);
             }
         });
     }
@@ -191,7 +190,12 @@ public class EditTransactionFragment extends Fragment {
         String description = noteInput.getText().toString();
         float amount = Float.parseFloat(amountInput.getText().toString());
         Category category = (Category) categorySpinner.getSelectedItem();
-        LocalDate date = myCalendar.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // convert Date to LocalDate
+        LocalDate date;
+        if (newDateIsPicked){
+            date = myCalendar.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // convert Date to LocalDate
+        } else {
+            date = oldTransaction.getDate();
+        }
 
         if (!category.isIncome()){
             amount = Math.abs(amount) * -1;
@@ -200,7 +204,7 @@ public class EditTransactionFragment extends Fragment {
     }
 
     /**
-     * Initializes Calendar object myCalander and sets onClickListener for the edittext edittext_date
+     * Initializes Calendar object myCalendar and sets onClickListener for the edittext edittext_date
      * in which a DatePickerDialog is created using myCalendar.
      */
     private void initDatePickerDialog(){
@@ -211,6 +215,7 @@ public class EditTransactionFragment extends Fragment {
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 updateDateLabel();
+                newDateIsPicked = true;
             }
         };
 
@@ -238,7 +243,7 @@ public class EditTransactionFragment extends Fragment {
     Toast t;
     private void makeToast(String s){
         if(t != null) t.cancel();
-        t = Toast.makeText(getActivity().getApplicationContext(), s, Toast.LENGTH_SHORT);
+        t = Toast.makeText(requireActivity().getApplicationContext(), s, Toast.LENGTH_SHORT);
         t.show();
     }
 

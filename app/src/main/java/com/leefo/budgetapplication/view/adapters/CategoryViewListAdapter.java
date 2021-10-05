@@ -50,7 +50,7 @@ public class CategoryViewListAdapter extends ArrayAdapter<Category> {
 
         Category cat = getItem(position);
 
-        int numberOfTransactions = 0;
+        int numberOfTransactions;
         numberOfTransactions = Controller.getTransactions(cat, timePeriod.getMonth(), timePeriod.getYear()).size();
 
         TextView sum = convertView.findViewById(R.id.category_sum);

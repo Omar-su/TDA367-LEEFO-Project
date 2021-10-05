@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * The TransactionModel class contains methods for manipulating, adding and removing categories and
  * transactions. The TransactionModel class also saves every change it does to the database for
- * persistance storage.
+ * persistence storage.
  *
  * @author Felix Edholm, Emelie Edberg
  */
@@ -17,15 +17,12 @@ public class TransactionModel {
     /**
      * The list of FinancialTransactions used in the application
      */
-    private  ArrayList<FinancialTransaction> transactionList;
+    private  final ArrayList<FinancialTransaction> transactionList;
 
     /**
      * The list of Categories used in the application
      */
-    private  ArrayList<Category> categoryList;
-
-    //private  Category otherIncome = new Category( "Other income", "#13702A", true);
-    //private  Category otherExpense = new Category( "Other expense", "701313", false);
+    private final ArrayList<Category> categoryList;
 
    private final IDatabase database;
 
@@ -133,7 +130,7 @@ public class TransactionModel {
      */
     public void deleteCategory(Category category) {
         if (category == getOtherExpenseCategory()) return; // not allowed tp remove that one
-        if (category == getOtherIncomeCategory()) return;; // not allowed to remove that one
+        if (category == getOtherIncomeCategory()) return; // not allowed to remove that one
 
         if (category.isIncome()) {
             for (int i = 0; i < getTransactionList().size(); i++) {

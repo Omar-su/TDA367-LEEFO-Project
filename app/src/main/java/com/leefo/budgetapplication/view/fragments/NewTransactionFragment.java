@@ -19,7 +19,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 
 import java.text.SimpleDateFormat;
@@ -30,7 +29,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * The class that represents the fragment for adding a new transaction
+ * This class represents the fragment for adding a new transaction
  */
 public class NewTransactionFragment extends Fragment {
 
@@ -42,7 +41,6 @@ public class NewTransactionFragment extends Fragment {
     private BottomNavigationView bottomNav;
 
     final Calendar myCalendar = Calendar.getInstance();
-    private View view;
 
     /**
      * Method that runs when the fragment is being created.
@@ -51,7 +49,7 @@ public class NewTransactionFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_new_transaction, container, false);
+        View view = inflater.inflate(R.layout.fragment_new_transaction, container, false);
 
         // get views
         categorySpinner = view.findViewById(R.id.spinner_category);
@@ -93,13 +91,13 @@ public class NewTransactionFragment extends Fragment {
         {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                SpinnerAdapter spinnerAdapter;
                 if (checkedId == R.id.radioExpense){
-                    SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity().getApplicationContext(), expense);
-                    categorySpinner.setAdapter(spinnerAdapter);
+                    spinnerAdapter = new SpinnerAdapter(requireActivity().getApplicationContext(), expense);
                 } else {
-                    SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity().getApplicationContext(), income);
-                    categorySpinner.setAdapter(spinnerAdapter);
+                    spinnerAdapter = new SpinnerAdapter(requireActivity().getApplicationContext(), income);
                 }
+                categorySpinner.setAdapter(spinnerAdapter);
             }
         });
     }
@@ -140,7 +138,7 @@ public class NewTransactionFragment extends Fragment {
     }
 
     /**
-     * Initializes Calendar object myCalander and sets onClickListener for the edittext edittext_date
+     * Initializes Calendar object myCalendar and sets onClickListener for the edittext edittext_date
      * in which a DatePickerDialog is created using myCalendar.
      */
     private void initDatePickerDialog(){
@@ -177,7 +175,7 @@ public class NewTransactionFragment extends Fragment {
     Toast t;
     private void makeToast(String s){
         if(t != null) t.cancel();
-        t = Toast.makeText(getActivity().getApplicationContext(), s, Toast.LENGTH_SHORT);
+        t = Toast.makeText(requireActivity().getApplicationContext(), s, Toast.LENGTH_SHORT);
         t.show();
     }
 

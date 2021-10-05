@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.ParcelableCategory;
 
 import java.util.MissingResourceException;
@@ -36,7 +35,6 @@ public class EditCategoryFragment extends Fragment {
     private Button deleteButton;
     private Button changeColorButton;
     private int defaultColor;
-    private View view;
     private RadioGroup radioGroup;
     private Category oldCategory;
     private ImageButton cross;
@@ -48,9 +46,9 @@ public class EditCategoryFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_edit_category, container, false);
+        View view = inflater.inflate(R.layout.fragment_edit_category, container, false);
 
-
+        // get argument passed with the fragment
         Bundle bundle = this.getArguments();
         if (bundle != null){
             ParcelableCategory chosen_category_to_edit = bundle.getParcelable("CHOSEN_CATEGORY_TO_EDIT");
@@ -190,7 +188,7 @@ public class EditCategoryFragment extends Fragment {
     Toast t;
     private void makeToast(String s){
         if(t != null) t.cancel();
-        t = Toast.makeText(getActivity().getApplicationContext(), s, Toast.LENGTH_SHORT);
+        t = Toast.makeText(requireActivity().getApplicationContext(), s, Toast.LENGTH_SHORT);
         t.show();
     }
 }

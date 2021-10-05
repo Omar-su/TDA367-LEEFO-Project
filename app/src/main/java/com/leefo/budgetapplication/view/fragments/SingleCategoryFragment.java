@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,7 +15,6 @@ import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.FinancialTransaction;
-import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.ParcelableTransaction;
 import com.leefo.budgetapplication.view.ParcelableCategory;
 import com.leefo.budgetapplication.view.SharedTimePeriodViewModel;
@@ -28,24 +26,28 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.MissingResourceException;
 
+/**
+ * This class represents the fragment opened when selecting a specific category in the list in HomeCategoryViewFragment
+ * It displays the transactions belonging to the chosen category and the current time period.
+ */
 public class SingleCategoryFragment extends Fragment {
 
-    ListView listView;
-    ArrayList<FinancialTransaction> list;
-    TextView timePeriodTextView;
-    TimePeriod timePeriod;
-    SharedTimePeriodViewModel viewModel;
-    ImageButton back_button;
+    private ListView listView;
+    private ArrayList<FinancialTransaction> transactionList;
+    private TextView timePeriodTextView;
+    private TimePeriod timePeriod;
+    private ImageButton back_button;
+    private Category chosenCategory;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_single_category, container, false);
 
-        Category chosenCategory;
-
-        viewModel = new ViewModelProvider(requireActivity()).get(SharedTimePeriodViewModel.class);
+        // get data from view model
+        SharedTimePeriodViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedTimePeriodViewModel.class);
         timePeriod = viewModel.getTimePeriodLiveData().getValue();
 
+        // get argument sent with the fragment
         Bundle bundle = this.getArguments();
         if (bundle != null){
             ParcelableCategory chosen_category = bundle.getParcelable("CHOSEN_CATEGORY");
@@ -54,28 +56,31 @@ public class SingleCategoryFragment extends Fragment {
             throw new MissingResourceException("No chosen category was sent with the fragment, hence fragment cannot be created", ParcelableCategory.class.toString(), "CHOSEN_CATEGORY" );
         }
 
-        list = Controller.getTransactions(chosenCategory, timePeriod.getMonth(), timePeriod.getYear());
-        putDatesIntoTransactionList();
+        // get views
         listView = view.findViewById(R.id.listview_single_category);
-        ListViewAdapterHomeList adapter = new ListViewAdapterHomeList(requireActivity().getApplicationContext(),list);
-        listView.setAdapter(adapter);
-
-        initListOnItemClick();
-
         timePeriodTextView = view.findViewById(R.id.time_period);
         back_button = view.findViewById(R.id.back_button);
+
+
+        // init components
+        initList();
+        initListOnItemClick();
         initBackButton();
         setTimePeriodLabel();
+
         return view;
     }
 
+    private void initList(){
+        transactionList = Controller.getTransactions(chosenCategory, timePeriod.getMonth(), timePeriod.getYear());
+        putDatesIntoTransactionList();
+        ListViewAdapterHomeList adapter = new ListViewAdapterHomeList(requireActivity().getApplicationContext(), transactionList);
+        listView.setAdapter(adapter);
+    }
+
     private void initBackButton(){
-        back_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new HomeFragment()).commit();
-            }
-        });
+        back_button.setOnClickListener(view ->
+            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new HomeFragment()).commit());
     }
 
     private void setTimePeriodLabel(){
@@ -89,30 +94,27 @@ public class SingleCategoryFragment extends Fragment {
     }
 
     private void initListOnItemClick(){
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                FinancialTransaction transaction = (FinancialTransaction) adapterView.getItemAtPosition(i);
-                if (transaction.getCategory().getName().equals("DATE")){ // then it is a date row, should not be clickable
-                    return;
-                }
-                Fragment fragment = new EditTransactionFragment();
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("CHOSEN_TRANSACTION", new ParcelableTransaction(transaction));
-                fragment.setArguments(bundle);
-                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, fragment).commit();
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            FinancialTransaction transaction = (FinancialTransaction) adapterView.getItemAtPosition(i);
+            if (transaction.getCategory().getName().equals("DATE")){ // then it is a date row, should not be clickable
+                return;
             }
+            Fragment fragment = new EditTransactionFragment();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("CHOSEN_TRANSACTION", new ParcelableTransaction(transaction));
+            fragment.setArguments(bundle);
+            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, fragment).commit();
         });
     }
 
     private void addDateRowInTransactionList(int index, String date){
-        list.add(index, new FinancialTransaction(0,date, LocalDate.now(), new Category("DATE", "", true)));
+        transactionList.add(index, new FinancialTransaction(0,date, LocalDate.now(), new Category("DATE", "", true)));
     }
 
     private void putDatesIntoTransactionList(){
         LocalDate today = LocalDate.now();
         LocalDate yesterday = LocalDate.now().minusDays(1);
-        LocalDate date = list.get(0).getDate(); // first date
+        LocalDate date = transactionList.get(0).getDate(); // first date
 
         if (date.isEqual(today)){
             addDateRowInTransactionList(0, "Today");
@@ -122,10 +124,10 @@ public class SingleCategoryFragment extends Fragment {
             addDateRowInTransactionList(0,date.toString());
         }
 
-        for (int i = 2; i <= list.size()-1;){
+        for (int i = 2; i <= transactionList.size()-1;){
 
-            if (!date.isEqual(list.get(i).getDate())){
-                date = list.get(i).getDate();
+            if (!date.isEqual(transactionList.get(i).getDate())){
+                date = transactionList.get(i).getDate();
                 if (date.isEqual(today)){
                     addDateRowInTransactionList(i, "Today");
                 } else if (date.isEqual(yesterday)){

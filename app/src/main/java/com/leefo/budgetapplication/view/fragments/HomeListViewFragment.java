@@ -16,7 +16,6 @@ import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.FinancialTransaction;
-import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.ParcelableTransaction;
 import com.leefo.budgetapplication.view.SharedTimePeriodViewModel;
 import com.leefo.budgetapplication.view.TimePeriod;
@@ -33,7 +32,7 @@ public class HomeListViewFragment extends Fragment {
     ListView listView;
     ListViewAdapterHomeList adapter;
     ArrayList<FinancialTransaction> transactions;
-    TextView noTransactoins1, noTransactoins2;
+    TextView noTransactions1, noTransactions2;
     TimePeriod timePeriod;
     /**
      * Method that runs when the fragment is being created.
@@ -46,15 +45,14 @@ public class HomeListViewFragment extends Fragment {
 
         // get views
         listView = view.findViewById(R.id.listView_home);
-        noTransactoins1 = view.findViewById(R.id.noTransactionsYetText1);
-        noTransactoins2 = view.findViewById(R.id.noTransactionsYetText2);
+        noTransactions1 = view.findViewById(R.id.noTransactionsYetText1);
+        noTransactions2 = view.findViewById(R.id.noTransactionsYetText2);
 
         SharedTimePeriodViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedTimePeriodViewModel.class);
         timePeriod = viewModel.getTimePeriodLiveData().getValue();
         viewModel.getTimePeriodLiveData().observe(getViewLifecycleOwner(), new Observer<TimePeriod>() {
             @Override
             public void onChanged(TimePeriod newTimePeriod) {
-               // timePeriod = newTimePeriod;
                 updateList();
             }
         });
@@ -91,12 +89,12 @@ public class HomeListViewFragment extends Fragment {
             transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
 
             if (transactions.isEmpty()) {
-                noTransactoins1.setVisibility(View.VISIBLE);
-                noTransactoins2.setVisibility(View.VISIBLE);
+                noTransactions1.setVisibility(View.VISIBLE);
+                noTransactions2.setVisibility(View.VISIBLE);
             } else {
                 putDatesIntoTransactionList();
-                noTransactoins1.setVisibility(View.INVISIBLE);
-                noTransactoins2.setVisibility(View.INVISIBLE);
+                noTransactions1.setVisibility(View.INVISIBLE);
+                noTransactions2.setVisibility(View.INVISIBLE);
             }
             adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(), transactions);
             listView.setAdapter(adapter);

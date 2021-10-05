@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.view.MainActivity;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -30,7 +29,6 @@ public class NewCategoryFragment extends Fragment {
     private Button saveButton;
     private Button changeColorButton;
     private int defaultColor;
-    private View view;
     private RadioGroup radioGroup;
     private ImageButton cross;
 
@@ -41,7 +39,7 @@ public class NewCategoryFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_new_category, container, false);
+        View view = inflater.inflate(R.layout.fragment_new_category, container, false);
 
         // get views
         saveButton = view.findViewById(R.id.new_category_save_button);
@@ -138,7 +136,7 @@ public class NewCategoryFragment extends Fragment {
     Toast t;
     private void makeToast(String s){
         if(t != null) t.cancel();
-        t = Toast.makeText(getActivity().getApplicationContext(), s, Toast.LENGTH_SHORT);
+        t = Toast.makeText(requireActivity().getApplicationContext(), s, Toast.LENGTH_SHORT);
         t.show();
     }
 

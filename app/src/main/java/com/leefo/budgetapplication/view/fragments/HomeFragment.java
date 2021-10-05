@@ -69,7 +69,7 @@ public class HomeFragment extends Fragment {
         });
 
         // init
-        initToggleButton(view);
+        initToggleButton();
         updateHeaderValues();
         initTimePeriod();
         openCorrectFragment();
@@ -148,9 +148,9 @@ public class HomeFragment extends Fragment {
         // toggle is set to listView mode as default, if categoryView shall open first it needs to be toggled
         if (homeViewModel.lastOpenedViewWasCategoryView) {
             view_toggle.toggle();
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_middleSection_Home, new HomeCategoryViewFragment()).commit();
+            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_middleSection_Home, new HomeCategoryViewFragment()).commit();
         } else {
-            getActivity().getSupportFragmentManager().beginTransaction().add(R.id.FrameLayout_middleSection_Home, new HomeListViewFragment()).commit();
+            requireActivity().getSupportFragmentManager().beginTransaction().add(R.id.FrameLayout_middleSection_Home, new HomeListViewFragment()).commit();
         }
     }
 
@@ -163,15 +163,15 @@ public class HomeFragment extends Fragment {
         balance.setText(String.valueOf(ba));
     }
 
-    private void initToggleButton(View view) {
+    private void initToggleButton() {
         view_toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     homeViewModel.lastOpenedViewWasCategoryView = true;
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_middleSection_Home, new HomeCategoryViewFragment()).commit();
+                    requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_middleSection_Home, new HomeCategoryViewFragment()).commit();
                 } else {
                     homeViewModel.lastOpenedViewWasCategoryView = false;
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_middleSection_Home, new HomeListViewFragment()).commit();
+                    requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_middleSection_Home, new HomeListViewFragment()).commit();
                 }
             }
         });

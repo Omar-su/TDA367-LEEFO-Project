@@ -70,7 +70,6 @@ public class ListViewAdapterHomeList extends ArrayAdapter<FinancialTransaction> 
             // if dateRow is true this row needs another design showing a date instead of transaction
             // new design in the if block
             if (dateRow){
-                dateRow = false;
                 amount.setVisibility(View.GONE);
                 category.setVisibility(View.GONE);
                 circle.setVisibility(View.GONE);

@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.view.MainActivity;
 
 /**
  * Class that represents the fragment for the More page

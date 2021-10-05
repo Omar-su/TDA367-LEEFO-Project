@@ -29,7 +29,7 @@ public class Controller {
 
 
     /**
-     * Initializes database as well as the Transactionmodel.
+     * Initializes database as well as the TransactionModel.
      * @param context Application context for database.
      */
     public static void InitializeBackend(Context context)
@@ -127,20 +127,6 @@ public class Controller {
         transactionModel.deleteTransaction(transaction);
     }
 
-    /**
-     * Retrieves all transactions within the parameters of the TransactionRequest.
-     *
-     * All parameters being null means all transactions will be retrieved.
-     *
-     * @param category Category that the transactions belong to, optional.
-     * @return A list of transactions specified by request.
-     */
-    public static ArrayList<FinancialTransaction> getTransactions(Category category) // dont need
-    {
-        TransactionRequest request = new TransactionRequest(category, 0, 0);
-
-        return transactionModel.searchTransactions(request);
-    }
 
     /**
      * Retrieves all transactions within the parameters of the TransactionRequest.
@@ -158,19 +144,7 @@ public class Controller {
         return transactionModel.searchTransactions(request);
     }
 
-    /**
-     * Retrieves all transactions within the parameters of the TransactionRequest.
-     *
-     * All parameters being null means all transactions will be retrieved.
-     *
-     * @return A list of transactions specified by request.
-     */
-    public static ArrayList<FinancialTransaction> getTransactions() // dont need
-    {
-        TransactionRequest request = new TransactionRequest(null, 0, 0);
 
-        return transactionModel.searchTransactions(request);
-    }
 
     /**
      * Retrieves all transactions within the parameters of the TransactionRequest.
@@ -203,41 +177,6 @@ public class Controller {
         return transactionModel.getTransactionSum(request);
     }
 
-    /**
-     * Gets sum of all transactions within parameters of the TransactionRequest.
-     * @return Sum of transactions.
-     */
-    public static float getTransactionSum() // dont need
-    {
-        TransactionRequest request = new TransactionRequest(null, 0, 0);
-
-        return transactionModel.getTransactionSum(request);
-    }
-
-    /**
-     * Gets sum of all transactions within parameters of the TransactionRequest.
-     * @param category Category that the transactions belong to, optional.
-     * @return Sum of transactions.
-     */
-    public static float getTransactionSum(Category category) // dont need
-    {
-        TransactionRequest request = new TransactionRequest(category, 0, 0);
-
-        return transactionModel.getTransactionSum(request);
-    }
-
-    /**
-     * Gets sum of all transactions within parameters of the TransactionRequest.
-     * @param month Month transactions were made.
-     * @param year Year transactions were made.
-     * @return Sum of transactions.
-     */
-    public static float getTransactionSum(int month, int year) // dont need
-    {
-        TransactionRequest request = new TransactionRequest(null, month, year);
-
-        return transactionModel.getTransactionSum(request);
-    }
 
     /**
      * Returns a list of all categories in the model.
@@ -258,7 +197,7 @@ public class Controller {
 
     /**
      * Returns a list of a all expense categories in the model.
-     * @return Alist of all expense categories in the model.
+     * @return A list of all expense categories in the model.
      */
     public static ArrayList<Category> getExpenseCategories(){
         return transactionModel.getExpenseCategories();
@@ -276,15 +215,6 @@ public class Controller {
     }
 
     /**
-     * Returns the total income amount for all financial transactions in the model.
-     * @return The total income amount.
-     */
-    public static float getTotalIncome(){
-        TransactionRequest request = new TransactionRequest(null, 0, 0);
-        return transactionModel.getTotalIncome(request);
-    }
-
-    /**
      * Returns the total expense amount for a specific month and year.
      * @param month The month to calculate expense amount for.
      * @param year The year to calculate expense amount for.
@@ -295,14 +225,6 @@ public class Controller {
         return transactionModel.getTotalExpense(request);
     }
 
-    /**
-     * Returns the total income amount for all financial transactions in the model.
-     * @return The total expense amount.
-     */
-    public static float getTotalExpense(){
-        TransactionRequest request = new TransactionRequest(null, 0, 0);
-        return transactionModel.getTotalExpense(request);
-    }
 
     /**
      * Returns the balance between income amount and expense amount for a specific month and year.
@@ -315,14 +237,6 @@ public class Controller {
         return transactionModel.getTransactionBalance(request);
     }
 
-    /**
-     * Returns the balance between income amount and expense amount for all transactions ever made.
-     * @return The calculated balance.
-     */
-    public static float getTransactionBalance(){
-        TransactionRequest request = new TransactionRequest(null, 0, 0);
-        return transactionModel.getTransactionBalance(request);
-    }
 
     public static ArrayList<Category> removeEmptyCategories(ArrayList<Category> list, int month, int year){
         TransactionRequest request = new TransactionRequest(null, month, year);

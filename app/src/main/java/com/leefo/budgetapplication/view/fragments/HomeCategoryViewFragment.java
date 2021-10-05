@@ -22,7 +22,6 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.view.MainActivity;
 import com.leefo.budgetapplication.view.ParcelableCategory;
 import com.leefo.budgetapplication.view.SharedTimePeriodViewModel;
 import com.leefo.budgetapplication.view.TimePeriod;
@@ -38,7 +37,7 @@ public class HomeCategoryViewFragment extends Fragment {
     PieChart pieChart;
     ListView listView;
     CategoryViewListAdapter adapter;
-    TextView noTransactoins1, noTransactoins2;
+    TextView noTransactions1, noTransactions2;
     TimePeriod timePeriod;
 
     /**
@@ -67,8 +66,8 @@ public class HomeCategoryViewFragment extends Fragment {
         setupPieChart();
         initList();
 
-        noTransactoins1 = view.findViewById(R.id.noTransactionsYetText1);
-        noTransactoins2 = view.findViewById(R.id.noTransactionsYetText2);
+        noTransactions1 = view.findViewById(R.id.noTransactionsYetText1);
+        noTransactions2 = view.findViewById(R.id.noTransactionsYetText2);
 
         updateData();
 
@@ -81,13 +80,13 @@ public class HomeCategoryViewFragment extends Fragment {
         list = Controller.sortCategoryListBySum(list, timePeriod.getMonth(), timePeriod.getYear());
 
         if (list.isEmpty()){
-            noTransactoins1.setVisibility(View.VISIBLE);
-            noTransactoins2.setVisibility(View.VISIBLE);
+            noTransactions1.setVisibility(View.VISIBLE);
+            noTransactions2.setVisibility(View.VISIBLE);
             pieChart.clear();
         } else {
             loadPieChartData(list);
-            noTransactoins1.setVisibility(View.INVISIBLE);
-            noTransactoins2.setVisibility(View.INVISIBLE);
+            noTransactions1.setVisibility(View.INVISIBLE);
+            noTransactions2.setVisibility(View.INVISIBLE);
         }
 
         updateList(list);
@@ -134,7 +133,7 @@ public class HomeCategoryViewFragment extends Fragment {
         ArrayList<PieEntry> entries = new ArrayList<>();
         ArrayList<Integer> myColors = new ArrayList<>();
 
-        float sum = 0;
+        float sum;
         for(Category c :  list){
             sum = Controller.getTransactionSum(c, timePeriod.getMonth(), timePeriod.getYear());
             entries.add(new PieEntry(sum,""));
