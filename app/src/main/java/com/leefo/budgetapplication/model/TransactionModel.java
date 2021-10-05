@@ -77,21 +77,23 @@ public class TransactionModel {
 
         ArrayList<FinancialTransaction> transactions = getTransactionList();
 
-        if (transactions.isEmpty()){
-            transactionList.add(transaction);
-        }
 
         // loops through transactions to find where new transaction should be inserted
         for(int i = 0; i < transactions.size(); i++)
         {
-            // if the transaction to be added is NOT made before this iteration's transaction, then the index of the new transaction
-            // should be the index of the current iteration's transaction
-            if(dateIsBefore(transactions.get(i).getDate(), transaction.getDate()))
+            // If the transaction is made after any transaction in the list
+            // Then the transaction should be inserted in the position of the transaction that is in the current index
+            if(dateIsBefore(transactions.get(i).getDate(),transaction.getDate()))
             {
                 transactionList.add(i, transaction); // adds transaction at index i (note: does NOT replace)
-                break;
+                saveTransactionToDatabase(transaction); // saves to database for persistence
+
+                ObserverHandler.updateObservers(); // updates views
+                return;
             }
         }
+
+        transactionList.add(transaction);
 
         saveTransactionToDatabase(transaction); // saves to database for persistence
 
