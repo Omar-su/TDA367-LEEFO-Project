@@ -22,11 +22,17 @@ import com.leefo.budgetapplication.view.fragments.NewTransactionFragment;
 
 import java.time.LocalDate;
 
+/**
+ * MainActivity represents the screen of the application.
+ * Every fragment used in this app is used inside MainActivity's FrameLayout and is attached to this Activity.
+ *
+ * MainActivity is where the application starts
+ * @author Emelie Edberg
+ */
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNav;
     private ImageButton plusButton;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void initPlusButton(){
+    private void initPlusButton(){
         plusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

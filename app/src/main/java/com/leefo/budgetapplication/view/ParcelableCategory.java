@@ -4,7 +4,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.leefo.budgetapplication.model.Category;
-
+/**
+ * class that holds one Category
+ * implements Parcelable
+ *
+ * used by fragments needing to send a Category with Bundle to another fragment
+ * Bundle can't take any type of object. But bundle can take any Parcelable objects. That's why this class exist.
+ *
+ * @author Emelie Edberg
+ */
 public class ParcelableCategory implements Parcelable {
 
     public Category category;

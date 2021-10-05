@@ -1,12 +1,23 @@
 package com.leefo.budgetapplication.view;
 
 /**
- *
+ * class representing a time period of a specific month.
+ * used directly by SharedTimePeriodViewModel.
+ * used indirect through the view model by several fragment classes.
  * @author Emelie Edberg
  */
 public class TimePeriod {
 
-    private int year, month; // can be 0
+    /**
+     * year number.
+     * 0 value represents no specified month, interpreted as every month.
+     */
+    private int year;
+    /**
+     * month number 1 - 12.
+     * 0 value represents no specified year, interpreted as every year.
+     */
+    private int month;
 
     public TimePeriod(int year, int month) {
         this.year = year;
@@ -21,6 +32,9 @@ public class TimePeriod {
         return month;
     }
 
+    /**
+     * updates attributes to the next month
+     */
     public void incrementMonth(){
         if (month == 12){
             incrementYear();
@@ -34,6 +48,9 @@ public class TimePeriod {
         year++;
     }
 
+    /**
+     * updates attributes to the previous month
+     */
     public void decrementMonth(){
         if (month == 1){
             decrementYear();
@@ -47,6 +64,9 @@ public class TimePeriod {
         year--;
     }
 
+    /**
+     * sets attributes to 0, representing every month and every year
+     */
     public void setNoSpecifiedTimePeriod(){
         year = month = 0;
     }
@@ -56,6 +76,10 @@ public class TimePeriod {
         this.month = month;
     }
 
+    /**
+     * checks if month is specified or 0
+     * @return true if month is specified
+     */
     public boolean isTimeSpecified(){
         return month != 0;
     }
