@@ -13,6 +13,7 @@ import android.widget.ToggleButton;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -59,8 +60,13 @@ public class HomeFragment extends Fragment {
 
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
         sharedTimePeriodViewModel = new ViewModelProvider(requireActivity()).get(SharedTimePeriodViewModel.class);
-        //timePeriod = sharedViewModel.getTimePeriodLiveData().getValue();
         liveData = sharedTimePeriodViewModel.getTimePeriodLiveData();
+        liveData.observe(getViewLifecycleOwner(), new Observer<TimePeriod>() {
+            @Override
+            public void onChanged(TimePeriod timePeriod) {
+                updateHeaderValues();
+            }
+        });
 
         // init
         initToggleButton(view);
@@ -80,7 +86,7 @@ public class HomeFragment extends Fragment {
     private void initTimePeriod() {
         if (!liveData.getValue().isTimeSpecified()){
             time_period_toggle.toggle();
-            disabelArrowButtons();
+            disableArrowButtons();
         } else {
             updateTimePeriodButtonLabel();
         }
@@ -90,7 +96,6 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 sharedTimePeriodViewModel.decrementMonth();
                 updateTimePeriodButtonLabel();
-                updateHeaderValues();
             }
         });
         forward_arrow.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +103,6 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 sharedTimePeriodViewModel.incrementMonth();
                 updateTimePeriodButtonLabel();
-                updateHeaderValues();
             }
         });
 
@@ -106,22 +110,24 @@ public class HomeFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     sharedTimePeriodViewModel.setNoSpecifiedTimePeriod();
-                    disabelArrowButtons();
-                    updateHeaderValues();
+                    disableArrowButtons();
                 } else {
                     sharedTimePeriodViewModel.setSpecifiedTimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
                     updateTimePeriodButtonLabel();
-                    back_arrow.setEnabled(true);
-                    forward_arrow.setEnabled(true);
-                    forward_arrow.clearColorFilter();
-                    back_arrow.clearColorFilter();
-                    updateHeaderValues();
+                    enableArrowButtons();
                 }
             }
         });
     }
 
-    private void disabelArrowButtons() {
+    private void enableArrowButtons() {
+        back_arrow.setEnabled(true);
+        forward_arrow.setEnabled(true);
+        forward_arrow.clearColorFilter();
+        back_arrow.clearColorFilter();
+    }
+
+    private void disableArrowButtons() {
         back_arrow.setEnabled(false);
         forward_arrow.setEnabled(false);
         forward_arrow.setColorFilter(Color.WHITE);
