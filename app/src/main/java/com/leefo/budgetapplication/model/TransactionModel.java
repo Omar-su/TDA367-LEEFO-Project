@@ -97,7 +97,7 @@ public class TransactionModel {
             }
         }
 
-        saveTransactionToDatabase(transaction); // saves to database for persistence
+        // saveTransactionToDatabase(transaction); // saves to database for persistence
 
         ObserverHandler.updateObservers(); // updates views
     }
@@ -110,7 +110,7 @@ public class TransactionModel {
     public void deleteTransaction(FinancialTransaction transaction) {
         transactionList.remove(transaction);
 
-        deleteTransactionFromDatabase(transaction);
+        // deleteTransactionFromDatabase(transaction);
 
         ObserverHandler.updateObservers();
     }
@@ -122,7 +122,7 @@ public class TransactionModel {
     public void addCategory(Category category) {
         categoryList.add(category);
 
-        saveCategoryToDatabase(category);
+       // saveCategoryToDatabase(category);
 
         ObserverHandler.updateObservers();
     }
@@ -158,7 +158,7 @@ public class TransactionModel {
         }
         categoryList.remove(category);
 
-        deleteCategoryFromDatabase(category);
+       // deleteCategoryFromDatabase(category);
 
         ObserverHandler.updateObservers();
     }
