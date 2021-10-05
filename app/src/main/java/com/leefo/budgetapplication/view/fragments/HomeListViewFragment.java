@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 /**
  * The class that represents the fragment for the list view inside the HomeFragment
+ * @author Emelie Edberg, Eugene Dvoryankov
  */
 public class HomeListViewFragment extends Fragment {
 

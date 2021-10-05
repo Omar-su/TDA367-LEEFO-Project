@@ -31,6 +31,7 @@ import java.util.ArrayList;
 
 /**
  * The class that represents the fragment for the category view inside the HomeFragment
+ * @author Emelie Edberg, Eugene Dvoryankov
  */
 public class HomeCategoryViewFragment extends Fragment {
 

@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * transactions. The TransactionModel class also saves every change it does to the database for
  * persistence storage.
  *
- * @author Felix Edholm, Emelie Edberg
+ * @author Felix Edholm, Emelie Edberg, Linus Lundgren, Omar Suliman
  */
 public class TransactionModel {
 

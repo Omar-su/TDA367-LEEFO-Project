@@ -35,6 +35,7 @@ import java.util.MissingResourceException;
 
 /**
  * The class that represents the fragment for editing an existing transaction
+ * @author Emelie Edberg, Eugene Dvoryankov
  */
 public class EditTransactionFragment extends Fragment {
 

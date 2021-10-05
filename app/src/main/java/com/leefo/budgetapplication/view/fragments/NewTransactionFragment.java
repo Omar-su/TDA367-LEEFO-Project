@@ -30,6 +30,7 @@ import java.util.Locale;
 
 /**
  * This class represents the fragment for adding a new transaction
+ * @author Emelie Edberg
  */
 public class NewTransactionFragment extends Fragment {
 

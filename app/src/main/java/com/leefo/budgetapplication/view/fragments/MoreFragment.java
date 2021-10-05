@@ -14,6 +14,7 @@ import com.leefo.budgetapplication.R;
 
 /**
  * Class that represents the fragment for the More page
+ * @author Emelie Edberg, Eugene Dvoryankov
  */
 public class MoreFragment extends Fragment {
 

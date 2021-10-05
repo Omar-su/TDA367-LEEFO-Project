@@ -5,6 +5,8 @@ import java.util.List;
 
 /**
  * Class containing all observers who will be updated every time the model is changed.
+ *
+ * @author Linus Lundgren
  */
 public class ObserverHandler {
 

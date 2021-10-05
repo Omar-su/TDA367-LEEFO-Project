@@ -28,6 +28,7 @@ import java.time.Month;
 
 /**
  * Class that represents the fragment for the Home page
+ * @author Emelie Edberg
  */
 public class HomeFragment extends Fragment {
 

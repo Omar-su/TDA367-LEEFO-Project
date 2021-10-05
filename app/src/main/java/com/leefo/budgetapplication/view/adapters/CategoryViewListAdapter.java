@@ -21,6 +21,8 @@ import java.util.ArrayList;
 
 /**
  * Class that represents the adapter for the list in the HomeCategoryViewFragment
+ *
+ * @author Emelie Edberg
  */
 public class CategoryViewListAdapter extends ArrayAdapter<Category> {
     Context context;

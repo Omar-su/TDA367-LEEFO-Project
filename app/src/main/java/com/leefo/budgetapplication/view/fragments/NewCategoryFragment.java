@@ -22,6 +22,7 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 
 /**
  * The class that represents the fragment for adding a new category
+ * @author Emelie Edberg, Eugene Dvoryankov, Omar Suliman
  */
 public class NewCategoryFragment extends Fragment {
 

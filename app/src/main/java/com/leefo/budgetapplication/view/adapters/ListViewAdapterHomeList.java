@@ -24,6 +24,8 @@ import java.util.ArrayList;
 
 /**
  * Class that represents the adapter for the list in the HomeListViewFragment
+ *
+ * @author Emelie Edberg
  */
 public class ListViewAdapterHomeList extends ArrayAdapter<FinancialTransaction> {
 

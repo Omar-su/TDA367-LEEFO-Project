@@ -27,6 +27,7 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 
 /**
  * The class that represents the fragment for editing an existing category
+ * @author Emelie Edberg, Eugene Dvoryankov, Omar Suliman
  */
 public class EditCategoryFragment extends Fragment {
 

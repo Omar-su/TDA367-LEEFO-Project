@@ -19,6 +19,8 @@ import java.util.ArrayList;
 
 /**
  * Class that represents the adapter for the category-chooser spinner in the NewTransactionFragment
+ *
+ * @author Emelie Edberg
  */
 public class SpinnerAdapter extends ArrayAdapter<Category> {
 

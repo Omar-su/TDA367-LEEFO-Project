@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 /**
  * Interface for database used by TransactionModel.
+ *
+ * @author Linus Lundgren
  */
 public interface IDatabase {
 

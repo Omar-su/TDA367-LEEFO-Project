@@ -21,7 +21,9 @@ import com.leefo.budgetapplication.view.adapters.ManageCategoriesListAdapter;
 
 import java.util.ArrayList;
 
-
+/**
+ * @author Emelie Edberg, Eugene Dvoryankov
+ */
 public class ManageCategoriesFragment extends Fragment {
 
     private Button newCategoryButton;

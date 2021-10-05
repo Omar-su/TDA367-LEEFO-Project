@@ -29,6 +29,7 @@ import java.util.MissingResourceException;
 /**
  * This class represents the fragment opened when selecting a specific category in the list in HomeCategoryViewFragment
  * It displays the transactions belonging to the chosen category and the current time period.
+ * @author Emelie Edberg
  */
 public class SingleCategoryFragment extends Fragment {
 

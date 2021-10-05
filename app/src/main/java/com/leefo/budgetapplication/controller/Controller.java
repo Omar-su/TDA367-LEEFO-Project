@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * The class responsibility is to listen to the View and respond by modifying the model and updating
  * the view.
  *
- * @author Felix Edholm, Linus Lundgren
+ * @author Felix Edholm, Linus Lundgren, Emelie Edberg
  */
 public class Controller {
 
