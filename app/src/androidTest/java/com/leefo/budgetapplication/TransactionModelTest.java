@@ -34,8 +34,8 @@ public class TransactionModelTest {
 
     @Before
     public void init() {
-        Context c = InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext();
-        db = new DataBaseManager(c);
+        Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        db = new DataBaseManager(c, null);
         tm = new TransactionModel(db);
         String categoryTestName = "Unique test category name 1";
         String transactionTestDescription = "Unique test transaction description 1";
@@ -272,7 +272,7 @@ public class TransactionModelTest {
         TransactionRequest request = new TransactionRequest(null, 1905, 1);
         float calculatedSum = tm.getTransactionSum(request);
 
-        assertEquals(calculatedSum, expectedSum);
+        assertEquals(expectedSum, calculatedSum);
     }
 
     @Test

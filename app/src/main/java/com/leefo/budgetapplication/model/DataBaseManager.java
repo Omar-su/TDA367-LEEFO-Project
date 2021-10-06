@@ -40,6 +40,10 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
         super(context, "category_transaction_db_v1", null, 3);
     }
 
+    public DataBaseManager(@Nullable Context context, String name) {
+        super(context, name, null, 3);
+    }
+
 
     /**
      * Makes foreign key constraint available to implement which makes it possible
