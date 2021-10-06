@@ -40,7 +40,10 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
         super(context, "category_transaction_db_v1", null, 3);
     }
 
-    public DataBaseManager(@Nullable Context context, String name) {
+    //New name will create new database file. Sending in a null String object will create
+    //an in memory database meaning that no file will be created on disk and the database will be
+    //destroyed when the application is closed. This is useful for testing.
+    public DataBaseManager(@Nullable Context context, @Nullable String name) {
         super(context, name, null, 3);
     }
 
