@@ -8,6 +8,7 @@ import com.leefo.budgetapplication.model.TransactionModel;
 import com.leefo.budgetapplication.model.ObserverHandler;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.model.ModelObserver;
+import com.leefo.budgetapplication.model.TransactionRequest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

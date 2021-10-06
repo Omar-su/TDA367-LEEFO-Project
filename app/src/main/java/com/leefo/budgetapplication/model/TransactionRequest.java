@@ -1,4 +1,4 @@
-package com.leefo.budgetapplication.controller;
+package com.leefo.budgetapplication.model;
 
 import com.leefo.budgetapplication.model.Category;
 

@@ -1,8 +1,5 @@
 package com.leefo.budgetapplication.model;
 
-import com.leefo.budgetapplication.controller.TransactionRequest;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
