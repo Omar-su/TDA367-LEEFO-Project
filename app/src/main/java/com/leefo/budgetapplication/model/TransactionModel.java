@@ -68,31 +68,30 @@ public class TransactionModel {
     /**
      * Adds a financial transaction to the list of financial transactions at appropriate index by date (lower index --> more recent).
      * Also saves the changes to the persistence storage.
-     * @param transaction The financial transaction to be added.
+     * @param newTransaction The financial transaction to be added.
      */
-    public void addTransaction(FinancialTransaction transaction) {
-
-        ArrayList<FinancialTransaction> transactions = getTransactionList();
-
+    public void addTransaction(FinancialTransaction newTransaction) {
 
         // loops through transactions to find where new transaction should be inserted
-        for(int i = 0; i < transactions.size(); i++)
+        for(int i = 0; i < transactionList.size(); i++)
         {
+            FinancialTransaction transaction = transactionList.get(i);
+
             // If the transaction is made after any transaction in the list
             // Then the transaction should be inserted in the position of the transaction that is in the current index
-            if(dateIsBefore(transactions.get(i).getDate(),transaction.getDate()))
+            if(transaction.getDate().isBefore(newTransaction.getDate()))
             {
-                transactionList.add(i, transaction); // adds transaction at index i (note: does NOT replace)
-                saveTransactionToDatabase(transaction); // saves to database for persistence
+                transactionList.add(i, newTransaction); // adds transaction at index i (note: does NOT replace)
+                saveTransactionToDatabase(newTransaction); // saves to database for persistence
 
                 ObserverHandler.updateObservers(); // updates views
                 return;
             }
         }
 
-        transactionList.add(transaction);
+        transactionList.add(newTransaction);
 
-        saveTransactionToDatabase(transaction); // saves to database for persistence
+        saveTransactionToDatabase(newTransaction); // saves to database for persistence
 
         ObserverHandler.updateObservers(); // updates views
     }
@@ -245,10 +244,8 @@ public class TransactionModel {
         // loops through every transaction
         for(FinancialTransaction transaction : getTransactionList())
         {
-            // unnecessarily complicated method of retrieving year and month from LocalDate object
-            // because older API versions don't support getMonthValue() and getYearValue()
-            int transactionYear = Integer.parseInt(transaction.getDate().toString().substring(0, 4));
-            int transactionMonth = Integer.parseInt(transaction.getDate().toString().substring(5, 7));
+            int transactionYear = transaction.getDate().getYear();
+            int transactionMonth = transaction.getDate().getMonthValue();
 
             // moves on to next transaction if current transaction does not match time specification
             if(request.timeIsSpecified())
@@ -415,49 +412,12 @@ public class TransactionModel {
                 FinancialTransaction second = transactions.get(i+1);
 
                 // lower index transactions should be most recent
-                if (dateIsBefore(first.getDate(), second.getDate())) {
+                if (first.getDate().isBefore(second.getDate())) {
                     swap(transactions, i, i + 1); // swaps transactions in array list
                     notCompleted = true;
                 }
             }
         }
-    }
-
-    /**
-     * If isBefore is a date before isAfter, then this method returns true.
-     *
-     * If isBefore is a date after isAfter, or if the dates are the same, then it returns false.
-     *
-     * This method is only needed because older API versions don't support isAfter() or isBefore()
-     * methods in LocalDate.
-     *
-     * @param isBefore Date which should be before isAfter to return true.
-     * @param isAfter Date which should be after isBefore to return true;
-     * @return True if isBefore < isAfter.
-     */
-    private boolean dateIsBefore(LocalDate isBefore, LocalDate isAfter)
-    {
-        String before = isBefore.toString();
-        String after = isAfter.toString();
-
-        // unnecessarily complicated method of retrieving year and month from LocalDate object
-        // because older API versions don't support getMonthValue() and getYearValue()
-        int yearBefore = Integer.parseInt(before.substring(0, 4));
-        int yearAfter = Integer.parseInt(after.substring(0, 4));
-
-        if(yearBefore < yearAfter) return true;
-        if(yearBefore > yearAfter) return false;
-
-        int monthBefore = Integer.parseInt(before.substring(5, 7));
-        int monthAfter = Integer.parseInt(after.substring(5, 7));
-
-        if(monthBefore < monthAfter) return true;
-        if(monthBefore > monthAfter) return false;
-
-        int dayBefore = Integer.parseInt(before.substring(8, 10));
-        int dayAfter = Integer.parseInt(after.substring(8, 10));
-
-        return dayBefore < dayAfter; // if the day is the same, then the first is not before the other
     }
 
     /**
