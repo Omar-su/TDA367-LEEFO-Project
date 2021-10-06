@@ -145,7 +145,7 @@ public class TransactionModelTest {
         tm.addTransaction(t4);
         tm.addTransaction(t5);
 
-        TransactionRequest request = new TransactionRequest(null, 5, 2020);
+        TransactionRequest request = new TransactionRequest(null, 5, 1900);
 
         List<FinancialTransaction> searchedList = tm.searchTransactions(request);
 
@@ -153,7 +153,7 @@ public class TransactionModelTest {
 
         for (FinancialTransaction t : searchedList) {
             //If list contains transaction where month and year arent correct
-            if (!((t.getDate().getYear() == 2020) && (t.getDate().getMonthValue() == 5))) {
+            if (!((t.getDate().getYear() == 1900) && (t.getDate().getMonthValue() == 5))) {
                 outcome = false;
                 break;
             }
@@ -269,7 +269,7 @@ public class TransactionModelTest {
 
         float expectedSum = t1.getAmount() + t3.getAmount();
 
-        TransactionRequest request = new TransactionRequest(null, 1905, 1);
+        TransactionRequest request = new TransactionRequest(null, 1, 1905);
         float calculatedSum = tm.getTransactionSum(request);
 
         assertEquals(expectedSum, calculatedSum);

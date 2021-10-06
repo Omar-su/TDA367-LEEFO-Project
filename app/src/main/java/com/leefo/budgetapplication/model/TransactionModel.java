@@ -75,29 +75,30 @@ public class TransactionModel {
     /**
      * Adds a financial transaction to the list of financial transactions at appropriate index by date (lower index --> more recent).
      * Also saves the changes to the persistence storage.
-     * @param transaction The financial transaction to be added.
+     * @param newTransaction The financial transaction to be added.
      */
-    public void addTransaction(FinancialTransaction transaction) {
-
-        ArrayList<FinancialTransaction> transactions = getTransactionList();
-
-        if (transactions.isEmpty()){
-            transactionList.add(transaction);
-        }
+    public void addTransaction(FinancialTransaction newTransaction) {
 
         // loops through transactions to find where new transaction should be inserted
-        for(int i = 0; i < transactions.size(); i++)
+        for(int i = 0; i < transactionList.size(); i++)
         {
-            // if the transaction to be added is NOT made before this iteration's transaction, then the index of the new transaction
-            // should be the index of the current iteration's transaction
-            if(!dateIsBefore(transaction.getDate(), transactions.get(i).getDate()))
+            FinancialTransaction transaction = transactionList.get(i);
+
+            // If the transaction is made after the transaction in the list
+            // Then the transaction should be inserted in the position of the transaction that is in the current index
+            if(transaction.getDate().isBefore(newTransaction.getDate()))
             {
-                transactionList.add(i, transaction); // adds transaction at index i (note: does NOT replace)
-                break;
+                transactionList.add(i, newTransaction); // adds transaction at index i (note: does NOT replace)
+                saveTransactionToDatabase(newTransaction); // saves to database for persistence
+
+                ObserverHandler.updateObservers(); // updates views
+                return;
             }
         }
 
-         saveTransactionToDatabase(transaction); // saves to database for persistence
+        transactionList.add(newTransaction);
+
+        saveTransactionToDatabase(newTransaction); // saves to database for persistence
 
         ObserverHandler.updateObservers(); // updates views
     }
