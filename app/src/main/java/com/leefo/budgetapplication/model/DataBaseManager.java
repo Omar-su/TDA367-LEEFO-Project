@@ -37,7 +37,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
 
     public DataBaseManager(@Nullable Context context) {
-        super(context, "category_transaction_db_v3", null, 3);
+        super(context, "category_transaction_db_v1", null, 3);
     }
 
 
@@ -68,7 +68,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
                                         + TRANSACTION_AMOUNT + " REAL, "
                                         + TRANSACTIONS_DESC + " TEXT, "
                                         + TRANSACTION_DATE + " TEXT, "
-                                        + CATEGORY_FK_NAME + " TEXT, FOREIGN KEY(" + CATEGORY_FK_NAME + ") REFERENCES " + CATEGORY_TABLE + " ( " + CATEGORY_NAME + " ) ON DELETE SET NULL)";
+                                        + CATEGORY_FK_NAME + " TEXT)";
 
         sqLiteDatabase.execSQL(createTableCategory);
         sqLiteDatabase.execSQL(createTableTransactions);

@@ -97,7 +97,7 @@ public class TransactionModel {
             }
         }
 
-        saveTransactionToDatabase(transaction); // saves to database for persistence
+         saveTransactionToDatabase(transaction); // saves to database for persistence
 
         ObserverHandler.updateObservers(); // updates views
     }
@@ -110,7 +110,7 @@ public class TransactionModel {
     public void deleteTransaction(FinancialTransaction transaction) {
         transactionList.remove(transaction);
 
-        deleteTransactionFromDatabase(transaction);
+         deleteTransactionFromDatabase(transaction);
 
         ObserverHandler.updateObservers();
     }
@@ -135,17 +135,21 @@ public class TransactionModel {
      */
     public void deleteCategory(Category category) {
         if (category == getOtherExpenseCategory()) return; // not allowed tp remove that one
-        if (category == getOtherIncomeCategory()) return;; // not allowed to remove that one
+        if (category == getOtherIncomeCategory()) return; // not allowed to remove that one
 
         if (category.isIncome()) {
-            for (FinancialTransaction t : transactionList) {
+            for (int i = 0; i < getTransactionList().size(); i++) {
+                FinancialTransaction t = getTransactionList().get(i);
+
                 if (category.transactionBelongs(t)) {
                     editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(),
                             t.getDate(), getOtherIncomeCategory()));
                 }
             }
         } else {
-            for (FinancialTransaction t : transactionList) {
+            for (int i = 0; i < getTransactionList().size(); i++) {
+                FinancialTransaction t = getTransactionList().get(i);
+
                 if (category.transactionBelongs(t)) {
                     editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(),
                             t.getDate(), getOtherExpenseCategory()));
@@ -186,8 +190,6 @@ public class TransactionModel {
     public void editTransaction(FinancialTransaction oldTransaction, FinancialTransaction editedTransaction){
         deleteTransaction(oldTransaction);
         addTransaction(editedTransaction);
-
-        ObserverHandler.updateObservers();
     }
 
     /**
@@ -200,20 +202,18 @@ public class TransactionModel {
         replaceTransactionsCategory(oldCategory, editedCategory);
         deleteCategory(oldCategory);
         addCategory(editedCategory);
-
-        deleteCategoryFromDatabase(oldCategory);
-        saveCategoryToDatabase(editedCategory);
-
-        ObserverHandler.updateObservers();
     }
 
     private void replaceTransactionsCategory(Category oldCategory, Category newCategory){
-        for(FinancialTransaction t : getTransactionList()){
+        for(int i = 0; i < getTransactionList().size(); i++){
+            FinancialTransaction t = getTransactionList().get(i);
+
             if(oldCategory.transactionBelongs(t)){
                 editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(), t.getDate(),
                         newCategory));
             }
         }
+
     }
     /**
      * Returns a copy of the transactionList
@@ -414,7 +414,7 @@ public class TransactionModel {
             notCompleted = false; // will be reset to true if a swap is made
 
             // will be iterated until the list is sorted
-            for(int i = 0; i < transactions.size() - 2; i++)
+            for(int i = 0; i < transactions.size() - 1; i++)
             {
                 FinancialTransaction first = transactions.get(i);
                 FinancialTransaction second = transactions.get(i+1);

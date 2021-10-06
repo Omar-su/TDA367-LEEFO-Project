@@ -21,6 +21,8 @@ import java.util.ArrayList;
 
 /**
  * Class that represents the fragment for the Budget page
+ *
+ * @author Eugene Dvoryankov
  */
 public class BudgetFragment extends Fragment {
 

@@ -21,6 +21,8 @@ import java.util.ArrayList;
 
 /**
  * The class that represents the fragment for compare months
+ *
+ * @author Eugene Dvoryankov
  */
 public class CompareMonthsFragment extends Fragment {
 
