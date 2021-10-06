@@ -77,7 +77,7 @@ public class TransactionModel {
         {
             FinancialTransaction transaction = transactionList.get(i);
 
-            // If the transaction is made after any transaction in the list
+            // If the transaction is made after the transaction in the list
             // Then the transaction should be inserted in the position of the transaction that is in the current index
             if(transaction.getDate().isBefore(newTransaction.getDate()))
             {
