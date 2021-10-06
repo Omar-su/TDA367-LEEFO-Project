@@ -15,7 +15,7 @@ import java.time.LocalDate;
  *
  * @author Emelie Edberg
  */
-public class SharedTimePeriodViewModel extends ViewModel {
+public class TimePeriodViewModel extends ViewModel {
 
     /**
      * TimePeriod object wrapped in a MutableLiveData.

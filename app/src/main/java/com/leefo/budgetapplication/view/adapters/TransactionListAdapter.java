@@ -27,11 +27,11 @@ import java.util.ArrayList;
  *
  * @author Emelie Edberg
  */
-public class ListViewAdapterHomeList extends ArrayAdapter<FinancialTransaction> {
+public class TransactionListAdapter extends ArrayAdapter<FinancialTransaction> {
 
     Context context;
 
-    public ListViewAdapterHomeList(@NonNull Context context, ArrayList<FinancialTransaction> list) {
+    public TransactionListAdapter(@NonNull Context context, ArrayList<FinancialTransaction> list) {
         super(context, R.layout.list_row_home, list);
         this.context = context;
     }

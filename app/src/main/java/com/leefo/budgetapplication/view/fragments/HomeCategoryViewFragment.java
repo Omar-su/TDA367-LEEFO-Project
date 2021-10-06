@@ -23,9 +23,9 @@ import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.ParcelableCategory;
-import com.leefo.budgetapplication.view.SharedTimePeriodViewModel;
+import com.leefo.budgetapplication.view.TimePeriodViewModel;
 import com.leefo.budgetapplication.view.TimePeriod;
-import com.leefo.budgetapplication.view.adapters.CategoryViewListAdapter;
+import com.leefo.budgetapplication.view.adapters.CategoryListAdapter;
 
 import java.util.ArrayList;
 
@@ -37,7 +37,7 @@ public class HomeCategoryViewFragment extends Fragment {
 
     PieChart pieChart;
     ListView listView;
-    CategoryViewListAdapter adapter;
+    CategoryListAdapter adapter;
     TextView noTransactions1, noTransactions2;
     TimePeriod timePeriod;
 
@@ -50,7 +50,7 @@ public class HomeCategoryViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_category_view, container, false);
 
-        SharedTimePeriodViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedTimePeriodViewModel.class);
+        TimePeriodViewModel viewModel = new ViewModelProvider(requireActivity()).get(TimePeriodViewModel.class);
         timePeriod = viewModel.getTimePeriodLiveData().getValue();
 
         viewModel.getTimePeriodLiveData().observe(getViewLifecycleOwner(), new Observer<TimePeriod>() {
@@ -110,7 +110,7 @@ public class HomeCategoryViewFragment extends Fragment {
 
     private void updateList(ArrayList<Category> list) {
         if (getActivity() != null){
-            adapter = new CategoryViewListAdapter(getActivity().getApplicationContext(), list, timePeriod);
+            adapter = new CategoryListAdapter(getActivity().getApplicationContext(), list, timePeriod);
             listView.setAdapter(adapter);
         }
 

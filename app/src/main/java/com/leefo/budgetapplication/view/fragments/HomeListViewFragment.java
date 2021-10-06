@@ -17,9 +17,9 @@ import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.ParcelableTransaction;
-import com.leefo.budgetapplication.view.SharedTimePeriodViewModel;
+import com.leefo.budgetapplication.view.TimePeriodViewModel;
 import com.leefo.budgetapplication.view.TimePeriod;
-import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
+import com.leefo.budgetapplication.view.adapters.TransactionListAdapter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 public class HomeListViewFragment extends Fragment {
 
     ListView listView;
-    ListViewAdapterHomeList adapter;
+    TransactionListAdapter adapter;
     ArrayList<FinancialTransaction> transactions;
     TextView noTransactions1, noTransactions2;
     TimePeriod timePeriod;
@@ -49,7 +49,7 @@ public class HomeListViewFragment extends Fragment {
         noTransactions1 = view.findViewById(R.id.noTransactionsYetText1);
         noTransactions2 = view.findViewById(R.id.noTransactionsYetText2);
 
-        SharedTimePeriodViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedTimePeriodViewModel.class);
+        TimePeriodViewModel viewModel = new ViewModelProvider(requireActivity()).get(TimePeriodViewModel.class);
         timePeriod = viewModel.getTimePeriodLiveData().getValue();
         viewModel.getTimePeriodLiveData().observe(getViewLifecycleOwner(), new Observer<TimePeriod>() {
             @Override
@@ -97,7 +97,7 @@ public class HomeListViewFragment extends Fragment {
                 noTransactions1.setVisibility(View.INVISIBLE);
                 noTransactions2.setVisibility(View.INVISIBLE);
             }
-            adapter = new ListViewAdapterHomeList(getActivity().getApplicationContext(), transactions);
+            adapter = new TransactionListAdapter(getActivity().getApplicationContext(), transactions);
             listView.setAdapter(adapter);
         }
     }

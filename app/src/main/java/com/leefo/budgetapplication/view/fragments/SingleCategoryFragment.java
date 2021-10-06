@@ -17,9 +17,9 @@ import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.ParcelableTransaction;
 import com.leefo.budgetapplication.view.ParcelableCategory;
-import com.leefo.budgetapplication.view.SharedTimePeriodViewModel;
+import com.leefo.budgetapplication.view.TimePeriodViewModel;
 import com.leefo.budgetapplication.view.TimePeriod;
-import com.leefo.budgetapplication.view.adapters.ListViewAdapterHomeList;
+import com.leefo.budgetapplication.view.adapters.TransactionListAdapter;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -48,7 +48,7 @@ public class SingleCategoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_single_category, container, false);
 
         // get data from view model
-        SharedTimePeriodViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedTimePeriodViewModel.class);
+        TimePeriodViewModel viewModel = new ViewModelProvider(requireActivity()).get(TimePeriodViewModel.class);
         timePeriod = viewModel.getTimePeriodLiveData().getValue();
 
         // get argument sent with the fragment
@@ -78,7 +78,7 @@ public class SingleCategoryFragment extends Fragment {
     private void initList(){
         transactionList = Controller.getTransactions(chosenCategory, timePeriod.getMonth(), timePeriod.getYear());
         putDatesIntoTransactionList(transactionList);
-        ListViewAdapterHomeList adapter = new ListViewAdapterHomeList(requireActivity().getApplicationContext(), transactionList);
+        TransactionListAdapter adapter = new TransactionListAdapter(requireActivity().getApplicationContext(), transactionList);
         listView.setAdapter(adapter);
     }
 

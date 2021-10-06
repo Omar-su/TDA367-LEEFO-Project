@@ -24,11 +24,11 @@ import java.util.ArrayList;
  *
  * @author Emelie Edberg
  */
-public class CategoryViewListAdapter extends ArrayAdapter<Category> {
+public class CategoryListAdapter extends ArrayAdapter<Category> {
     Context context;
     TimePeriod timePeriod;
 
-    public CategoryViewListAdapter(Context context, @NonNull ArrayList<Category> list, TimePeriod timePeriod) {
+    public CategoryListAdapter(Context context, @NonNull ArrayList<Category> list, TimePeriod timePeriod) {
         super(context, R.layout.list_row_category, list);
         this.context = context;
         this.timePeriod = timePeriod;

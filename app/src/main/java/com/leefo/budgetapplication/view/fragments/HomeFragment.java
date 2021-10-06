@@ -20,7 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.view.HomeViewModel;
-import com.leefo.budgetapplication.view.SharedTimePeriodViewModel;
+import com.leefo.budgetapplication.view.TimePeriodViewModel;
 import com.leefo.budgetapplication.view.TimePeriod;
 
 import java.time.LocalDate;
@@ -37,7 +37,7 @@ public class HomeFragment extends Fragment {
     private ImageButton back_arrow, forward_arrow;
     //private TimePeriod timePeriod;
     private HomeViewModel homeViewModel;
-    private SharedTimePeriodViewModel sharedTimePeriodViewModel;
+    private TimePeriodViewModel timePeriodViewModel;
     private LiveData<TimePeriod> liveData;
 
     /**
@@ -60,8 +60,8 @@ public class HomeFragment extends Fragment {
         forward_arrow = view.findViewById(R.id.Arrow_forward);
 
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
-        sharedTimePeriodViewModel = new ViewModelProvider(requireActivity()).get(SharedTimePeriodViewModel.class);
-        liveData = sharedTimePeriodViewModel.getTimePeriodLiveData();
+        timePeriodViewModel = new ViewModelProvider(requireActivity()).get(TimePeriodViewModel.class);
+        liveData = timePeriodViewModel.getTimePeriodLiveData();
         liveData.observe(getViewLifecycleOwner(), new Observer<TimePeriod>() {
             @Override
             public void onChanged(TimePeriod timePeriod) {
@@ -95,14 +95,14 @@ public class HomeFragment extends Fragment {
         back_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sharedTimePeriodViewModel.decrementMonth();
+                timePeriodViewModel.decrementMonth();
                 updateTimePeriodButtonLabel();
             }
         });
         forward_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sharedTimePeriodViewModel.incrementMonth();
+                timePeriodViewModel.incrementMonth();
                 updateTimePeriodButtonLabel();
             }
         });
@@ -110,10 +110,10 @@ public class HomeFragment extends Fragment {
         time_period_toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    sharedTimePeriodViewModel.setNoSpecifiedTimePeriod();
+                    timePeriodViewModel.setNoSpecifiedTimePeriod();
                     disableArrowButtons();
                 } else {
-                    sharedTimePeriodViewModel.setSpecifiedTimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
+                    timePeriodViewModel.setSpecifiedTimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
                     updateTimePeriodButtonLabel();
                     enableArrowButtons();
                 }
