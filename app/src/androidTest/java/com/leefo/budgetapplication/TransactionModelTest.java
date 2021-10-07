@@ -35,7 +35,7 @@ public class TransactionModelTest {
     @Before
     public void init() {
         Context c = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        db = new DataBaseManager(c, null);
+        db = new DataBaseManager(c, null); //null name creates in memory database
         tm = new TransactionModel(db);
         String categoryTestName = "Unique test category name 1";
         String transactionTestDescription = "Unique test transaction description 1";
@@ -218,6 +218,7 @@ public class TransactionModelTest {
         List<Category> returnedList = tm.getIncomeCategories();
 
         boolean outcome = true;
+        //Check that list only contains income categories
         for (Category c : returnedList) {
             if (!c.isIncome()) {
                 outcome = false;
@@ -241,11 +242,12 @@ public class TransactionModelTest {
         tm.addCategory(c4);
         tm.addCategory(c5);
 
-        List<Category> returnedList = tm.getIncomeCategories();
+        List<Category> returnedList = tm.getExpenseCategories();
 
         boolean outcome = true;
+        //check that list only contains expense categories
         for (Category c : returnedList) {
-            if (!c.isIncome()) {
+            if (c.isIncome()) {
                 outcome = false;
                 break;
             }
@@ -297,7 +299,7 @@ public class TransactionModelTest {
         tm.addTransaction(t3);
         tm.addTransaction(t4);
 
-        float expectedSum = t1.getAmount() + t3.getAmount() + t4.getAmount();
+        float expectedSum = t1.getAmount() + t3.getAmount() + t4.getAmount(); //amount for transactions created 01/1905
         TransactionRequest request = new TransactionRequest(null, 1, 1905);
 
         float calculatedSum = tm.getTotalIncome(request);
@@ -327,7 +329,7 @@ public class TransactionModelTest {
         tm.addTransaction(t3);
         tm.addTransaction(t4);
 
-        float expectedSum = t1.getAmount() + t3.getAmount() + t4.getAmount();
+        float expectedSum = t1.getAmount() + t3.getAmount() + t4.getAmount(); //Amount for transactions created 01/1905
         TransactionRequest request = new TransactionRequest(null, 1, 1905);
 
         float calculatedSum = tm.getTotalExpense(request);
@@ -357,7 +359,7 @@ public class TransactionModelTest {
         tm.addTransaction(t3);
         tm.addTransaction(t4);
 
-        float expectedBalance = t1.getAmount() - t2.getAmount();
+        float expectedBalance = t1.getAmount() - t2.getAmount(); //Balance for transactions made 08/1899
         TransactionRequest request = new TransactionRequest(null, 8, 1899);
 
         float calculatedBalance = tm.getTransactionBalance(request);
@@ -434,6 +436,7 @@ public class TransactionModelTest {
         List<Category> sortedList = tm.sortCategoryListBySum(tm.getCategoryList(), request);
 
         boolean outcome = true;
+        //Check if list is sorted with largest first
         for (int i = 0; i < sortedList.size() - 1; i++) {
             float sum1 = tm.getTransactionSum(new TransactionRequest(sortedList.get(i), request.getMonth(), request.getYear()));
             float sum2 = tm.getTransactionSum(new TransactionRequest(sortedList.get(i + 1), request.getMonth(), request.getYear()));
