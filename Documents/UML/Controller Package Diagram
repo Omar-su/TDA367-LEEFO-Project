@@ -1,11 +1,11 @@
-<mxfile host="app.diagrams.net" modified="2021-10-07T08:58:41.984Z" agent="5.0 (Windows)" etag="ZlIM7pv5NBQ2YjZKFVn-" version="15.4.3" type="github">
+<mxfile host="app.diagrams.net" modified="2021-10-07T11:06:24.644Z" agent="5.0 (Windows)" etag="GmkbB9yUvbuFjpy3AxUa" version="15.4.3" type="github">
   <diagram id="e5ySj3aZHfBaEBQDJ8qI" name="Page-1">
     <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="KfeeA3AMSUTKs20e_gZO-1" value="Controller&#xa;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
-          <mxGeometry x="40" y="40" width="440" height="632" as="geometry">
+          <mxGeometry x="40" y="40" width="440" height="502" as="geometry">
             <mxRectangle x="40" y="40" width="90" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
@@ -48,38 +48,23 @@
         <mxCell id="KfeeA3AMSUTKs20e_gZO-11" value="+ removeTransaction(FinancialTransaction) : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="KfeeA3AMSUTKs20e_gZO-1" vertex="1">
           <mxGeometry y="320" width="440" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="KfeeA3AMSUTKs20e_gZO-12" value="+ getTransactions() : ArrayList&lt;FinancialTransaction&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="KfeeA3AMSUTKs20e_gZO-1" vertex="1">
+        <mxCell id="KfeeA3AMSUTKs20e_gZO-14" value="+ getTransactions(int, int) : ArrayList&lt;FinancialTransaction&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="KfeeA3AMSUTKs20e_gZO-1" vertex="1">
           <mxGeometry y="346" width="440" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="KfeeA3AMSUTKs20e_gZO-13" value="+ getTransactions(Category) : ArrayList&lt;FinancialTransaction&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="KfeeA3AMSUTKs20e_gZO-1" vertex="1">
+        <mxCell id="KfeeA3AMSUTKs20e_gZO-15" value="+ getTransactions(Category, int, int) : ArrayList&lt;FinancialTransaction&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="KfeeA3AMSUTKs20e_gZO-1" vertex="1">
           <mxGeometry y="372" width="440" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="KfeeA3AMSUTKs20e_gZO-14" value="+ getTransactions(int, int) : ArrayList&lt;FinancialTransaction&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="KfeeA3AMSUTKs20e_gZO-1" vertex="1">
+        <mxCell id="KfeeA3AMSUTKs20e_gZO-19" value="+ getTransactionSum(Category, int, int) : float" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="KfeeA3AMSUTKs20e_gZO-1" vertex="1">
           <mxGeometry y="398" width="440" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="KfeeA3AMSUTKs20e_gZO-15" value="+ getTransactions(Category, int, int) : ArrayList&lt;FinancialTransaction&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="KfeeA3AMSUTKs20e_gZO-1" vertex="1">
+        <mxCell id="xtrkxpOBvdil9Jt7UQKR-2" value="+ getTotalIncome(int, int) : float" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" vertex="1" parent="KfeeA3AMSUTKs20e_gZO-1">
           <mxGeometry y="424" width="440" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="KfeeA3AMSUTKs20e_gZO-16" value="+ getTransactionSum() : float" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="KfeeA3AMSUTKs20e_gZO-1" vertex="1">
+        <mxCell id="xtrkxpOBvdil9Jt7UQKR-1" value="+ getTotalExpense(int, int) : float" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" vertex="1" parent="KfeeA3AMSUTKs20e_gZO-1">
           <mxGeometry y="450" width="440" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="KfeeA3AMSUTKs20e_gZO-17" value="+ getTransactionSum(Category) : float" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="KfeeA3AMSUTKs20e_gZO-1" vertex="1">
-          <mxGeometry y="476" width="440" height="26" as="geometry" />
-        </mxCell>
-        <mxCell id="KfeeA3AMSUTKs20e_gZO-18" value="+ getTransactionSum(int, int) : float" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="KfeeA3AMSUTKs20e_gZO-1" vertex="1">
-          <mxGeometry y="502" width="440" height="26" as="geometry" />
-        </mxCell>
-        <mxCell id="KfeeA3AMSUTKs20e_gZO-19" value="+ getTransactionSum(Category, int, int) : float" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="KfeeA3AMSUTKs20e_gZO-1" vertex="1">
-          <mxGeometry y="528" width="440" height="26" as="geometry" />
-        </mxCell>
-        <mxCell id="xtrkxpOBvdil9Jt7UQKR-2" value="+ getTotalIncome(int, int) : float" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" vertex="1" parent="KfeeA3AMSUTKs20e_gZO-1">
-          <mxGeometry y="554" width="440" height="26" as="geometry" />
-        </mxCell>
-        <mxCell id="xtrkxpOBvdil9Jt7UQKR-1" value="+ getTotalExpense(int, int) : float" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" vertex="1" parent="KfeeA3AMSUTKs20e_gZO-1">
-          <mxGeometry y="580" width="440" height="26" as="geometry" />
-        </mxCell>
         <mxCell id="hTDjkcisJyXoNsfexby--5" value="+ getTransactionBalance(int, int) : float" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="KfeeA3AMSUTKs20e_gZO-1" vertex="1">
-          <mxGeometry y="606" width="440" height="26" as="geometry" />
+          <mxGeometry y="476" width="440" height="26" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
