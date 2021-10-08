@@ -49,8 +49,9 @@ public class SpinnerAdapter extends ArrayAdapter<Category> {
         View circle = rowView.findViewById(R.id.circle);
 
         name.setText(category.getName());
-        circle.getBackground().setColorFilter(Color.parseColor(category.getColor()), PorterDuff.Mode.SRC_ATOP);
-
+        if (!category.getColor().equals("")) {
+            circle.getBackground().setColorFilter(Color.parseColor(category.getColor()), PorterDuff.Mode.SRC_ATOP);
+        }
 
         return rowView;
     }
@@ -75,8 +76,9 @@ public class SpinnerAdapter extends ArrayAdapter<Category> {
         View circle = convertView.findViewById(R.id.circle);
 
         name.setText(category.getName());
-        circle.getBackground().setColorFilter(Color.parseColor(category.getColor()), PorterDuff.Mode.SRC_ATOP);
-
+        if (!category.getColor().equals("")) {
+            circle.getBackground().setColorFilter(Color.parseColor(category.getColor()), PorterDuff.Mode.SRC_ATOP);
+        }
 
         return convertView;
     }

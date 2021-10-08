@@ -83,7 +83,9 @@ public class TransactionListAdapter extends ArrayAdapter<FinancialTransaction> {
                 date.setVisibility(View.GONE);
                 amount.setText(String.valueOf(transaction.getAmount()));
                 category.setText(categoryObject.getName());
-                circle.getBackground().setColorFilter(Color.parseColor(categoryObject.getColor()), PorterDuff.Mode.SRC_ATOP);
+                if (!categoryObject.getColor().equals("")) {
+                    circle.getBackground().setColorFilter(Color.parseColor(categoryObject.getColor()), PorterDuff.Mode.SRC_ATOP);
+                }
             }
         }
         return convertView;
