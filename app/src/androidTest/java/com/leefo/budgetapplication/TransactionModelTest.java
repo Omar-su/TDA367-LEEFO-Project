@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.leefo.budgetapplication.controller.TransactionRequest;
+import com.leefo.budgetapplication.model.TransactionRequest;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.DataBaseManager;
 import com.leefo.budgetapplication.model.FinancialTransaction;
