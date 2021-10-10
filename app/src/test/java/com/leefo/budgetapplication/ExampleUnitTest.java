@@ -1,9 +1,8 @@
 package com.leefo.budgetapplication;
 
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Example local unit test, which will execute on the development machine (host).
  *

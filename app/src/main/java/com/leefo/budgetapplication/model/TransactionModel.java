@@ -101,7 +101,7 @@ public class TransactionModel {
     public void deleteTransaction(FinancialTransaction transaction) {
         transactionList.remove(transaction);
 
-        deleteTransactionFromDatabase(transaction);
+         deleteTransactionFromDatabase(transaction);
 
         ObserverHandler.updateObservers();
     }
