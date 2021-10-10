@@ -52,6 +52,7 @@ public class TransactionModelTest {
         assertTrue(tm.getTransactionList().contains(testTransaction1));
     }
 
+    //Currently crashes because of the database not working as intended when running tests.
     @Test
     public void canRemoveTransaction() {
         tm.addTransaction(testTransaction1);
@@ -59,6 +60,7 @@ public class TransactionModelTest {
         assertFalse(tm.getTransactionList().contains(testTransaction1));
     }
 
+    //Currently crashes because of the database not working as intended when running tests.
     @Test
     public void canEditTransaction() {
         tm.addTransaction(testTransaction1);
@@ -89,6 +91,7 @@ public class TransactionModelTest {
         assertFalse(tm.getCategoryList().contains(testCategory1));
     }
 
+    //Currently crashes because of the database not working as intended when running tests.
     @Test
     public void removingCategoryChangesTransactionsCategoryToOther() {
         tm.addCategory(testCategory1);
