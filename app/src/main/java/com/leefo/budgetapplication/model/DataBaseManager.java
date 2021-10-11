@@ -116,21 +116,34 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
+        createCategoryTable(sqLiteDatabase);
+        createTransactionTable(sqLiteDatabase);
+
+    }
+
+
+
+
+    private void createCategoryTable(SQLiteDatabase sqLiteDatabase) {
         String createTableCategory = " CREATE TABLE " + CATEGORY_TABLE + " ( " + CATEGORY_NAME + " TEXT PRIMARY KEY, "
                                     + CATEGORY_COLOR + " TEXT, "
                                     + CATEGORY_IS_INCOME + " INTEGER " + " )";
 
-        String createTableTransactions = " CREATE TABLE " + TRANSACTIONS_TABLE + " ( "  + TRANSACTION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                        + TRANSACTION_AMOUNT + " REAL, "
-                                        + TRANSACTIONS_DESC + " TEXT, "
-                                        + TRANSACTION_DATE + " TEXT, "
-                                        + CATEGORY_FK_NAME + " TEXT , FOREIGN KEY( " + CATEGORY_FK_NAME + ") REFERENCES " + CATEGORY_TABLE + " ( "  + CATEGORY_NAME + "))";
 
         sqLiteDatabase.execSQL(createTableCategory);
+    }
+
+
+
+
+    private void createTransactionTable(SQLiteDatabase sqLiteDatabase) {
+        String createTableTransactions = " CREATE TABLE " + TRANSACTIONS_TABLE + " ( "  + TRANSACTION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + TRANSACTION_AMOUNT + " REAL, "
+                + TRANSACTIONS_DESC + " TEXT, "
+                + TRANSACTION_DATE + " TEXT, "
+                + CATEGORY_FK_NAME + " TEXT , FOREIGN KEY( " + CATEGORY_FK_NAME + ") REFERENCES " + CATEGORY_TABLE + " ( "  + CATEGORY_NAME + "))";
+
         sqLiteDatabase.execSQL(createTableTransactions);
-
-
-
     }
 
 
