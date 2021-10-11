@@ -55,8 +55,8 @@ public class Controller {
      *
      * @param oldCategory Object of category to be changed.
      */
-    public static void editCategoryInfo(Category oldCategory, String newName, String newColor, boolean isIncome) {
-        Category newCategory = new Category(newName, newColor, isIncome);
+    public static void editCategoryInfo(Category oldCategory, String newName, String newColor, boolean isIncome, float budgetGoal) {
+        Category newCategory = new Category(newName, newColor, isIncome, budgetGoal);
 
         transactionModel.editCategory(oldCategory, newCategory);
     }

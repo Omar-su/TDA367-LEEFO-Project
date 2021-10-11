@@ -80,7 +80,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      * @param context The main activity of the program
      */
     public DataBaseManager(@Nullable Context context) {
-        super(context, "category_transaction_db_v1", null, 3);
+        super(context, "category_transaction", null, 1);
     }
 
     //New name will create new database file. Sending in a null String object will create
@@ -95,7 +95,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      * @param name The name of the database.
      */
     public DataBaseManager(@Nullable Context context, @Nullable String name) {
-        super(context, name, null, 3);
+        super(context, name, null, 4);
     }
 
 
@@ -122,8 +122,6 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
         createTransactionTable(sqLiteDatabase);
 
     }
-
-
 
 
     private void createCategoryTable(SQLiteDatabase sqLiteDatabase) {

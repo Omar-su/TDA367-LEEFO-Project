@@ -169,7 +169,7 @@ public class EditCategoryFragment extends Fragment {
         boolean isIncome = radioGroup.getCheckedRadioButtonId() == R.id.edit_category_radio_income;
         String name = nameInput.getText().toString();
         String color = "#" + Integer.toHexString(defaultColor);
-        Controller.editCategoryInfo(oldCategory,name,color,isIncome);
+        Controller.editCategoryInfo(oldCategory,name,color,isIncome, oldCategory.getGoal());
     }
 
     /**

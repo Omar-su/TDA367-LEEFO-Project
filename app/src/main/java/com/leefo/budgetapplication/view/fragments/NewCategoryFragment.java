@@ -121,7 +121,7 @@ public class NewCategoryFragment extends Fragment {
         boolean isIncome = radioGroup.getCheckedRadioButtonId() == R.id.new_category_radio_income;
         String name = nameInput.getText().toString();
         String color = "#" + Integer.toHexString(defaultColor);
-        Controller.addNewCategory(name, color, isIncome);
+        Controller.addNewCategory(name, color, isIncome,0);
     }
 
     /**
