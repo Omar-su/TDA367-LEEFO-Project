@@ -1,6 +1,6 @@
 package com.leefo.budgetapplication.model;
 
-import com.leefo.budgetapplication.model.Category;
+import java.util.ArrayList;
 
 /**
  * Implementation of 'command' design pattern.
@@ -14,7 +14,7 @@ public class TransactionRequest {
     /**
      * Specifies what category of transactions.
      */
-    private Category category; // can be null
+    private ArrayList<Category> categories; // can be null
 
     /**
      * Specifies what time transaction was made.
@@ -23,7 +23,23 @@ public class TransactionRequest {
 
     public TransactionRequest(Category category, int month, int year)
     {
-        this.category = category;
+        categories = new ArrayList<>();
+
+        categories.add(category);
+
+        this.month = month;
+        this.year = year;
+
+        if(month == 0 || year == 0) {
+            month = 0;
+            year = 0;
+        }
+    }
+
+    public TransactionRequest(ArrayList<Category> categories, int month, int year)
+    {
+        this.categories = new ArrayList<>(categories);
+
         this.month = month;
         this.year = year;
 
@@ -46,7 +62,19 @@ public class TransactionRequest {
      */
     public boolean categoryIsSpecified()
     {
-        return category != null;
+        return categories != null && !categories.isEmpty();
+    }
+
+    public boolean belongsToCategories(FinancialTransaction transaction)
+    {
+        if(!categoryIsSpecified()) return true;
+
+        for (Category category : categories) {
+            if (category.transactionBelongs(transaction))
+                return true; // returns true if it belongs to any of the categories
+        }
+
+        return false;
     }
 
 
@@ -54,9 +82,9 @@ public class TransactionRequest {
 
     //  GETTERS -----------
 
-    public Category getCategory()
+    public ArrayList<Category> getCategories()
     {
-        return category;
+        return new ArrayList<>(categories);
     }
 
     public int getMonth()
@@ -69,7 +97,7 @@ public class TransactionRequest {
         return year;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategories(ArrayList<Category> categories) {
+        this.categories = new ArrayList<>(categories);
     }
 }

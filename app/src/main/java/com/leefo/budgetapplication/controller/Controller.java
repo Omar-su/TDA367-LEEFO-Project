@@ -3,6 +3,7 @@ package com.leefo.budgetapplication.controller;
 import android.content.Context;
 
 import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.model.CategoryModel;
 import com.leefo.budgetapplication.model.DataBaseManager;
 import com.leefo.budgetapplication.model.TransactionModel;
 import com.leefo.budgetapplication.model.ObserverHandler;
@@ -27,6 +28,8 @@ public class Controller {
      */
     private static TransactionModel transactionModel;
 
+    private static CategoryModel categoryModel;
+
 
 
     /**
@@ -38,6 +41,7 @@ public class Controller {
         DataBaseManager database = new DataBaseManager(context);
 
         transactionModel = new TransactionModel(database);
+        categoryModel = new CategoryModel(database);
     }
 
     /**
@@ -58,7 +62,7 @@ public class Controller {
     public static void editCategoryInfo(Category oldCategory, String newName, String newColor, boolean isIncome, float budgetGoal) {
         Category newCategory = new Category(newName, newColor, isIncome, budgetGoal);
 
-        transactionModel.editCategory(oldCategory, newCategory);
+        categoryModel.editCategory(oldCategory, newCategory);
     }
 
     /**
@@ -71,7 +75,7 @@ public class Controller {
     public static void addNewCategory(String name, String color, boolean isIncome, float budgetGoal) {
         Category newCategory = new Category(name, color, isIncome, budgetGoal);
 
-        transactionModel.addCategory(newCategory);
+        categoryModel.addCategory(newCategory);
     }
 
 
@@ -82,7 +86,7 @@ public class Controller {
      * @param category category to removed
      */
     public static void removeCategory(Category category) {
-        transactionModel.deleteCategory(category);
+        categoryModel.deleteCategory(category);
     }
 
     /**
@@ -91,7 +95,7 @@ public class Controller {
      * @return a list of all the categories in the database.
      */
     public static ArrayList<Category> getAllCategories() {
-        return (ArrayList<Category>) transactionModel.getCategoryList();
+        return (ArrayList<Category>) categoryModel.getCategoryList();
     }
 
     /**
@@ -185,7 +189,7 @@ public class Controller {
      */
     public static ArrayList<Category> getCategories()
     {
-        return transactionModel.getCategoryList();
+        return categoryModel.getCategoryList();
     }
 
     /**
@@ -193,7 +197,7 @@ public class Controller {
      * @return A list of all income categories in the model.
      */
     public static ArrayList<Category> getIncomeCategories(){
-        return transactionModel.getIncomeCategories();
+        return categoryModel.getIncomeCategories();
     }
 
     /**
@@ -201,7 +205,7 @@ public class Controller {
      * @return A list of all expense categories in the model.
      */
     public static ArrayList<Category> getExpenseCategories(){
-        return transactionModel.getExpenseCategories();
+        return categoryModel.getExpenseCategories();
     }
 
     /**
@@ -211,8 +215,9 @@ public class Controller {
      * @return The total income amount for the specified time period.
      */
     public static float getTotalIncome(int month, int year){
-        TransactionRequest request = new TransactionRequest(null, month, year);
-        return transactionModel.getTotalIncome(request);
+        // requests sum of all transactions in the income categories during specified month and year
+        TransactionRequest request = new TransactionRequest(categoryModel.getIncomeCategories(), month, year);
+        return transactionModel.getTransactionSum(request);
     }
 
     /**
@@ -222,8 +227,9 @@ public class Controller {
      * @return The total expense amount for the specified time period.
      */
     public static float getTotalExpense(int month, int year){
-        TransactionRequest request = new TransactionRequest(null, month, year);
-        return transactionModel.getTotalExpense(request);
+        // requests sum of all transactions in the expense categories during specified month and year
+        TransactionRequest request = new TransactionRequest(categoryModel.getExpenseCategories(), month, year);
+        return transactionModel.getTransactionSum(request);
     }
 
 
@@ -234,8 +240,7 @@ public class Controller {
      * @return The calculated balance.
      */
     public static float getTransactionBalance(int month, int year){
-        TransactionRequest request = new TransactionRequest(null, month, year);
-        return transactionModel.getTransactionBalance(request);
+        return getTotalIncome(month, year) - getTotalExpense(month, year);
     }
 
 

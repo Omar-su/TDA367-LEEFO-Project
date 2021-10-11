@@ -145,55 +145,13 @@ public class TransactionModel implements ITransactionModel {
                 if(request.getYear() != transactionYear || request.getMonth() != transactionMonth)
                     continue;
 
-            // moves on to next transaction if current transaction category does not match requested category
-            if(request.categoryIsSpecified())
-                if(!request.getCategory().Equals(transaction.getCategory()))
-                    continue;
-
-            result.add(transaction); // adds transaction to result if transaction passes checks
+            // adds transaction if category matches any of the ones in the request
+            // if no categories are specified, belongsToCategories() returns true
+            if(request.belongsToCategories(transaction))
+                result.add(transaction);
         }
 
         return result;
-    }
-
-
-
-
-    /**
-     * Returns the total income amount for a specific TransactionRequest.
-     * @param request The object with the request to calculate total income from.
-     * @return The total income amount. for the specific request.
-     */
-    public float getTotalIncome(TransactionRequest request){ // month, year. category irrelevant
-        float income = 0;
-        for (Category c : getIncomeCategories()){
-            request.setCategory(c);
-            income = income + getTransactionSum(request);
-        }
-        return income;
-    }
-
-    /**
-     * Returns the total expense amount for a specific TransactionRequest.
-     * @param request The object with the request to calculate total expense from.
-     * @return The total expense amount for the specific request.
-     */
-    public float getTotalExpense(TransactionRequest request){
-        float expense = 0;
-        for (Category c : getExpenseCategories()){
-            request.setCategory(c);
-            expense = expense + getTransactionSum(request);
-        }
-        return Math.abs(expense);
-    }
-
-    /**
-     * Returns the balance between income and expense for a specific TransactionRequest.
-     * @param request The object with the request to calculate balance from.
-     * @return The calculated balance.
-     */
-    public float getTransactionBalance(TransactionRequest request){
-        return getTotalIncome(request) - getTotalExpense(request);
     }
 
     public ArrayList<Category> removeEmptyCategories(ArrayList<Category> list, TransactionRequest request){

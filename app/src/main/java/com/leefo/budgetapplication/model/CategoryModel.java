@@ -101,6 +101,12 @@ public class CategoryModel
         deleteCategory(oldCategory);
     }
 
+
+
+
+
+    // getters -------------
+
     /**
      * Returns a copy of the categoryList
      * @return copy if categoryList
@@ -159,7 +165,7 @@ public class CategoryModel
 
 
 
-    // database methods ------
+    // database methods --------
 
     private ArrayList<Category> getCategoriesFromDatabase()
     {
