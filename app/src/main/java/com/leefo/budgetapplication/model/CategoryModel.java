@@ -13,9 +13,16 @@ public class CategoryModel
 
     private final IDatabase database;
 
-    public CategoryModel(IDatabase database)
+    /**
+     * Interface for transaction model. Only used for replacing deleted/edited categories
+     * in transactions.
+     */
+    private final ITransactionModel transactionModel;
+
+    public CategoryModel(IDatabase database, ITransactionModel transactionModel)
     {
         this.database = database;
+        this.transactionModel = transactionModel;
         categoryList = getCategoriesFromDatabase();
 
         initDefaultCategories();
@@ -67,27 +74,13 @@ public class CategoryModel
      * @param category The category to be deleted.
      */
     public void deleteCategory(Category category) {
-        if (category == getOtherExpenseCategory()) return; // not allowed tp remove that one
-        if (category == getOtherIncomeCategory()) return; // not allowed to remove that one
+        if (category == getOtherExpenseCategory()) return; // not allowed to remove
+        if (category == getOtherIncomeCategory()) return; // not allowed to remove
 
         if (category.isIncome()) {
-            for (int i = 0; i < getTransactionList().size(); i++) {
-                FinancialTransaction t = getTransactionList().get(i);
-
-                if (category.transactionBelongs(t)) {
-                    editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(),
-                            t.getDate(), getOtherIncomeCategory()));
-                }
-            }
+            transactionModel.replaceCategory(category, getOtherIncomeCategory());
         } else {
-            for (int i = 0; i < getTransactionList().size(); i++) {
-                FinancialTransaction t = getTransactionList().get(i);
-
-                if (category.transactionBelongs(t)) {
-                    editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(),
-                            t.getDate(), getOtherExpenseCategory()));
-                }
-            }
+            transactionModel.replaceCategory(category, getOtherExpenseCategory());
         }
         categoryList.remove(category);
 
@@ -104,7 +97,7 @@ public class CategoryModel
      */
     public void editCategory(Category oldCategory, Category editedCategory){
         addCategory(editedCategory);
-        replaceTransactionsCategory(oldCategory, editedCategory);
+        transactionModel.replaceCategory(oldCategory, editedCategory);
         deleteCategory(oldCategory);
     }
 

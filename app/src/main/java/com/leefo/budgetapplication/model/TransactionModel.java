@@ -9,7 +9,7 @@ import java.util.ArrayList;
  *
  * @author Felix Edholm, Emelie Edberg, Linus Lundgren, Omar Suliman
  */
-public class TransactionModel {
+public class TransactionModel implements ITransactionModel {
 
     /**
      * The list of FinancialTransactions used in the application
@@ -93,8 +93,12 @@ public class TransactionModel {
     }
 
 
-
-    private void replaceTransactionsCategory(Category oldCategory, Category newCategory){
+    /**
+     * Replaces category object in all transactions with oldCategory to newCategory.
+     * @param oldCategory Category that is going to be replaced.
+     * @param newCategory Category that will replace oldCategory.
+     */
+    public void replaceCategory(Category oldCategory, Category newCategory){
         for(int i = 0; i < getTransactionList().size(); i++){
             FinancialTransaction t = getTransactionList().get(i);
 
