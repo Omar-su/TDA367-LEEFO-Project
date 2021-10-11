@@ -1,6 +1,5 @@
 package com.leefo.budgetapplication.view.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,16 +7,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.leefo.budgetapplication.R;
-
-import java.util.ArrayList;
 
 /**
  * Class that represents the fragment for the Budget page
@@ -26,7 +18,7 @@ import java.util.ArrayList;
  */
 public class BudgetFragment extends Fragment {
 
-
+    private Button editBudget;
 
     /**
      * Method that runs when the fragment is being created.
@@ -37,7 +29,20 @@ public class BudgetFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_budget, container, false);
 
+        editBudget = view.findViewById(R.id.edit_budget_button);
+
+        initEditBudgetOnClickListener();
+
         return view;
+    }
+
+    private void initEditBudgetOnClickListener() {
+        editBudget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new EditBudgetFragment()).commit();
+            }
+        });
     }
 
 
