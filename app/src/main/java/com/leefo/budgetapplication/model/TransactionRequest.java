@@ -97,6 +97,12 @@ public class TransactionRequest {
         return year;
     }
 
+    public void setCategory(Category category)
+    {
+        this.categories = new ArrayList<>();
+        categories.add(category);
+    }
+
     public void setCategories(ArrayList<Category> categories) {
         this.categories = new ArrayList<>(categories);
     }

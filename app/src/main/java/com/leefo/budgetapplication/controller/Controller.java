@@ -41,7 +41,8 @@ public class Controller {
         DataBaseManager database = new DataBaseManager(context);
 
         transactionModel = new TransactionModel(database);
-        categoryModel = new CategoryModel(database);
+        // contains reference to transactionModel as type ITransactionModel
+        categoryModel = new CategoryModel(database, transactionModel);
     }
 
     /**
@@ -95,7 +96,7 @@ public class Controller {
      * @return a list of all the categories in the database.
      */
     public static ArrayList<Category> getAllCategories() {
-        return (ArrayList<Category>) categoryModel.getCategoryList();
+        return categoryModel.getCategoryList();
     }
 
     /**
@@ -144,7 +145,7 @@ public class Controller {
      */
     public static ArrayList<FinancialTransaction> getTransactions(int month, int year)
     {
-        TransactionRequest request = new TransactionRequest(null, month, year);
+        TransactionRequest request = new TransactionRequest((Category)null, month, year);
 
         return transactionModel.searchTransactions(request);
     }
@@ -245,12 +246,12 @@ public class Controller {
 
 
     public static ArrayList<Category> removeEmptyCategories(ArrayList<Category> list, int month, int year){
-        TransactionRequest request = new TransactionRequest(null, month, year);
+        TransactionRequest request = new TransactionRequest((Category)null, month, year);
         return transactionModel.removeEmptyCategories(list, request);
     }
 
     public static ArrayList<Category> sortCategoryListBySum(ArrayList<Category> list, int month, int year){
-        TransactionRequest request = new TransactionRequest(null, month, year);
+        TransactionRequest request = new TransactionRequest((Category)null, month, year);
         return transactionModel.sortCategoryListBySum(list, request);
     }
 
