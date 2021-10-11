@@ -25,11 +25,15 @@ public class Category {
     private final boolean isIncome;
 
 
-    public Category(String name, String color, boolean isIncome)
+    private final float budgetGoal;
+
+
+    public Category(String name, String color, boolean isIncome, float budgetGoal )
     {
         this.name = name;
         this.color = color;
         this.isIncome = isIncome;
+        this.budgetGoal = budgetGoal;
     }
 
 
@@ -76,6 +80,8 @@ public class Category {
     {
         return color;
     }
+
+    public float getGoal(){return budgetGoal;}
 
     public boolean isIncome() { return isIncome; }
 

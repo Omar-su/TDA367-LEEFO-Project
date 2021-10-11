@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.time.LocalDate;
@@ -71,6 +72,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      * which helps in separating the transaction and safely deleting a specific transaction without worrying about deleting multiple similar transactions
      */
     public static final String TRANSACTION_ID = "TRANSACTION_ID";
+    public static final String CATEGORY_BUDGET = "CATEGORY_BUDGET";
 
 
     /**
@@ -127,7 +129,8 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
     private void createCategoryTable(SQLiteDatabase sqLiteDatabase) {
         String createTableCategory = " CREATE TABLE " + CATEGORY_TABLE + " ( " + CATEGORY_NAME + " TEXT PRIMARY KEY, "
                                     + CATEGORY_COLOR + " TEXT, "
-                                    + CATEGORY_IS_INCOME + " INTEGER " + " )";
+                                    + CATEGORY_IS_INCOME + " INTEGER, "
+                                    + CATEGORY_BUDGET + " INTEGER " + " )";
 
 
         sqLiteDatabase.execSQL(createTableCategory);
@@ -193,6 +196,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
         cv.put(CATEGORY_NAME, category.getName());
         cv.put(CATEGORY_COLOR, category.getColor());
         cv.put(CATEGORY_IS_INCOME, i);
+        cv.put(CATEGORY_BUDGET, category.getGoal());
         db.insert(CATEGORY_TABLE, null, cv);
         db.close();
     }
@@ -263,10 +267,10 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
         ArrayList<Category> returnList = new ArrayList<>();
 
-        String queryString = "SELECT * FROM " + CATEGORY_TABLE;
-
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
+
+        Cursor cursor = getCategoryTable(db);
+
 
         if (cursor.moveToFirst()){
             do {
@@ -274,7 +278,8 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
                 String categoryColor = cursor.getString(1);
                 int categoryIsIncome = cursor.getInt(2);
                 boolean b = categoryIsIncome == 1;
-                Category newCategory = new Category(categoryName, categoryColor, b);
+                int categoryBudgetGoal = cursor.getInt(3);
+                Category newCategory = new Category(categoryName, categoryColor, b, categoryBudgetGoal);
                 returnList.add(newCategory);
 
             }while (cursor.moveToNext());
@@ -285,6 +290,12 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
         return returnList;
     }
 
+    private Cursor getCategoryTable(SQLiteDatabase db) {
+
+        String queryString = "SELECT * FROM " + CATEGORY_TABLE;
+
+        return db.rawQuery(queryString, null);
+    }
 
 
     /**
@@ -295,11 +306,10 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
         ArrayList<Category> categories = getCategories();
 
         ArrayList<FinancialTransaction> returnList = new ArrayList<>();
-
-        String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " ORDER BY " + TRANSACTION_DATE + " DESC ";
-
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
+
+        Cursor cursor = getTransactionTable(db);
+
 
         if (cursor.moveToFirst()){
             do {
@@ -307,19 +317,10 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
                 String transactionDesc = cursor.getString(2);
                 String transactionDate = cursor.getString(3);
                 String categoryFKName = cursor.getString(4);
-                Category category = new Category("", "", true);
-                for (Category c : categories){
-                    if (categoryFKName.equals(c.getName())){
-                        category = c;
-                    }
-                }
 
-                String year, month, day;
-                year = transactionDate.substring(0,4);
-                month = transactionDate.substring(5,7);
-                day = transactionDate.substring(8,10);
+                Category category = getCategory(categories, categoryFKName);
 
-                LocalDate date = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
+                LocalDate date = getLocalDate(transactionDate);
 
                 FinancialTransaction newTransaction = new FinancialTransaction(transactionAmount ,transactionDesc, date, category);
                 returnList.add(newTransaction);
@@ -334,6 +335,31 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
     }
 
+    private Cursor getTransactionTable(SQLiteDatabase db) {
+        String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " ORDER BY " + TRANSACTION_DATE + " DESC ";
+        return db.rawQuery(queryString, null);
+
+    }
+
+    @NonNull
+    private Category getCategory(ArrayList<Category> categories, String categoryFKName) {
+        Category category = new Category("", "", true, 0);
+        for (Category c : categories){
+            if (categoryFKName.equals(c.getName())){
+                category = c;
+            }
+        }
+        return category;
+    }
+
+    private LocalDate getLocalDate(String transactionDate) {
+        String year, month, day;
+        year = transactionDate.substring(0,4);
+        month = transactionDate.substring(5,7);
+        day = transactionDate.substring(8,10);
+
+        return LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
+    }
 
 
 }

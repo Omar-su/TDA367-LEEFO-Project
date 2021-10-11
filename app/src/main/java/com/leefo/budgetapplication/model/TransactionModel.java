@@ -46,20 +46,20 @@ public class TransactionModel {
 
     private void setDefaultCategories(){
         // Other
-        addCategory(new Category("Other income", "#C4C4C4", true));
-        addCategory(new Category("Other expense", "#C4C4C4", false));
+        addCategory(new Category("Other income", "#C4C4C4", true,0));
+        addCategory(new Category("Other expense", "#C4C4C4", false,0));
 
         // Expenses
-        addCategory(new Category("Home", "#FF6464", false));
-        addCategory(new Category("Food", "#64FF7D", false));
-        addCategory(new Category("Transportation", "#64BEFF", false));
-        addCategory(new Category("Clothes", "#FF64DD", false));
-        addCategory(new Category("Entertainment", "#FFAE64", false));
-        addCategory(new Category("Electronics", "#64FFEC",false));
+        addCategory(new Category("Home", "#FF6464", false,0));
+        addCategory(new Category("Food", "#64FF7D", false,0));
+        addCategory(new Category("Transportation", "#64BEFF", false,0));
+        addCategory(new Category("Clothes", "#FF64DD", false,0));
+        addCategory(new Category("Entertainment", "#FFAE64", false,0));
+        addCategory(new Category("Electronics", "#64FFEC",false,0));
 
         //Income
-        addCategory(new Category("Salary", "#FCFF64", true));
-        addCategory(new Category("Gift", "#6473FF", true));
+        addCategory(new Category("Salary", "#FCFF64", true,0));
+        addCategory(new Category("Gift", "#6473FF", true,0));
     }
 
     /**

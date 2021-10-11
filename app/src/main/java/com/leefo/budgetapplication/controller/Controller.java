@@ -68,8 +68,8 @@ public class Controller {
      * @param name  The name of the new category.
      * @param color The color of the new category.
      */
-    public static void addNewCategory(String name, String color, boolean isIncome) {
-        Category newCategory = new Category(name, color, isIncome);
+    public static void addNewCategory(String name, String color, boolean isIncome, float budgetGoal) {
+        Category newCategory = new Category(name, color, isIncome, budgetGoal);
 
         transactionModel.addCategory(newCategory);
     }
