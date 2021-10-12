@@ -12,8 +12,8 @@ public class BudgetGrader {
         this.transactionModel = transactionModel;
     }
 
-    public List<Category> getBudgetCategories() {
-        List<Category> budgetList = new ArrayList<>();
+    public ArrayList<Category> getBudgetCategories() {
+        ArrayList<Category> budgetList = new ArrayList<>();
         for (Category c : transactionModel.getCategoryList()) {
             if (c.getGoal() > 0) {
                 budgetList.add(c);
@@ -22,13 +22,33 @@ public class BudgetGrader {
         return budgetList;
     }
 
-    public float gradeCategory(Category category, int year, int month) {
-        float categoryBudget = category.getGoal();
-        float categoryActualExpenseSum = transactionModel.getTransactionSum(new TransactionRequest(category, month, year));
+    public ArrayList<Category> getBudgetCategoriesByMonth(TransactionRequest request) {
+        return transactionModel.removeEmptyCategories(getBudgetCategories(),
+                request);
+    }
 
-        float budgetingOutcome = (categoryActualExpenseSum / categoryBudget);
+    public float gradeCategory(TransactionRequest request) {
+        float budgetingOutcome = getRoundedBudgetOutcome(request);
         return getGrade(budgetingOutcome);
+    }
 
+    public float getRoundedBudgetOutcome(TransactionRequest request) {
+        float categoryBudget = request.getCategory().getGoal();
+        float categoryActualExpenseSum = transactionModel.getTransactionSum(request);
+
+        float nonRoundedBudgetingOutcome = (categoryActualExpenseSum / categoryBudget);
+
+        return (float) (Math.round(nonRoundedBudgetingOutcome * 100.0) / 100.0);
+
+    }
+
+    public float getAverageGrades(TransactionRequest request) {
+        List<Category> budgetCategories = getBudgetCategoriesByMonth(request);
+        float gradeTotal = (float) 0.0;
+        for (Category c : budgetCategories) {
+            gradeTotal += gradeCategory(new TransactionRequest(c, request.getMonth(), request.getYear()));
+        }
+        return gradeTotal / budgetCategories.size();
     }
 
     private float getGrade(double budgetingOutcome) {
@@ -84,7 +104,6 @@ public class BudgetGrader {
 
         double actualGrade = gradeMap.floorEntry(budgetingOutcome).getValue();
         return (float) actualGrade;
-
 
     }
 
