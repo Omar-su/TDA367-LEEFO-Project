@@ -76,9 +76,9 @@ public class HomeCategoryViewFragment extends Fragment {
     }
 
     private void updateData() {
-
-        ArrayList<Category> list = Controller.removeEmptyCategories(Controller.getExpenseCategories(), timePeriod.getMonth(), timePeriod.getYear());
-        list = Controller.sortCategoryListBySum(list, timePeriod.getMonth(), timePeriod.getYear());
+        ArrayList<Category> list = Controller.getExpenseCategories();
+        Controller.removeEmptyCategories(list, timePeriod.getMonth(), timePeriod.getYear());
+        Controller.sortCategoryListBySum(list, timePeriod.getMonth(), timePeriod.getYear());
 
         if (list.isEmpty()){
             noTransactions1.setVisibility(View.VISIBLE);

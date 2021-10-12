@@ -7,7 +7,6 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,7 +38,7 @@ public class TransactionModelTest {
         tm = new TransactionModel(db);
         String categoryTestName = "Unique test category name 1";
         String transactionTestDescription = "Unique test transaction description 1";
-        testCategory1 = new Category(categoryTestName, "#FFFFFF", true);
+        testCategory1 = new Category(categoryTestName, "#FFFFFF", true, 0);
         testDate1 = LocalDate.now();
         testTransaction1 = new FinancialTransaction((float) 16.9, transactionTestDescription, testDate1,
                 testCategory1);
@@ -116,7 +115,7 @@ public class TransactionModelTest {
         tm.addCategory(testCategory1);
         String editedColor = "#FFFFF5";
         String editedName = "EditedTestCategoryName";
-        tm.editCategory(testCategory1, new Category(editedName, editedColor, true));
+        tm.editCategory(testCategory1, new Category(editedName, editedColor, true,0));
 
         boolean outcome = false;
         for (Category c : tm.getCategoryList()) {
@@ -173,7 +172,7 @@ public class TransactionModelTest {
         LocalDate d4 = LocalDate.of(1900, 12, 24);
         LocalDate d5 = LocalDate.of(1900, 6, 20);
 
-        Category testCategory2 = new Category("Unique Test Category Name 2", "#F25A57", false);
+        Category testCategory2 = new Category("Unique Test Category Name 2", "#F25A57", false,0);
 
         FinancialTransaction t1 = new FinancialTransaction((float) 200.5, "t1", d1, testCategory1);
         FinancialTransaction t2 = new FinancialTransaction((float) 15.4, "t2", d2, testCategory2);
@@ -206,11 +205,11 @@ public class TransactionModelTest {
 
     @Test
     public void canGetAllIncomeCategories() {
-        Category c1 = new Category("c1", "#FFFFFF", true);
-        Category c2 = new Category("c1", "#FFFFFF", false);
-        Category c3 = new Category("c1", "#FFFFFF", true);
-        Category c4 = new Category("c1", "#FFFFFF", true);
-        Category c5 = new Category("c1", "#FFFFFF", false);
+        Category c1 = new Category("c1", "#FFFFFF", true,0);
+        Category c2 = new Category("c1", "#FFFFFF", false,0);
+        Category c3 = new Category("c1", "#FFFFFF", true,0);
+        Category c4 = new Category("c1", "#FFFFFF", true,0);
+        Category c5 = new Category("c1", "#FFFFFF", false,0);
 
         tm.addCategory(c1);
         tm.addCategory(c2);
@@ -233,11 +232,11 @@ public class TransactionModelTest {
 
     @Test
     public void canGetAllExpenseCategories() {
-        Category c1 = new Category("c1", "#FFFFFF", true);
-        Category c2 = new Category("c1", "#FFFFFF", false);
-        Category c3 = new Category("c1", "#FFFFFF", true);
-        Category c4 = new Category("c1", "#FFFFFF", true);
-        Category c5 = new Category("c1", "#FFFFFF", false);
+        Category c1 = new Category("c1", "#FFFFFF", true,0);
+        Category c2 = new Category("c1", "#FFFFFF", false,0);
+        Category c3 = new Category("c1", "#FFFFFF", true,0);
+        Category c4 = new Category("c1", "#FFFFFF", true,0);
+        Category c5 = new Category("c1", "#FFFFFF", false,0);
 
         tm.addCategory(c1);
         tm.addCategory(c2);
@@ -287,8 +286,8 @@ public class TransactionModelTest {
         LocalDate d3 = LocalDate.of(1905, 1, 27);
         LocalDate d4 = LocalDate.of(1905, 1, 15);
 
-        Category incomeCat1 = new Category("IncomeTest1", "#111111", true);
-        Category incomeCat2 = new Category("IncomeTest2", "#555555", true);
+        Category incomeCat1 = new Category("IncomeTest1", "#111111", true,0);
+        Category incomeCat2 = new Category("IncomeTest2", "#555555", true,0);
         tm.addCategory(incomeCat1);
         tm.addCategory(incomeCat2);
 
@@ -317,8 +316,8 @@ public class TransactionModelTest {
         LocalDate d3 = LocalDate.of(1905, 1, 27);
         LocalDate d4 = LocalDate.of(1905, 1, 15);
 
-        Category expenseCat1 = new Category("expenseTest1", "#111111", false);
-        Category expenseCat2 = new Category("expenseTest2", "#555555", false);
+        Category expenseCat1 = new Category("expenseTest1", "#111111", false,0);
+        Category expenseCat2 = new Category("expenseTest2", "#555555", false,0);
         tm.addCategory(expenseCat1);
         tm.addCategory(expenseCat2);
 
@@ -347,8 +346,8 @@ public class TransactionModelTest {
         LocalDate d3 = LocalDate.of(1965, 8, 15);
         LocalDate d4 = LocalDate.of(1965, 8, 15);
 
-        Category incomeCat1 = new Category("incomeTest1", "#111111", true);
-        Category expenseCat1 = new Category("expenseTest1", "#555555", false);
+        Category incomeCat1 = new Category("incomeTest1", "#111111", true,0);
+        Category expenseCat1 = new Category("expenseTest1", "#555555", false,0);
         tm.addCategory(incomeCat1);
         tm.addCategory(expenseCat1);
 
@@ -377,9 +376,9 @@ public class TransactionModelTest {
         LocalDate d3 = LocalDate.of(1965, 8, 15);
         LocalDate d4 = LocalDate.of(1965, 8, 15);
 
-        Category incomeCat1 = new Category("incomeTest1", "#111111", true);
-        Category expenseCat1 = new Category("expenseTest1", "#555555", false);
-        Category emptyCategory = new Category("ImEmpty", "#FFFFFF", true);
+        Category incomeCat1 = new Category("incomeTest1", "#111111", true,0);
+        Category expenseCat1 = new Category("expenseTest1", "#555555", false,0);
+        Category emptyCategory = new Category("ImEmpty", "#FFFFFF", true,0);
         tm.addCategory(incomeCat1);
         tm.addCategory(expenseCat1);
         tm.addCategory(emptyCategory);
@@ -395,7 +394,8 @@ public class TransactionModelTest {
         tm.addTransaction(t4);
 
         TransactionRequest request = new TransactionRequest(null, 1899, 8);
-        List<Category> nonEmptyList = tm.removeEmptyCategories(tm.getCategoryList(), request);
+        ArrayList<Category> nonEmptyList = tm.getCategoryList();
+        tm.removeEmptyCategories(nonEmptyList, request);
 
         boolean outcome = true;
         for (Category c : nonEmptyList) {
@@ -415,10 +415,10 @@ public class TransactionModelTest {
         LocalDate d3 = LocalDate.of(1897, 3, 15);
         LocalDate d4 = LocalDate.of(1897, 3, 15);
 
-        Category testCat1 = new Category("testcat1", "#111111", false);
-        Category testCat2 = new Category("testcat2", "#555555", false);
-        Category testCat3 = new Category("testcat3", "#555555", false);
-        Category testCat4 = new Category("testcat4", "#555555", false);
+        Category testCat1 = new Category("testcat1", "#111111", false,0);
+        Category testCat2 = new Category("testcat2", "#555555", false,0);
+        Category testCat3 = new Category("testcat3", "#555555", false,0);
+        Category testCat4 = new Category("testcat4", "#555555", false,0);
 
         tm.addCategory(testCat1);
         tm.addCategory(testCat2);
@@ -436,7 +436,8 @@ public class TransactionModelTest {
         tm.addTransaction(t4);
 
         TransactionRequest request = new TransactionRequest(null, 3, 1897);
-        List<Category> sortedList = tm.sortCategoryListBySum(tm.getCategoryList(), request);
+        ArrayList<Category> sortedList = tm.getCategoryList();
+        tm.sortCategoryListBySum(sortedList, request);
 
         boolean outcome = true;
         //Check if list is sorted with largest first

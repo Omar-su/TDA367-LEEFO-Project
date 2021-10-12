@@ -120,8 +120,6 @@ public class TransactionModel implements ITransactionModel {
      * @return The sum of the FinancialTransactions that match the search parameters in request object.
      */
     public float getTransactionSum(TransactionRequest request){
-        //  finished i think, just wrote this quick.
-
         float sum = 0;
         for (FinancialTransaction t : searchTransactions(request)){
             sum = sum + t.getAmount();
@@ -158,19 +156,29 @@ public class TransactionModel implements ITransactionModel {
         return result;
     }
 
-    public ArrayList<Category> removeEmptyCategories(ArrayList<Category> list, TransactionRequest request){
-        ArrayList<Category> notEmpty = new ArrayList<>();
-        for (Category c : list){
+    /**
+     * Removes categories from list which have zero transactions in a given time period.
+     * @param list to be worked on.
+     * @param request specifies the time period.
+     */
+    public void removeEmptyCategories(ArrayList<Category> list, TransactionRequest request){
+        for (int i = 0; i < list.size(); i++){
+            Category c = list.get(i);
             request.setCategory(c);
-            if (!searchTransactions(request).isEmpty()){
-                notEmpty.add(c);
+            if (searchTransactions(request).isEmpty()){
+                list.remove(c);
+                i--;
             }
         }
-        return notEmpty;
     }
 
-    // largest first
-    public ArrayList<Category> sortCategoryListBySum(ArrayList<Category> list, TransactionRequest request){
+    /**
+     * Sorts a given category list based on the sum of transactions belonging to the category i a specific time period.
+     * Categories with largest sum gets the lowest index in the list.
+     * @param list the list to be sorted.
+     * @param request specifies the time period.
+     */
+    public void sortCategoryListBySum(ArrayList<Category> list, TransactionRequest request){
         for (int x = 0; x < list.size() ; x++){
             for (int i = 0; i < list.size()-1; i++){
                 float sum1 = getTransactionSum(new TransactionRequest(list.get(i), request.getMonth(), request.getYear()));
@@ -180,33 +188,169 @@ public class TransactionModel implements ITransactionModel {
                 }
             }
         }
+    }
+
+    // methods for sorting categories by most popular (data from 20 recent transactions) -----
+
+    /**
+     * Returns a list with the 20 newest transactions from transactionList.
+     * If there isn't 20 transactions in transactionList then the ones that exist will be returned.
+     * @return list with up to 20 transactions.
+     */
+    private ArrayList<FinancialTransaction> get20latestTransactions(){
+
+        if (getTransactionList().size() < 20) return getTransactionList();
+
+        ArrayList<FinancialTransaction> list = new ArrayList<>();
+        int i = 0;
+        while (i < 20){
+            list.add(getTransactionList().get(i++));
+        }
         return list;
+    }
+
+    /**
+     * Returns the number of times a category is used inside a list of transactions.
+     * @param list the list with transactions.
+     * @param category the category to be counted.
+     * @return number of times the category was used.
+     */
+    private int getCategoryCount(ArrayList<FinancialTransaction> list, Category category){
+        int count = 0;
+        for (FinancialTransaction t : list){
+            if (category.Equals(t.getCategory())){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Sorts a category list based on how many times it was used in the latest 20 transactions.
+     * Larger amount means lower list index.
+     * @param categoryList list to be sorted
+     */
+    public void sortCategoryListByPopularity(ArrayList<Category> categoryList){
+
+        ArrayList<FinancialTransaction> data = get20latestTransactions();
+
+        for (int x = 0; x < categoryList.size() ; x++){
+            for (int i = 0; i < categoryList.size()-1; i++){
+                int count1 = getCategoryCount(data, categoryList.get(i));
+                int count2 = getCategoryCount(data, categoryList.get(i+1));
+                if (count1 < count2){
+                    swap(categoryList, i, i+1);
+                }
+            }
+        }
+    }
+
+    /**
+     * Sorts a transaction list based on the transaction amount.
+     * Larger amount means lower list index.
+     * @param list list to be sorted
+     */
+    public void sortByAmount(ArrayList<FinancialTransaction> list){
+
+        for (int x = 0; x < list.size() ; x++){
+            for (int i = 0; i < list.size()-1; i++){
+                float amount1 = Math.abs(list.get(i).getAmount());
+                float amount2 = Math.abs(list.get(i+1).getAmount());
+                if (amount1 < amount2){
+                    swap(list, i, i+1);
+                }
+            }
+        }
+    }
+
+    /**
+     * Searches the transaction list to find transactions that match the searched text by note description
+     * @param transactionList the the list of transactions to check
+     * @param note the searched note description
+     * @return the transactions that are matching the note description
+     */
+    public ArrayList<FinancialTransaction> searchTransactionByNote(ArrayList <FinancialTransaction> transactionList, String note){
+        ArrayList<FinancialTransaction> newList = new ArrayList<>();
+        for(FinancialTransaction transaction : transactionList){
+            if(transaction.getDescription().toLowerCase().contains(note.toLowerCase())){
+                newList.add(transaction);
+            }
+        }
+        return newList;
+    }
+
+    /**
+     * Searches the transaction list to find transactions that match the searched text by amount
+     * @param transactionList the the list of transactions to check
+     * @param amount the searched amount
+     * @return the transactions that are matching the amount
+     */
+    public ArrayList<FinancialTransaction> searchTransactionByAmount(ArrayList <FinancialTransaction> transactionList, Float amount){
+        ArrayList<FinancialTransaction> newList = new ArrayList<>();
+        for(FinancialTransaction transaction : transactionList){
+            float amount1 = Math.abs(transaction.getAmount());
+            if(amount1==amount)
+                newList.add(transaction);
+        }
+        return newList;
     }
 
 
     // dataBase methods ----
+
+    /**
+     * Save a transaction in the database.
+     * @param transaction to be saved.
+     */
     private void saveTransactionToDatabase(FinancialTransaction transaction){
         database.saveData(transaction);
     }
 
+    /**
+     * Save a category in the database.
+     * @param category to be saved.
+     */
+    private void saveCategoryToDatabase(Category category){
+        database.saveData(category);
+    }
+
+    /**
+     * Delete a transaction from the database.
+     * @param transaction to be deleted.
+     */
     private void deleteTransactionFromDatabase(FinancialTransaction transaction){
         database.removeData(transaction);
     }
 
+    /**
+     * Delete a category from the database.
+     * @param category to be deleted.
+     */
+    private void deleteCategoryFromDatabase(Category category){
+        database.removeData(category);
+    }
 
     /**
-     * Method for getting all transactions in database.
-     * @return Returns all transactions currently stored in database.
+     * Get all transactions stored in the database.
+     * @return list of transactions.
      */
-    private ArrayList<FinancialTransaction> getFinancialTransactionsFromDatabase(){
+    private ArrayList<FinancialTransaction> getFinancialTransactions(){
 
         ArrayList<FinancialTransaction> transactions = database.getFinancialTransactions();
 
         // transactions may not be in order when retrieved from database, so they must be sorted.
         // lower index means that the transaction has been made more recently.
-        bubbleSortTransactions(transactions);
+        bubbleSortTransactionsByDate(transactions);
 
         return transactions; // should be sorted by date
+    }
+
+    /**
+     * Get all categories stored in the database.
+     * @return list of categories.
+     */
+    private ArrayList<Category> getCategories(){
+        return database.getCategories();
     }
 
 
@@ -219,7 +363,7 @@ public class TransactionModel implements ITransactionModel {
      *
      * @param transactions List to be sorted.
      */
-    private void bubbleSortTransactions(ArrayList<FinancialTransaction> transactions)
+    private void bubbleSortTransactionsByDate(ArrayList<FinancialTransaction> transactions)
     {
         boolean notCompleted = true; // will be set to false in the last loop through the list of transactions
 
