@@ -2,10 +2,13 @@ package com.leefo.budgetapplication.view.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -40,6 +43,7 @@ public class HomeListViewFragment extends Fragment {
     private ImageButton sort_button;
     private Dialog dialog;
     private RadioGroup sort_radio_group;
+    private EditText serach_text;
 
     /**
      * Method that runs when the fragment is being created.
@@ -55,6 +59,9 @@ public class HomeListViewFragment extends Fragment {
         noTransactions1 = view.findViewById(R.id.noTransactionsYetText1);
         noTransactions2 = view.findViewById(R.id.noTransactionsYetText2);
         sort_button = view.findViewById(R.id.sort_button);
+        serach_text = view.findViewById(R.id.search_text);
+
+        initSearch();
 
         TimePeriodViewModel viewModel = new ViewModelProvider(requireActivity()).get(TimePeriodViewModel.class);
         timePeriod = viewModel.getTimePeriodLiveData().getValue();
@@ -75,6 +82,31 @@ public class HomeListViewFragment extends Fragment {
         initSortButton();
 
         return view;
+    }
+
+    private void initSearch(){
+        serach_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filterByNote(editable.toString());
+            }
+        });
+    }
+
+    private void filterByNote(String note){
+        ArrayList<FinancialTransaction> transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+        ArrayList<FinancialTransaction> newList = Controller.searchTransactionByNote(transactions, note);
+        updateList(newList);
     }
 
     private void initList() {

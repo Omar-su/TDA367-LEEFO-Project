@@ -281,5 +281,13 @@ public class Controller {
         transactionModel.sortByAmount(list);
     }
 
-
+    /**
+     * Searches the transaction list to find transactions that match the searched text by note description
+     * @param list the the list of transactions to check
+     * @param note the searched note description
+     */
+    public static ArrayList<FinancialTransaction> searchTransactionByNote(ArrayList<FinancialTransaction> list, String note){
+        return transactionModel.searchTransactionByNote(list, note);
     }
+
+}

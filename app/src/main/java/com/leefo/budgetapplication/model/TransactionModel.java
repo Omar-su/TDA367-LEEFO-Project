@@ -431,6 +431,22 @@ public class TransactionModel {
         }
     }
 
+    /**
+     * Searches the transaction list to find transactions that match the searched text by note description
+     * @param transactionList the the list of transactions to check
+     * @param note the searched note description
+     * @return the transactions that are matching the note description
+     */
+    public ArrayList<FinancialTransaction> searchTransactionByNote(ArrayList <FinancialTransaction> transactionList, String note){
+        ArrayList<FinancialTransaction> newList = new ArrayList<>();
+        for(FinancialTransaction transaction : transactionList){
+            if(transaction.getDescription().toLowerCase().contains(note.toLowerCase())){
+                newList.add(transaction);
+            }
+        }
+        return newList;
+    }
+
 
     // dataBase methods ----
 
