@@ -103,10 +103,12 @@ public class HomeListViewFragment extends Fragment {
             if (transactions.isEmpty()) {
                 noTransactions1.setVisibility(View.VISIBLE);
                 noTransactions2.setVisibility(View.VISIBLE);
+                sort_button.setVisibility(View.INVISIBLE);
             } else {
                 putDatesIntoTransactionList(transactions);
                 noTransactions1.setVisibility(View.INVISIBLE);
                 noTransactions2.setVisibility(View.INVISIBLE);
+                sort_button.setVisibility(View.VISIBLE);
             }
             TransactionListAdapter adapter = new TransactionListAdapter(getActivity().getApplicationContext(), transactions);
             listView.setAdapter(adapter);
@@ -183,11 +185,11 @@ public class HomeListViewFragment extends Fragment {
                         break;
 
                     case R.id.highest_amount_radio:
-                        transactions = Controller.getSortByAmount(transactions);
+                        Controller.getSortByAmount(transactions);
                         break;
 
                     case R.id.lowest_amount_radio:
-                        transactions = Controller.getSortByAmount(transactions);
+                        Controller.getSortByAmount(transactions);
                         Collections.reverse(transactions);
                         break;
                 }

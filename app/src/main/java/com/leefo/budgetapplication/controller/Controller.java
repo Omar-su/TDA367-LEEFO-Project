@@ -244,17 +244,17 @@ public class Controller {
         return transactionModel.removeEmptyCategories(list, request);
     }
 
-    public static ArrayList<Category> sortCategoryListBySum(ArrayList<Category> list, int month, int year){
+    public static void sortCategoryListBySum(ArrayList<Category> list, int month, int year){
         TransactionRequest request = new TransactionRequest(null, month, year);
-        return transactionModel.getSortCategoryListBySum(list, request);
+        transactionModel.sortCategoryListBySum(list, request);
     }
 
-    public static ArrayList<Category> sortCategoryListByPopularity(ArrayList<Category> categoryList){
-        return transactionModel.getSortCategoryListByPopularity(categoryList);
+    public static void sortCategoryListByPopularity(ArrayList<Category> categoryList){
+        transactionModel.sortCategoryListByPopularity(categoryList);
     }
 
-    public static ArrayList<FinancialTransaction> getSortByAmount(ArrayList<FinancialTransaction> list) {
-        return transactionModel.getSortByAmount(list);
+    public static void getSortByAmount(ArrayList<FinancialTransaction> list) {
+        transactionModel.sortByAmount(list);
     }
 
 

@@ -1,6 +1,5 @@
 package com.leefo.budgetapplication.model;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -340,7 +339,7 @@ public class TransactionModel {
     }
 
     // largest first
-    public ArrayList<Category> getSortCategoryListBySum(ArrayList<Category> list, TransactionRequest request){
+    public void sortCategoryListBySum(ArrayList<Category> list, TransactionRequest request){
         for (int x = 0; x < list.size() ; x++){
             for (int i = 0; i < list.size()-1; i++){
                 float sum1 = getTransactionSum(new TransactionRequest(list.get(i), request.getMonth(), request.getYear()));
@@ -350,7 +349,6 @@ public class TransactionModel {
                 }
             }
         }
-        return list;
     }
 
     // methods for sorting categories by most popular (data from 20 recent transactions) -----
@@ -376,7 +374,7 @@ public class TransactionModel {
         return count;
     }
 
-    public ArrayList<Category> getSortCategoryListByPopularity(ArrayList<Category> categoryList){
+    public void sortCategoryListByPopularity(ArrayList<Category> categoryList){
 
         ArrayList<FinancialTransaction> data = get20latestTransactions();
 
@@ -389,11 +387,10 @@ public class TransactionModel {
                 }
             }
         }
-        return categoryList;
     }
 
     // sort by amount, largest first
-    public ArrayList<FinancialTransaction> getSortByAmount(ArrayList<FinancialTransaction> list){
+    public void sortByAmount(ArrayList<FinancialTransaction> list){
 
         for (int x = 0; x < list.size() ; x++){
             for (int i = 0; i < list.size()-1; i++){
@@ -404,7 +401,6 @@ public class TransactionModel {
                 }
             }
         }
-        return list;
     }
 
 
@@ -431,7 +427,7 @@ public class TransactionModel {
 
         // transactions may not be in order when retrieved from database, so they must be sorted.
         // lower index means that the transaction has been made more recently.
-        bubbleSortTransactions(transactions);
+        bubbleSortTransactionsByDate(transactions);
 
         return transactions; // should be sorted by date
     }
@@ -450,7 +446,7 @@ public class TransactionModel {
      *
      * @param transactions List to be sorted.
      */
-    private void bubbleSortTransactions(ArrayList<FinancialTransaction> transactions)
+    private void bubbleSortTransactionsByDate(ArrayList<FinancialTransaction> transactions)
     {
         boolean notCompleted = true; // will be set to false in the last loop through the list of transactions
 
