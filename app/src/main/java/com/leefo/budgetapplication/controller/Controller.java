@@ -239,21 +239,45 @@ public class Controller {
     }
 
 
-    public static ArrayList<Category> removeEmptyCategories(ArrayList<Category> list, int month, int year){
+    /**
+     * Removes categories from list which have zero transactions in a given time period.
+     * @param list List to be worked on.
+     * @param month The month checked for if there is any transactions. (can be null, meaning all months).
+     * @param year The year checked for if there is any transactions. (can be null, meaning all years).
+     */
+    public static void removeEmptyCategories(ArrayList<Category> list, int month, int year){
         TransactionRequest request = new TransactionRequest(null, month, year);
-        return transactionModel.removeEmptyCategories(list, request);
+        transactionModel.removeEmptyCategories(list, request);
     }
 
+    /**
+     * Sorts a given category list based on the sum of transactions belonging to the category i a specific time period.
+     * Categories with largest sum gets the lowest index in the list.
+     *
+     * @param list The list to be sorted.
+     * @param month The month in which the sum will be calculated. (can be 0, meaning all months)
+     * @param year The year in which the sum will be calculated. (can be 0, meaning all years)
+     */
     public static void sortCategoryListBySum(ArrayList<Category> list, int month, int year){
         TransactionRequest request = new TransactionRequest(null, month, year);
         transactionModel.sortCategoryListBySum(list, request);
     }
 
+    /**
+     * Sorts a category list based on how many times it was used in the latest 20 transactions.
+     * Larger amount means lower list index.
+     * @param categoryList Category list to be sorted
+     */
     public static void sortCategoryListByPopularity(ArrayList<Category> categoryList){
         transactionModel.sortCategoryListByPopularity(categoryList);
     }
 
-    public static void getSortByAmount(ArrayList<FinancialTransaction> list) {
+    /**
+     * Sorts a transaction list based on the transaction amount.
+     * Larger amount means lower list index.
+     * @param list List to be sorted
+     */
+    public static void sortByAmount(ArrayList<FinancialTransaction> list) {
         transactionModel.sortByAmount(list);
     }
 

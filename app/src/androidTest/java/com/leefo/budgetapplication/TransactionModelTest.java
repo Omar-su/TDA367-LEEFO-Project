@@ -394,7 +394,8 @@ public class TransactionModelTest {
         tm.addTransaction(t4);
 
         TransactionRequest request = new TransactionRequest(null, 1899, 8);
-        List<Category> nonEmptyList = tm.removeEmptyCategories(tm.getCategoryList(), request);
+        ArrayList<Category> nonEmptyList = tm.getCategoryList();
+        tm.removeEmptyCategories(nonEmptyList, request);
 
         boolean outcome = true;
         for (Category c : nonEmptyList) {

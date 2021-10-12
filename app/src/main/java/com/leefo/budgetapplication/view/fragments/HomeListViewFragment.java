@@ -22,7 +22,6 @@ import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.ParcelableTransaction;
 import com.leefo.budgetapplication.view.TimePeriodViewModel;
 import com.leefo.budgetapplication.view.TimePeriod;
-import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 import com.leefo.budgetapplication.view.adapters.TransactionListAdapter;
 
 import java.time.LocalDate;
@@ -185,11 +184,11 @@ public class HomeListViewFragment extends Fragment {
                         break;
 
                     case R.id.highest_amount_radio:
-                        Controller.getSortByAmount(transactions);
+                        Controller.sortByAmount(transactions);
                         break;
 
                     case R.id.lowest_amount_radio:
-                        Controller.getSortByAmount(transactions);
+                        Controller.sortByAmount(transactions);
                         Collections.reverse(transactions);
                         break;
                 }
