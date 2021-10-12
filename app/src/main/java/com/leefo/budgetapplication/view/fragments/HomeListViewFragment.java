@@ -1,11 +1,14 @@
 package com.leefo.budgetapplication.view.fragments;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -19,6 +22,7 @@ import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.ParcelableTransaction;
 import com.leefo.budgetapplication.view.TimePeriodViewModel;
 import com.leefo.budgetapplication.view.TimePeriod;
+import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 import com.leefo.budgetapplication.view.adapters.TransactionListAdapter;
 
 import java.time.LocalDate;
@@ -30,11 +34,13 @@ import java.util.ArrayList;
  */
 public class HomeListViewFragment extends Fragment {
 
-    ListView listView;
-    TransactionListAdapter adapter;
-    ArrayList<FinancialTransaction> transactions;
-    TextView noTransactions1, noTransactions2;
-    TimePeriod timePeriod;
+    private ListView listView;
+    private TextView noTransactions1, noTransactions2;
+    private TimePeriod timePeriod;
+    private ImageButton sort_button;
+    private Dialog dialog;
+    private RadioGroup sort_radio_group;
+
     /**
      * Method that runs when the fragment is being created.
      * Connects the fragment xml file to the fragment class and initializes the fragment's components.
@@ -48,20 +54,25 @@ public class HomeListViewFragment extends Fragment {
         listView = view.findViewById(R.id.listView_home);
         noTransactions1 = view.findViewById(R.id.noTransactionsYetText1);
         noTransactions2 = view.findViewById(R.id.noTransactionsYetText2);
+        sort_button = view.findViewById(R.id.sort_button);
 
         TimePeriodViewModel viewModel = new ViewModelProvider(requireActivity()).get(TimePeriodViewModel.class);
         timePeriod = viewModel.getTimePeriodLiveData().getValue();
+
         viewModel.getTimePeriodLiveData().observe(getViewLifecycleOwner(), new Observer<TimePeriod>() {
             @Override
             public void onChanged(TimePeriod newTimePeriod) {
-                updateList();
+                updateList(Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear()));
             }
         });
 
 
-        updateList();
+        updateList(Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear()));
 
         initList();
+
+        initSortDialog();
+        initSortButton();
 
         return view;
     }
@@ -85,9 +96,8 @@ public class HomeListViewFragment extends Fragment {
         });
     }
 
-    private void updateList() {
+    private void updateList(ArrayList<FinancialTransaction> transactions) {
         if (getActivity() != null) {
-            transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
 
             if (transactions.isEmpty()) {
                 noTransactions1.setVisibility(View.VISIBLE);
@@ -97,7 +107,7 @@ public class HomeListViewFragment extends Fragment {
                 noTransactions1.setVisibility(View.INVISIBLE);
                 noTransactions2.setVisibility(View.INVISIBLE);
             }
-            adapter = new TransactionListAdapter(getActivity().getApplicationContext(), transactions);
+            TransactionListAdapter adapter = new TransactionListAdapter(getActivity().getApplicationContext(), transactions);
             listView.setAdapter(adapter);
         }
     }
@@ -142,5 +152,39 @@ public class HomeListViewFragment extends Fragment {
             }
             i++;
         }
+    }
+    private void initSortButton(){
+        sort_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.show();
+            }
+        });
+    }
+    private void initSortDialog(){
+        dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.sort_dialog);
+        sort_radio_group = dialog.findViewById(R.id.sort_radio_group);
+        sort_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                ArrayList<FinancialTransaction> transactions = new ArrayList<>();
+
+                switch (checkedId){
+                    case R.id.newest_date_radio:
+                        transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+
+                    case R.id.oldest_date_radio:
+
+                    case R.id.highest_amount_radio:
+
+                    case R.id.lowest_amount_radio:
+                }
+                updateList(transactions);
+                dialog.cancel();
+            }
+        });
     }
 }
