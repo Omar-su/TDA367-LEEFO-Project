@@ -43,7 +43,7 @@ public class HomeListViewFragment extends Fragment {
     private ImageButton sort_button;
     private Dialog dialog;
     private RadioGroup sort_radio_group;
-    private EditText serach_text;
+    private EditText search_text;
 
     /**
      * Method that runs when the fragment is being created.
@@ -59,7 +59,7 @@ public class HomeListViewFragment extends Fragment {
         noTransactions1 = view.findViewById(R.id.noTransactionsYetText1);
         noTransactions2 = view.findViewById(R.id.noTransactionsYetText2);
         sort_button = view.findViewById(R.id.sort_button);
-        serach_text = view.findViewById(R.id.search_text);
+        search_text = view.findViewById(R.id.search_text);
 
         initSearch();
 
@@ -85,20 +85,17 @@ public class HomeListViewFragment extends Fragment {
     }
 
     private void initSearch(){
-        serach_text.addTextChangedListener(new TextWatcher() {
+        search_text.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
             public void afterTextChanged(Editable editable) {
                 filterByNote(editable.toString());
+                try {
+                    filterByAmount(Float.valueOf(editable.toString()));
+                } catch (NumberFormatException e){}
             }
         });
     }
@@ -108,6 +105,13 @@ public class HomeListViewFragment extends Fragment {
         ArrayList<FinancialTransaction> newList = Controller.searchTransactionByNote(transactions, note);
         updateList(newList);
     }
+
+    private void filterByAmount(Float amount){
+        ArrayList<FinancialTransaction> transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+        ArrayList<FinancialTransaction> newList = Controller.searchTransactionByAmount(transactions, amount);
+        updateList(newList);
+    }
+
 
     private void initList() {
 

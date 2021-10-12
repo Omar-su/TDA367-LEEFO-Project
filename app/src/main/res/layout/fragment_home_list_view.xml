@@ -58,6 +58,7 @@ Author: Emelie Edberg
 
     <EditText
         android:id="@+id/search_text"
+        android:hint="Search here"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"

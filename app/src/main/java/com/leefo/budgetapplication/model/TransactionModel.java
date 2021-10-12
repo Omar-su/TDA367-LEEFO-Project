@@ -447,6 +447,22 @@ public class TransactionModel {
         return newList;
     }
 
+    /**
+     * Searches the transaction list to find transactions that match the searched text by amount
+     * @param transactionList the the list of transactions to check
+     * @param amount the searched amount
+     * @return the transactions that are matching the amount
+     */
+    public ArrayList<FinancialTransaction> searchTransactionByAmount(ArrayList <FinancialTransaction> transactionList, Float amount){
+        ArrayList<FinancialTransaction> newList = new ArrayList<>();
+        for(FinancialTransaction transaction : transactionList){
+            float amount1 = Math.abs(transaction.getAmount());
+            if(amount1==amount)
+                newList.add(transaction);
+        }
+        return newList;
+    }
+
 
     // dataBase methods ----
 

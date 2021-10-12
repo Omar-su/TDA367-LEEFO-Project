@@ -290,4 +290,13 @@ public class Controller {
         return transactionModel.searchTransactionByNote(list, note);
     }
 
+    /**
+     * Searches the transaction list to find transactions that match the searched text by amount
+     * @param list the the list of transactions to check
+     * @param amount the searched amount
+     */
+    public static ArrayList<FinancialTransaction> searchTransactionByAmount(ArrayList<FinancialTransaction> list, Float amount){
+        return transactionModel.searchTransactionByAmount(list, amount);
+    }
+
 }
