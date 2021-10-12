@@ -110,7 +110,7 @@ public class EditCategoryFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 new AlertDialog.Builder(getContext())
-                        .setMessage("Are you sure you want to delete this category?")
+                        .setMessage("Are you sure you want to delete this category? Every transaction in this category will be transferred to Other category.")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
