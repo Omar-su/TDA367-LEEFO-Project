@@ -27,6 +27,7 @@ import com.leefo.budgetapplication.view.adapters.TransactionListAdapter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * The class that represents the fragment for the list view inside the HomeFragment
@@ -175,12 +176,20 @@ public class HomeListViewFragment extends Fragment {
                 switch (checkedId){
                     case R.id.newest_date_radio:
                         transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+                        break;
 
                     case R.id.oldest_date_radio:
+                        transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+                        Collections.reverse(transactions);
+                        break;
 
                     case R.id.highest_amount_radio:
 
+                        break;
+
                     case R.id.lowest_amount_radio:
+
+                         break;
                 }
                 updateList(transactions);
                 dialog.cancel();
