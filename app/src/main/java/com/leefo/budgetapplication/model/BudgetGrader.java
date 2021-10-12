@@ -12,7 +12,7 @@ public class BudgetGrader {
         this.transactionModel = transactionModel;
     }
 
-    public ArrayList<Category> getBudgetCategories() {
+    public ArrayList<Category> getAllBudgetCategories() {
         ArrayList<Category> budgetList = new ArrayList<>();
         for (Category c : transactionModel.getCategoryList()) {
             if (c.getGoal() > 0) {
@@ -23,7 +23,7 @@ public class BudgetGrader {
     }
 
     public ArrayList<Category> getBudgetCategoriesByMonth(TransactionRequest request) {
-        return transactionModel.removeEmptyCategories(getBudgetCategories(),
+        return transactionModel.removeEmptyCategories(getAllBudgetCategories(),
                 request);
     }
 
