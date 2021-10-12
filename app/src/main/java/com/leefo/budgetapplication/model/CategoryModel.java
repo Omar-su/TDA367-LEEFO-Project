@@ -28,6 +28,7 @@ public class CategoryModel
         initDefaultCategories();
     }
 
+
     private void initDefaultCategories() {
         for (Category c : getCategoryList()){
             if (c.getName().equals("Other income")){
@@ -167,18 +168,28 @@ public class CategoryModel
 
     // database methods --------
 
+    /**
+     * Get all categories stored in the database.
+     * @return list of categories.
+     */
     private ArrayList<Category> getCategoriesFromDatabase()
     {
         return database.getCategories();
     }
 
-    private void saveCategoryToDatabase(Category category)
-    {
+    /**
+     * Save a category in the database.
+     * @param category to be saved.
+     */
+    private void saveCategoryToDatabase(Category category){
         database.saveData(category);
     }
 
-    private void deleteCategoryFromDatabase(Category category)
-    {
+    /**
+     * Delete a category from the database.
+     * @param category to be deleted.
+     */
+    private void deleteCategoryFromDatabase(Category category){
         database.removeData(category);
     }
 

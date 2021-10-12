@@ -307,14 +307,6 @@ public class TransactionModel implements ITransactionModel {
     }
 
     /**
-     * Save a category in the database.
-     * @param category to be saved.
-     */
-    private void saveCategoryToDatabase(Category category){
-        database.saveData(category);
-    }
-
-    /**
      * Delete a transaction from the database.
      * @param transaction to be deleted.
      */
@@ -322,19 +314,13 @@ public class TransactionModel implements ITransactionModel {
         database.removeData(transaction);
     }
 
-    /**
-     * Delete a category from the database.
-     * @param category to be deleted.
-     */
-    private void deleteCategoryFromDatabase(Category category){
-        database.removeData(category);
-    }
+
 
     /**
      * Get all transactions stored in the database.
      * @return list of transactions.
      */
-    private ArrayList<FinancialTransaction> getFinancialTransactions(){
+    private ArrayList<FinancialTransaction> getFinancialTransactionsFromDatabase(){
 
         ArrayList<FinancialTransaction> transactions = database.getFinancialTransactions();
 
@@ -344,15 +330,6 @@ public class TransactionModel implements ITransactionModel {
 
         return transactions; // should be sorted by date
     }
-
-    /**
-     * Get all categories stored in the database.
-     * @return list of categories.
-     */
-    private ArrayList<Category> getCategories(){
-        return database.getCategories();
-    }
-
 
     // sorting ----
 

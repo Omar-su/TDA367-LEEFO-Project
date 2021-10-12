@@ -43,9 +43,10 @@ public class Controller {
     {
         DataBaseManager database = new DataBaseManager(context);
 
-        transactionModel = new TransactionModel(database);
-        // contains reference to transactionModel as type ITransactionModel
         categoryModel = new CategoryModel(database, transactionModel);
+
+        transactionModel = new TransactionModel(database);
+
     }
 
     /**
@@ -255,7 +256,7 @@ public class Controller {
      * @param year The year checked for if there is any transactions. (can be null, meaning all years).
      */
     public static void removeEmptyCategories(ArrayList<Category> list, int month, int year){
-        TransactionRequest request = new TransactionRequest(null, month, year);
+        TransactionRequest request = new TransactionRequest((Category)null, month, year);
         transactionModel.removeEmptyCategories(list, request);
     }
 
@@ -268,7 +269,7 @@ public class Controller {
      * @param year The year in which the sum will be calculated. (can be 0, meaning all years)
      */
     public static void sortCategoryListBySum(ArrayList<Category> list, int month, int year){
-        TransactionRequest request = new TransactionRequest(null, month, year);
+        TransactionRequest request = new TransactionRequest((Category)null, month, year);
         transactionModel.sortCategoryListBySum(list, request);
     }
 
