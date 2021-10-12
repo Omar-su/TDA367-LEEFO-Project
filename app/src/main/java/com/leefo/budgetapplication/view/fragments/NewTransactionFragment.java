@@ -86,8 +86,8 @@ public class NewTransactionFragment extends Fragment {
 
     private void initSpinner(){
         ArrayList<Category> income, expense;
-        income = Controller.getIncomeCategories();
-        expense = Controller.getExpenseCategories();
+        income = Controller.sortCategoryListByPopularity(Controller.getIncomeCategories());
+        expense = Controller.sortCategoryListByPopularity(Controller.getExpenseCategories());
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity().getApplicationContext(), expense);
         categorySpinner.setAdapter(spinnerAdapter);
 

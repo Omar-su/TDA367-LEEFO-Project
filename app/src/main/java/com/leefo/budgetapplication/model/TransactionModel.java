@@ -1,5 +1,6 @@
 package com.leefo.budgetapplication.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -29,8 +30,9 @@ public class TransactionModel {
      */
     public TransactionModel(IDatabase database) {
         this.database = database;
-        transactionList = getFinancialTransactions();
         categoryList = getCategories();
+        transactionList = getFinancialTransactions();
+
 
         initDefaultCategories();
     }
@@ -350,6 +352,46 @@ public class TransactionModel {
         }
         return list;
     }
+
+    // methods for sorting categories by most popular (data from 20 recent transactions) -----
+    private ArrayList<FinancialTransaction> get20latestTransactions(){
+
+        if (getTransactionList().size() < 20) return getTransactionList();
+
+        ArrayList<FinancialTransaction> list = new ArrayList<>();
+        int i = 0;
+        while (i < 20){
+            list.add(getTransactionList().get(i++));
+        }
+        return list;
+    }
+
+    private int getCategoryCount(ArrayList<FinancialTransaction> list, Category category){
+        int count = 0;
+        for (FinancialTransaction t : list){
+            if (category.Equals(t.getCategory())){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public ArrayList<Category> sortCategoryListByPopularity(ArrayList<Category> categoryList){
+
+        ArrayList<FinancialTransaction> data = get20latestTransactions();
+
+        for (int x = 0; x < categoryList.size() ; x++){
+            for (int i = 0; i < categoryList.size()-1; i++){
+                int count1 = getCategoryCount(data, categoryList.get(i));
+                int count2 = getCategoryCount(data, categoryList.get(i+1));
+                if (count1 < count2){
+                    swap(categoryList, i, i+1);
+                }
+            }
+        }
+        return categoryList;
+    }
+
 
 
     // dataBase methods ----

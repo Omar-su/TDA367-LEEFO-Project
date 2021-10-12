@@ -249,4 +249,9 @@ public class Controller {
         return transactionModel.sortCategoryListBySum(list, request);
     }
 
-}
+    public static ArrayList<Category> sortCategoryListByPopularity(ArrayList<Category> categoryList){
+        return transactionModel.sortCategoryListByPopularity(categoryList);
+    }
+
+
+    }
