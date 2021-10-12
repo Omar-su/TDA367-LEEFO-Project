@@ -92,26 +92,25 @@ public class HomeListViewFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
             public void afterTextChanged(Editable editable) {
-                filterByNote(editable.toString());
+                searchByNote(editable.toString());
                 try {
-                    filterByAmount(Float.valueOf(editable.toString()));
+                    searchByMonth(Float.valueOf(editable.toString()));
                 } catch (NumberFormatException e){}
             }
         });
     }
 
-    private void filterByNote(String note){
+    private void searchByNote(String note){
         ArrayList<FinancialTransaction> transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
         ArrayList<FinancialTransaction> newList = Controller.searchTransactionByNote(transactions, note);
         updateList(newList);
     }
 
-    private void filterByAmount(Float amount){
+    private void searchByMonth(Float amount){
         ArrayList<FinancialTransaction> transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
         ArrayList<FinancialTransaction> newList = Controller.searchTransactionByAmount(transactions, amount);
         updateList(newList);
     }
-
 
     private void initList() {
 
