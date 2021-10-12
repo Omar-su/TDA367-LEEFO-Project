@@ -24,16 +24,19 @@ import java.util.ArrayList;
 public class Controller {
 
     /**
-     * The object handling logic for all transactions and categories.
+     * Object handling logic for transactions.
      */
     private static TransactionModel transactionModel;
 
+    /**
+     * Object handling logic for categories
+     */
     private static CategoryModel categoryModel;
 
 
 
     /**
-     * Initializes database as well as the TransactionModel.
+     * Initializes database, transactionModel and categoryModel.
      * @param context Application context for database.
      */
     public static void InitializeBackend(Context context)

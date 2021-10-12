@@ -16,9 +16,7 @@ public class TransactionModel implements ITransactionModel {
      */
     private  final ArrayList<FinancialTransaction> transactionList;
 
-
-
-   private final IDatabase database;
+    private final IDatabase database;
 
 
     /**
@@ -26,7 +24,7 @@ public class TransactionModel implements ITransactionModel {
      */
     public TransactionModel(IDatabase database) {
         this.database = database;
-        transactionList = getFinancialTransactions();
+        transactionList = getFinancialTransactionsFromDatabase();
     }
 
 
@@ -75,12 +73,6 @@ public class TransactionModel implements ITransactionModel {
         ObserverHandler.updateObservers();
     }
 
-
-
-
-
-
-
     /**
      * Edits the information of a financial transaction.
      * Also saves the changes to the persistence storage.
@@ -98,6 +90,7 @@ public class TransactionModel implements ITransactionModel {
      * @param oldCategory Category that is going to be replaced.
      * @param newCategory Category that will replace oldCategory.
      */
+    @Override
     public void replaceCategory(Category oldCategory, Category newCategory){
         for(int i = 0; i < getTransactionList().size(); i++){
             FinancialTransaction t = getTransactionList().get(i);
@@ -109,6 +102,7 @@ public class TransactionModel implements ITransactionModel {
         }
 
     }
+
     /**
      * Returns a copy of the transactionList
      * @return copy if transactionList
@@ -120,6 +114,11 @@ public class TransactionModel implements ITransactionModel {
 
     //TODO implement these methods
 
+    /**
+     * Gets the sum of the transactions that match the parameters in the TransactionRequest object.
+     * @param request Object containing search parameters.
+     * @return The sum of the FinancialTransactions that match the search parameters in request object.
+     */
     public float getTransactionSum(TransactionRequest request){
         //  finished i think, just wrote this quick.
 
@@ -130,6 +129,11 @@ public class TransactionModel implements ITransactionModel {
         return Math.abs(sum);
     }
 
+    /**
+     * Method to search through transactionList with search parameters from a TransactionRequest object.
+     * @param request Object containing search parameters.
+     * @return A list containing FinancialTransactions matching search parameters.
+     */
     public ArrayList<FinancialTransaction> searchTransactions(TransactionRequest request)
     {
         ArrayList<FinancialTransaction> result = new ArrayList<>();
@@ -190,7 +194,11 @@ public class TransactionModel implements ITransactionModel {
     }
 
 
-    private ArrayList<FinancialTransaction> getFinancialTransactions(){
+    /**
+     * Method for getting all transactions in database.
+     * @return Returns all transactions currently stored in database.
+     */
+    private ArrayList<FinancialTransaction> getFinancialTransactionsFromDatabase(){
 
         ArrayList<FinancialTransaction> transactions = database.getFinancialTransactions();
 
