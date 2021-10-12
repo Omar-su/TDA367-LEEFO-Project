@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <ListView
+        android:id="@+id/editBudgetListV"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="100dp"
@@ -20,7 +21,8 @@
         android:id="@+id/saveButtonBudget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="390dp"
+        android:layout_marginTop="320dp"
+        android:layout_marginBottom="30dp"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

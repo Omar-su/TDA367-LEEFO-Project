@@ -182,7 +182,7 @@ public class HomeListViewFragment extends Fragment {
 
 
     private void addDateRowInTransactionList(ArrayList<FinancialTransaction> list, int index, String date){
-        list.add(index, new FinancialTransaction(0,date, LocalDate.now(), new Category("DATE", "", true,0)));
+        list.add(index, new FinancialTransaction(0,date, LocalDate.now(), new Category("DATE", "", true)));
     }
 
     /**

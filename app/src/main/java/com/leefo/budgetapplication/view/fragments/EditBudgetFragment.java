@@ -17,7 +17,7 @@ import com.leefo.budgetapplication.R;
 
 public class EditBudgetFragment extends Fragment {
 
-    ListView listView;
+    ListView editBudgetLV;
     Button saveBudgetButton;
 
 
@@ -27,6 +27,7 @@ public class EditBudgetFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_budget_listview, container, false);
 
         saveBudgetButton = view.findViewById(R.id.saveButtonBudget);
+        editBudgetLV = view.findViewById(R.id.editBudgetListV);
 
         initSaveBudgetOnClickListener();
         return view;

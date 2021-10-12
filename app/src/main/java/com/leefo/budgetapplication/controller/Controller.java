@@ -55,8 +55,8 @@ public class Controller {
      *
      * @param oldCategory Object of category to be changed.
      */
-    public static void editCategoryInfo(Category oldCategory, String newName, String newColor, boolean isIncome, float budgetGoal) {
-        Category newCategory = new Category(newName, newColor, isIncome, budgetGoal);
+    public static void editCategoryInfo(Category oldCategory, String newName, String newColor, boolean isIncome) {
+        Category newCategory = new Category(newName, newColor, isIncome);
 
         transactionModel.editCategory(oldCategory, newCategory);
     }
@@ -68,8 +68,8 @@ public class Controller {
      * @param name  The name of the new category.
      * @param color The color of the new category.
      */
-    public static void addNewCategory(String name, String color, boolean isIncome, float budgetGoal) {
-        Category newCategory = new Category(name, color, isIncome, budgetGoal);
+    public static void addNewCategory(String name, String color, boolean isIncome) {
+        Category newCategory = new Category(name, color, isIncome);
 
         transactionModel.addCategory(newCategory);
     }
