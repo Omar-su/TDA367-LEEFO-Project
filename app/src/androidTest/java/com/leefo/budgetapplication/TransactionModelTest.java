@@ -19,7 +19,6 @@ import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.model.TransactionModel;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionModelTest {
@@ -436,7 +435,7 @@ public class TransactionModelTest {
         tm.addTransaction(t4);
 
         TransactionRequest request = new TransactionRequest(null, 3, 1897);
-        List<Category> sortedList = tm.sortCategoryListBySum(tm.getCategoryList(), request);
+        List<Category> sortedList = tm.getSortCategoryListBySum(tm.getCategoryList(), request);
 
         boolean outcome = true;
         //Check if list is sorted with largest first

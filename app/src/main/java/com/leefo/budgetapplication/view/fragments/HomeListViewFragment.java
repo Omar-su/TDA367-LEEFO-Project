@@ -171,25 +171,25 @@ public class HomeListViewFragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                ArrayList<FinancialTransaction> transactions = new ArrayList<>();
+                ArrayList<FinancialTransaction> transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
 
                 switch (checkedId){
                     case R.id.newest_date_radio:
-                        transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+
                         break;
 
                     case R.id.oldest_date_radio:
-                        transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
                         Collections.reverse(transactions);
                         break;
 
                     case R.id.highest_amount_radio:
-
+                        transactions = Controller.getSortByAmount(transactions);
                         break;
 
                     case R.id.lowest_amount_radio:
-
-                         break;
+                        transactions = Controller.getSortByAmount(transactions);
+                        Collections.reverse(transactions);
+                        break;
                 }
                 updateList(transactions);
                 dialog.cancel();

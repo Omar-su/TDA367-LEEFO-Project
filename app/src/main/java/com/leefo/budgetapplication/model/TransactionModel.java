@@ -340,7 +340,7 @@ public class TransactionModel {
     }
 
     // largest first
-    public ArrayList<Category> sortCategoryListBySum(ArrayList<Category> list, TransactionRequest request){
+    public ArrayList<Category> getSortCategoryListBySum(ArrayList<Category> list, TransactionRequest request){
         for (int x = 0; x < list.size() ; x++){
             for (int i = 0; i < list.size()-1; i++){
                 float sum1 = getTransactionSum(new TransactionRequest(list.get(i), request.getMonth(), request.getYear()));
@@ -376,7 +376,7 @@ public class TransactionModel {
         return count;
     }
 
-    public ArrayList<Category> sortCategoryListByPopularity(ArrayList<Category> categoryList){
+    public ArrayList<Category> getSortCategoryListByPopularity(ArrayList<Category> categoryList){
 
         ArrayList<FinancialTransaction> data = get20latestTransactions();
 
@@ -392,6 +392,20 @@ public class TransactionModel {
         return categoryList;
     }
 
+    // sort by amount, largest first
+    public ArrayList<FinancialTransaction> getSortByAmount(ArrayList<FinancialTransaction> list){
+
+        for (int x = 0; x < list.size() ; x++){
+            for (int i = 0; i < list.size()-1; i++){
+                float amount1 = Math.abs(list.get(i).getAmount());
+                float amount2 = Math.abs(list.get(i+1).getAmount());
+                if (amount1 < amount2){
+                    swap(list, i, i+1);
+                }
+            }
+        }
+        return list;
+    }
 
 
     // dataBase methods ----

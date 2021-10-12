@@ -246,11 +246,15 @@ public class Controller {
 
     public static ArrayList<Category> sortCategoryListBySum(ArrayList<Category> list, int month, int year){
         TransactionRequest request = new TransactionRequest(null, month, year);
-        return transactionModel.sortCategoryListBySum(list, request);
+        return transactionModel.getSortCategoryListBySum(list, request);
     }
 
     public static ArrayList<Category> sortCategoryListByPopularity(ArrayList<Category> categoryList){
-        return transactionModel.sortCategoryListByPopularity(categoryList);
+        return transactionModel.getSortCategoryListByPopularity(categoryList);
+    }
+
+    public static ArrayList<FinancialTransaction> getSortByAmount(ArrayList<FinancialTransaction> list) {
+        return transactionModel.getSortByAmount(list);
     }
 
 
