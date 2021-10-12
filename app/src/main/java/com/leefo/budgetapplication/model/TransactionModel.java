@@ -336,6 +336,7 @@ public class TransactionModel {
             request.setCategory(c);
             if (searchTransactions(request).isEmpty()){
                 list.remove(c);
+                i--;
             }
         }
     }
