@@ -43,10 +43,8 @@ public class Controller {
     {
         DataBaseManager database = new DataBaseManager(context);
 
-        categoryModel = new CategoryModel(database, transactionModel);
-
         transactionModel = new TransactionModel(database);
-
+        categoryModel = new CategoryModel(database, transactionModel);
     }
 
     /**
