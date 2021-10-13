@@ -135,6 +135,9 @@ public class HomeListViewFragment extends Fragment {
         if (getActivity() != null) {
 
             if (transactions.isEmpty()) {
+                noTransactions1.setVisibility(View.VISIBLE);
+                noTransactions2.setVisibility(View.VISIBLE);
+
                 if (!search_text.getText().toString().equals("")){
                     noTransactions1.setText("No transactions matches your search.");
                     noTransactions2.setText("");
@@ -144,19 +147,13 @@ public class HomeListViewFragment extends Fragment {
                     search_text.setVisibility(View.INVISIBLE);
                     sort_button.setVisibility(View.INVISIBLE);
                 }
-                noTransactions1.setVisibility(View.VISIBLE);
-                noTransactions2.setVisibility(View.VISIBLE);
-                search_tools_button.setVisibility(View.INVISIBLE);
-
             } else {
                 putDatesIntoTransactionList(transactions);
                 noTransactions1.setVisibility(View.INVISIBLE);
                 noTransactions2.setVisibility(View.INVISIBLE);
                 sort_button.setVisibility(View.VISIBLE);
                 search_text.setVisibility(View.VISIBLE);
-                if (search_tools_frame.getVisibility() == View.GONE) {
-                    search_tools_button.setVisibility(View.VISIBLE);
-                }
+
             }
             TransactionListAdapter adapter = new TransactionListAdapter(getActivity().getApplicationContext(), transactions);
             listView.setAdapter(adapter);
