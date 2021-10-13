@@ -7,7 +7,7 @@
     android:layout_height="60dp">
 
     <TextView
-        android:id="@+id/category_name2"
+        android:id="@+id/budget_category_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -19,11 +19,11 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/category_circle2"
+        app:layout_constraintStart_toEndOf="@+id/budget_category_circle"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/category_circle2"
+        android:id="@+id/budget_category_circle"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_centerVertical="true"
@@ -40,7 +40,8 @@
         android:layout_marginEnd="30dp"
         android:ems="10"
         android:inputType="number"
-        android:text="1000 kr"
+        android:text="0"
+        android:textAlignment="center"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,10 +53,26 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:text="Goal : "
+        android:textAllCaps="true"
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="20dp"
+        android:layout_height="40dp"
+        android:paddingTop="10dp"
+        android:text="kr"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.512" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

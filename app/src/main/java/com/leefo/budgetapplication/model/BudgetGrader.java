@@ -14,17 +14,18 @@ public class BudgetGrader {
 
     public ArrayList<Category> getAllBudgetCategories() {
         ArrayList<Category> budgetList = new ArrayList<>();
-        for (Category c : transactionModel.getCategoryList()) {
-            if (c.getGoal() > 0) {
-                budgetList.add(c);
-            }
-        }
+//        for (Category c : transactionModel.getCategoryList()) {
+//            if (c.getGoal() > 0) {
+//                budgetList.add(c);
+//            }
+//        }
         return budgetList;
     }
 
     public ArrayList<Category> getBudgetCategoriesByMonth(TransactionRequest request) {
-        return transactionModel.removeEmptyCategories(getAllBudgetCategories(),
-                request);
+//        return transactionModel.removeEmptyCategories(getAllBudgetCategories(),
+//                request);
+        return null;
     }
 
     public float gradeCategory(TransactionRequest request) {
