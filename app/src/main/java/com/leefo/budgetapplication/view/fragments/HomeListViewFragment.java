@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -41,11 +40,10 @@ public class HomeListViewFragment extends Fragment {
     private ListView listView;
     private TextView noTransactions1, noTransactions2;
     private TimePeriod timePeriod;
-    private ImageButton sort_button, search_tools_button;
+    private ImageButton sort_button;
     private Dialog dialog;
     private RadioGroup sort_radio_group;
     private EditText search_text;
-    private ConstraintLayout search_tools_frame;
 
     /**
      * Method that runs when the fragment is being created.
@@ -62,9 +60,6 @@ public class HomeListViewFragment extends Fragment {
         noTransactions2 = view.findViewById(R.id.noTransactionsYetText2);
         sort_button = view.findViewById(R.id.sort_button);
         search_text = view.findViewById(R.id.search_text);
-        search_tools_button = view.findViewById(R.id.search_tools_button);
-        search_tools_frame = view.findViewById(R.id.sort_search_filter_frame);
-
 
         initSearch();
 
@@ -86,19 +81,7 @@ public class HomeListViewFragment extends Fragment {
         initSortDialog();
         initSortButton();
 
-        initTools();
-
         return view;
-    }
-
-    private void initTools(){
-        search_tools_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                search_tools_frame.setVisibility(View.VISIBLE);
-                search_tools_button.setVisibility(View.GONE);
-            }
-        });
     }
 
     private void initSearch(){
