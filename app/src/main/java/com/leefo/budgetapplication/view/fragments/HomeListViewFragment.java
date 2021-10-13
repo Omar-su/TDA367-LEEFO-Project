@@ -1,11 +1,17 @@
 package com.leefo.budgetapplication.view.fragments;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -23,6 +29,7 @@ import com.leefo.budgetapplication.view.adapters.TransactionListAdapter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * The class that represents the fragment for the list view inside the HomeFragment
@@ -30,11 +37,14 @@ import java.util.ArrayList;
  */
 public class HomeListViewFragment extends Fragment {
 
-    ListView listView;
-    TransactionListAdapter adapter;
-    ArrayList<FinancialTransaction> transactions;
-    TextView noTransactions1, noTransactions2;
-    TimePeriod timePeriod;
+    private ListView listView;
+    private TextView noTransactions1, noTransactions2;
+    private TimePeriod timePeriod;
+    private ImageButton sort_button;
+    private Dialog dialog;
+    private RadioGroup sort_radio_group;
+    private EditText search_text;
+
     /**
      * Method that runs when the fragment is being created.
      * Connects the fragment xml file to the fragment class and initializes the fragment's components.
@@ -48,22 +58,58 @@ public class HomeListViewFragment extends Fragment {
         listView = view.findViewById(R.id.listView_home);
         noTransactions1 = view.findViewById(R.id.noTransactionsYetText1);
         noTransactions2 = view.findViewById(R.id.noTransactionsYetText2);
+        sort_button = view.findViewById(R.id.sort_button);
+        search_text = view.findViewById(R.id.search_text);
+
+        initSearch();
 
         TimePeriodViewModel viewModel = new ViewModelProvider(requireActivity()).get(TimePeriodViewModel.class);
         timePeriod = viewModel.getTimePeriodLiveData().getValue();
+
         viewModel.getTimePeriodLiveData().observe(getViewLifecycleOwner(), new Observer<TimePeriod>() {
             @Override
             public void onChanged(TimePeriod newTimePeriod) {
-                updateList();
+                updateList(Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear()));
             }
         });
 
 
-        updateList();
+        updateList(Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear()));
 
         initList();
 
+        initSortDialog();
+        initSortButton();
+
         return view;
+    }
+
+    private void initSearch(){
+        search_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void afterTextChanged(Editable editable) {
+                searchByNote(editable.toString());
+                try {
+                    searchByMonth(Float.valueOf(editable.toString()));
+                } catch (NumberFormatException e){}
+            }
+        });
+    }
+
+    private void searchByNote(String note){
+        ArrayList<FinancialTransaction> transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+        ArrayList<FinancialTransaction> newList = Controller.searchTransactionByNote(transactions, note);
+        updateList(newList);
+    }
+
+    private void searchByMonth(Float amount){
+        ArrayList<FinancialTransaction> transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+        ArrayList<FinancialTransaction> newList = Controller.searchTransactionByAmount(transactions, amount);
+        updateList(newList);
     }
 
     private void initList() {
@@ -85,26 +131,38 @@ public class HomeListViewFragment extends Fragment {
         });
     }
 
-    private void updateList() {
+    private void updateList(ArrayList<FinancialTransaction> transactions) {
         if (getActivity() != null) {
-            transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
 
             if (transactions.isEmpty()) {
                 noTransactions1.setVisibility(View.VISIBLE);
                 noTransactions2.setVisibility(View.VISIBLE);
+
+                if (!search_text.getText().toString().equals("")){
+                    noTransactions1.setText("No transactions matches your search.");
+                    noTransactions2.setText("");
+                } else {
+                    noTransactions1.setText("You haven't added any transactions for this time period.");
+                    noTransactions2.setText("Use the plus button to add a new transaction.");
+                    search_text.setVisibility(View.INVISIBLE);
+                    sort_button.setVisibility(View.INVISIBLE);
+                }
             } else {
                 putDatesIntoTransactionList(transactions);
                 noTransactions1.setVisibility(View.INVISIBLE);
                 noTransactions2.setVisibility(View.INVISIBLE);
+                sort_button.setVisibility(View.VISIBLE);
+                search_text.setVisibility(View.VISIBLE);
+
             }
-            adapter = new TransactionListAdapter(getActivity().getApplicationContext(), transactions);
+            TransactionListAdapter adapter = new TransactionListAdapter(getActivity().getApplicationContext(), transactions);
             listView.setAdapter(adapter);
         }
     }
 
 
     private void addDateRowInTransactionList(ArrayList<FinancialTransaction> list, int index, String date){
-        list.add(index, new FinancialTransaction(0,date, LocalDate.now(), new Category("DATE", "", true,0)));
+        list.add(index, new FinancialTransaction(0,date, LocalDate.now(), new Category("DATE", "", true)));
     }
 
     /**
@@ -142,5 +200,47 @@ public class HomeListViewFragment extends Fragment {
             }
             i++;
         }
+    }
+    private void initSortButton(){
+        sort_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.show();
+            }
+        });
+    }
+    private void initSortDialog(){
+        dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.sort_dialog);
+        sort_radio_group = dialog.findViewById(R.id.sort_radio_group);
+        sort_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                ArrayList<FinancialTransaction> transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+
+                switch (checkedId){
+                    case R.id.newest_date_radio:
+
+                        break;
+
+                    case R.id.oldest_date_radio:
+                        Collections.reverse(transactions);
+                        break;
+
+                    case R.id.highest_amount_radio:
+                        Controller.sortByAmount(transactions);
+                        break;
+
+                    case R.id.lowest_amount_radio:
+                        Controller.sortByAmount(transactions);
+                        Collections.reverse(transactions);
+                        break;
+                }
+                updateList(transactions);
+                dialog.cancel();
+            }
+        });
     }
 }

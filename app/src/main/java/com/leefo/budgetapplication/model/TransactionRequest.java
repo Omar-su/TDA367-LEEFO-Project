@@ -1,6 +1,6 @@
 package com.leefo.budgetapplication.model;
 
-import com.leefo.budgetapplication.model.Category;
+import java.util.ArrayList;
 
 /**
  * Implementation of 'command' design pattern.
@@ -24,12 +24,16 @@ public class TransactionRequest {
     public TransactionRequest(Category category, int month, int year)
     {
         this.category = category;
+
         this.month = month;
         this.year = year;
 
-        if(month == 0 || year == 0)
-            month = year = 0;
+        if(month == 0 || year == 0) {
+            month = 0;
+            year = 0;
+        }
     }
+
 
     /**
      * For checking whether time is specified.
@@ -50,8 +54,6 @@ public class TransactionRequest {
     }
 
 
-
-
     //  GETTERS -----------
 
     public Category getCategory()
@@ -69,7 +71,8 @@ public class TransactionRequest {
         return year;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(Category category)
+    {
         this.category = category;
     }
 }

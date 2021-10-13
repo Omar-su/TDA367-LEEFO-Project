@@ -39,7 +39,7 @@
         android:layout_height="40dp"
         android:layout_marginEnd="30dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:text="1000 kr"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"

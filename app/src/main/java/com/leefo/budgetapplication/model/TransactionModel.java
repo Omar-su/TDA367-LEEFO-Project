@@ -1,5 +1,6 @@
 package com.leefo.budgetapplication.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -9,19 +10,14 @@ import java.util.ArrayList;
  *
  * @author Felix Edholm, Emelie Edberg, Linus Lundgren, Omar Suliman
  */
-public class TransactionModel {
+public class TransactionModel implements ITransactionModel {
 
     /**
      * The list of FinancialTransactions used in the application
      */
     private  final ArrayList<FinancialTransaction> transactionList;
 
-    /**
-     * The list of Categories used in the application
-     */
-    private final ArrayList<Category> categoryList;
-
-   private final IDatabase database;
+    private final IDatabase database;
 
 
     /**
@@ -29,38 +25,10 @@ public class TransactionModel {
      */
     public TransactionModel(IDatabase database) {
         this.database = database;
-        transactionList = getFinancialTransactions();
-        categoryList = getCategories();
-
-        initDefaultCategories();
+        transactionList = getFinancialTransactionsFromDatabase();
     }
 
-    private void initDefaultCategories() {
-        for (Category c : getCategoryList()){
-            if (c.getName().equals("Other income")){
-                return;
-            }
-        }
-        setDefaultCategories();
-    }
 
-    private void setDefaultCategories(){
-        // Other
-        addCategory(new Category("Other income", "#C4C4C4", true,0));
-        addCategory(new Category("Other expense", "#C4C4C4", false,0));
-
-        // Expenses
-        addCategory(new Category("Home", "#FF6464", false,0));
-        addCategory(new Category("Food", "#64FF7D", false,0));
-        addCategory(new Category("Transportation", "#64BEFF", false,0));
-        addCategory(new Category("Clothes", "#FF64DD", false,0));
-        addCategory(new Category("Entertainment", "#FFAE64", false,0));
-        addCategory(new Category("Electronics", "#64FFEC",false,0));
-
-        //Income
-        addCategory(new Category("Salary", "#FCFF64", true,0));
-        addCategory(new Category("Gift", "#6473FF", true,0));
-    }
 
     /**
      * Adds a financial transaction to the list of financial transactions at appropriate index by date (lower index --> more recent).
@@ -107,72 +75,6 @@ public class TransactionModel {
     }
 
     /**
-     * Adds a category to the list of categories. Also saves the changes to the persistence storage.
-     * @param category The category to be added.
-     */
-    public void addCategory(Category category) {
-        categoryList.add(category);
-
-        saveCategoryToDatabase(category);
-
-        ObserverHandler.updateObservers();
-    }
-
-    /**
-     * Deletes a category from the list of categories. If a FinancialTransaction is of the deleted
-     * category, that FinancialTransactions category is switched to a default category.
-     * Also saves the changes to the persistence storage.
-     * @param category The category to be deleted.
-     */
-    public void deleteCategory(Category category) {
-        if (category == getOtherExpenseCategory()) return; // not allowed tp remove that one
-        if (category == getOtherIncomeCategory()) return; // not allowed to remove that one
-
-        if (category.isIncome()) {
-            for (int i = 0; i < getTransactionList().size(); i++) {
-                FinancialTransaction t = getTransactionList().get(i);
-
-                if (category.transactionBelongs(t)) {
-                    editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(),
-                            t.getDate(), getOtherIncomeCategory()));
-                }
-            }
-        } else {
-            for (int i = 0; i < getTransactionList().size(); i++) {
-                FinancialTransaction t = getTransactionList().get(i);
-
-                if (category.transactionBelongs(t)) {
-                    editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(),
-                            t.getDate(), getOtherExpenseCategory()));
-                }
-            }
-        }
-        categoryList.remove(category);
-
-        deleteCategoryFromDatabase(category);
-
-        ObserverHandler.updateObservers();
-    }
-
-    private Category getOtherIncomeCategory(){
-        for (Category c : getCategoryList()){
-            if (c.getName().equals("Other income")){
-                return c;
-            }
-        }
-        return null; // will never happen
-    }
-
-    private Category getOtherExpenseCategory(){
-        for (Category c : getCategoryList()){
-            if (c.getName().equals("Other expense")){
-                return c;
-            }
-        }
-        return null; // will never happen
-    }
-
-    /**
      * Edits the information of a financial transaction.
      * Also saves the changes to the persistence storage.
      * @param oldTransaction The transaction with the information to be edited.
@@ -183,19 +85,14 @@ public class TransactionModel {
         addTransaction(editedTransaction);
     }
 
-    /**
-     * Edits the information of a category.
-     * Also saves the changes to the persistence storage.
-     * @param oldCategory The category with the information to be edited.
-     * @param editedCategory The category with the edited information.
-     */
-    public void editCategory(Category oldCategory, Category editedCategory){
-        addCategory(editedCategory);
-        replaceTransactionsCategory(oldCategory, editedCategory);
-        deleteCategory(oldCategory);
-    }
 
-    private void replaceTransactionsCategory(Category oldCategory, Category newCategory){
+    /**
+     * Replaces category object in all transactions with oldCategory to newCategory.
+     * @param oldCategory Category that is going to be replaced.
+     * @param newCategory Category that will replace oldCategory.
+     */
+    @Override
+    public void replaceCategory(Category oldCategory, Category newCategory){
         for(int i = 0; i < getTransactionList().size(); i++){
             FinancialTransaction t = getTransactionList().get(i);
 
@@ -206,6 +103,7 @@ public class TransactionModel {
         }
 
     }
+
     /**
      * Returns a copy of the transactionList
      * @return copy if transactionList
@@ -214,19 +112,15 @@ public class TransactionModel {
         return new ArrayList<>(transactionList);
     }
 
-    /**
-     * Returns a copy of the categoryList
-     * @return copy if categoryList
-     */
-    public ArrayList<Category> getCategoryList() {
-        return new ArrayList<>(categoryList);
-    }
 
     //TODO implement these methods
 
+    /**
+     * Gets the sum of the transactions that match the parameters in the TransactionRequest object.
+     * @param request Object containing search parameters.
+     * @return The sum of the FinancialTransactions that match the search parameters in request object.
+     */
     public float getTransactionSum(TransactionRequest request){
-        //  finished i think, just wrote this quick.
-
         float sum = 0;
         for (FinancialTransaction t : searchTransactions(request)){
             sum = sum + t.getAmount();
@@ -234,6 +128,71 @@ public class TransactionModel {
         return Math.abs(sum);
     }
 
+    /**
+     * Returns sum of all transactions that is of an income category.
+     * @param request Request specifying date.
+     * @return Sum of all income in specified date.
+     */
+    public float getTotalIncome(TransactionRequest request)
+    {
+        float sum = 0;
+
+        for(FinancialTransaction transaction : getTransactionList())
+        {
+            LocalDate date = transaction.getDate();
+
+            // skips transaction if date value doesn't match
+            if(date.getMonth().getValue() != request.getMonth() || date.getYear() != request.getYear())
+                continue;
+
+            // adds only if income
+            if(transaction.getCategory().isIncome())
+                sum += transaction.getAmount();
+        }
+
+        return sum;
+    }
+
+    /**
+     * Gets sum of all transactions of type expense.
+     * @param request Request specifying date.
+     * @return Sum of all expenses in specified date.
+     */
+    public float getTotalExpense(TransactionRequest request)
+    {
+        float sum = 0;
+
+        for(FinancialTransaction transaction : getTransactionList())
+        {
+            LocalDate date = transaction.getDate();
+
+            // skips transaction if date value doesn't match
+            if(date.getMonth().getValue() != request.getMonth() || date.getYear() != request.getYear())
+                continue;
+
+            // adds only if expense
+            if(!transaction.getCategory().isIncome())
+                sum += transaction.getAmount();
+        }
+
+        return sum;
+    }
+
+    /**
+     * Gets balance between total income and total expenses
+     * @param request Request specifying date.
+     * @return Difference between total income and total expenses.
+     */
+    public float getTransactionBalance(TransactionRequest request)
+    {
+        return getTotalIncome(request) - getTotalExpense(request);
+    }
+
+    /**
+     * Method to search through transactionList with search parameters from a TransactionRequest object.
+     * @param request Object containing search parameters.
+     * @return A list containing FinancialTransactions matching search parameters.
+     */
     public ArrayList<FinancialTransaction> searchTransactions(TransactionRequest request)
     {
         ArrayList<FinancialTransaction> result = new ArrayList<>();
@@ -249,96 +208,40 @@ public class TransactionModel {
                 if(request.getYear() != transactionYear || request.getMonth() != transactionMonth)
                     continue;
 
-            // moves on to next transaction if current transaction category does not match requested category
+            // moves on to next transaction if current transaction does not match specified category
             if(request.categoryIsSpecified())
                 if(!request.getCategory().Equals(transaction.getCategory()))
                     continue;
 
-            result.add(transaction); // adds transaction to result if transaction passes checks
+            result.add(transaction);
         }
 
         return result;
     }
 
-
     /**
-     * Returns a list of income categories.
-     * @return a list of income categories.
+     * Removes categories from list which have zero transactions in a given time period.
+     * @param list to be worked on.
+     * @param request specifies the time period.
      */
-    public ArrayList<Category> getIncomeCategories(){
-        ArrayList<Category> list = new ArrayList<>();
-        for (Category c : getCategoryList()){
-            if (c.isIncome()){
-                list.add(c);
+    public void removeEmptyCategories(ArrayList<Category> list, TransactionRequest request){
+        for (int i = 0; i < list.size(); i++){
+            Category c = list.get(i);
+            request.setCategory(c);
+            if (searchTransactions(request).isEmpty()){
+                list.remove(c);
+                i--;
             }
         }
-        return list;
     }
 
     /**
-     * Returns a list of expense categories.
-     * @return a list of expense categories.
+     * Sorts a given category list based on the sum of transactions belonging to the category i a specific time period.
+     * Categories with largest sum gets the lowest index in the list.
+     * @param list the list to be sorted.
+     * @param request specifies the time period.
      */
-    public ArrayList<Category> getExpenseCategories(){
-        ArrayList<Category> list = new ArrayList<>();
-        for (Category c : getCategoryList()){
-            if (!c.isIncome()){
-                list.add(c);
-            }
-        }
-        return list;
-    }
-
-    /**
-     * Returns the total income amount for a specific TransactionRequest.
-     * @param request The object with the request to calculate total income from.
-     * @return The total income amount. for the specific request.
-     */
-    public float getTotalIncome(TransactionRequest request){ // month, year. category irrelevant
-        float income = 0;
-        for (Category c : getIncomeCategories()){
-            request.setCategory(c);
-            income = income + getTransactionSum(request);
-        }
-        return income;
-    }
-
-    /**
-     * Returns the total expense amount for a specific TransactionRequest.
-     * @param request The object with the request to calculate total expense from.
-     * @return The total expense amount for the specific request.
-     */
-    public float getTotalExpense(TransactionRequest request){
-        float expense = 0;
-        for (Category c : getExpenseCategories()){
-            request.setCategory(c);
-            expense = expense + getTransactionSum(request);
-        }
-        return Math.abs(expense);
-    }
-
-    /**
-     * Returns the balance between income and expense for a specific TransactionRequest.
-     * @param request The object with the request to calculate balance from.
-     * @return The calculated balance.
-     */
-    public float getTransactionBalance(TransactionRequest request){
-        return getTotalIncome(request) - getTotalExpense(request);
-    }
-
-    public ArrayList<Category> removeEmptyCategories(ArrayList<Category> list, TransactionRequest request){
-        ArrayList<Category> notEmpty = new ArrayList<>();
-        for (Category c : list){
-            request.setCategory(c);
-            if (!searchTransactions(request).isEmpty()){
-                notEmpty.add(c);
-            }
-        }
-        return notEmpty;
-    }
-
-    // largest first
-    public ArrayList<Category> sortCategoryListBySum(ArrayList<Category> list, TransactionRequest request){
+    public void sortCategoryListBySum(ArrayList<Category> list, TransactionRequest request){
         for (int x = 0; x < list.size() ; x++){
             for (int i = 0; i < list.size()-1; i++){
                 float sum1 = getTransactionSum(new TransactionRequest(list.get(i), request.getMonth(), request.getYear()));
@@ -348,42 +251,148 @@ public class TransactionModel {
                 }
             }
         }
+    }
+
+    // methods for sorting categories by most popular (data from 20 recent transactions) -----
+
+    /**
+     * Returns a list with the 20 newest transactions from transactionList.
+     * If there isn't 20 transactions in transactionList then the ones that exist will be returned.
+     * @return list with up to 20 transactions.
+     */
+    private ArrayList<FinancialTransaction> get20latestTransactions(){
+
+        if (getTransactionList().size() < 20) return getTransactionList();
+
+        ArrayList<FinancialTransaction> list = new ArrayList<>();
+        int i = 0;
+        while (i < 20){
+            list.add(getTransactionList().get(i++));
+        }
         return list;
+    }
+
+    /**
+     * Returns the number of times a category is used inside a list of transactions.
+     * @param list the list with transactions.
+     * @param category the category to be counted.
+     * @return number of times the category was used.
+     */
+    private int getCategoryCount(ArrayList<FinancialTransaction> list, Category category){
+        int count = 0;
+        for (FinancialTransaction t : list){
+            if (category.Equals(t.getCategory())){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Sorts a category list based on how many times it was used in the latest 20 transactions.
+     * Larger amount means lower list index.
+     * @param categoryList list to be sorted
+     */
+    public void sortCategoryListByPopularity(ArrayList<Category> categoryList){
+
+        ArrayList<FinancialTransaction> data = get20latestTransactions();
+
+        for (int x = 0; x < categoryList.size() ; x++){
+            for (int i = 0; i < categoryList.size()-1; i++){
+                int count1 = getCategoryCount(data, categoryList.get(i));
+                int count2 = getCategoryCount(data, categoryList.get(i+1));
+                if (count1 < count2){
+                    swap(categoryList, i, i+1);
+                }
+            }
+        }
+    }
+
+    /**
+     * Sorts a transaction list based on the transaction amount.
+     * Larger amount means lower list index.
+     * @param list list to be sorted
+     */
+    public void sortByAmount(ArrayList<FinancialTransaction> list){
+
+        for (int x = 0; x < list.size() ; x++){
+            for (int i = 0; i < list.size()-1; i++){
+                float amount1 = Math.abs(list.get(i).getAmount());
+                float amount2 = Math.abs(list.get(i+1).getAmount());
+                if (amount1 < amount2){
+                    swap(list, i, i+1);
+                }
+            }
+        }
+    }
+
+    /**
+     * Searches the transaction list to find transactions that match the searched text by note description
+     * @param transactionList the the list of transactions to check
+     * @param note the searched note description
+     * @return the transactions that are matching the note description
+     */
+    public ArrayList<FinancialTransaction> searchTransactionByNote(ArrayList <FinancialTransaction> transactionList, String note){
+        ArrayList<FinancialTransaction> newList = new ArrayList<>();
+        for(FinancialTransaction transaction : transactionList){
+            if(transaction.getDescription().toLowerCase().contains(note.toLowerCase())){
+                newList.add(transaction);
+            }
+        }
+        return newList;
+    }
+
+    /**
+     * Searches the transaction list to find transactions that match the searched text by amount
+     * @param transactionList the the list of transactions to check
+     * @param amount the searched amount
+     * @return the transactions that are matching the amount
+     */
+    public ArrayList<FinancialTransaction> searchTransactionByAmount(ArrayList <FinancialTransaction> transactionList, Float amount){
+        ArrayList<FinancialTransaction> newList = new ArrayList<>();
+        for(FinancialTransaction transaction : transactionList){
+            float amount1 = Math.abs(transaction.getAmount());
+            if(amount1==amount)
+                newList.add(transaction);
+        }
+        return newList;
     }
 
 
     // dataBase methods ----
+
+    /**
+     * Save a transaction in the database.
+     * @param transaction to be saved.
+     */
     private void saveTransactionToDatabase(FinancialTransaction transaction){
         database.saveData(transaction);
     }
 
-    private void saveCategoryToDatabase(Category category){
-        database.saveData(category);
-    }
-
+    /**
+     * Delete a transaction from the database.
+     * @param transaction to be deleted.
+     */
     private void deleteTransactionFromDatabase(FinancialTransaction transaction){
         database.removeData(transaction);
     }
 
-    private void deleteCategoryFromDatabase(Category category){
-        database.removeData(category);
-    }
 
-    private ArrayList<FinancialTransaction> getFinancialTransactions(){
+
+    /**
+     * Get all transactions stored in the database.
+     * @return list of transactions.
+     */
+    private ArrayList<FinancialTransaction> getFinancialTransactionsFromDatabase(){
 
         ArrayList<FinancialTransaction> transactions = database.getFinancialTransactions();
 
         // transactions may not be in order when retrieved from database, so they must be sorted.
         // lower index means that the transaction has been made more recently.
-        bubbleSortTransactions(transactions);
+        bubbleSortTransactionsByDate(transactions);
 
         return transactions; // should be sorted by date
     }
-
-    private ArrayList<Category> getCategories(){
-        return database.getCategories();
-    }
-
 
     // sorting ----
 
@@ -394,7 +403,7 @@ public class TransactionModel {
      *
      * @param transactions List to be sorted.
      */
-    private void bubbleSortTransactions(ArrayList<FinancialTransaction> transactions)
+    private void bubbleSortTransactionsByDate(ArrayList<FinancialTransaction> transactions)
     {
         boolean notCompleted = true; // will be set to false in the last loop through the list of transactions
 

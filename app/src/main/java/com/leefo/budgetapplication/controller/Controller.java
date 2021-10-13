@@ -3,6 +3,7 @@ package com.leefo.budgetapplication.controller;
 import android.content.Context;
 
 import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.model.CategoryModel;
 import com.leefo.budgetapplication.model.DataBaseManager;
 import com.leefo.budgetapplication.model.TransactionModel;
 import com.leefo.budgetapplication.model.ObserverHandler;
@@ -23,14 +24,19 @@ import java.util.ArrayList;
 public class Controller {
 
     /**
-     * The object handling logic for all transactions and categories.
+     * Object handling logic for transactions.
      */
     private static TransactionModel transactionModel;
+
+    /**
+     * Object handling logic for categories
+     */
+    private static CategoryModel categoryModel;
 
 
 
     /**
-     * Initializes database as well as the TransactionModel.
+     * Initializes database, transactionModel and categoryModel.
      * @param context Application context for database.
      */
     public static void InitializeBackend(Context context)
@@ -38,6 +44,7 @@ public class Controller {
         DataBaseManager database = new DataBaseManager(context);
 
         transactionModel = new TransactionModel(database);
+        categoryModel = new CategoryModel(database, transactionModel);
     }
 
     /**
@@ -55,10 +62,10 @@ public class Controller {
      *
      * @param oldCategory Object of category to be changed.
      */
-    public static void editCategoryInfo(Category oldCategory, String newName, String newColor, boolean isIncome, float budgetGoal) {
-        Category newCategory = new Category(newName, newColor, isIncome, budgetGoal);
+    public static void editCategoryInfo(Category oldCategory, String newName, String newColor, boolean isIncome) {
+        Category newCategory = new Category(newName, newColor, isIncome);
 
-        transactionModel.editCategory(oldCategory, newCategory);
+        categoryModel.editCategory(oldCategory, newCategory);
     }
 
     /**
@@ -68,10 +75,10 @@ public class Controller {
      * @param name  The name of the new category.
      * @param color The color of the new category.
      */
-    public static void addNewCategory(String name, String color, boolean isIncome, float budgetGoal) {
-        Category newCategory = new Category(name, color, isIncome, budgetGoal);
+    public static void addNewCategory(String name, String color, boolean isIncome) {
+        Category newCategory = new Category(name, color, isIncome);
 
-        transactionModel.addCategory(newCategory);
+        categoryModel.addCategory(newCategory);
     }
 
 
@@ -82,7 +89,7 @@ public class Controller {
      * @param category category to removed
      */
     public static void removeCategory(Category category) {
-        transactionModel.deleteCategory(category);
+        categoryModel.deleteCategory(category);
     }
 
     /**
@@ -91,7 +98,7 @@ public class Controller {
      * @return a list of all the categories in the database.
      */
     public static ArrayList<Category> getAllCategories() {
-        return (ArrayList<Category>) transactionModel.getCategoryList();
+        return categoryModel.getCategoryList();
     }
 
     /**
@@ -140,7 +147,7 @@ public class Controller {
      */
     public static ArrayList<FinancialTransaction> getTransactions(int month, int year)
     {
-        TransactionRequest request = new TransactionRequest(null, month, year);
+        TransactionRequest request = new TransactionRequest((Category)null, month, year);
 
         return transactionModel.searchTransactions(request);
     }
@@ -185,7 +192,7 @@ public class Controller {
      */
     public static ArrayList<Category> getCategories()
     {
-        return transactionModel.getCategoryList();
+        return categoryModel.getCategoryList();
     }
 
     /**
@@ -193,7 +200,7 @@ public class Controller {
      * @return A list of all income categories in the model.
      */
     public static ArrayList<Category> getIncomeCategories(){
-        return transactionModel.getIncomeCategories();
+        return categoryModel.getIncomeCategories();
     }
 
     /**
@@ -201,7 +208,7 @@ public class Controller {
      * @return A list of all expense categories in the model.
      */
     public static ArrayList<Category> getExpenseCategories(){
-        return transactionModel.getExpenseCategories();
+        return categoryModel.getExpenseCategories();
     }
 
     /**
@@ -211,6 +218,7 @@ public class Controller {
      * @return The total income amount for the specified time period.
      */
     public static float getTotalIncome(int month, int year){
+        // requests sum of all transactions in the income categories during specified month and year
         TransactionRequest request = new TransactionRequest(null, month, year);
         return transactionModel.getTotalIncome(request);
     }
@@ -222,6 +230,7 @@ public class Controller {
      * @return The total expense amount for the specified time period.
      */
     public static float getTotalExpense(int month, int year){
+        // requests sum of all transactions in the expense categories during specified month and year
         TransactionRequest request = new TransactionRequest(null, month, year);
         return transactionModel.getTotalExpense(request);
     }
@@ -234,19 +243,70 @@ public class Controller {
      * @return The calculated balance.
      */
     public static float getTransactionBalance(int month, int year){
+
         TransactionRequest request = new TransactionRequest(null, month, year);
         return transactionModel.getTransactionBalance(request);
     }
 
 
-    public static ArrayList<Category> removeEmptyCategories(ArrayList<Category> list, int month, int year){
-        TransactionRequest request = new TransactionRequest(null, month, year);
-        return transactionModel.removeEmptyCategories(list, request);
+    /**
+     * Removes categories from list which have zero transactions in a given time period.
+     * @param list List to be worked on.
+     * @param month The month checked for if there is any transactions. (can be null, meaning all months).
+     * @param year The year checked for if there is any transactions. (can be null, meaning all years).
+     */
+    public static void removeEmptyCategories(ArrayList<Category> list, int month, int year){
+        TransactionRequest request = new TransactionRequest((Category)null, month, year);
+        transactionModel.removeEmptyCategories(list, request);
     }
 
-    public static ArrayList<Category> sortCategoryListBySum(ArrayList<Category> list, int month, int year){
-        TransactionRequest request = new TransactionRequest(null, month, year);
-        return transactionModel.sortCategoryListBySum(list, request);
+    /**
+     * Sorts a given category list based on the sum of transactions belonging to the category i a specific time period.
+     * Categories with largest sum gets the lowest index in the list.
+     *
+     * @param list The list to be sorted.
+     * @param month The month in which the sum will be calculated. (can be 0, meaning all months)
+     * @param year The year in which the sum will be calculated. (can be 0, meaning all years)
+     */
+    public static void sortCategoryListBySum(ArrayList<Category> list, int month, int year){
+        TransactionRequest request = new TransactionRequest((Category)null, month, year);
+        transactionModel.sortCategoryListBySum(list, request);
+    }
+
+    /**
+     * Sorts a category list based on how many times it was used in the latest 20 transactions.
+     * Larger amount means lower list index.
+     * @param categoryList Category list to be sorted
+     */
+    public static void sortCategoryListByPopularity(ArrayList<Category> categoryList){
+        transactionModel.sortCategoryListByPopularity(categoryList);
+    }
+
+    /**
+     * Sorts a transaction list based on the transaction amount.
+     * Larger amount means lower list index.
+     * @param list List to be sorted
+     */
+    public static void sortByAmount(ArrayList<FinancialTransaction> list) {
+        transactionModel.sortByAmount(list);
+    }
+
+    /**
+     * Searches the transaction list to find transactions that match the searched text by note description
+     * @param list the the list of transactions to check
+     * @param note the searched note description
+     */
+    public static ArrayList<FinancialTransaction> searchTransactionByNote(ArrayList<FinancialTransaction> list, String note){
+        return transactionModel.searchTransactionByNote(list, note);
+    }
+
+    /**
+     * Searches the transaction list to find transactions that match the searched text by amount
+     * @param list the the list of transactions to check
+     * @param amount the searched amount
+     */
+    public static ArrayList<FinancialTransaction> searchTransactionByAmount(ArrayList<FinancialTransaction> list, Float amount){
+        return transactionModel.searchTransactionByAmount(list, amount);
     }
 
 }

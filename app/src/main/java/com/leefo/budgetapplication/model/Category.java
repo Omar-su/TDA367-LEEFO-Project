@@ -37,6 +37,14 @@ public class Category {
     }
 
 
+    public Category(String name, String color, boolean isIncome)
+    {
+        this.name = name;
+        this.color = color;
+        this.isIncome = isIncome;
+        this.budgetGoal = 0;
+    }
+
     // ----------
 
     /**
