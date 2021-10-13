@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,7 +23,7 @@ public class EditBudgetFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_budget_listview, container, false);
+        View view = inflater.inflate(R.layout.fragment_edit_budget, container, false);
 
         saveBudgetButton = view.findViewById(R.id.saveButtonBudget);
         editBudgetLV = view.findViewById(R.id.editBudgetListV);
