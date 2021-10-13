@@ -219,8 +219,8 @@ public class Controller {
      */
     public static float getTotalIncome(int month, int year){
         // requests sum of all transactions in the income categories during specified month and year
-        TransactionRequest request = new TransactionRequest(categoryModel.getIncomeCategories(), month, year);
-        return transactionModel.getTransactionSum(request);
+        TransactionRequest request = new TransactionRequest(null, month, year);
+        return transactionModel.getTotalIncome(request);
     }
 
     /**
@@ -231,8 +231,8 @@ public class Controller {
      */
     public static float getTotalExpense(int month, int year){
         // requests sum of all transactions in the expense categories during specified month and year
-        TransactionRequest request = new TransactionRequest(categoryModel.getExpenseCategories(), month, year);
-        return transactionModel.getTransactionSum(request);
+        TransactionRequest request = new TransactionRequest(null, month, year);
+        return transactionModel.getTotalExpense(request);
     }
 
 
@@ -243,7 +243,9 @@ public class Controller {
      * @return The calculated balance.
      */
     public static float getTransactionBalance(int month, int year){
-        return getTotalIncome(month, year) - getTotalExpense(month, year);
+
+        TransactionRequest request = new TransactionRequest(null, month, year);
+        return transactionModel.getTransactionBalance(request);
     }
 
 

@@ -1,5 +1,6 @@
 package com.leefo.budgetapplication.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -128,6 +129,56 @@ public class TransactionModel implements ITransactionModel {
     }
 
     /**
+     * Returns sum of all transactions that is of an income category.
+     * @param request
+     * @return
+     */
+    public float getTotalIncome(TransactionRequest request)
+    {
+        float sum = 0;
+
+        for(FinancialTransaction transaction : getTransactionList())
+        {
+            LocalDate date = transaction.getDate();
+
+            // skips transaction if date value doesn't match
+            if(date.getMonth().getValue() != request.getMonth() || date.getYear() != request.getYear())
+                continue;
+
+            // adds only if income
+            if(transaction.getCategory().isIncome())
+                sum += transaction.getAmount();
+        }
+
+        return sum;
+    }
+
+    public float getTotalExpense(TransactionRequest request)
+    {
+        float sum = 0;
+
+        for(FinancialTransaction transaction : getTransactionList())
+        {
+            LocalDate date = transaction.getDate();
+
+            // skips transaction if date value doesn't match
+            if(date.getMonth().getValue() != request.getMonth() || date.getYear() != request.getYear())
+                continue;
+
+            // adds only if expense
+            if(!transaction.getCategory().isIncome())
+                sum += transaction.getAmount();
+        }
+
+        return sum;
+    }
+
+    public float getTransactionBalance(TransactionRequest request)
+    {
+        return getTotalIncome(request) - getTotalExpense(request);
+    }
+
+    /**
      * Method to search through transactionList with search parameters from a TransactionRequest object.
      * @param request Object containing search parameters.
      * @return A list containing FinancialTransactions matching search parameters.
@@ -147,10 +198,12 @@ public class TransactionModel implements ITransactionModel {
                 if(request.getYear() != transactionYear || request.getMonth() != transactionMonth)
                     continue;
 
-            // adds transaction if category matches any of the ones in the request
-            // if no categories are specified, belongsToCategories() returns true
-            if(request.belongsToCategories(transaction))
-                result.add(transaction);
+            // moves on to next transaction if current transaction does not match specified category
+            if(request.categoryIsSpecified())
+                if(!request.getCategory().Equals(transaction.getCategory()))
+                    continue;
+
+            result.add(transaction);
         }
 
         return result;

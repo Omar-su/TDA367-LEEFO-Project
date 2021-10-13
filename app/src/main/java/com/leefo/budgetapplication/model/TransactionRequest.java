@@ -14,7 +14,7 @@ public class TransactionRequest {
     /**
      * Specifies what category of transactions.
      */
-    private ArrayList<Category> categories; // can be null
+    private Category category; // can be null
 
     /**
      * Specifies what time transaction was made.
@@ -23,9 +23,7 @@ public class TransactionRequest {
 
     public TransactionRequest(Category category, int month, int year)
     {
-        categories = new ArrayList<>();
-
-        categories.add(category);
+        this.category = category;
 
         this.month = month;
         this.year = year;
@@ -36,16 +34,6 @@ public class TransactionRequest {
         }
     }
 
-    public TransactionRequest(ArrayList<Category> categories, int month, int year)
-    {
-        this.categories = new ArrayList<>(categories);
-
-        this.month = month;
-        this.year = year;
-
-        if(month == 0 || year == 0)
-            month = year = 0;
-    }
 
     /**
      * For checking whether time is specified.
@@ -62,29 +50,15 @@ public class TransactionRequest {
      */
     public boolean categoryIsSpecified()
     {
-        return categories != null && !categories.isEmpty();
+        return category != null;
     }
-
-    public boolean belongsToCategories(FinancialTransaction transaction)
-    {
-        if(!categoryIsSpecified()) return true;
-
-        for (Category category : categories) {
-            if (category.transactionBelongs(transaction))
-                return true; // returns true if it belongs to any of the categories
-        }
-
-        return false;
-    }
-
-
 
 
     //  GETTERS -----------
 
-    public ArrayList<Category> getCategories()
+    public Category getCategory()
     {
-        return new ArrayList<>(categories);
+        return category;
     }
 
     public int getMonth()
@@ -99,11 +73,6 @@ public class TransactionRequest {
 
     public void setCategory(Category category)
     {
-        this.categories = new ArrayList<>();
-        categories.add(category);
-    }
-
-    public void setCategories(ArrayList<Category> categories) {
-        this.categories = new ArrayList<>(categories);
+        this.category = category;
     }
 }
