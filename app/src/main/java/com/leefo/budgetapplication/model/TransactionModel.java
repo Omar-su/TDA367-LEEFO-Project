@@ -130,8 +130,8 @@ public class TransactionModel implements ITransactionModel {
 
     /**
      * Returns sum of all transactions that is of an income category.
-     * @param request
-     * @return
+     * @param request Request specifying date.
+     * @return Sum of all income in specified date.
      */
     public float getTotalIncome(TransactionRequest request)
     {
@@ -153,6 +153,11 @@ public class TransactionModel implements ITransactionModel {
         return sum;
     }
 
+    /**
+     * Gets sum of all transactions of type expense.
+     * @param request Request specifying date.
+     * @return Sum of all expenses in specified date.
+     */
     public float getTotalExpense(TransactionRequest request)
     {
         float sum = 0;
@@ -173,6 +178,11 @@ public class TransactionModel implements ITransactionModel {
         return sum;
     }
 
+    /**
+     * Gets balance between total income and total expenses
+     * @param request Request specifying date.
+     * @return Difference between total income and total expenses.
+     */
     public float getTransactionBalance(TransactionRequest request)
     {
         return getTotalIncome(request) - getTotalExpense(request);
