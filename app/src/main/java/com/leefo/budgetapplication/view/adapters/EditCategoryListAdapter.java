@@ -73,9 +73,9 @@ public class EditCategoryListAdapter extends ArrayAdapter<Category>{
             @Override
             public void afterTextChanged(Editable editable) {
 
-                if (!editable.toString().equals(""))Controller.editCategoryInfo(category, Integer.parseInt(editable.toString()));
-                int n = 5;
-                n++;
+                if (!editable.toString().equals("")) {
+                    Controller.editCategoryInfo(category, Integer.parseInt(editable.toString()));
+                }
             }
         });
     }
