@@ -17,6 +17,9 @@ public class TransactionModel implements ITransactionModel {
      */
     private  final ArrayList<FinancialTransaction> transactionList;
 
+    /**
+     * Interface used to interact with database. Used for reading and writing transactions and categories.
+     */
     private final IDatabase database;
 
 
@@ -142,8 +145,9 @@ public class TransactionModel implements ITransactionModel {
             LocalDate date = transaction.getDate();
 
             // skips transaction if date value doesn't match
-            if(date.getMonth().getValue() != request.getMonth() || date.getYear() != request.getYear())
-                continue;
+            if(request.timeIsSpecified())
+                if(date.getMonth().getValue() != request.getMonth() || date.getYear() != request.getYear())
+                    continue;
 
             // adds only if income
             if(transaction.getCategory().isIncome())
@@ -167,8 +171,9 @@ public class TransactionModel implements ITransactionModel {
             LocalDate date = transaction.getDate();
 
             // skips transaction if date value doesn't match
-            if(date.getMonth().getValue() != request.getMonth() || date.getYear() != request.getYear())
-                continue;
+            if(request.timeIsSpecified())
+                if(date.getMonth().getValue() != request.getMonth() || date.getYear() != request.getYear())
+                    continue;
 
             // adds only if expense
             if(!transaction.getCategory().isIncome())
