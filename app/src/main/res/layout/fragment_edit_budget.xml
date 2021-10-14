@@ -21,7 +21,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="90dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:layout_marginBottom="20dp"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toTopOf="@+id/saveButtonBudget"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

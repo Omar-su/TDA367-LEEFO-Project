@@ -26,7 +26,7 @@ public class EditCategoryListAdapter extends ArrayAdapter<Category>{
 
 
     public EditCategoryListAdapter(Context context, @NonNull ArrayList<Category> list) {
-        super(context, R.layout.list_row_category, list);
+        super(context, R.layout.list_row_category_budget, list);
         this.context = context;
     }
 
