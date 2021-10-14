@@ -6,9 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+/**
+ * The BudgetGrader class represents the class handling all logic for grading budget outcomes.
+ * @author Felix Edholm
+ */
 public class BudgetGrader {
 
+    /**
+     * The transaction model of the application used for accessing transactions
+     */
     private final TransactionModel transactionModel;
+
+    /**
+     * The category model of the application used for accessing categories
+     */
     private final CategoryModel categoryModel;
 
     public BudgetGrader(TransactionModel transactionModel, CategoryModel categoryModel) {
@@ -16,6 +27,10 @@ public class BudgetGrader {
         this.categoryModel = categoryModel;
     }
 
+    /**
+     * Returns a list of all categories in the program with a budget.
+     * @return The list of all categories in the program with a budget.
+     */
     public ArrayList<Category> getAllBudgetCategories() {
         ArrayList<Category> budgetList = new ArrayList<>();
         for (Category c : categoryModel.getCategoryList()) {
@@ -26,17 +41,33 @@ public class BudgetGrader {
         return budgetList;
     }
 
+    /**
+     * Returns a list of categories with budgets for a specific month.
+     * @param request The request containing the specific month
+     * @return The list of categories with budgets for a specific month.
+     */
     public ArrayList<Category> getBudgetCategoriesByMonth(TransactionRequest request) {
         ArrayList<Category> tempList = new ArrayList<>(getAllBudgetCategories());
         transactionModel.removeEmptyCategories(tempList, request);
         return tempList;
     }
 
+    /**
+     * Grades a specific category's budget outcome on a scale from 0-5 in .5 intervals.
+     * @param request The request containing a specific category.
+     * @return The grade for the category.
+     */
     public float gradeCategory(TransactionRequest request) {
         float budgetingOutcome = getRoundedBudgetOutcome(request);
         return getGrade(budgetingOutcome);
     }
 
+    /**
+     * Rounds the outcome for the budget progress of a specific category.
+     * Outcome = actual expense/budget goal.
+     * @param request The request containing the specific category.
+     * @return The rounded budget outcome.
+     */
     public float getRoundedBudgetOutcome(TransactionRequest request) {
         float categoryBudget = request.getCategory().getGoal();
         float categoryActualExpenseSum = transactionModel.getTransactionSum(request);
@@ -47,6 +78,11 @@ public class BudgetGrader {
 
     }
 
+    /**
+     * Returns the average budget grades for a specific month.
+     * @param request The request containing the specific month.
+     * @return The average budget grade for the specific month.
+     */
     public float getAverageGrades(TransactionRequest request) {
         List<Category> budgetCategories = getBudgetCategoriesByMonth(request);
         float gradeTotal = (float) 0.0;
