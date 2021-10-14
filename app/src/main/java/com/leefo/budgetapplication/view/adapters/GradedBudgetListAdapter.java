@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +28,8 @@ import java.util.ArrayList;
 
 public class GradedBudgetListAdapter extends ArrayAdapter<Category> {
 
-    Context context;
-    TimePeriod timePeriod;
+    private final Context context;
+    private final TimePeriod timePeriod;
 
     public GradedBudgetListAdapter(@NonNull Context context, ArrayList<Category> list, TimePeriod timePeriod) {
         super(context, R.layout.list_row_graded_budget, list);
@@ -60,7 +61,8 @@ public class GradedBudgetListAdapter extends ArrayAdapter<Category> {
         String categoryBudgetGoal = String.valueOf(category.getGoal());
         budgetRatioText.setText(categoryExpenseSum + " / " + categoryBudgetGoal);
 
-        ratingBar.getBackground().setColorFilter(Color.parseColor(category.getColor()), PorterDuff.Mode.SRC_ATOP);
+        Drawable drawableRatingBar = ratingBar.getProgressDrawable();
+        drawableRatingBar.setColorFilter(Color.parseColor(category.getColor()), PorterDuff.Mode.SRC_ATOP);
         ratingBar.setRating(Controller.gradeCategory(category));
 
         budgetOutcomeText.setText(String.valueOf(Controller.getRoundedBudgetOutcome(category)));

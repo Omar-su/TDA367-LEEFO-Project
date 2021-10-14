@@ -1,15 +1,27 @@
 package com.leefo.budgetapplication.view.fragments;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.leefo.budgetapplication.R;
+import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.view.TimePeriod;
+import com.leefo.budgetapplication.view.TimePeriodViewModel;
+
+import java.time.Month;
 
 /**
  * Class that represents the fragment for the Budget page
@@ -19,6 +31,9 @@ import com.leefo.budgetapplication.R;
 public class BudgetFragment extends Fragment {
 
     private Button editBudget;
+    private RatingBar averageRatingBar;
+    private TextView monthText;
+    private TimePeriod timePeriod;
 
     /**
      * Method that runs when the fragment is being created.
@@ -30,8 +45,15 @@ public class BudgetFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_budget, container, false);
 
         editBudget = view.findViewById(R.id.edit_budget_button);
+        averageRatingBar = view.findViewById(R.id.averageRatingBar);
+        monthText = view.findViewById(R.id.month_budget);
+
+        TimePeriodViewModel viewModel = new ViewModelProvider(requireActivity()).get(TimePeriodViewModel.class);
+        timePeriod = viewModel.getTimePeriodLiveData().getValue();
 
         initEditBudgetOnClickListener();
+        initGradeListFragment();
+        initHeader();
 
         return view;
     }
@@ -44,6 +66,20 @@ public class BudgetFragment extends Fragment {
             }
         });
     }
+
+    private void initGradeListFragment() {
+        requireActivity().getSupportFragmentManager().beginTransaction().add(R.id.FrameLayout_Categories_budget, new GradedBudgetFragment()).commit();
+    }
+
+    private void initHeader() {
+        Drawable drawableRatingBar = averageRatingBar.getProgressDrawable();
+        drawableRatingBar.setColorFilter(Color.parseColor("#6200ed"), PorterDuff.Mode.SRC_ATOP);
+        String month = Month.of(timePeriod.getMonth()) + " " + timePeriod.getYear();
+        monthText.setText(month);
+        averageRatingBar.setRating(Controller.getAverageGradeForMonth(timePeriod.getMonth(), timePeriod.getYear()));
+    }
+
+
 
 
 }
