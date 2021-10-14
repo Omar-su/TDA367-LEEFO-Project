@@ -26,7 +26,7 @@ Author: Emelie Edberg, Eugene Dvoryankov
 
     <TextView
         android:id="@+id/month_budget"
-        android:layout_width="400dp"
+        android:layout_width="200dp"
         android:layout_height="31dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="50dp"
@@ -38,8 +38,10 @@ Author: Emelie Edberg, Eugene Dvoryankov
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/FrameLayout_Categories_budget"
         app:layout_constraintEnd_toStartOf="@+id/edit_budget_button"
+        app:layout_constraintHorizontal_bias="0.102"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.689" />
 
     <Button
         android:id="@+id/edit_budget_button"
