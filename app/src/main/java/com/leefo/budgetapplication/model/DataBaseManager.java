@@ -194,7 +194,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
         cv.put(CATEGORY_NAME, category.getName());
         cv.put(CATEGORY_COLOR, category.getColor());
         cv.put(CATEGORY_IS_INCOME, i);
-        cv.put(CATEGORY_BUDGET, category.getGoal());
+        cv.put(CATEGORY_BUDGET, category.getBudgetGoal());
         db.insert(CATEGORY_TABLE, null, cv);
         db.close();
     }

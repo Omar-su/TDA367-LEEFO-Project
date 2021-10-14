@@ -51,7 +51,7 @@ public class GradedBudgetListAdapter extends ArrayAdapter<Category> {
         catIndicator.getBackground().setColorFilter(Color.parseColor(category.getColor()), PorterDuff.Mode.SRC_ATOP);
 
         String categoryExpenseSum = String.valueOf(Controller.getTransactionSum(category, timePeriod.getMonth(), timePeriod.getYear()));
-        String categoryBudgetGoal = String.valueOf(category.getGoal());
+        String categoryBudgetGoal = String.valueOf(category.getBudgetGoal());
         budgetRatioText.setText(categoryExpenseSum + " / " + categoryBudgetGoal);
 
         ratingBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor(category.getColor())));

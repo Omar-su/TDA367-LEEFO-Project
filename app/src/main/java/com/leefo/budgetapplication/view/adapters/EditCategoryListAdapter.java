@@ -47,7 +47,7 @@ public class EditCategoryListAdapter extends ArrayAdapter<Category>{
 
         editBudget = convertView.findViewById(R.id.editBudgetGoal);
 
-        if (cat.getGoal()!=0)editBudget.setText(String.valueOf(cat.getGoal()));
+        if (cat.getBudgetGoal()!=0)editBudget.setText(String.valueOf(cat.getBudgetGoal()));
 
         TextView name = convertView.findViewById(R.id.budget_category_name);
         View circle = convertView.findViewById(R.id.budget_category_circle);

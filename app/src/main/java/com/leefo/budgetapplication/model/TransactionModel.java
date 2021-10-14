@@ -100,8 +100,7 @@ public class TransactionModel implements ITransactionModel {
             FinancialTransaction t = getTransactionList().get(i);
 
             if(oldCategory.transactionBelongs(t)){
-                editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(), t.getDate(),
-                        newCategory));
+                editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(), t.getDate(), newCategory));
             }
         }
 

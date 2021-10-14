@@ -64,7 +64,7 @@ public class Category {
      */
     public boolean Equals(Category cat)
     {
-        return cat.getName().equals(name) && cat.getColor().equals(color);
+        return cat.getName().equals(name) && cat.getColor().equals(color) && cat.getBudgetGoal() == budgetGoal && cat.isIncome == isIncome();
     }
 
     @NonNull
@@ -89,7 +89,7 @@ public class Category {
         return color;
     }
 
-    public int getGoal(){return budgetGoal;}
+    public int getBudgetGoal(){return budgetGoal;}
 
     public boolean isIncome() { return isIncome; }
 

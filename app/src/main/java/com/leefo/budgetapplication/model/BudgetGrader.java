@@ -1,7 +1,5 @@
 package com.leefo.budgetapplication.model;
 
-import android.widget.ArrayAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -34,7 +32,7 @@ public class BudgetGrader {
     public ArrayList<Category> getAllBudgetCategories() {
         ArrayList<Category> budgetList = new ArrayList<>();
         for (Category c : categoryModel.getCategoryList()) {
-            if (c.getGoal() > 0) {
+            if (c.getBudgetGoal() > 0) {
                 budgetList.add(c);
             }
         }
@@ -70,7 +68,7 @@ public class BudgetGrader {
      * @return The rounded budget outcome.
      */
     public float getRoundedBudgetOutcome(TransactionRequest request) {
-        float categoryBudget = request.getCategory().getGoal();
+        float categoryBudget = request.getCategory().getBudgetGoal();
         float categoryActualExpenseSum = transactionModel.getTransactionSum(request);
 
         float nonRoundedBudgetingOutcome = (categoryActualExpenseSum / categoryBudget);
