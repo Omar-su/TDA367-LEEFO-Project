@@ -80,7 +80,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      * @param context The main activity of the program
      */
     public DataBaseManager(@Nullable Context context) {
-        super(context, "category_transaction", null, 1);
+        super(context, "category_transaction_new", null, 1);
     }
 
     //New name will create new database file. Sending in a null String object will create
