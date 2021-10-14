@@ -22,14 +22,15 @@ import com.leefo.budgetapplication.view.adapters.EditCategoryListAdapter;
 import com.leefo.budgetapplication.view.adapters.TransactionListAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.MissingResourceException;
 
 public class EditBudgetFragment extends Fragment {
 
     private ListView editBudgetLV;
     private Button saveBudgetButton;
-    private ArrayList<Category> categoryList;
-
+    EditCategoryListAdapter adapter;
     private ImageButton cross;
 
 
@@ -50,8 +51,8 @@ public class EditBudgetFragment extends Fragment {
     }
 
     private void initList() {
-        categoryList = Controller.getExpenseCategories();
-        EditCategoryListAdapter adapter = new EditCategoryListAdapter(requireActivity().getApplicationContext(), categoryList);
+        ArrayList<Category> categoryList = Controller.getExpenseCategories();
+        adapter = new EditCategoryListAdapter(requireActivity().getApplicationContext(), categoryList);
         editBudgetLV.setAdapter(adapter);
 
     }
@@ -71,17 +72,16 @@ public class EditBudgetFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 editBudget();
-
             }
         });
     }
 
     private void editBudget(){
-//        if (budget.getText().toString().equals("")){
-//            makeToast("You need to enter an amount");
-//            return;
-//        }
+
+        HashMap<Category,Integer> editBudgetHashMap = adapter.getEditBudgetHashMap();
+        editBudgetHashMap.forEach((key, value) -> Controller.editCategoryInfo((Category) key, (Integer) value));
         requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new BudgetFragment()).commit();
+
     }
 
 

@@ -95,7 +95,7 @@ public class TransactionModel implements ITransactionModel {
      * @param newCategory Category that will replace oldCategory.
      */
     @Override
-    public void replaceCategory(Category oldCategory, Category newCategory){
+    public void replaceCatForTransactions(Category oldCategory, Category newCategory){
         for(int i = 0; i < getTransactionList().size(); i++){
             FinancialTransaction t = getTransactionList().get(i);
 

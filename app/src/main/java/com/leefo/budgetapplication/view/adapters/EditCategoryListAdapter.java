@@ -20,17 +20,33 @@ import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class EditCategoryListAdapter extends ArrayAdapter<Category>{
 
 
     Context context;
     EditText editBudget;
+    TextView name;
+    View circle;
+    private final HashMap<Category , Integer > editBudgetHashMap;
 
 
     public EditCategoryListAdapter(Context context, @NonNull ArrayList<Category> list) {
         super(context, R.layout.list_row_category_budget, list);
         this.context = context;
+        editBudgetHashMap = getCategoryIntegerHashMap(list);
+    }
+
+    @NonNull
+    private HashMap<Category, Integer> getCategoryIntegerHashMap(@NonNull ArrayList<Category> list) {
+
+        final HashMap<Category, Integer> editBudgetHashMap;
+        editBudgetHashMap = new HashMap<>();
+        for (Category cat : list){
+            editBudgetHashMap.put(cat , cat.getBudgetGoal());
+        }
+        return editBudgetHashMap;
     }
 
 
@@ -41,21 +57,25 @@ public class EditCategoryListAdapter extends ArrayAdapter<Category>{
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row_category_budget,
                     parent, false);
         }
-
         Category cat = getItem(position);
 
-
-        editBudget = convertView.findViewById(R.id.editBudgetGoal);
-
-        if (cat.getBudgetGoal()!=0)editBudget.setText(String.valueOf(cat.getBudgetGoal()));
-
-        TextView name = convertView.findViewById(R.id.budget_category_name);
-        View circle = convertView.findViewById(R.id.budget_category_circle);
-        name.setText(cat.getName());
-        circle.getBackground().setColorFilter(Color.parseColor(cat.getColor()), PorterDuff.Mode.SRC_ATOP);
+        getItemsId(convertView);
+        setItemsValue(cat);
 
         initBudgetGoal(cat);
         return convertView;
+    }
+
+    private void setItemsValue(Category cat) {
+        if (cat.getBudgetGoal() != 0)editBudget.setText(String.valueOf(cat.getBudgetGoal()));
+        name.setText(cat.getName());
+        circle.getBackground().setColorFilter(Color.parseColor(cat.getColor()), PorterDuff.Mode.SRC_ATOP);
+    }
+
+    private void getItemsId(View convertView) {
+        editBudget = convertView.findViewById(R.id.editBudgetGoal);
+        name = convertView.findViewById(R.id.budget_category_name);
+        circle = convertView.findViewById(R.id.budget_category_circle);
     }
 
     private void initBudgetGoal(Category category) {
@@ -72,12 +92,19 @@ public class EditCategoryListAdapter extends ArrayAdapter<Category>{
 
             @Override
             public void afterTextChanged(Editable editable) {
-
-                if (!editable.toString().equals("")) {
-                    Controller.editCategoryInfo(category, Integer.parseInt(editable.toString()));
-                }
+                updateValueHashMap(editable, category);
             }
         });
+    }
+
+    private void updateValueHashMap(Editable editable, Category category) {
+        if (!editable.toString().equals("")) {
+            if (editBudgetHashMap.containsKey(category)){
+                editBudgetHashMap.replace(category, Integer.parseInt(editable.toString()));
+            }
+        }else {
+            editBudgetHashMap.replace(category, 0);
+        }
     }
 
     @Override
@@ -92,7 +119,7 @@ public class EditCategoryListAdapter extends ArrayAdapter<Category>{
         return position;
     }
 
-
-
-
+    public HashMap<Category, Integer> getEditBudgetHashMap() {
+        return editBudgetHashMap;
+    }
 }
