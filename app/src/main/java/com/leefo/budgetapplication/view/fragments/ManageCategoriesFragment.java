@@ -22,6 +22,11 @@ import com.leefo.budgetapplication.view.adapters.ManageCategoriesListAdapter;
 import java.util.ArrayList;
 
 /**
+ * This class represents the fragment for editing and/or adding new categories
+ * The fragment displays a list of all categories, together with a New Category button
+ * Opens Edit Category fragment, when a category is clicked
+ * Opens New Category fragment, when New Category button is pressed
+ * Opened from MoreFragment
  * @author Emelie Edberg, Eugene Dvoryankov
  */
 public class ManageCategoriesFragment extends Fragment {

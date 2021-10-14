@@ -13,13 +13,17 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 
 /**
- * Class that represents the fragment for the More page
+ * This class represents the fragment that contains buttons for opening other fragments
+ * Opens Manage Categories fragment
+ * Opens Compare Months fragment
+ * Opened from MainActivity.
  * @author Emelie Edberg, Eugene Dvoryankov
  */
 public class MoreFragment extends Fragment {
 
     private Button btnCompareMonths;
     private Button btnManageCategory;
+
     /**
      * Method that runs when the fragment is being created.
      * Connects the fragment xml file to the fragment class and initializes the fragment's components.
