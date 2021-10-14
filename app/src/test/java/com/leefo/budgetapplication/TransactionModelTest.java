@@ -24,11 +24,13 @@ public class TransactionModelTest {
     IDatabase fakeDb;
     TransactionModel tm;
     Category testCategory;
+    CategoryModel cm;
 
     @BeforeEach
     public void init() {
         fakeDb = new FakeIDatabase();
         tm = new TransactionModel(fakeDb);
+        cm = new CategoryModel(fakeDb, tm);
         testCategory = new Category("test", "#FFFFFF", false);
     }
 
@@ -197,6 +199,34 @@ public class TransactionModelTest {
     }
 
     @Test
+    public void canGetTotalIncomeForAllTransactions() {
+        LocalDate d1 = LocalDate.of(1905, 1, 2);
+        LocalDate d2 = LocalDate.of(1902, 3, 16);
+        LocalDate d3 = LocalDate.of(1905, 1, 27);
+        LocalDate d4 = LocalDate.of(1905, 1, 15);
+
+        Category incomeCat1 = new Category("IncomeTest1", "#111111", true, 0);
+        Category incomeCat2 = new Category("IncomeTest2", "#555555", true, 0);
+
+        FinancialTransaction t1 = new FinancialTransaction((float) 200.0, "t1", d1, incomeCat1);
+        FinancialTransaction t2 = new FinancialTransaction((float) 15.0, "t2", d2, incomeCat1);
+        FinancialTransaction t3 = new FinancialTransaction((float) 17.0, "t3", d3, incomeCat1);
+        FinancialTransaction t4 = new FinancialTransaction((float) 116.0, "t4", d4, incomeCat2);
+
+        tm.addTransaction(t1);
+        tm.addTransaction(t2);
+        tm.addTransaction(t3);
+        tm.addTransaction(t4);
+
+        float expectedSum = t1.getAmount() + t2.getAmount() + t3.getAmount() + t4.getAmount();
+        TransactionRequest request = new TransactionRequest(null, 0, 0); // 0 means every month
+
+        float calculatedSum = tm.getTotalIncome(request);
+
+        assertEquals(expectedSum, calculatedSum);
+    }
+
+    @Test
     public void canGetTotalExpenseForSpecificRequest() {
         LocalDate d1 = LocalDate.of(1905, 1, 2);
         LocalDate d2 = LocalDate.of(1902, 3, 16);
@@ -218,6 +248,34 @@ public class TransactionModelTest {
 
         float expectedSum = t1.getAmount() + t3.getAmount() + t4.getAmount(); //Amount for transactions created 01/1905
         TransactionRequest request = new TransactionRequest(null, 1, 1905);
+
+        float calculatedSum = tm.getTotalExpense(request);
+
+        assertEquals(expectedSum, calculatedSum);
+    }
+
+    @Test
+    public void canGetTotalExpenseForAllTransactions() {
+        LocalDate d1 = LocalDate.of(1905, 1, 2);
+        LocalDate d2 = LocalDate.of(1902, 3, 16);
+        LocalDate d3 = LocalDate.of(1905, 1, 27);
+        LocalDate d4 = LocalDate.of(1905, 1, 15);
+
+        Category expenseCat1 = new Category("expenseTest1", "#111111", false, 0);
+        Category expenseCat2 = new Category("expenseTest2", "#555555", false, 0);
+
+        FinancialTransaction t1 = new FinancialTransaction((float) 200.0, "t1", d1, expenseCat1);
+        FinancialTransaction t2 = new FinancialTransaction((float) 15.0, "t2", d2, expenseCat1);
+        FinancialTransaction t3 = new FinancialTransaction((float) 17.0, "t3", d3, expenseCat1);
+        FinancialTransaction t4 = new FinancialTransaction((float) 116.0, "t4", d4, expenseCat2);
+
+        tm.addTransaction(t1);
+        tm.addTransaction(t2);
+        tm.addTransaction(t3);
+        tm.addTransaction(t4);
+
+        float expectedSum = t1.getAmount() + t2.getAmount() + t3.getAmount() + t4.getAmount();
+        TransactionRequest request = new TransactionRequest(null, 0, 0);
 
         float calculatedSum = tm.getTotalExpense(request);
 
@@ -263,7 +321,6 @@ public class TransactionModelTest {
         Category expenseCat1 = new Category("expenseTest1", "#555555", false, 0);
         Category emptyCategory = new Category("ImEmpty", "#FFFFFF", true, 0);
 
-        CategoryModel cm = new CategoryModel(fakeDb, tm);
         cm.addCategory(incomeCat1);
         cm.addCategory(expenseCat1);
         cm.addCategory(emptyCategory);
@@ -305,7 +362,6 @@ public class TransactionModelTest {
         Category testCat3 = new Category("testcat3", "#555555", false, 0);
         Category testCat4 = new Category("testcat4", "#555555", false, 0);
 
-        CategoryModel cm = new CategoryModel(fakeDb, tm);
         cm.addCategory(testCat1);
         cm.addCategory(testCat2);
         cm.addCategory(testCat3);
@@ -337,5 +393,79 @@ public class TransactionModelTest {
         assertTrue(outcome);
     }
 
+    @Test
+    public void CanSortByPopularityLessThan20s(){
+        LocalDate d = LocalDate.now();
+
+        Category testCat1 = new Category("testcat1", "#111111", false, 0);
+        Category testCat2 = new Category("testcat2", "#555555", false, 0);
+        Category testCat3 = new Category("testcat3", "#555555", false, 0);
+
+        tm.addTransaction(new FinancialTransaction((float) 255.0, "t1", d, testCat1));
+        tm.addTransaction(new FinancialTransaction((float) 255.0, "t1", d, testCat1));
+        tm.addTransaction(new FinancialTransaction((float) 255.0, "t1", d, testCat1));
+        tm.addTransaction(new FinancialTransaction((float) 255.0, "t1", d, testCat2));
+        tm.addTransaction(new FinancialTransaction((float) 255.0, "t1", d, testCat2));
+        tm.addTransaction(new FinancialTransaction((float) 255.0, "t1", d, testCat3));
+
+        ArrayList<Category> list = new ArrayList<>();
+        list.add(testCat3);
+        list.add(testCat1);
+        list.add(testCat2);
+
+        tm.sortCategoryListByPopularity(list);
+
+        assertEquals(list.get(0), testCat1);
+    }
+
+    @Test
+    public void CanSortByPopularityMoreThan20(){
+        LocalDate d = LocalDate.now();
+
+        Category testCat1 = new Category("testcat1", "#111111", false, 0);
+        Category testCat2 = new Category("testcat2", "#555555", false, 0);
+        Category testCat3 = new Category("testcat3", "#555555", false, 0);
+
+        for (int i = 0; i < 25; i++){
+            tm.addTransaction(new FinancialTransaction((float) 255.0, "t1", d, testCat1));
+        }
+
+        ArrayList<Category> list = new ArrayList<>();
+        list.add(testCat3);
+        list.add(testCat1);
+        list.add(testCat2);
+
+        tm.sortCategoryListByPopularity(list);
+
+        assertEquals(list.get(0), testCat1);
+    }
+
+    @Test
+    public void CanSortByAmount(){
+        LocalDate d = LocalDate.now();
+
+        ArrayList<FinancialTransaction> list = new ArrayList<>();
+
+        FinancialTransaction t1 = new FinancialTransaction((float) 10, "t1", d, testCategory);
+        FinancialTransaction t2 = new FinancialTransaction((float) 50, "t1", d, testCategory);
+        FinancialTransaction t3 = new FinancialTransaction((float) 5, "t1", d, testCategory);
+        FinancialTransaction t4 = new FinancialTransaction((float) 20, "t1", d, testCategory);
+
+        list.add(t1);
+        list.add(t2);
+        list.add(t3);
+        list.add(t4);
+
+        ArrayList<FinancialTransaction> listExpected = new ArrayList<>();
+
+        listExpected.add(t2);
+        listExpected.add(t4);
+        listExpected.add(t1);
+        listExpected.add(t3);
+
+        tm.sortByAmount(list);
+
+        assertTrue(listExpected.get(0).equals(list.get(0)));
+    }
 
 }
