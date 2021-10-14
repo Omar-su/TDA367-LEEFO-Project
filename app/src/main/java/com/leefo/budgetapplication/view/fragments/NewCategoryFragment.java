@@ -17,6 +17,9 @@ import android.widget.Toast;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.view.ParcelableCategory;
+
+import java.util.MissingResourceException;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -44,6 +47,15 @@ public class NewCategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_category, container, false);
 
+
+        // get argument passed with the fragment
+        Bundle bundle = this.getArguments();
+        boolean isIncomeActivated;
+        if (bundle != null){
+            isIncomeActivated = bundle.getBoolean("IS_INCOME_IS_ACTIVATED");
+        } else {
+            throw new MissingResourceException("No argument was sent with the fragment, hence fragment cannot be created", ParcelableCategory.class.toString(), "IS_INCOME_IS_ACTIVATED" );
+        }
         // get views
         saveButton = view.findViewById(R.id.new_category_save_button);
         nameInput = view.findViewById(R.id.new_category_name_input);
@@ -52,6 +64,10 @@ public class NewCategoryFragment extends Fragment {
         cross = view.findViewById(R.id.cross_new_category);
 
         defaultColor = ContextCompat.getColor(getContext(), R.color.design_default_color_primary);
+
+        if (isIncomeActivated){
+            radioGroup.check(R.id.new_category_radio_income);
+        }
 
         // init onClick
         initSaveButtonOnClickListener();

@@ -36,6 +36,7 @@ public class ManageCategoriesFragment extends Fragment {
     private RadioGroup radioGroup;
     private ManageCategoriesListAdapter adapter;
     private ImageButton cross;
+    private boolean isIncomeActivated = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -106,7 +107,11 @@ public class ManageCategoriesFragment extends Fragment {
         newCategoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new NewCategoryFragment()).commit();
+                Fragment fragment = new NewCategoryFragment();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("IS_INCOME_IS_ACTIVATED", isIncomeActivated);
+                fragment.setArguments(bundle);
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, fragment).commit();
             }
         });
     }
@@ -119,8 +124,10 @@ public class ManageCategoriesFragment extends Fragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.manage_categories_radio_expense){
                     adapter = new ManageCategoriesListAdapter(requireActivity().getApplicationContext(), getExpenseCategoriesWithoutOther());
+                    isIncomeActivated = false;
                 } else {
                     adapter = new ManageCategoriesListAdapter(requireActivity().getApplicationContext(), getIncomeCategoriesWithoutOther());
+                    isIncomeActivated = true;
                 }
                 listView.setAdapter(adapter);
             }
