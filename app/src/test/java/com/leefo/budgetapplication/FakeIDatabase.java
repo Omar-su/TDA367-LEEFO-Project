@@ -6,15 +6,16 @@ import com.leefo.budgetapplication.model.IDatabase;
 
 import java.util.ArrayList;
 
+//Fake IDatabase class created to test model without database implementation.
 public class FakeIDatabase implements IDatabase {
     @Override
     public ArrayList<FinancialTransaction> getFinancialTransactions() {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public ArrayList<Category> getCategories() {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
