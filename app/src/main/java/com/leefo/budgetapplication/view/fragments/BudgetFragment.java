@@ -133,7 +133,7 @@ public class BudgetFragment extends Fragment {
                     noBudget1.setVisibility(View.VISIBLE);
                     noBudget2.setVisibility(View.VISIBLE);
 
-                    noBudget1.setText("There are currently no set budgets for any category.");
+                    noBudget1.setText("There are currently no set budgets for any category this month.");
                     noBudget2.setText("Edit a category to add budget.");
 
                 } else {
