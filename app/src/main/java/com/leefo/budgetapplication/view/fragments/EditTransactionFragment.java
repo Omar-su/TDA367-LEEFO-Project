@@ -34,7 +34,13 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 
 /**
- * The class that represents the fragment for editing an existing transaction
+ * This class represents the fragment for editing an existing transaction.
+ * The old values are automatically loaded into the fragment.
+ * The user can choose which values are desired to be changed,
+ * and which values should be left as they were before and save the changes.
+ * Opened from HomeListViewFragment
+ * Opened from SingleCategoryFragment
+ * Opens HomeFragment. Uses Calendar and DatePickerDialog.
  * @author Emelie Edberg, Eugene Dvoryankov
  */
 public class EditTransactionFragment extends Fragment {

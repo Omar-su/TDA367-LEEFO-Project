@@ -14,8 +14,8 @@ import com.leefo.budgetapplication.R;
 
 /**
  * This class represents the fragment that contains buttons for opening other fragments.
- * Opens Manage Categories fragment.
- * Opens Compare Months fragment.
+ * Opens ManageCategoriesFragment.
+ * Opens CompareMonthsFragment.
  * Opened from MainActivity.
  * @author Emelie Edberg, Eugene Dvoryankov
  */

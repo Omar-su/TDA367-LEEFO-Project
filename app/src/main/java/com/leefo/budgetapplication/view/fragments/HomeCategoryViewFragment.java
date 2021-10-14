@@ -30,7 +30,14 @@ import com.leefo.budgetapplication.view.adapters.CategoryListAdapter;
 import java.util.ArrayList;
 
 /**
- * The class that represents the fragment for the category view inside the HomeFragment
+ * This class represents the fragment for the pie chart view inside the HomeFragment
+ * The fragment consists of
+ *      - a pie chart
+ *      - list of the expense categories
+ * The list shows either all expense categories or categories for a chosen month
+ * The pie chart shows what percentage, of 100 %, each category is equivalent too.
+ * Opens SingleCategoryFragment, when a category (from the list) is clicked
+ * Used by (opened from) HomeFragment
  * @author Emelie Edberg, Eugene Dvoryankov
  */
 public class HomeCategoryViewFragment extends Fragment {
