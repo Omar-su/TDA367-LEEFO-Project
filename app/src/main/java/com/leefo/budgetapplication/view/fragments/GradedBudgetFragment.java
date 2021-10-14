@@ -48,6 +48,7 @@ public class GradedBudgetFragment extends Fragment {
         TimePeriodViewModel viewModel = new ViewModelProvider(requireActivity()).get(TimePeriodViewModel.class);
         timePeriod = viewModel.getTimePeriodLiveData().getValue();
 
+
         viewModel.getTimePeriodLiveData().observe(getViewLifecycleOwner(), new Observer<TimePeriod>() {
             @Override
             public void onChanged(TimePeriod newTimePeriod) {
@@ -55,10 +56,13 @@ public class GradedBudgetFragment extends Fragment {
             }
         });
 
-
         updateList(Controller.getBudgetCategoriesByMonth(timePeriod.getMonth(), timePeriod.getYear()));
 
         return view;
+    }
+
+    public void updateMonth(TimePeriod timePeriod) {
+        updateList(Controller.getBudgetCategoriesByMonth(timePeriod.getMonth(), timePeriod.getYear()));
     }
 
     private void updateList(ArrayList<Category> budgetCategories) {

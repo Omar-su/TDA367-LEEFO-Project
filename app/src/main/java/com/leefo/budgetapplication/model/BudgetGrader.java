@@ -31,7 +31,7 @@ public class BudgetGrader {
      * Returns a list of all categories in the program with a budget.
      * @return The list of all categories in the program with a budget.
      */
-    private ArrayList<Category> getAllBudgetCategories() {
+    public ArrayList<Category> getAllBudgetCategories() {
         ArrayList<Category> budgetList = new ArrayList<>();
         for (Category c : categoryModel.getCategoryList()) {
             if (c.getGoal() > 0) {
