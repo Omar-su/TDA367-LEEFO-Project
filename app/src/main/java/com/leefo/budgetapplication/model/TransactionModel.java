@@ -1,5 +1,4 @@
 package com.leefo.budgetapplication.model;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 

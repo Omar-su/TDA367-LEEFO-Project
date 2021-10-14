@@ -11,7 +11,6 @@ import com.leefo.budgetapplication.model.IDatabase;
 import com.leefo.budgetapplication.model.TransactionModel;
 import com.leefo.budgetapplication.model.TransactionRequest;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -467,5 +466,60 @@ public class TransactionModelTest {
 
         assertTrue(listExpected.get(0).equals(list.get(0)));
     }
+
+    @Test
+    public void CanSearchByAmount(){
+        LocalDate d = LocalDate.now();
+
+        ArrayList<FinancialTransaction> list = new ArrayList<>();
+
+        FinancialTransaction t1 = new FinancialTransaction((float) 1700, "food", d, testCategory);
+        FinancialTransaction t2 = new FinancialTransaction((float) 500, "clothes", d, testCategory);
+        FinancialTransaction t3 = new FinancialTransaction((float) 595, "transport", d, testCategory);
+        FinancialTransaction t4 = new FinancialTransaction((float) 5020, "house", d, testCategory);
+
+        list.add(t1);
+        list.add(t2);
+        list.add(t3);
+        list.add(t4);
+
+        //expected 595
+        ArrayList<FinancialTransaction> listExpected = new ArrayList<>();
+
+        listExpected.add(t3);
+
+        tm.searchTransactionByAmount(list, 595F);
+
+        assertTrue(listExpected.size()==1);
+        assertTrue(listExpected.get(0).equals(list.get(2)));
+    }
+
+    @Test
+    public void CanSearchByNote(){
+        LocalDate d = LocalDate.now();
+
+        ArrayList<FinancialTransaction> list = new ArrayList<>();
+
+        FinancialTransaction t1 = new FinancialTransaction((float) 1700, "food", d, testCategory);
+        FinancialTransaction t2 = new FinancialTransaction((float) 500, "clothes", d, testCategory);
+        FinancialTransaction t3 = new FinancialTransaction((float) 595, "transport", d, testCategory);
+        FinancialTransaction t4 = new FinancialTransaction((float) 5020, "house", d, testCategory);
+
+        list.add(t1);
+        list.add(t2);
+        list.add(t3);
+        list.add(t4);
+
+        //expected 595
+        ArrayList<FinancialTransaction> listExpected = new ArrayList<>();
+
+        listExpected.add(t4);
+
+        tm.searchTransactionByNote(list,"house");
+
+        assertTrue(listExpected.size()==1);
+        assertTrue(listExpected.get(0).equals(list.get(3)));
+    }
+
 
 }
