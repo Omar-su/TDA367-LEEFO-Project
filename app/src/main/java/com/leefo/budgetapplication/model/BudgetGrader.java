@@ -31,7 +31,7 @@ public class BudgetGrader {
      * Returns a list of all categories in the program with a budget.
      * @return The list of all categories in the program with a budget.
      */
-    public ArrayList<Category> getAllBudgetCategories() {
+    private ArrayList<Category> getAllBudgetCategories() {
         ArrayList<Category> budgetList = new ArrayList<>();
         for (Category c : categoryModel.getCategoryList()) {
             if (c.getGoal() > 0) {
@@ -42,7 +42,8 @@ public class BudgetGrader {
     }
 
     /**
-     * Returns a list of categories with budgets for a specific month.
+     * Returns a list of categories with budgets for a specific month. Categories must have
+     * transactions made in that month to be returned.
      * @param request The request containing the specific month
      * @return The list of categories with budgets for a specific month.
      */
