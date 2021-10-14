@@ -68,6 +68,12 @@ public class Controller {
         categoryModel.editCategory(oldCategory, newCategory);
     }
 
+    public static void editCategoryInfo(Category oldCategory, int goal) {
+        Category newCategory = new Category(oldCategory.getName(), oldCategory.getColor(), oldCategory.isIncome(), goal);
+
+        categoryModel.editCategory(oldCategory, newCategory);
+    }
+
     /**
      * Adds a new category to the database. Color must be a String of a hexadecimal color code with
      * the format: #XXXXXX.

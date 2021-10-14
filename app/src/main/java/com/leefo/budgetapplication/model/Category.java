@@ -89,7 +89,7 @@ public class Category {
         return color;
     }
 
-    public float getGoal(){return budgetGoal;}
+    public int getGoal(){return budgetGoal;}
 
     public boolean isIncome() { return isIncome; }
 
