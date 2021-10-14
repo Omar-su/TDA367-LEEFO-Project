@@ -179,7 +179,7 @@ public class EditCategoryFragment extends Fragment {
      */
     private boolean nameIsUnique(String name) {
         for (Category c: Controller.getAllCategories()) {
-            if (c.getName().equals(name) && !c.equals(oldCategory)) return false;
+            if (c.getName().equalsIgnoreCase(name) && !c.equals(oldCategory)) return false;
         }
         return true;
     }
