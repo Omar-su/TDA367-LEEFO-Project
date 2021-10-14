@@ -97,9 +97,9 @@ public class CategoryModel
      * @param editedCategory The category with the edited information.
      */
     public void editCategory(Category oldCategory, Category editedCategory){
-        addCategory(editedCategory);
         transactionModel.replaceCategory(oldCategory, editedCategory);
         deleteCategory(oldCategory);
+        addCategory(editedCategory);
     }
 
 
