@@ -9,93 +9,130 @@ Author: Emelie Edberg, Eugene Dvoryankov
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/grey_background"
     tools:context=".view.fragments.BudgetFragment">
 
-    <View
-        android:id="@+id/view8"
-        android:layout_width="200dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="1dp"
-        android:background="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/averageRatingBar" />
-
-    <TextView
-        android:id="@+id/month_budget"
-        android:layout_width="200dp"
-        android:layout_height="31dp"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="6dp"
-        android:text="Month"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/averageRatingBar" />
-
-    <FrameLayout
-        android:id="@+id/FrameLayout_Categories_budget"
-        android:layout_width="410dp"
-        android:layout_height="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="110dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/noBudgetText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="Edit a category to add budget."
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/noBudgetText1" />
+
+        <TextView
+            android:id="@+id/noBudgetText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:gravity="center"
+            android:text="There are currently no set budgets for any category."
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ListView
+            android:id="@+id/listView_gradedBudgets"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:background="@color/purple_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </FrameLayout>
+        <ImageButton
+            android:id="@+id/arrow_back_budget"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_baseline_arrow_back_ios_new_24_black"
+            android:stateListAnimator="@null"
+            app:layout_constraintEnd_toStartOf="@+id/month_budget"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/averageRatingBar"
+            app:tint="@color/black" />
 
-    <Button
-        android:id="@+id/edit_budget_button"
-        android:layout_width="104dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="280dp"
-        android:layout_marginBottom="30dp"
-        android:backgroundTint="#9C6BF4"
-        android:text="@string/Edit_Budget"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/FrameLayout_Categories_budget"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageButton
+            android:id="@+id/arrow_forward_budget"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+            android:stateListAnimator="@null"
+            app:layout_constraintStart_toEndOf="@+id/month_budget"
+            app:layout_constraintTop_toBottomOf="@+id/averageRatingBar"
+            app:tint="@color/black" />
 
-    <RatingBar
-        android:id="@+id/averageRatingBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:isIndicator="true"
-        app:layout_constraintEnd_toStartOf="@+id/edit_budget_button"
-        app:layout_constraintHorizontal_bias="0.203"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
+        <View
+            android:id="@+id/view8"
+            android:layout_width="200dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/arrow_back_budget"
+            app:layout_constraintTop_toBottomOf="@+id/averageRatingBar" />
 
-    <ImageButton
-        android:id="@+id/arrow_back_budget"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginTop="1dp"
-        android:background="@color/white"
-        android:src="@drawable/ic_baseline_arrow_back_ios_new_24_black"
-        android:stateListAnimator="@null"
-        app:layout_constraintEnd_toStartOf="@+id/view8"
-        app:layout_constraintTop_toBottomOf="@+id/averageRatingBar"
-        app:tint="@color/black" />
+        <TextView
+            android:id="@+id/month_budget"
+            android:layout_width="200dp"
+            android:layout_height="31dp"
+            android:layout_marginTop="6dp"
+            android:text="Month"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/arrow_back_budget"
+            app:layout_constraintTop_toBottomOf="@+id/averageRatingBar" />
 
-    <ImageButton
-        android:id="@+id/arrow_forward_budget"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="156dp"
-        android:background="@color/white"
-        android:src="@drawable/ic_baseline_arrow_forward_ios_24"
-        android:stateListAnimator="@null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/averageRatingBar"
-        app:tint="@color/black" />
+        <Button
+            android:id="@+id/edit_budget_button"
+            android:layout_width="104dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="13dp"
+            android:backgroundTint="#9C6BF4"
+            android:text="@string/Edit_Budget"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RatingBar
+            android:id="@+id/averageRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="12dp"
+            android:isIndicator="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -363,4 +363,7 @@ public class Controller {
         return budgetGrader.getAverageGradeForMonth(new TransactionRequest(null, month, year));
     }
 
+    public static ArrayList<Category> getAllBudgetCategories() {
+        return budgetGrader.getAllBudgetCategories();
+    }
 }

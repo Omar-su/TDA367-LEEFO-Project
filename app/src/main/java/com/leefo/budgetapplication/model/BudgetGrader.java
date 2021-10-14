@@ -85,7 +85,7 @@ public class BudgetGrader {
      * @return The average budget grade for the specific month.
      */
     public float getAverageGradeForMonth(TransactionRequest request) {
-        List<Category> budgetCategories = getBudgetCategoriesByMonth(request);
+        List<Category> budgetCategories = getAllBudgetCategories();
         float gradeTotal = (float) 0.0;
         for (Category c : budgetCategories) {
             gradeTotal += gradeCategory(new TransactionRequest(c, request.getMonth(), request.getYear()));
