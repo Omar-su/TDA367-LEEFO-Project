@@ -116,8 +116,6 @@ public class TransactionModel implements ITransactionModel {
     }
 
 
-    //TODO implement these methods
-
     /**
      * Gets the sum of the transactions that match the parameters in the TransactionRequest object.
      * @param request Object containing search parameters.
