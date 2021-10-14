@@ -8,7 +8,7 @@
     android:backgroundTint="#FFFFFF">
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/catName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -16,17 +16,17 @@
         android:text="Mat"
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
-        app:layout_constraintStart_toEndOf="@+id/view10"
+        app:layout_constraintStart_toEndOf="@+id/catIndicator"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/view10"
+        android:id="@+id/catIndicator"
         android:layout_width="33dp"
         android:layout_height="8dp"
         android:layout_marginStart="5dp"
         android:layout_marginBottom="60dp"
         android:background="@android:drawable/button_onoff_indicator_off"
-        android:backgroundTint="@color/purple_500"
+        android:backgroundTint="#DA1414"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -67,14 +67,14 @@
             android:text="2.02x"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/budgetGradeRating"
+            app:layout_constraintEnd_toStartOf="@+id/budgetGradeRatingBar"
             app:layout_constraintHorizontal_bias="0.897"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.512" />
 
         <RatingBar
-            android:id="@+id/budgetGradeRating"
+            android:id="@+id/budgetGradeRatingBar"
             style="@android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

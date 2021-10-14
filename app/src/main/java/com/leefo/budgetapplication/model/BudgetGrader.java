@@ -63,7 +63,7 @@ public class BudgetGrader {
     }
 
     /**
-     * Rounds the outcome for the budget progress of a specific category.
+     * Rounds the outcome for the budget progress of a specific category to two decimals.
      * Outcome = actual expense/budget goal.
      * @param request The request containing the specific category.
      * @return The rounded budget outcome.
@@ -83,7 +83,7 @@ public class BudgetGrader {
      * @param request The request containing the specific month.
      * @return The average budget grade for the specific month.
      */
-    public float getAverageGrades(TransactionRequest request) {
+    public float getAverageGradeForMonth(TransactionRequest request) {
         List<Category> budgetCategories = getBudgetCategoriesByMonth(request);
         float gradeTotal = (float) 0.0;
         for (Category c : budgetCategories) {
