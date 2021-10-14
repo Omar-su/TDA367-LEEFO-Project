@@ -1,5 +1,7 @@
 package com.leefo.budgetapplication.model;
 
+import android.widget.ArrayAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -7,25 +9,27 @@ import java.util.TreeMap;
 public class BudgetGrader {
 
     private final TransactionModel transactionModel;
+    private final CategoryModel categoryModel;
 
-    public BudgetGrader(TransactionModel transactionModel) {
+    public BudgetGrader(TransactionModel transactionModel, CategoryModel categoryModel) {
         this.transactionModel = transactionModel;
+        this.categoryModel = categoryModel;
     }
 
     public ArrayList<Category> getAllBudgetCategories() {
         ArrayList<Category> budgetList = new ArrayList<>();
-//        for (Category c : transactionModel.getCategoryList()) {
-//            if (c.getGoal() > 0) {
-//                budgetList.add(c);
-//            }
-//        }
+        for (Category c : categoryModel.getCategoryList()) {
+            if (c.getGoal() > 0) {
+                budgetList.add(c);
+            }
+        }
         return budgetList;
     }
 
     public ArrayList<Category> getBudgetCategoriesByMonth(TransactionRequest request) {
-//        return transactionModel.removeEmptyCategories(getAllBudgetCategories(),
-//                request);
-        return null;
+        ArrayList<Category> tempList = new ArrayList<>(getAllBudgetCategories());
+        transactionModel.removeEmptyCategories(tempList, request);
+        return tempList;
     }
 
     public float gradeCategory(TransactionRequest request) {
