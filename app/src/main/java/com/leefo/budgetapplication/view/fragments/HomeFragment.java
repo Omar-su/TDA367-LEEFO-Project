@@ -27,7 +27,15 @@ import java.time.LocalDate;
 import java.time.Month;
 
 /**
- * Class that represents the fragment for the Home page
+ * This class represents the fragment for the Home page.
+ * The fragment consists of a ConstraintLayout and FrameLayout.
+ * The Constraint Layout is unchangeable and contains the income, expenses and balance indicators
+ * as well as
+ *      - the time period toggle button and month spinner
+ *      - the view toggle button
+ * The Frame Layout changes when the view toggle button is pressed
+ * Opens HomeCategoryViewFragment, by default and when the view toggle button is pressed
+ * Opens HomeListViewFragment, when the view toggle button is pressed
  * @author Emelie Edberg
  */
 public class HomeFragment extends Fragment {

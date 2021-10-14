@@ -13,9 +13,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 
 /**
- * This class represents the fragment that contains buttons for opening other fragments
- * Opens Manage Categories fragment
- * Opens Compare Months fragment
+ * This class represents the fragment that contains buttons for opening other fragments.
+ * Opens Manage Categories fragment.
+ * Opens Compare Months fragment.
  * Opened from MainActivity.
  * @author Emelie Edberg, Eugene Dvoryankov
  */
