@@ -1,5 +1,6 @@
 package com.leefo.budgetapplication.view.fragments;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -72,9 +73,8 @@ public class BudgetFragment extends Fragment {
     }
 
     private void initHeader() {
-        Drawable drawableRatingBar = averageRatingBar.getProgressDrawable();
-        drawableRatingBar.setColorFilter(Color.parseColor("#6200ed"), PorterDuff.Mode.SRC_ATOP);
         String month = Month.of(timePeriod.getMonth()) + " " + timePeriod.getYear();
+        averageRatingBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#6200ed")));
         monthText.setText(month);
         averageRatingBar.setRating(Controller.getAverageGradeForMonth(timePeriod.getMonth(), timePeriod.getYear()));
     }
