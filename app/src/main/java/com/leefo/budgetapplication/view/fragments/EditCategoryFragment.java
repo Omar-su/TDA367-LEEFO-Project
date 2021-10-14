@@ -26,7 +26,16 @@ import java.util.MissingResourceException;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 /**
- * The class that represents the fragment for editing an existing category
+ * This class represents the fragment for editing or deleting an existing category.
+ * The old values are automatically loaded into the fragment.
+ * The user can choose which values are desired to be changed,
+ * and which values should be left as they were before and save the changes.
+ * When the user clicks the delete button, a "yes/no" confirmation popup is shown.
+ * If the user clicks yes on the confirmation popup, the category is deleted and all
+ * transactions linked with it are from now on linked to
+ * another default category (either "Other expense" or "Other income"),
+ * until the user manually changes those transactions' category.
+ * Opened from ManageCategoriesFragment
  * @author Emelie Edberg, Eugene Dvoryankov, Omar Suliman
  */
 public class EditCategoryFragment extends Fragment {

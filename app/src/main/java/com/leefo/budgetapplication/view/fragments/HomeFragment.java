@@ -36,6 +36,7 @@ import java.time.Month;
  * The Frame Layout changes when the view toggle button is pressed
  * Opens HomeCategoryViewFragment, by default and when the view toggle button is pressed
  * Opens HomeListViewFragment, when the view toggle button is pressed
+ * Used by (opened from) MainActivity.
  * @author Emelie Edberg
  */
 public class HomeFragment extends Fragment {
