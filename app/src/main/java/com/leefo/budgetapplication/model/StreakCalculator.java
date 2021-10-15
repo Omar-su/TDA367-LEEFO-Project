@@ -34,7 +34,24 @@ public class StreakCalculator
     {
         int record = getCurrentStreak(transactions);
 
+        // date of first transaction ever made
+        LocalDate first_transaction_date = transactions.get(transactions.size() - 1).getDate();
 
+        // used for looping through streaks until we reach the first transaction made
+        int previous_streak = record;
+
+
+        // temporary date to keep track of where in the transaction list we are
+        LocalDate temp_date = LocalDate.now().minusDays(previous_streak + 1);
+
+        while (first_transaction_date.isBefore(temp_date))
+        {
+            previous_streak = getStreak(transactions, temp_date);
+
+            if(previous_streak > record) record = previous_streak;
+
+            temp_date = temp_date.minusDays(previous_streak + 1);
+        }
 
         return record;
     }
@@ -42,6 +59,8 @@ public class StreakCalculator
 
     /**
      * Returns the streak of a specific date. A streak is a sequence of dates where the spending of each day is less than the previous average spending.
+     *
+     * Assumes list of transactions is sorted.
      *
      * @param transactions List of transactions to base calculations off of.
      * @param date Date to check streak at.
@@ -51,31 +70,52 @@ public class StreakCalculator
     {
         float average = getAverageDailySpending(transactions, date);
 
+        LocalDate previousDate = date;
+
+        boolean found_first_date = false;
+        float day_sum = 0;
         int streak = 0;
-        boolean streaking = true;
 
-        while(streaking)
+        for(FinancialTransaction transaction : transactions)
         {
-            float spending = getDaySpending(transactions, date);
+            LocalDate current_date = transaction.getDate(); // date of current transaction
 
-            if(spending < average)
+            if(!found_first_date && !current_date.isEqual(date)) continue; // makes loop iterate until given date is found
+            else found_first_date = true;
+
+
+            // if we are still summing transactions of a date
+            if(current_date.isEqual(previousDate))
             {
-                streak++;
-                date = date.minusDays(1); // makes sure to check previous day in next iteration
+                if(!transaction.getCategory().isIncome()) // must be an expense
+                    day_sum += transaction.getAmount();
             }
+
+            // if we've reached a new day, check if the day_sum was below average
             else
             {
-                // if a streak is ongoing, then the average spending should be going down after every day
-                // this means that when we reach a date where spending > average we have to see if  it also applies to the average spending
-                // before that date, since the average spending should be higher the further back in the streak we go
-
-                float newAverage = getAverageDailySpending(transactions, date);
-
-                if(newAverage == average) // if it comes back here again despite new average, we are no longer streaking
-                    streaking = false;
+                // increase streak if day spending is below previous average
+                if(day_sum < average)
+                    streak++;
                 else
-                    average = newAverage;
+                {
+                    // if a streak lasts for several, days, then the further the streak continues, the lower the average will become
+                    // And since the average will be higher earlier in the streak, then comparing the day_sum with the average of the
+                    // most recent date in the streak will break the streak.
+                    // this is why the average gets updated here to account for this problem
+
+                    average = getAverageDailySpending(transactions, current_date);
+
+                    if(day_sum < average) // and another check with the new average
+                        streak++;
+                    else
+                        break; // if it doesn't pass the check with the new average either, then the streak is broken
+                }
+
+                previousDate = current_date;
+                day_sum = 0;
             }
+
         }
 
         return streak;
@@ -83,6 +123,8 @@ public class StreakCalculator
 
     /**
      * Gets total spending on a specific date.
+     *
+     * Assumes given list of transaction is sorted by date.
      *
      * @param transactions List of transactions to check spending in.
      * @param date Date to check spending on.
@@ -111,6 +153,8 @@ public class StreakCalculator
 
     /**
      * Gets average daily expenses before specified date.
+     *
+     * Assumes list of transactions is sorted by date.
      *
      * @param transactions List of transactions to calculate with.
      * @param date Date before which the transactions are made.
