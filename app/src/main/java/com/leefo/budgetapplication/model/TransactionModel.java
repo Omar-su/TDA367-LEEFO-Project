@@ -427,6 +427,28 @@ public class TransactionModel implements ITransactionModel {
         }
     }
 
+    public ArrayList<FinancialTransaction> showOnlyExpenses(ArrayList <FinancialTransaction> transactionList){
+        ArrayList<FinancialTransaction> newList = new ArrayList<>();
+        for(FinancialTransaction transaction : transactionList){
+            if(!transaction.getCategory().isIncome()){
+                newList.add(transaction);
+            }
+        }
+        return newList;
+    }
+
+    public ArrayList<FinancialTransaction> showOnlyIncome(ArrayList <FinancialTransaction> transactionList){
+        ArrayList<FinancialTransaction> newList = new ArrayList<>();
+        for(FinancialTransaction transaction : transactionList){
+            if(transaction.getCategory().isIncome()){
+                newList.add(transaction);
+            }
+        }
+        return newList;
+    }
+
+
+
     /**
      * Swaps the position of two objects in a list.
      *

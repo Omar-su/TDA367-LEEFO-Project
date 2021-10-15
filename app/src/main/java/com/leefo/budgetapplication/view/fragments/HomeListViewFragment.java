@@ -281,14 +281,14 @@ public class HomeListViewFragment extends Fragment {
 
                 switch (i){
                     case R.id.all_categories_radio:
-                        //TODO
+
                         break;
                     case R.id.expenses_radio:
-                        //TODO
+                        transactions = Controller.showOnlyExpenses(transactions);
                         break;
 
                     case R.id.income_radio:
-                        //TODO
+                        transactions = Controller.showOnlyIncome(transactions);
                         break;
                 }
                 updateList(transactions);
