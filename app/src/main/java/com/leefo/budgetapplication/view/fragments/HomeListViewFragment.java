@@ -32,7 +32,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * The class that represents the fragment for the list view inside the HomeFragment
+ * This class represents the fragment for the list view inside the HomeFragment.
+ * The fragment shows a list with either all transactions or transactions for a chosen month.
+ * The search field enables the user to search for a specific transaction by amount or note description.
+ * The sort button, on the right of search filed, enables the user to sort the transactions by:
+ *      - Newest date
+ *      - Oldest date
+ *      - Largest amount
+ *      - Smallest amount
+ * Opens Edit Transaction, when a transaction is clicked.
+ * Opened from HomeFragment.
  * @author Emelie Edberg, Eugene Dvoryankov
  */
 public class HomeListViewFragment extends Fragment {
