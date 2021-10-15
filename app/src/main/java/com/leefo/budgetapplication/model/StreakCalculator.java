@@ -34,23 +34,25 @@ public class StreakCalculator
     {
         int record = getCurrentStreak(transactions);
 
+        // used for looping through streaks until we reach the first transaction made
+        int current_streak = record;
+
         // date of first transaction ever made
         LocalDate first_transaction_date = transactions.get(transactions.size() - 1).getDate();
 
-        // used for looping through streaks until we reach the first transaction made
-        int previous_streak = record;
 
 
         // temporary date to keep track of where in the transaction list we are
-        LocalDate temp_date = LocalDate.now().minusDays(previous_streak + 1);
+        LocalDate temp_date = LocalDate.now().minusDays(current_streak + 1);
 
+        // loops until loop has passed all transactions (reached a date before first ever transaction)
         while (first_transaction_date.isBefore(temp_date))
         {
-            previous_streak = getStreak(transactions, temp_date);
+            current_streak = getStreak(transactions, temp_date);
 
-            if(previous_streak > record) record = previous_streak;
+            if(current_streak > record) record = current_streak;
 
-            temp_date = temp_date.minusDays(previous_streak + 1);
+            temp_date = temp_date.minusDays(current_streak + 1);
         }
 
         return record;
@@ -119,36 +121,6 @@ public class StreakCalculator
         }
 
         return streak;
-    }
-
-    /**
-     * Gets total spending on a specific date.
-     *
-     * Assumes given list of transaction is sorted by date.
-     *
-     * @param transactions List of transactions to check spending in.
-     * @param date Date to check spending on.
-     * @return Returns the total spending on specified date.
-     */
-    private float getDaySpending(ArrayList<FinancialTransaction> transactions, LocalDate date)
-    {
-        float sum = 0;
-
-        boolean found_date = false;
-
-        // will loop through list until date is found, after which it will start adding transactionAmounts to sum and then break
-        for(FinancialTransaction transaction : transactions)
-        {
-            // if loop has looped past given date
-            if(found_date && !transaction.getDate().isEqual(date)) break;
-
-            if(transaction.getDate().isEqual(date)){
-                sum += transaction.getAmount();
-                found_date = true;
-            }
-        }
-
-        return sum;
     }
 
     /**
