@@ -5,8 +5,9 @@ import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.model.StreakCalculator;
 
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,10 +15,10 @@ import java.util.ArrayList;
 
 public class StreakTest {
 
-    ArrayList<FinancialTransaction> transactions;
+    static ArrayList<FinancialTransaction> transactions;
 
-    @Before
-    public void init()
+    @BeforeAll
+    static void init()
     {
         transactions = new ArrayList<>();
 
@@ -42,12 +43,12 @@ public class StreakTest {
     @Test
     public void currentStreak()
     {
-        Assert.assertEquals(3, StreakCalculator.getCurrentStreak(transactions));
+        Assertions.assertEquals(3, StreakCalculator.getCurrentStreak(transactions));
     }
 
     @Test
     public void recordStreak()
     {
-        Assert.assertEquals(4, StreakCalculator.getRecordStreak(transactions));
+        Assertions.assertEquals(4, StreakCalculator.getRecordStreak(transactions));
     }
 }
