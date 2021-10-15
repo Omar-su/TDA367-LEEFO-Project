@@ -1,5 +1,7 @@
 package com.leefo.budgetapplication.model;
 
+import android.util.Log;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -90,7 +92,7 @@ public class StreakCalculator
             if(current_date.isEqual(previousDate))
             {
                 if(!transaction.getCategory().isIncome()) // must be an expense
-                    day_sum += transaction.getAmount();
+                    day_sum += Math.abs(transaction.getAmount());
             }
 
             // if we've reached a new day, check if the day_sum was below average
@@ -144,7 +146,7 @@ public class StreakCalculator
             // must be before specified date and an expense
             if(transaction.getDate().isBefore(date) && !transaction.getCategory().isIncome()) {
 
-                sum += transaction.getAmount();
+                sum += Math.abs(transaction.getAmount());
 
                 // previousDate == null means first found transaction, which means days needs to be incremented
                 // if this transaction has a different day than the previous one, then it's a new day (which means days should be incremented)

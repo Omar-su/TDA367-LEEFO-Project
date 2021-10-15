@@ -20,7 +20,7 @@ public class StreakFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_manage_categories, container, false);
+        View view = inflater.inflate(R.layout.fragment_streak, container, false);
 
         currentStreak = view.findViewById(R.id.currentStreak);
         recordStreak = view.findViewById(R.id.recordStreak);
@@ -32,8 +32,8 @@ public class StreakFragment extends Fragment {
 
     private void loadStreakValues()
     {
-        currentStreak.setText(Controller.getCurrentStreak());
-        recordStreak.setText(Controller.getRecordStreak());
+        currentStreak.setText(String.valueOf(Controller.getCurrentStreak()));
+        recordStreak.setText(String.valueOf(Controller.getRecordStreak()));
     }
 
 }
