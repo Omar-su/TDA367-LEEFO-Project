@@ -50,9 +50,12 @@ public class HomeListViewFragment extends Fragment {
     private TextView noTransactions1, noTransactions2;
     private TimePeriod timePeriod;
     private ImageButton sort_button;
-    private Dialog dialog;
+    private Dialog sortDialog;
     private RadioGroup sort_radio_group;
     private EditText search_text;
+    private ImageButton filter_button;
+    private Dialog filterDialog;
+    private RadioGroup filter_radio_group;
 
     /**
      * Method that runs when the fragment is being created.
@@ -69,6 +72,7 @@ public class HomeListViewFragment extends Fragment {
         noTransactions2 = view.findViewById(R.id.noTransactionsYetText2);
         sort_button = view.findViewById(R.id.sort_button);
         search_text = view.findViewById(R.id.search_text);
+        filter_button = view.findViewById(R.id.filter_button);
 
         initSearch();
 
@@ -89,6 +93,9 @@ public class HomeListViewFragment extends Fragment {
 
         initSortDialog();
         initSortButton();
+
+        initFilterDialog();
+        initFilterButton();
 
         return view;
     }
@@ -210,18 +217,19 @@ public class HomeListViewFragment extends Fragment {
             i++;
         }
     }
+
     private void initSortButton(){
         sort_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.show();
+                sortDialog.show();
             }
         });
     }
     private void initSortDialog(){
-        dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.sort_dialog);
-        sort_radio_group = dialog.findViewById(R.id.sort_radio_group);
+        sortDialog = new Dialog(getActivity());
+        sortDialog.setContentView(R.layout.sort_dialog);
+        sort_radio_group = sortDialog.findViewById(R.id.sort_radio_group);
         sort_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
@@ -248,7 +256,43 @@ public class HomeListViewFragment extends Fragment {
                         break;
                 }
                 updateList(transactions);
-                dialog.cancel();
+                sortDialog.cancel();
+            }
+        });
+    }
+
+    private void initFilterButton(){
+        filter_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filterDialog.show();
+            }
+        });
+    }
+
+    private void initFilterDialog(){
+        filterDialog = new Dialog(getActivity());
+        filterDialog.setContentView(R.layout.filter_dialog);
+        filter_radio_group = filterDialog.findViewById(R.id.filter_radio_group);
+        filter_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                ArrayList<FinancialTransaction> transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+
+                switch (i){
+                    case R.id.all_categories_radio:
+                        //TODO
+                        break;
+                    case R.id.expenses_radio:
+                        //TODO
+                        break;
+
+                    case R.id.income_radio:
+                        //TODO
+                        break;
+                }
+                updateList(transactions);
+                filterDialog.cancel();
             }
         });
     }
