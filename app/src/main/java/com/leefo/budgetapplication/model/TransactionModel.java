@@ -186,7 +186,7 @@ public class TransactionModel implements ITransactionModel {
      */
     public float getTransactionBalance(TransactionRequest request)
     {
-        return getTotalIncome(request) - getTotalExpense(request);
+        return getTotalIncome(request) + getTotalExpense(request);
     }
 
     /**
