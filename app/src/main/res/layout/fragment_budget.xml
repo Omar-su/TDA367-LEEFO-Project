@@ -2,7 +2,7 @@
 
 <!--
 Layout Resource file used by BudgetFragment
-Author: Emelie Edberg, Eugene Dvoryankov
+Author: Emelie Edberg, Eugene Dvoryankov, Omar Sulaiman, Felix Edholm
 -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

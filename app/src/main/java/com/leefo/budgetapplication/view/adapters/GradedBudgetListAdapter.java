@@ -21,6 +21,12 @@ import com.leefo.budgetapplication.view.TimePeriod;
 
 import java.util.ArrayList;
 
+/**
+ * The GradedBudgetListAdapter class represents the adapter for handling list items in
+ * the {@link com.leefo.budgetapplication.view.fragments.BudgetFragment} class.
+ * @author Felix Edholm
+ */
+
 public class GradedBudgetListAdapter extends ArrayAdapter<Category> {
 
     private final TimePeriod timePeriod;
@@ -30,6 +36,14 @@ public class GradedBudgetListAdapter extends ArrayAdapter<Category> {
         this.timePeriod = timePeriod;
     }
 
+    /**
+     * Method called every time a listView's row is being created, for lists using this adapter.
+     * Gets the design and content of a row in the listView
+     * @param position the position in the list
+     * @param convertView
+     * @param parent
+     * @return the view of the list row
+     * */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

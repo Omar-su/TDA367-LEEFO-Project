@@ -6,6 +6,8 @@ import java.util.TreeMap;
 
 /**
  * The BudgetGrader class represents the class handling all logic for grading budget outcomes.
+ * The class uses a {@link TransactionModel } and a {@link CategoryModel} object for accessing
+ * transactions and categories.
  * @author Felix Edholm
  */
 public class BudgetGrader {
@@ -42,7 +44,7 @@ public class BudgetGrader {
     /**
      * Returns a list of categories with budgets for a specific month. Categories must have
      * transactions made in that month to be returned.
-     * @param request The request containing the specific month
+     * @param request The {@link TransactionRequest} containing the specific month
      * @return The list of categories with budgets for a specific month.
      */
     public ArrayList<Category> getBudgetCategoriesByMonth(TransactionRequest request) {
@@ -53,7 +55,7 @@ public class BudgetGrader {
 
     /**
      * Grades a specific category's budget outcome on a scale from 0-5 in .5 intervals.
-     * @param request The request containing a specific category.
+     * @param request The {@link TransactionRequest} containing a specific category.
      * @return The grade for the category.
      */
     public float gradeCategory(TransactionRequest request) {
@@ -64,7 +66,7 @@ public class BudgetGrader {
     /**
      * Rounds the outcome for the budget progress of a specific category to two decimals.
      * Outcome = actual expense/budget goal.
-     * @param request The request containing the specific category.
+     * @param request The {@link TransactionRequest} containing the specific category.
      * @return The rounded budget outcome.
      */
     public float getRoundedBudgetOutcome(TransactionRequest request) {
@@ -79,7 +81,7 @@ public class BudgetGrader {
 
     /**
      * Returns the average budget grades for a specific month.
-     * @param request The request containing the specific month.
+     * @param request The {@link TransactionRequest} containing the specific month.
      * @return The average budget grade for the specific month.
      */
     public float getAverageGradeForMonth(TransactionRequest request) {

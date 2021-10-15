@@ -36,6 +36,8 @@ import java.util.ArrayList;
  * Class that represents the fragment for the Budget page
  *
  * @author Eugene Dvoryankov
+ * @author Omar Sulaiman
+ * @author Felix Edholm
  */
 public class BudgetFragment extends Fragment {
 
