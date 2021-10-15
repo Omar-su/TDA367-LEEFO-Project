@@ -13,5 +13,7 @@
     <string name="Edit_Category">Edit Category</string>
     <string name="Manage_Categories">Manage categories</string>
     <string name="Edit_Budget">Edit Budget</string>
-    <string name="current_streak">Current spending streak:</string>
+    <string name="current_streak">Current streak</string>
+    <string name="record_streak">Record streak</string>
+    <string name="streak_title">Spending streak</string>
 </resources>
