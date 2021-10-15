@@ -16,13 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class EditCategoryListAdapter extends ArrayAdapter<Category>{
+public class EditBudgetListAdapter extends ArrayAdapter<Category>{
 
 
     Context context;
@@ -32,8 +31,8 @@ public class EditCategoryListAdapter extends ArrayAdapter<Category>{
     private final HashMap<Category , Integer > editBudgetHashMap;
 
 
-    public EditCategoryListAdapter(Context context, @NonNull ArrayList<Category> list) {
-        super(context, R.layout.list_row_category_budget, list);
+    public EditBudgetListAdapter(Context context, @NonNull ArrayList<Category> list) {
+        super(context, R.layout.list_row_edit_budget, list);
         this.context = context;
         editBudgetHashMap = getCategoryIntegerHashMap(list);
     }
@@ -54,7 +53,7 @@ public class EditCategoryListAdapter extends ArrayAdapter<Category>{
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row_category_budget,
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row_edit_budget,
                     parent, false);
         }
         Category cat = getItem(position);

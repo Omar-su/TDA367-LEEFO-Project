@@ -16,21 +16,16 @@ import androidx.fragment.app.Fragment;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.model.FinancialTransaction;
-import com.leefo.budgetapplication.view.ParcelableCategory;
-import com.leefo.budgetapplication.view.adapters.EditCategoryListAdapter;
-import com.leefo.budgetapplication.view.adapters.TransactionListAdapter;
+import com.leefo.budgetapplication.view.adapters.EditBudgetListAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.MissingResourceException;
 
 public class EditBudgetFragment extends Fragment {
 
     private ListView editBudgetLV;
     private Button saveBudgetButton;
-    EditCategoryListAdapter adapter;
+    EditBudgetListAdapter adapter;
     private ImageButton cross;
 
 
@@ -52,7 +47,7 @@ public class EditBudgetFragment extends Fragment {
 
     private void initList() {
         ArrayList<Category> categoryList = Controller.getExpenseCategories();
-        adapter = new EditCategoryListAdapter(requireActivity().getApplicationContext(), categoryList);
+        adapter = new EditBudgetListAdapter(requireActivity().getApplicationContext(), categoryList);
         editBudgetLV.setAdapter(adapter);
 
     }

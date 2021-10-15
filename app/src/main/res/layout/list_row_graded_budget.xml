@@ -10,30 +10,31 @@ Author: Felix Edholm
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/row_graded_budget"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:backgroundTint="#FFFFFF">
+    android:layout_height="match_parent"
+    android:background="@color/grey_background"
+    android:backgroundTint="@color/grey_background"
+    android:paddingTop="10dp">
 
     <TextView
         android:id="@+id/catName"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginBottom="1dp"
+        android:layout_marginTop="-7dp"
         android:text="Mat"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
         app:layout_constraintStart_toEndOf="@+id/catIndicator"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/catIndicator" />
 
     <View
         android:id="@+id/catIndicator"
         android:layout_width="33dp"
         android:layout_height="8dp"
         android:layout_marginStart="5dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginTop="10dp"
         android:background="@android:drawable/button_onoff_indicator_off"
         android:backgroundTint="#DA1414"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,10 +42,11 @@ Author: Felix Edholm
         android:id="@+id/constraintLayout3"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginTop="8dp"
         android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/catIndicator">
 
         <TextView
             android:id="@+id/budgetRatioText"
@@ -52,6 +54,8 @@ Author: Felix Edholm
             android:layout_height="wrap_content"
             android:text="100/1000"
             android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/view9"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +66,7 @@ Author: Felix Edholm
             android:layout_width="2dp"
             android:layout_height="60dp"
             android:layout_marginStart="130dp"
-            android:background="#000000"
+            android:background="@color/purple_light"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -71,12 +75,12 @@ Author: Felix Edholm
             android:id="@+id/budgetOutcomeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:text="2.02x"
             android:textColor="@color/black"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/budgetGradeRatingBar"
-            app:layout_constraintHorizontal_bias="0.897"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/view9"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.512" />
 
@@ -91,6 +95,7 @@ Author: Felix Edholm
             android:max="5"
             android:scaleX=".8"
             android:scaleY=".8"
+            android:progressBackgroundTint="@android:color/transparent"
             android:transformPivotX="0dp"
             android:transformPivotY="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
