@@ -253,6 +253,27 @@ public class TransactionModel implements ITransactionModel {
         }
     }
 
+    /**
+     * Gets amount of days in a row where user has spent less than they do on average daily.
+     *
+     * @return amount of days streak has been ongoing
+     */
+    public int getCurrentStreak()
+    {
+        return StreakCalculator.getCurrentStreak(getTransactionList());
+    }
+
+    /**
+     * Gets the longest amount of time in days where the user has spent less than they do on average daily.
+     *
+     * @return record length streak
+     */
+    public int getRecordStreak()
+    {
+        return StreakCalculator.getRecordStreak(getTransactionList());
+    }
+
+
     // methods for sorting categories by most popular (data from 20 recent transactions) -----
 
     /**

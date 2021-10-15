@@ -309,4 +309,26 @@ public class Controller {
         return transactionModel.searchTransactionByAmount(list, amount);
     }
 
+    /**
+     * Gets amount of days in a row where user has spent less than they do on average daily.
+     *
+     * @return amount of days streak has been ongoing
+     */
+    public static int getCurrentStreak()
+    {
+        return transactionModel.getCurrentStreak();
+    }
+
+    /**
+     * Gets the longest amount of time in days where the user has spent less than they do on average daily.
+     *
+     * @return record length streak
+     */
+    public static int getRecordStreak()
+    {
+        return transactionModel.getRecordStreak();
+    }
+
+
+
 }

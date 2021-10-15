@@ -23,7 +23,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/currentStreak"
         app:layout_constraintEnd_toStartOf="@+id/currentStreak"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/longestStreak"
+        app:layout_constraintStart_toEndOf="@+id/recordStreak"
         app:layout_constraintTop_toTopOf="@+id/currentStreak"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/lightning" />
@@ -44,7 +44,7 @@
         app:layout_constraintVertical_bias="0.062" />
 
     <TextView
-        android:id="@+id/longestStreak"
+        android:id="@+id/recordStreak"
         android:layout_width="wrap_content"
         android:layout_height="75dp"
         android:layout_marginEnd="10dp"
@@ -63,11 +63,11 @@
         android:layout_width="60dp"
         android:layout_height="75dp"
         android:layout_marginStart="75dp"
-        app:layout_constraintBottom_toBottomOf="@+id/longestStreak"
-        app:layout_constraintEnd_toStartOf="@+id/longestStreak"
+        app:layout_constraintBottom_toBottomOf="@+id/recordStreak"
+        app:layout_constraintEnd_toStartOf="@+id/recordStreak"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/longestStreak"
+        app:layout_constraintTop_toTopOf="@+id/recordStreak"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/fire" />
 
@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:text="@string/record_streak"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/longestStreak"
+        app:layout_constraintEnd_toEndOf="@+id/recordStreak"
         app:layout_constraintStart_toStartOf="@+id/longestStreakImage"
         app:layout_constraintTop_toBottomOf="@+id/longestStreakImage"
         app:layout_constraintVertical_bias="0.0" />
