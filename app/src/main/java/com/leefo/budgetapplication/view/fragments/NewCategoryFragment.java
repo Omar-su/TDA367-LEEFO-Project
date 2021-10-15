@@ -147,7 +147,7 @@ public class NewCategoryFragment extends Fragment {
      */
     private boolean nameIsUnique(String name) {
         for (Category c: Controller.getAllCategories()) {
-            if (c.getName().equals(name)) return false;
+            if (c.getName().equalsIgnoreCase(name)) return false;
         }
         return true;
     }

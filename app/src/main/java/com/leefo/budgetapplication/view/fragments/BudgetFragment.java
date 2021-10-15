@@ -1,28 +1,61 @@
 package com.leefo.budgetapplication.view.fragments;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.leefo.budgetapplication.R;
+import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.view.TimePeriod;
+import com.leefo.budgetapplication.view.TimePeriodViewModel;
+import com.leefo.budgetapplication.view.adapters.GradedBudgetListAdapter;
+
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.ArrayList;
 
 /**
  * Class that represents the fragment for the Budget page
  *
  * @author Eugene Dvoryankov
+ * @author Omar Sulaiman
+ * @author Felix Edholm
  */
 public class BudgetFragment extends Fragment {
 
     private Button editBudget;
+    private RatingBar averageRatingBar;
+    private TextView monthText;
+    private TextView noBudget1;
+    private TextView noBudget2;
+    private TimePeriod timePeriod;
+    private ImageButton arrow_back_budget;
+    private ImageButton arrow_forward_budget;
+    private ListView listView;
+
 
     /**
      * Method that runs when the fragment is being created.
      * Connects the fragment xml file to the fragment class and initializes the fragment's components.
+     *
      * @return the view
      */
     @Override
@@ -30,8 +63,20 @@ public class BudgetFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_budget, container, false);
 
         editBudget = view.findViewById(R.id.edit_budget_button);
+        averageRatingBar = view.findViewById(R.id.averageRatingBar);
+        monthText = view.findViewById(R.id.month_budget);
+        arrow_back_budget = view.findViewById(R.id.arrow_back_budget);
+        arrow_forward_budget = view.findViewById(R.id.arrow_forward_budget);
+        listView = view.findViewById(R.id.listView_gradedBudgets);
+        noBudget1 = view.findViewById(R.id.noBudgetText1);
+        noBudget2 = view.findViewById(R.id.noBudgetText2);
 
+        timePeriod = new TimePeriod(LocalDate.now().getYear(), LocalDate.now().getMonthValue());
+
+        updateList(timePeriod);
         initEditBudgetOnClickListener();
+        initHeader();
+        initTimePeriod();
 
         return view;
     }
@@ -45,5 +90,88 @@ public class BudgetFragment extends Fragment {
         });
     }
 
+    private void initHeader() {
 
+        averageRatingBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#6200ed")));
+
+        averageRatingBar.setRating(Controller.getAverageGradeForMonth(timePeriod.getMonth(), timePeriod.getYear()));
+    }
+
+    private void initTimePeriod() {
+        updateTimePeriodButtonLabel();
+
+
+        arrow_back_budget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timePeriod.decrementMonth();
+                updateList(timePeriod);
+                updateTimePeriodButtonLabel();
+            }
+        });
+        arrow_forward_budget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timePeriod.incrementMonth();
+                updateList(timePeriod);
+                updateTimePeriodButtonLabel();
+            }
+        });
+
+    }
+
+    private void updateTimePeriodButtonLabel() {
+        String month = Month.of(timePeriod.getMonth()) + " " + timePeriod.getYear();
+        monthText.setText(month);
+    }
+
+    private void updateList(TimePeriod timePeriod) {
+        if (getActivity() != null) {
+
+            if (isCurrentMonth(timePeriod)) {
+                //Displays all categories with budget goal even if no transactions made for current month
+                ArrayList<Category> allBudgetCategories = Controller.getAllBudgetCategories();
+                if (allBudgetCategories.isEmpty()) {
+                    noBudget1.setVisibility(View.VISIBLE);
+                    noBudget2.setVisibility(View.VISIBLE);
+
+                    noBudget1.setText("There are currently no set budgets for any category this month.");
+                    noBudget2.setText("Edit a category to add budget.");
+
+                } else {
+                    noBudget1.setVisibility(View.INVISIBLE);
+                    noBudget2.setVisibility(View.INVISIBLE);
+                }
+                GradedBudgetListAdapter adapter = new GradedBudgetListAdapter(getActivity().
+                        getApplicationContext(), allBudgetCategories, timePeriod);
+                listView.setAdapter(adapter);
+            } else {
+                //If not current mont => earlier month. Displays only budget categories with transactions made
+                ArrayList<Category> budgetCatsForMonth =
+                        Controller.getBudgetCategoriesByMonth(timePeriod.getMonth(), timePeriod.getYear());
+
+                if (budgetCatsForMonth.isEmpty()) {
+                    noBudget1.setVisibility(View.VISIBLE);
+                    noBudget2.setVisibility(View.VISIBLE);
+
+                    noBudget1.setText("There are currently no set budgets for any category.");
+                    noBudget2.setText("Edit a category to add budget.");
+                } else {
+                    noBudget1.setVisibility(View.INVISIBLE);
+                    noBudget2.setVisibility(View.INVISIBLE);
+                }
+                GradedBudgetListAdapter adapter = new GradedBudgetListAdapter(getActivity().
+                        getApplicationContext(), budgetCatsForMonth, timePeriod);
+                listView.setAdapter(adapter);
+            }
+
+
+        }
+
+    }
+
+    private boolean isCurrentMonth(TimePeriod timePeriod) {
+        return timePeriod.getMonth() == LocalDate.now().getMonthValue()
+                && timePeriod.getYear() == LocalDate.now().getYear();
+    }
 }

@@ -79,9 +79,9 @@ public class CategoryModel
         if (category == getOtherIncomeCategory()) return; // not allowed to remove
 
         if (category.isIncome()) {
-            transactionModel.replaceCategory(category, getOtherIncomeCategory());
+            transactionModel.replaceCatForTransactions(category, getOtherIncomeCategory());
         } else {
-            transactionModel.replaceCategory(category, getOtherExpenseCategory());
+            transactionModel.replaceCatForTransactions(category, getOtherExpenseCategory());
         }
         categoryList.remove(category);
 
@@ -97,13 +97,25 @@ public class CategoryModel
      * @param editedCategory The category with the edited information.
      */
     public void editCategory(Category oldCategory, Category editedCategory){
-        transactionModel.replaceCategory(oldCategory, editedCategory);
-        deleteCategory(oldCategory);
-        addCategory(editedCategory);
+        transactionModel.replaceCatForTransactions(oldCategory, editedCategory);
+        updateCategory(oldCategory,editedCategory);
     }
 
+    private void updateCategory(Category oldCategory, Category editedCategory) {
+        deleteCategoryBudget(oldCategory);
+        addCategoryBudget(editedCategory);
+        ObserverHandler.updateObservers();
+    }
 
+    private void addCategoryBudget(Category category) {
+        categoryList.add(category);
+        saveCategoryToDatabase(category);
+    }
 
+    private void deleteCategoryBudget(Category category) {
+        categoryList.remove(category);
+        deleteCategoryFromDatabase(category);
+    }
 
 
     // getters -------------

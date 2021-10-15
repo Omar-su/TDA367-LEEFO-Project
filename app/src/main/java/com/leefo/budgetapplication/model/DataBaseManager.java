@@ -80,24 +80,8 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      * @param context The main activity of the program
      */
     public DataBaseManager(@Nullable Context context) {
-        super(context, "category_transaction", null, 1);
+        super(context, "category_transaction_new4", null, 1);
     }
-
-    //New name will create new database file. Sending in a null String object will create
-    //an in memory database meaning that no file will be created on disk and the database will be
-    //destroyed when the application is closed. This is useful for testing.
-
-    /**
-     * Constructor for creating a database. Using a name that hasn't been used before
-     * will create a new database file. Using a null String object as name will create and in memory
-     * database.
-     * @param context The context of the application.
-     * @param name The name of the database.
-     */
-    public DataBaseManager(@Nullable Context context, @Nullable String name) {
-        super(context, name, null, 4);
-    }
-
 
     /**
      * Makes foreign key constraint available to implement which makes it possible
@@ -125,7 +109,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
 
     private void createCategoryTable(SQLiteDatabase sqLiteDatabase) {
-        String createTableCategory = " CREATE TABLE " + CATEGORY_TABLE + " ( " + CATEGORY_NAME + " TEXT PRIMARY KEY, "
+        String createTableCategory = " CREATE TABLE " + CATEGORY_TABLE + " ( " + CATEGORY_NAME + " TEXT PRIMARY KEY , "
                                     + CATEGORY_COLOR + " TEXT, "
                                     + CATEGORY_IS_INCOME + " INTEGER, "
                                     + CATEGORY_BUDGET + " INTEGER " + " )";
@@ -142,7 +126,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
                 + TRANSACTION_AMOUNT + " REAL, "
                 + TRANSACTIONS_DESC + " TEXT, "
                 + TRANSACTION_DATE + " TEXT, "
-                + CATEGORY_FK_NAME + " TEXT , FOREIGN KEY( " + CATEGORY_FK_NAME + ") REFERENCES " + CATEGORY_TABLE + " ( "  + CATEGORY_NAME + "))";
+                + CATEGORY_FK_NAME + " TEXT)";
 
         sqLiteDatabase.execSQL(createTableTransactions);
     }
@@ -194,7 +178,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
         cv.put(CATEGORY_NAME, category.getName());
         cv.put(CATEGORY_COLOR, category.getColor());
         cv.put(CATEGORY_IS_INCOME, i);
-        cv.put(CATEGORY_BUDGET, category.getGoal());
+        cv.put(CATEGORY_BUDGET, category.getBudgetGoal());
         db.insert(CATEGORY_TABLE, null, cv);
         db.close();
     }

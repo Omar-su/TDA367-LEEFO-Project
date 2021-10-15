@@ -25,10 +25,10 @@ public class Category {
     private final boolean isIncome;
 
 
-    private final float budgetGoal;
+    private final int budgetGoal;
 
 
-    public Category(String name, String color, boolean isIncome, float budgetGoal )
+    public Category(String name, String color, boolean isIncome, int budgetGoal )
     {
         this.name = name;
         this.color = color;
@@ -64,7 +64,7 @@ public class Category {
      */
     public boolean Equals(Category cat)
     {
-        return cat.getName().equals(name) && cat.getColor().equals(color);
+        return cat.getName().equals(name) && cat.getColor().equals(color) && cat.getBudgetGoal() == budgetGoal && cat.isIncome == isIncome();
     }
 
     @NonNull
@@ -89,7 +89,7 @@ public class Category {
         return color;
     }
 
-    public float getGoal(){return budgetGoal;}
+    public int getBudgetGoal(){return budgetGoal;}
 
     public boolean isIncome() { return isIncome; }
 
