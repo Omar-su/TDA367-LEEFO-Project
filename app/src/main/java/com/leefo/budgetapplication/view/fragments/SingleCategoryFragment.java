@@ -77,7 +77,6 @@ public class SingleCategoryFragment extends Fragment {
 
     private void initList(){
         transactionList = Controller.getTransactions(chosenCategory, timePeriod.getMonth(), timePeriod.getYear());
-        putDatesIntoTransactionList(transactionList);
         TransactionListAdapter adapter = new TransactionListAdapter(requireActivity().getApplicationContext(), transactionList);
         listView.setAdapter(adapter);
     }
@@ -114,47 +113,6 @@ public class SingleCategoryFragment extends Fragment {
             fragment.setArguments(bundle);
             requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, fragment).commit();
         });
-    }
-
-    private void addDateRowInTransactionList(ArrayList<FinancialTransaction> list, int index, String date){
-        list.add(index, new FinancialTransaction(0,date, LocalDate.now(), new Category("DATE", "", true)));
-    }
-
-    /**
-     * In order to display date rows within the list. We must add extra objects in the list where we want the date row to be
-     * then when the list is sent to the list adapter it can differentiate between normal Transaction objects and the ones representing date rows and display those differently.
-     *
-     * The method works on lists sorted by date.
-     * Inputs special date Transaction objects in front of every object with a new date.
-     */
-    private void putDatesIntoTransactionList(ArrayList<FinancialTransaction> list){
-        LocalDate today = LocalDate.now();
-        LocalDate yesterday = LocalDate.now().minusDays(1);
-        LocalDate date = list.get(0).getDate(); // first date
-
-        if (date.isEqual(today)){
-            addDateRowInTransactionList(list, 0, "Today");
-        } else if (date.isEqual(yesterday)){
-            addDateRowInTransactionList(list, 0, "Yesterday");
-        } else{
-            addDateRowInTransactionList(list, 0,date.toString());
-        }
-
-        for (int i = 2; i <= list.size()-1;){
-
-            if (!date.isEqual(list.get(i).getDate())){
-                date = list.get(i).getDate();
-                if (date.isEqual(today)){
-                    addDateRowInTransactionList(list, i, "Today");
-                } else if (date.isEqual(yesterday)){
-                    addDateRowInTransactionList(list, i, "Yesterday");
-                } else{
-                    addDateRowInTransactionList(list, i,date.toString());
-                }
-                i++;
-            }
-            i++;
-        }
     }
 
 }

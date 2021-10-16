@@ -377,11 +377,19 @@ public class Controller {
         return budgetGrader.getAllBudgetCategories();
     }
 
-    public static ArrayList<FinancialTransaction> showOnlyExpenses(ArrayList<FinancialTransaction> transactionList) {
-        return transactionModel.showOnlyExpenses(transactionList);
+    /**
+     * Removes all transactions belonging ta an income category.
+     * @param transactionList The list to be filtered.
+     */
+    public static void removeIncomeTransactions(ArrayList<FinancialTransaction> transactionList) {
+        transactionModel.removeIncomeTransactions(transactionList);
     }
 
-    public static ArrayList<FinancialTransaction> showOnlyIncome(ArrayList<FinancialTransaction> transactionList) {
-        return transactionModel.showOnlyIncome(transactionList);
+    /**
+     * Removes all transactions belonging ta an expense category.
+     * @param transactionList The list to be filtered.
+     */
+    public static void removeExpenseCategories(ArrayList<FinancialTransaction> transactionList) {
+        transactionModel.removeExpenseCategories(transactionList);
     }
 }

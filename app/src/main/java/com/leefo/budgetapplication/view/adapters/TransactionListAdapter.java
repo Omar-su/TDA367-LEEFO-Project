@@ -20,6 +20,7 @@ import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -30,11 +31,25 @@ import java.util.ArrayList;
 public class TransactionListAdapter extends ArrayAdapter<FinancialTransaction> {
 
     Context context;
+    ArrayList<FinancialTransaction> list;
+
 
     public TransactionListAdapter(@NonNull Context context, ArrayList<FinancialTransaction> list) {
-        super(context, R.layout.list_row_home, list);
+        super(context, R.layout.list_row_home, list); // list sent to super
+        ArrayList<FinancialTransaction> copy = new ArrayList<>(list); // make a copy to have without dates
+        putDatesIntoTransactionList(list); // put dates into the list sent to super
         this.context = context;
+        this.list = copy;
     }
+
+    /**
+     * Getter a class using the adapter can call to get the adapters current list.
+     * @return The list.
+     */
+    public ArrayList<FinancialTransaction> getList() {
+        return list;
+    }
+
 
 
     /**
@@ -89,6 +104,49 @@ public class TransactionListAdapter extends ArrayAdapter<FinancialTransaction> {
             }
         }
         return convertView;
+    }
+
+    /**
+     * In order to display date rows within the list. We must add extra objects in the list where we want the date row to be
+     * The list adapter (getView) can differentiate between normal Transaction objects and the ones representing date rows and display those differently.
+     *
+     * The method works on lists sorted by date.
+     * Inputs special date Transaction objects in front of every object with a new date.
+     */
+    private void putDatesIntoTransactionList(ArrayList<FinancialTransaction> list){
+        if (list.isEmpty()) return;
+
+        LocalDate today = LocalDate.now();
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+        LocalDate date = list.get(0).getDate(); // first date
+
+        if (date.isEqual(today)){
+            addDateRowInTransactionList(list, 0, "Today");
+        } else if (date.isEqual(yesterday)){
+            addDateRowInTransactionList(list, 0, "Yesterday");
+        } else{
+            addDateRowInTransactionList(list, 0,date.toString());
+        }
+
+        for (int i = 2; i <= list.size()-1;){
+
+            if (!date.isEqual(list.get(i).getDate())){
+                date = list.get(i).getDate();
+                if (date.isEqual(today)){
+                    addDateRowInTransactionList(list, i, "Today");
+                } else if (date.isEqual(yesterday)){
+                    addDateRowInTransactionList(list, i, "Yesterday");
+                } else{
+                    addDateRowInTransactionList(list, i,date.toString());
+                }
+                i++;
+            }
+            i++;
+        }
+    }
+
+    private void addDateRowInTransactionList(ArrayList<FinancialTransaction> list, int index, String date){
+        list.add(index, new FinancialTransaction(0,date, LocalDate.now(), new Category("DATE", "", true)));
     }
 
     @Override

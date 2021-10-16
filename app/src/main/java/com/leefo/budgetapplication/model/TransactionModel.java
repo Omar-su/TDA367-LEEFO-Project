@@ -390,7 +390,7 @@ public class TransactionModel implements ITransactionModel {
 
         // transactions may not be in order when retrieved from database, so they must be sorted.
         // lower index means that the transaction has been made more recently.
-        bubbleSortTransactionsByDate(transactions);
+        sortTransactionsByDate(transactions);
 
         return transactions; // should be sorted by date
     }
@@ -404,7 +404,7 @@ public class TransactionModel implements ITransactionModel {
      *
      * @param transactions List to be sorted.
      */
-    private void bubbleSortTransactionsByDate(ArrayList<FinancialTransaction> transactions)
+    private void sortTransactionsByDate(ArrayList<FinancialTransaction> transactions)
     {
         boolean notCompleted = true; // will be set to false in the last loop through the list of transactions
 
@@ -427,26 +427,33 @@ public class TransactionModel implements ITransactionModel {
         }
     }
 
-    public ArrayList<FinancialTransaction> showOnlyExpenses(ArrayList <FinancialTransaction> transactionList){
-        ArrayList<FinancialTransaction> newList = new ArrayList<>();
-        for(FinancialTransaction transaction : transactionList){
-            if(!transaction.getCategory().isIncome()){
-                newList.add(transaction);
-            }
-        }
-        return newList;
-    }
-
-    public ArrayList<FinancialTransaction> showOnlyIncome(ArrayList <FinancialTransaction> transactionList){
-        ArrayList<FinancialTransaction> newList = new ArrayList<>();
-        for(FinancialTransaction transaction : transactionList){
+    /**
+     * Removes all transactions belonging ta an income category.
+     * @param transactionList The list to be filtered.
+     */
+    public void removeIncomeTransactions(ArrayList <FinancialTransaction> transactionList){
+        for(int i = 0; i < transactionList.size(); i++){
+            FinancialTransaction transaction = transactionList.get(i);
             if(transaction.getCategory().isIncome()){
-                newList.add(transaction);
+                transactionList.remove(transaction);
+                i--;
             }
         }
-        return newList;
     }
 
+    /**
+     * Removes all transactions belonging ta an expense category.
+     * @param transactionList The list to be filtered.
+     */
+    public void removeExpenseCategories(ArrayList <FinancialTransaction> transactionList){
+        for(int i = 0; i < transactionList.size(); i++){
+            FinancialTransaction transaction = transactionList.get(i);
+            if(!transaction.getCategory().isIncome()){
+                transactionList.remove(transaction);
+                i--;
+            }
+        }
+    }
 
 
     /**
