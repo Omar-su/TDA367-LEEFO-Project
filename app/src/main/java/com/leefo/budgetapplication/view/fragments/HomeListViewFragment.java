@@ -1,6 +1,8 @@
 package com.leefo.budgetapplication.view.fragments;
 
 import android.app.Dialog;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,6 +16,7 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -208,19 +211,22 @@ public class HomeListViewFragment extends Fragment {
 
                 switch (checkedId){
                     case R.id.newest_date_radio:
-
+                        setDeActivatedColor(sort_button);
                         break;
 
                     case R.id.oldest_date_radio:
                         sortDateOld = true;
+                        setActivatedColor(sort_button);
                         break;
 
                     case R.id.highest_amount_radio:
                         sortAmountHigh = true;
+                        setActivatedColor(sort_button);
                         break;
 
                     case R.id.lowest_amount_radio:
                         sortAmountLow = true;
+                        setActivatedColor(sort_button);
                         break;
                 }
                 updateList(currentTimePeriodTransactionList);
@@ -250,16 +256,19 @@ public class HomeListViewFragment extends Fragment {
                 switch (i){
                     case R.id.all_categories_radio:
                         filterIsActivated = false;
+                        setDeActivatedColor(filter_button);
 
                         break;
                     case R.id.expenses_radio:
                         filterIsActivated = true;
                         filterExpense = true;
+                        setActivatedColor(filter_button);
                         break;
 
                     case R.id.income_radio:
                         filterIsActivated = true;
                         filterIncome = true;
+                        setActivatedColor(filter_button);
                         break;
                 }
                 updateList(currentTimePeriodTransactionList);
@@ -279,5 +288,12 @@ public class HomeListViewFragment extends Fragment {
         }
         if (filterIncome) Controller.removeExpenseCategories(list);
         if (filterExpense) Controller.removeIncomeTransactions(list);
+    }
+
+    private void setActivatedColor(ImageButton button){
+        button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.teal_200)));
+    }
+    private void setDeActivatedColor(ImageButton button){
+        button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ffd6d7d7")));
     }
 }
