@@ -1,4 +1,4 @@
-package com.leefo.budgetapplication.model;
+package com.leefo.budgetapplication.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,6 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.model.FinancialTransaction;
+import com.leefo.budgetapplication.model.IDatabase;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

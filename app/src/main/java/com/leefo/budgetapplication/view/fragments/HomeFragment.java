@@ -19,9 +19,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
-import com.leefo.budgetapplication.view.HomeViewModel;
-import com.leefo.budgetapplication.view.TimePeriodViewModel;
-import com.leefo.budgetapplication.view.TimePeriod;
+import com.leefo.budgetapplication.view.data.HomeViewModel;
+import com.leefo.budgetapplication.view.data.TimePeriodViewModel;
+import com.leefo.budgetapplication.view.data.TimePeriod;
 
 import java.time.LocalDate;
 import java.time.Month;

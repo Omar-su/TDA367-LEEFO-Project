@@ -15,13 +15,12 @@ import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.FinancialTransaction;
-import com.leefo.budgetapplication.view.ParcelableTransaction;
-import com.leefo.budgetapplication.view.ParcelableCategory;
-import com.leefo.budgetapplication.view.TimePeriodViewModel;
-import com.leefo.budgetapplication.view.TimePeriod;
+import com.leefo.budgetapplication.view.data.ParcelableTransaction;
+import com.leefo.budgetapplication.view.data.ParcelableCategory;
+import com.leefo.budgetapplication.view.data.TimePeriodViewModel;
+import com.leefo.budgetapplication.view.data.TimePeriod;
 import com.leefo.budgetapplication.view.adapters.TransactionListAdapter;
 
-import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.MissingResourceException;

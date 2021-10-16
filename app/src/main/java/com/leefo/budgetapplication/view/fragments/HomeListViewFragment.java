@@ -27,13 +27,12 @@ import com.leefo.budgetapplication.model.FilterOption;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.model.SearchSortFilterTransactions;
 import com.leefo.budgetapplication.model.SortOption;
-import com.leefo.budgetapplication.view.ParcelableTransaction;
-import com.leefo.budgetapplication.view.TimePeriodViewModel;
-import com.leefo.budgetapplication.view.TimePeriod;
+import com.leefo.budgetapplication.view.data.ParcelableTransaction;
+import com.leefo.budgetapplication.view.data.TimePeriodViewModel;
+import com.leefo.budgetapplication.view.data.TimePeriod;
 import com.leefo.budgetapplication.view.adapters.TransactionListAdapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * This class represents the fragment for the list view inside the HomeFragment.

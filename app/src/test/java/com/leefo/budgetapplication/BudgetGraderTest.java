@@ -8,14 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import static java.lang.Double.compare;
 
-import android.provider.ContactsContract;
-
-import androidx.test.platform.app.InstrumentationRegistry;
-
 import com.leefo.budgetapplication.model.BudgetGrader;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.CategoryModel;
-import com.leefo.budgetapplication.model.DataBaseManager;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.model.IDatabase;
 import com.leefo.budgetapplication.model.TransactionModel;

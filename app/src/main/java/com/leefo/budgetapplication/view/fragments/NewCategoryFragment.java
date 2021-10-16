@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.view.ParcelableCategory;
+import com.leefo.budgetapplication.view.data.ParcelableCategory;
 
 import java.util.MissingResourceException;
 

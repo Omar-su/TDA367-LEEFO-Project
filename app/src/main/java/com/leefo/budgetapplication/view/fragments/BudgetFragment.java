@@ -2,20 +2,14 @@ package com.leefo.budgetapplication.view.fragments;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -24,8 +18,7 @@ import android.widget.TextView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.view.TimePeriod;
-import com.leefo.budgetapplication.view.TimePeriodViewModel;
+import com.leefo.budgetapplication.view.data.TimePeriod;
 import com.leefo.budgetapplication.view.adapters.GradedBudgetListAdapter;
 
 import java.time.LocalDate;

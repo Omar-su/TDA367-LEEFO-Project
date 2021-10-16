@@ -5,7 +5,7 @@ import android.content.Context;
 import com.leefo.budgetapplication.model.BudgetGrader;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.CategoryModel;
-import com.leefo.budgetapplication.model.DataBaseManager;
+import com.leefo.budgetapplication.database.DataBaseManager;
 import com.leefo.budgetapplication.model.TransactionModel;
 import com.leefo.budgetapplication.model.ObserverHandler;
 import com.leefo.budgetapplication.model.FinancialTransaction;
