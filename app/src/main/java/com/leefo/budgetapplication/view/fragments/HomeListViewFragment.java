@@ -23,7 +23,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.model.FilterOption;
 import com.leefo.budgetapplication.model.FinancialTransaction;
+import com.leefo.budgetapplication.model.SearchSortFilterTransactions;
+import com.leefo.budgetapplication.model.SortOption;
 import com.leefo.budgetapplication.view.ParcelableTransaction;
 import com.leefo.budgetapplication.view.TimePeriodViewModel;
 import com.leefo.budgetapplication.view.TimePeriod;
@@ -35,12 +38,17 @@ import java.util.Collections;
 /**
  * This class represents the fragment for the list view inside the HomeFragment.
  * The fragment shows a list with either all transactions or transactions for a chosen month.
- * The search field enables the user to search for a specific transaction by amount or note description.
- * The sort button, on the right of search filed, enables the user to sort the transactions by:
+ * The search field enables the user to search for a specific transaction by amount and note description.
+ * The sort button enables the user to sort the transactions by:
  *      - Newest date
  *      - Oldest date
  *      - Largest amount
  *      - Smallest amount
+ * The filter button enables the user to filter transaction by:
+ *      - All categories
+ *      - Expense
+ *      - Income
+ * The class uses SearchSortFilterTransactions class.
  * Opens Edit Transaction, when a transaction is clicked.
  * Opened from HomeFragment.
  * @author Emelie Edberg, Eugene Dvoryankov
@@ -60,6 +68,7 @@ public class HomeListViewFragment extends Fragment {
     private boolean filterIsActivated = false;
     private TransactionListAdapter adapter;
     private ArrayList<FinancialTransaction> currentTimePeriodTransactionList;
+    private SearchSortFilterTransactions ssf;
 
     /**
      * Method that runs when the fragment is being created.
@@ -83,16 +92,19 @@ public class HomeListViewFragment extends Fragment {
         TimePeriodViewModel viewModel = new ViewModelProvider(requireActivity()).get(TimePeriodViewModel.class);
         timePeriod = viewModel.getTimePeriodLiveData().getValue();
 
+        currentTimePeriodTransactionList = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+        ssf = new SearchSortFilterTransactions(currentTimePeriodTransactionList);
+        updateList();
+
         viewModel.getTimePeriodLiveData().observe(getViewLifecycleOwner(), new Observer<TimePeriod>() {
             @Override
             public void onChanged(TimePeriod newTimePeriod) {
                 currentTimePeriodTransactionList = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
-                updateList(currentTimePeriodTransactionList);
+                ssf.updateSourceData(currentTimePeriodTransactionList);
+                updateList();
             }
         });
 
-        currentTimePeriodTransactionList = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
-        updateList(currentTimePeriodTransactionList);
 
         initList();
 
@@ -101,6 +113,8 @@ public class HomeListViewFragment extends Fragment {
 
         initFilterDialog();
         initFilterButton();
+
+
 
         return view;
     }
@@ -113,23 +127,12 @@ public class HomeListViewFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
             public void afterTextChanged(Editable editable) {
-                searchByNote(editable.toString());
-                try {
-                    searchByMonth(Float.valueOf(editable.toString()));
-                } catch (NumberFormatException e){}
+                ssf.setSearchString(editable.toString());
+                updateList();
             }
         });
     }
 
-    private void searchByNote(String note){
-        ArrayList<FinancialTransaction> newList = Controller.searchTransactionByNote(currentTimePeriodTransactionList, note);
-        updateList(newList);
-    }
-
-    private void searchByMonth(Float amount){
-        ArrayList<FinancialTransaction> newList = Controller.searchTransactionByAmount(currentTimePeriodTransactionList, amount);
-        updateList(newList);
-    }
 
     private void initList() {
 
@@ -178,15 +181,15 @@ public class HomeListViewFragment extends Fragment {
         }
     }
 
-    private void updateList(ArrayList<FinancialTransaction> list) {
+    private void updateList() {
 
-        list = new ArrayList<>(list); //copy
+        ArrayList<FinancialTransaction> list;
+        list = ssf.getResult();
 
-        sortAndFilter(list);
         updateLabelsAndButtons(list);
+
         adapter = new TransactionListAdapter(requireActivity().getApplicationContext(), list);
         listView.setAdapter(adapter);
-
     }
 
 
@@ -207,29 +210,29 @@ public class HomeListViewFragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                sortDateOld =  sortAmountHigh = sortAmountLow = false;
-
                 switch (checkedId){
                     case R.id.newest_date_radio:
                         setDeActivatedColor(sort_button);
+                        ssf.sortBy(SortOption.NEWEST_DATE);
+
                         break;
 
                     case R.id.oldest_date_radio:
-                        sortDateOld = true;
+                        ssf.sortBy(SortOption.OLDEST_DATE);
                         setActivatedColor(sort_button);
                         break;
 
-                    case R.id.highest_amount_radio:
-                        sortAmountHigh = true;
+                    case R.id.largest_amount_radio:
+                        ssf.sortBy(SortOption.LARGEST_AMOUNT);
                         setActivatedColor(sort_button);
                         break;
 
-                    case R.id.lowest_amount_radio:
-                        sortAmountLow = true;
+                    case R.id.smallest_amount_radio:
+                        ssf.sortBy(SortOption.SMALLEST_AMOUNT);
                         setActivatedColor(sort_button);
                         break;
                 }
-                updateList(currentTimePeriodTransactionList);
+                updateList();
                 sortDialog.cancel();
             }
         });
@@ -251,43 +254,30 @@ public class HomeListViewFragment extends Fragment {
         filter_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                filterIncome = filterExpense = false;
 
                 switch (i){
                     case R.id.all_categories_radio:
                         filterIsActivated = false;
                         setDeActivatedColor(filter_button);
+                        ssf.setFilter(FilterOption.ALL_CATEGORIES);
 
                         break;
                     case R.id.expenses_radio:
                         filterIsActivated = true;
-                        filterExpense = true;
                         setActivatedColor(filter_button);
+                        ssf.setFilter(FilterOption.EXPENSE);
                         break;
 
                     case R.id.income_radio:
                         filterIsActivated = true;
-                        filterIncome = true;
                         setActivatedColor(filter_button);
+                        ssf.setFilter(FilterOption.INCOME);
                         break;
                 }
-                updateList(currentTimePeriodTransactionList);
+                updateList();
                 filterDialog.cancel();
             }
         });
-    }
-
-    private boolean sortDateOld, sortAmountHigh, sortAmountLow, filterIncome, filterExpense;
-
-    private void sortAndFilter(ArrayList<FinancialTransaction> list){
-        if (sortDateOld) Collections.reverse(list);
-        if (sortAmountHigh) Controller.sortByAmount(list);
-        if (sortAmountLow) {
-            Controller.sortByAmount(list);
-            Collections.reverse(list);
-        }
-        if (filterIncome) Controller.removeExpenseCategories(list);
-        if (filterExpense) Controller.removeIncomeTransactions(list);
     }
 
     private void setActivatedColor(ImageButton button){

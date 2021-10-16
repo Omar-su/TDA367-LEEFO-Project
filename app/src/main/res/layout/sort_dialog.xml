@@ -44,13 +44,13 @@
             android:text="Oldest date" />
 
         <RadioButton
-            android:id="@+id/highest_amount_radio"
+            android:id="@+id/largest_amount_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Largest amount" />
 
         <RadioButton
-            android:id="@+id/lowest_amount_radio"
+            android:id="@+id/smallest_amount_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Smallest amount" />
