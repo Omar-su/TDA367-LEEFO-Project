@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import com.leefo.budgetapplication.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
-    Animation topAnim, bottomAnim,rightAnim, leftAnim;
+    Animation topAnim, bottomAnim,rightAnim, leftAnim,car_anim;
     ImageView letterL,letterO,letterE1,letterE2,letterF,car, safe, tools,dollarSign;
     MediaPlayer mediaPlayer;
 
@@ -42,7 +42,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void setAnimation() {
         tools.setAnimation(leftAnim);
         dollarSign.setAnimation(leftAnim);
-        car.setAnimation(rightAnim);
+        car.setAnimation(car_anim);
         safe.setAnimation(rightAnim);
         letterL.setAnimation(bottomAnim);
         letterE1.setAnimation(topAnim);
@@ -69,6 +69,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         bottomAnim = AnimationUtils.loadAnimation(this,R.anim.bottom_animation);
         rightAnim = AnimationUtils.loadAnimation(this, R.anim.right_animation);
         leftAnim = AnimationUtils.loadAnimation(this, R.anim.left_animation);
+        car_anim = AnimationUtils.loadAnimation(this, R.anim.car_anim);
     }
 
     private void playStartUpSound() {
