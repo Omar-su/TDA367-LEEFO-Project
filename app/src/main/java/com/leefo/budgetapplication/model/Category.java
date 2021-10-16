@@ -67,15 +67,6 @@ public class Category {
         return cat.getName().equals(name) && cat.getColor().equals(color) && cat.getBudgetGoal() == budgetGoal && cat.isIncome == isIncome();
     }
 
-    @NonNull
-    @Override
-    public String toString()
-    {
-        return "" + name + " : " + color;
-    }
-
-
-
 
     // GETTERS -------
 

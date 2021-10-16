@@ -39,16 +39,6 @@ public class FinancialTransaction {
 
 
 
-    // ---------
-
-    @NonNull
-    @Override
-    public String toString()
-    {
-        return "" + date + ", " + category.getName() + ": " + amount + " | " + description;
-    }
-
-
     // GETTERS ------
 
 
