@@ -299,36 +299,6 @@ public class Controller {
     }
 
     /**
-     * Sorts a transaction list based on the transaction amount.
-     * Larger amount means lower list index.
-     *
-     * @param list List to be sorted
-     */
-    public static void sortByAmount(ArrayList<FinancialTransaction> list) {
-        transactionModel.sortByAmount(list);
-    }
-
-    /**
-     * Searches the transaction list to find transactions that match the searched text by note description
-     *
-     * @param list the the list of transactions to check
-     * @param note the searched note description
-     */
-    public static ArrayList<FinancialTransaction> searchTransactionByNote(ArrayList<FinancialTransaction> list, String note) {
-        return transactionModel.searchTransactionByNote(list, note);
-    }
-
-    /**
-     * Searches the transaction list to find transactions that match the searched text by amount
-     *
-     * @param list   the the list of transactions to check
-     * @param amount the searched amount
-     */
-    public static ArrayList<FinancialTransaction> searchTransactionByAmount(ArrayList<FinancialTransaction> list, Float amount) {
-        return transactionModel.searchTransactionByAmount(list, amount);
-    }
-
-    /**
      * Returns a list of categories with budgets for the month specific.
      *
      * @param month The month to get categories for.
@@ -377,19 +347,4 @@ public class Controller {
         return budgetGrader.getAllBudgetCategories();
     }
 
-    /**
-     * Removes all transactions belonging ta an income category.
-     * @param transactionList The list to be filtered.
-     */
-    public static void removeIncomeTransactions(ArrayList<FinancialTransaction> transactionList) {
-        transactionModel.removeIncomeTransactions(transactionList);
-    }
-
-    /**
-     * Removes all transactions belonging ta an expense category.
-     * @param transactionList The list to be filtered.
-     */
-    public static void removeExpenseCategories(ArrayList<FinancialTransaction> transactionList) {
-        transactionModel.removeExpenseCategories(transactionList);
-    }
 }

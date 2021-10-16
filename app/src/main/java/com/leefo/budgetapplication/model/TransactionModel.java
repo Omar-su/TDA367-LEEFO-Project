@@ -309,56 +309,6 @@ public class TransactionModel implements ITransactionModel {
         }
     }
 
-    /**
-     * Sorts a transaction list based on the transaction amount.
-     * Larger amount means lower list index.
-     * @param list list to be sorted
-     */
-    public void sortByAmount(ArrayList<FinancialTransaction> list){
-
-        for (int x = 0; x < list.size() ; x++){
-            for (int i = 0; i < list.size()-1; i++){
-                float amount1 = Math.abs(list.get(i).getAmount());
-                float amount2 = Math.abs(list.get(i+1).getAmount());
-                if (amount1 < amount2){
-                    swap(list, i, i+1);
-                }
-            }
-        }
-    }
-
-    /**
-     * Searches the transaction list to find transactions that match the searched text by note description
-     * @param transactionList the the list of transactions to check
-     * @param note the searched note description
-     * @return the transactions that are matching the note description
-     */
-    public ArrayList<FinancialTransaction> searchTransactionByNote(ArrayList <FinancialTransaction> transactionList, String note){
-        ArrayList<FinancialTransaction> newList = new ArrayList<>();
-        for(FinancialTransaction transaction : transactionList){
-            if(transaction.getDescription().toLowerCase().contains(note.toLowerCase())){
-                newList.add(transaction);
-            }
-        }
-        return newList;
-    }
-
-    /**
-     * Searches the transaction list to find transactions that match the searched text by amount
-     * @param transactionList the the list of transactions to check
-     * @param amount the searched amount
-     * @return the transactions that are matching the amount
-     */
-    public ArrayList<FinancialTransaction> searchTransactionByAmount(ArrayList <FinancialTransaction> transactionList, Float amount){
-        ArrayList<FinancialTransaction> newList = new ArrayList<>();
-        for(FinancialTransaction transaction : transactionList){
-            float amount1 = Math.abs(transaction.getAmount());
-            if(amount1==amount)
-                newList.add(transaction);
-        }
-        return newList;
-    }
-
 
     // dataBase methods ----
 
@@ -423,34 +373,6 @@ public class TransactionModel implements ITransactionModel {
                     swap(transactions, i, i + 1); // swaps transactions in array list
                     notCompleted = true;
                 }
-            }
-        }
-    }
-
-    /**
-     * Removes all transactions belonging ta an income category.
-     * @param transactionList The list to be filtered.
-     */
-    public void removeIncomeTransactions(ArrayList <FinancialTransaction> transactionList){
-        for(int i = 0; i < transactionList.size(); i++){
-            FinancialTransaction transaction = transactionList.get(i);
-            if(transaction.getCategory().isIncome()){
-                transactionList.remove(transaction);
-                i--;
-            }
-        }
-    }
-
-    /**
-     * Removes all transactions belonging ta an expense category.
-     * @param transactionList The list to be filtered.
-     */
-    public void removeExpenseCategories(ArrayList <FinancialTransaction> transactionList){
-        for(int i = 0; i < transactionList.size(); i++){
-            FinancialTransaction transaction = transactionList.get(i);
-            if(!transaction.getCategory().isIncome()){
-                transactionList.remove(transaction);
-                i--;
             }
         }
     }
