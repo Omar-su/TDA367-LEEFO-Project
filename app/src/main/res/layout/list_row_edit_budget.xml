@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Layout Resource file for the layout of a list row in the edit budget view. Specifically for the EditBudget.
+Used by EditBudgetAdapter.
+Author: Omar Sulaiman
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,15 +16,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginStart="15dp"
-        android:layout_toEndOf="@id/category_circle"
+        android:layout_marginStart="50dp"
+        android:layout_toEndOf="@id/budget_category_circle"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:text="Mat"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/budget_category_circle"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
