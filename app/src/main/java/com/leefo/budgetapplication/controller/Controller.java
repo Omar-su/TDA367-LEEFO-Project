@@ -223,6 +223,15 @@ public class Controller {
     }
 
     /**
+     * Returns a list of a all expense categories in the model sorted by alphabet and budget.
+     *
+     * @return A list of all expense categories in the model sorted.
+     */
+    public static ArrayList<Category> getSortedExpenseCategories() {
+        return categoryModel.getSortedExpenseCategories();
+    }
+
+    /**
      * Returns the total income amount for a specific month and year.
      *
      * @param month The month to calculate income amount for.

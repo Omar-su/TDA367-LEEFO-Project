@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -50,7 +49,7 @@ public class EditBudgetFragment extends Fragment {
 
         initList();
 
-        initSaveBudgetOnClickListener();
+        initSaveButtonOnClickListener();
         initCross();
         return view;
     }
@@ -59,11 +58,12 @@ public class EditBudgetFragment extends Fragment {
      * populates the listView with the expense categories
      */
     private void initList() {
-        ArrayList<Category> categoryList = Controller.getExpenseCategories();
+        ArrayList<Category> categoryList = Controller.getSortedExpenseCategories();
         adapter = new EditBudgetListAdapter(requireActivity().getApplicationContext(), categoryList);
         editBudgetLV.setAdapter(adapter);
 
     }
+
 
     private void initCross(){
         cross.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +75,7 @@ public class EditBudgetFragment extends Fragment {
     }
 
 
-    private void initSaveBudgetOnClickListener() {
+    private void initSaveButtonOnClickListener() {
         saveBudgetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

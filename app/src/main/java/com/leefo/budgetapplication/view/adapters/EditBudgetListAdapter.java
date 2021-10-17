@@ -39,7 +39,7 @@ public class EditBudgetListAdapter extends ArrayAdapter<Category>{
     public EditBudgetListAdapter(Context context, @NonNull ArrayList<Category> list) {
         super(context, R.layout.list_row_edit_budget, list);
         this.context = context;
-        editBudgetHashMap = getCategoryIntegerHashMap(list);
+        editBudgetHashMap = getCategoryBudgetHashMap(list);
     }
 
     /**
@@ -48,7 +48,7 @@ public class EditBudgetListAdapter extends ArrayAdapter<Category>{
      * @return Returns a hashmap with with all categories as keys and their budgetGoal as the values
      */
     @NonNull
-    private HashMap<Category, Integer> getCategoryIntegerHashMap(@NonNull ArrayList<Category> list) {
+    private HashMap<Category, Integer> getCategoryBudgetHashMap(@NonNull ArrayList<Category> list) {
 
         final HashMap<Category, Integer> editBudgetHashMap;
         editBudgetHashMap = new HashMap<>();
