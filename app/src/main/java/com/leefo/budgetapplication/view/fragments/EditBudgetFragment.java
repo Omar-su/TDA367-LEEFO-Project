@@ -58,7 +58,9 @@ public class EditBudgetFragment extends Fragment {
      * populates the listView with the expense categories
      */
     private void initList() {
-        ArrayList<Category> categoryList = Controller.getSortedExpenseCategories();
+        ArrayList<Category> categoryList = Controller.getExpenseCategories();
+        categoryList = Controller.sortCategoriesByAlphabet(categoryList);
+        categoryList = Controller.sortCategoriesByBudget(categoryList);
         adapter = new EditBudgetListAdapter(requireActivity().getApplicationContext(), categoryList);
         editBudgetLV.setAdapter(adapter);
 
