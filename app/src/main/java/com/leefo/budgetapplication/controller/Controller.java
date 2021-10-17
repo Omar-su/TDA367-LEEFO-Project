@@ -223,13 +223,23 @@ public class Controller {
     }
 
     /**
-     * Returns a list of a all expense categories in the model sorted by alphabet and budget.
+     * Sorts category list by alphabet
      *
-     * @return A list of all expense categories in the model sorted.
+     * @return A sorted category list .
      */
-    public static ArrayList<Category> getSortedExpenseCategories() {
-        return categoryModel.getSortedExpenseCategories();
+    public static ArrayList<Category> sortCategoriesByAlphabet(ArrayList<Category> sortList) {
+        return categoryModel.sortCategoriesByAlphabet(sortList);
     }
+
+    /**
+     * Sorts category list by highest budget
+     *
+     * @return A sorted category list.
+     */
+    public static ArrayList<Category> sortCategoriesByBudget(ArrayList<Category> sortList) {
+        return categoryModel.sortCategoriesByBudget(sortList);
+    }
+
 
     /**
      * Returns the total income amount for a specific month and year.

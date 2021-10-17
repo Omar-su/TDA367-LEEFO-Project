@@ -157,25 +157,14 @@ public class CategoryModel
         return list;
     }
 
-    /**
-     * Gets all expense categories saved in the model and sorts the list by alphabet and highest budget
-     * This method is used mostly in editBudgetListAdapter to list the category rows in a sorted way
-     * @return A sorted list of all expense categories available
-     */
-    public ArrayList<Category> getSortedExpenseCategories(){
-        ArrayList<Category> sortedList = getExpenseCategories();
-        sortByAlphabet(sortedList);
-        sortByBudget(sortedList);
-
-        return sortedList;
-    }
 
 
     /**
      * Sorts category list by alphabet
      * @param categoryList The list to be sorted
+     * @return A sorted category list by alphabet
      */
-    private void sortByAlphabet(ArrayList<Category> categoryList) {
+    public ArrayList<Category> sortCategoriesByAlphabet(ArrayList<Category> categoryList) {
         for (int j = 0; j<categoryList.size();j++){
             for (int i =j+1; i<categoryList.size(); i++){
                 if (categoryList.get(j).getName().toLowerCase().charAt(0)>categoryList.get(i).getName().toLowerCase().charAt(0)){
@@ -185,6 +174,7 @@ public class CategoryModel
                 }
             }
         }
+        return categoryList;
 
 
     }
@@ -192,8 +182,9 @@ public class CategoryModel
     /**
      * Sorts category by highest budget
      * @param categoryList List to be sorted
+     * @return A category list sorted by highest budget
      */
-    private void sortByBudget(ArrayList<Category> categoryList) {
+    public ArrayList<Category> sortCategoriesByBudget(ArrayList<Category> categoryList) {
         for (int i = 0; i<categoryList.size();i++){
             for (int j =i+1; j<categoryList.size(); j++){
                 if (categoryList.get(i).getBudgetGoal()<categoryList.get(j).getBudgetGoal()){
@@ -203,6 +194,7 @@ public class CategoryModel
                 }
             }
         }
+        return categoryList;
     }
 
 
