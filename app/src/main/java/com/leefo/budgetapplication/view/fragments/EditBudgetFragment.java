@@ -21,6 +21,11 @@ import com.leefo.budgetapplication.view.adapters.EditBudgetListAdapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * A class that represents the editbudget fragment page
+ *
+ * @author Omar Sulaiman
+ */
 public class EditBudgetFragment extends Fragment {
 
     private ListView editBudgetLV;
@@ -29,6 +34,12 @@ public class EditBudgetFragment extends Fragment {
     private ImageButton cross;
 
 
+    /**
+     * Method that runs when the fragment is being created.
+     * Connects the fragment xml file to the fragment class and initializes the fragment's components.
+     *
+     * @return the view
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_budget, container, false);
@@ -39,12 +50,14 @@ public class EditBudgetFragment extends Fragment {
 
         initList();
 
-
         initSaveBudgetOnClickListener();
         initCross();
         return view;
     }
 
+    /**
+     * populates the listView with the expense categories
+     */
     private void initList() {
         ArrayList<Category> categoryList = Controller.getExpenseCategories();
         adapter = new EditBudgetListAdapter(requireActivity().getApplicationContext(), categoryList);
@@ -71,6 +84,10 @@ public class EditBudgetFragment extends Fragment {
         });
     }
 
+    /**
+     * Updates the budget attribute of the categories depending on the input from the user that
+     * when pressing the save button
+     */
     private void editBudget(){
 
         HashMap<Category,Integer> editBudgetHashMap = adapter.getEditBudgetHashMap();
@@ -80,10 +97,4 @@ public class EditBudgetFragment extends Fragment {
     }
 
 
-    Toast t;
-    private void makeToast(String s){
-        if(t != null) t.cancel();
-        t = Toast.makeText(requireActivity().getApplicationContext(), s, Toast.LENGTH_SHORT);
-        t.show();
-    }
 }

@@ -122,7 +122,7 @@ public class CategoryModelTest {
         Category c1 = new Category("c1", "#FFFFFF", true,0);
         Category c2 = new Category("c1", "#FFFFFF", false,0);
         Category c3 = new Category("c1", "#FFFFFF", true,0);
-        Category c4 = new Category("c1", "#FFFFFF", true,0);
+        Category c4 = new  Category("c1", "#FFFFFF", true,0);
         Category c5 = new Category("c1", "#FFFFFF", false,0);
 
         cm.addCategory(c1);
