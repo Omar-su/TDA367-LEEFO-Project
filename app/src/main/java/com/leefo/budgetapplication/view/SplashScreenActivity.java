@@ -14,7 +14,14 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.leefo.budgetapplication.R;
-
+/**
+ * SplashScreenActivity represents the start screen of the application.
+ * This class takes out the silence and weird moment when starting the app and instead shows a screen for
+ * brief moment which makes time for the app to start it's functionality
+ *
+ * SplashScreenActivity is where the application starts loading the information needed to start the app
+ * @author Omar Sulaiman
+ */
 public class SplashScreenActivity extends AppCompatActivity {
     Animation topAnim, bottomAnim,rightAnim, leftAnim,car_anim;
     ImageView letterL,letterO,letterE1,letterE2,letterF,car, safe, tools,dollarSign;
@@ -72,6 +79,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         car_anim = AnimationUtils.loadAnimation(this, R.anim.car_animation);
     }
 
+    /**
+     * With the help of MediPlayer class it plays a sound when the splash screen is on.
+     */
     private void playStartUpSound() {
         if (mediaPlayer == null){
             mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.startup_sound);
@@ -80,6 +90,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         mediaPlayer.start();
     }
 
+    /**
+     * Sets the time of the splashscreen is going to disappear after
+     */
     private void setATimeSplashScreen() {
         new Handler().postDelayed(new Runnable() {
             @Override
