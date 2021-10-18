@@ -105,7 +105,7 @@ Author: Omar Sulaiman
         android:layout_height="109dp"
         android:layout_marginEnd="36dp"
         android:layout_marginBottom="316dp"
-        android:background="@color/teal_700"
+        android:background="@color/teal_200"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/pen_and_papper" />

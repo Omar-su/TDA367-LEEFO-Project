@@ -44,11 +44,11 @@ public class SplashScreenActivity extends AppCompatActivity {
         dollarSign.setAnimation(leftAnim);
         car.setAnimation(car_anim);
         safe.setAnimation(rightAnim);
-        letterL.setAnimation(bottomAnim);
-        letterE1.setAnimation(topAnim);
+        letterL.setAnimation(rightAnim);
+        letterE1.setAnimation(bottomAnim);
         letterE2.setAnimation(bottomAnim);
         letterF.setAnimation(topAnim);
-        letterO.setAnimation(bottomAnim);
+        letterO.setAnimation(leftAnim);
     }
 
     private void getItemsID() {
@@ -92,7 +92,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 finish();
 
             }
-        }, 3000);
+        }, 4000);
     }
 
     private void changeColorDollarSign() {
