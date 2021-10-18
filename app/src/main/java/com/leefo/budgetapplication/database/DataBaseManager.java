@@ -330,7 +330,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
         // Loops through every row in the cursor and gets the columns
         if (cursor.moveToFirst()){
             do {
-                int transactionAmount = cursor.getInt(1);
+                float transactionAmount = cursor.getFloat(1);
                 String transactionDesc = cursor.getString(2);
                 String transactionDate = cursor.getString(3);
                 String categoryFKName = cursor.getString(4);
