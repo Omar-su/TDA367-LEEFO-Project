@@ -23,7 +23,7 @@ public class MoreFragment extends Fragment {
 
     private Button btnCompareMonths;
     private Button btnManageCategory;
-    private Button btnSpendingStreak;
+
     /**
      * Method that runs when the fragment is being created.
      * Connects the fragment xml file to the fragment class and initializes the fragment's components.
@@ -35,7 +35,6 @@ public class MoreFragment extends Fragment {
 
         btnCompareMonths = view.findViewById(R.id.compare_month_button);
         btnManageCategory = view.findViewById(R.id.manage_categories_button);
-        btnSpendingStreak = view.findViewById(R.id.streak_button);
 
         BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottomNavigation);
         MenuItem item = bottomNav.getMenu().findItem(R.id.nav_more);
@@ -43,7 +42,6 @@ public class MoreFragment extends Fragment {
 
         init_btnCompareMonths_OnClickListener();
         init_btnManageCategory_OnClickListener();
-        init_btnSpendingStreak_OnClickListener();
         return view;
     }
 
@@ -63,11 +61,6 @@ public class MoreFragment extends Fragment {
                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new CompareMonthsFragment()).commit();
             }
         });
-    }
-
-    private void init_btnSpendingStreak_OnClickListener() {
-        btnSpendingStreak.setOnClickListener(e ->
-                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new StreakFragment()).commit());
     }
 
 

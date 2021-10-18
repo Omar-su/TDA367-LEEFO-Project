@@ -3,7 +3,8 @@
 Layout Resource file used by a BottomNavigationView in activity_main.xml
 Author: Emelie Edberg
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <item
@@ -14,6 +15,11 @@ Author: Emelie Edberg
         android:id="@+id/nav_budget"
         android:icon="@drawable/ic_baseline_star_half_24"
         android:title="@string/Navigation_title_2" />
+    <item
+        android:id="@+id/nav_streak"
+        android:icon="@drawable/ic_baseline_bolt_24"
+        android:title="Streak" />
+
     <item
         android:id="@+id/nav_more"
         android:icon="@drawable/ic_baseline_more_horiz_24"

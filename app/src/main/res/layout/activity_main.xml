@@ -18,7 +18,8 @@ Author: Emelie Edberg
         android:background="?android:attr/windowBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.75"
+        app:layout_constraintWidth_percent="0.80"
+        app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_navigation" />
 
     <ImageButton
@@ -30,7 +31,7 @@ Author: Emelie Edberg
         app:layout_constraintBottom_toBottomOf="parent"
 
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.25" />
+        app:layout_constraintWidth_percent="0.2" />
 
     <FrameLayout
         android:id="@+id/FrameLayout_main"

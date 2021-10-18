@@ -19,6 +19,7 @@ import com.leefo.budgetapplication.view.fragments.HomeFragment;
 import com.leefo.budgetapplication.view.fragments.ManageCategoriesFragment;
 import com.leefo.budgetapplication.view.fragments.MoreFragment;
 import com.leefo.budgetapplication.view.fragments.NewTransactionFragment;
+import com.leefo.budgetapplication.view.fragments.StreakFragment;
 
 import java.time.LocalDate;
 
@@ -80,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new HomeFragment();
                     break;
 
+                case R.id.nav_streak:
+                    fragment = new StreakFragment();
+                    break;
                 case R.id.nav_more:
                     fragment = new MoreFragment();
                     break;
