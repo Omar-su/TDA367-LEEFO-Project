@@ -49,6 +49,6 @@ public class StreakTest {
     @Test
     public void recordStreak()
     {
-        Assertions.assertEquals(4, StreakCalculator.getRecordStreak(transactions));
+        Assertions.assertEquals(5, StreakCalculator.getRecordStreak(transactions));
     }
 }

@@ -88,29 +88,20 @@ public class StreakCalculator
             else found_first_date = true;
 
 
-            // if we are still summing transactions of a date
-            if(current_date.isEqual(previousDate))
-            {
-                if(!transaction.getCategory().isIncome()) // must be an expense
-                    day_sum += Math.abs(transaction.getAmount());
-            }
-
-            // if we've reached a new day, check if the day_sum was below average
-            else
-            {
+            if(!current_date.isEqual(previousDate)){
                 // increase streak if day spending is below previous average
                 if(day_sum < average)
                     streak++;
                 else
                 {
-                    // if a streak lasts for several, days, then the further the streak continues, the lower the average will become
+                    // if a streak lasts for several days, then the further the streak continues, the lower the average will become
                     // And since the average will be higher earlier in the streak, then comparing the day_sum with the average of the
                     // most recent date in the streak will break the streak.
-                    // this is why the average gets updated here to account for this problem
+                    // this is why the average gets updated here and tested again to account for this problem
 
-                    average = getAverageDailySpending(transactions, current_date);
+                    average = getAverageDailySpending(transactions, previousDate);
 
-                    if(day_sum < average) // and another check with the new average
+                    if(day_sum < average) // check with the new average
                         streak++;
                     else
                         break; // if it doesn't pass the check with the new average either, then the streak is broken
@@ -120,6 +111,8 @@ public class StreakCalculator
                 day_sum = 0;
             }
 
+            if(!transaction.getCategory().isIncome()) // must be an expense
+                day_sum += Math.abs(transaction.getAmount());
         }
 
         return streak;
@@ -158,6 +151,7 @@ public class StreakCalculator
             }
         }
 
+        // if no transactions have been made before specified date, then the average spending is 0
         if(days == 0) return 0;
 
         return sum / (float)days;
