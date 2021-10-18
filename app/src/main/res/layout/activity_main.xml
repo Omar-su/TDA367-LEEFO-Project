@@ -13,24 +13,53 @@ Author: Emelie Edberg
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_width="320dp"
+        android:layout_height="61dp"
         android:background="?android:attr/windowBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.75"
         app:menu="@menu/bottom_navigation" />
 
-    <ImageButton
-        android:id="@+id/plusButton"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:background="@color/purple_500"
-        android:src="@drawable/ic_baseline_add_24"
-        app:layout_constraintBottom_toBottomOf="parent"
+<!--    <ImageButton-->
+<!--        android:id="@+id/plusButton"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:background="@color/purple_500"-->
+<!--        android:src="@drawable/ic_baseline_add_24"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
 
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintWidth_percent="0.25" -->
+<!--        -->
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/plusButton"
+        android:layout_width="90dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="24dp"
+        android:background="#E6E6E6"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.25" />
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toEndOf="@+id/bottomNavigation"
+        app:layout_constraintTop_toBottomOf="@+id/FrameLayout_main"
+        app:layout_constraintVertical_bias="1.0"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/plus_button_anim" />
+
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:layout_width="20dp"-->
+<!--        android:layout_height="20dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        app:lottie_loop="true"-->
+<!--        app:lottie_rawRes="@raw/plus_button_anim" />-->
 
     <FrameLayout
         android:id="@+id/FrameLayout_main"
@@ -39,6 +68,8 @@ Author: Emelie Edberg
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
