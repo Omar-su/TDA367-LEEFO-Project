@@ -90,7 +90,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      * @param context The main activity of the program
      */
     public DataBaseManager(@Nullable Context context) {
-        super(context, "category_transaction_new4", null, 1);
+        super(context, "category_transaction_new7", null, 1);
     }
 
     /**
@@ -133,7 +133,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
     private void createTransactionTable(SQLiteDatabase sqLiteDatabase) {
         String createTableTransactions = " CREATE TABLE " + TRANSACTIONS_TABLE + " ( "  + TRANSACTION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + TRANSACTION_AMOUNT + " REAL, "
+                + TRANSACTION_AMOUNT + " TEXT , "
                 + TRANSACTIONS_DESC + " TEXT, "
                 + TRANSACTION_DATE + " TEXT, "
                 + CATEGORY_FK_NAME + " TEXT)";
@@ -186,7 +186,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
     private ContentValues getContentValues(FinancialTransaction transaction) {
         ContentValues cv = new ContentValues();
         cv.put(TRANSACTIONS_DESC, transaction.getDescription());
-        cv.put(TRANSACTION_AMOUNT, transaction.getAmount());
+        cv.put(TRANSACTION_AMOUNT, String.valueOf(transaction.getAmount()));
         cv.put(TRANSACTION_DATE, transaction.getDate().toString());
         cv.put(CATEGORY_FK_NAME, transaction.getCategory().getName());
         return cv;
@@ -233,7 +233,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
     private int getDeletedTransaction(FinancialTransaction transaction, SQLiteDatabase db) {
         // Gets all the identical rows/transactions in the database
         String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " WHERE "  + TRANSACTIONS_DESC + " = '" + transaction.getDescription() + "' AND "
-                + TRANSACTION_DATE + " = '" + transaction.getDate().toString() + "' AND " + TRANSACTION_AMOUNT + " = " + transaction.getAmount() + " AND "
+                + TRANSACTION_DATE + " = '" + transaction.getDate().toString() + "' AND " + TRANSACTION_AMOUNT + " = '" + String.valueOf(transaction.getAmount()) + "' AND "
                 + CATEGORY_FK_NAME + " = '" + transaction.getCategory().getName() + "'";
 
 
@@ -330,7 +330,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
         // Loops through every row in the cursor and gets the columns
         if (cursor.moveToFirst()){
             do {
-                float transactionAmount = cursor.getFloat(1);
+                float transactionAmount = Float.parseFloat(cursor.getString(1));
                 String transactionDesc = cursor.getString(2);
                 String transactionDate = cursor.getString(3);
                 String categoryFKName = cursor.getString(4);
