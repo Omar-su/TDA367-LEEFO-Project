@@ -204,9 +204,6 @@ public class EditTransactionFragment extends Fragment {
             date = oldTransaction.getDate();
         }
 
-        if (!category.isIncome()){
-            amount = Math.abs(amount) * -1;
-        }
         Controller.editTransaction(oldTransaction, amount, description, date, category );
     }
 
