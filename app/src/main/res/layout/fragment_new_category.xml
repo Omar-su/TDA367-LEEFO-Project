@@ -136,12 +136,12 @@ Author: Emelie Edberg, Eugene Dvoryankov
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="159dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="158dp"
-        android:layout_marginBottom="34dp"
         android:text="save"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view3" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/new_category_change_color_button"
