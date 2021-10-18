@@ -20,8 +20,9 @@ import com.leefo.budgetapplication.R;
 import java.util.ArrayList;
 
 /**
- * The class that represents the fragment for compare months
- *
+ * The class that represents the fragment for compare months.
+ * THIS CLASS IS NOT FINISHED, WE DECIDED TO NOT IMPLEMENT THIS USER STORY.
+ * THIS CLASS CONTAINS CODE FOR USING A BAR GRAPH BUT ONLY WITH HARDCODED VALUES.
  * @author Eugene Dvoryankov
  */
 public class CompareMonthsFragment extends Fragment {

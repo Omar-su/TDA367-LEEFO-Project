@@ -21,26 +21,20 @@ import com.leefo.budgetapplication.R;
  */
 public class MoreFragment extends Fragment {
 
-    private Button btnCompareMonths;
     private Button btnManageCategory;
 
-    /**
-     * Method that runs when the fragment is being created.
-     * Connects the fragment xml file to the fragment class and initializes the fragment's components.
-     * @return the view
-     */
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_more, container, false);
 
-        btnCompareMonths = view.findViewById(R.id.compare_month_button);
         btnManageCategory = view.findViewById(R.id.manage_categories_button);
 
+        // Make sure the correct menu item is highlighted
         BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottomNavigation);
         MenuItem item = bottomNav.getMenu().findItem(R.id.nav_more);
         item.setChecked(true);
 
-        init_btnCompareMonths_OnClickListener();
         init_btnManageCategory_OnClickListener();
         return view;
     }
@@ -50,15 +44,6 @@ public class MoreFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new ManageCategoriesFragment()).commit();
-            }
-        });
-    }
-
-    private void init_btnCompareMonths_OnClickListener() {
-        btnCompareMonths.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new CompareMonthsFragment()).commit();
             }
         });
     }
