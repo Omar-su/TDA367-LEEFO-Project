@@ -79,9 +79,9 @@ public class CategoryModel
         if (category == getOtherIncomeCategory()) return; // not allowed to remove
 
         if (category.isIncome()) {
-            transactionModel.replaceCategory(category, getOtherIncomeCategory());
+            transactionModel.replaceCatForTransactions(category, getOtherIncomeCategory());
         } else {
-            transactionModel.replaceCategory(category, getOtherExpenseCategory());
+            transactionModel.replaceCatForTransactions(category, getOtherExpenseCategory());
         }
         categoryList.remove(category);
 
@@ -97,13 +97,25 @@ public class CategoryModel
      * @param editedCategory The category with the edited information.
      */
     public void editCategory(Category oldCategory, Category editedCategory){
-        transactionModel.replaceCategory(oldCategory, editedCategory);
-        deleteCategory(oldCategory);
-        addCategory(editedCategory);
+        transactionModel.replaceCatForTransactions(oldCategory, editedCategory);
+        updateCategory(oldCategory,editedCategory);
     }
 
+    private void updateCategory(Category oldCategory, Category editedCategory) {
+        deleteCategoryBudget(oldCategory);
+        addCategoryBudget(editedCategory);
+        ObserverHandler.updateObservers();
+    }
 
+    private void addCategoryBudget(Category category) {
+        categoryList.add(category);
+        saveCategoryToDatabase(category);
+    }
 
+    private void deleteCategoryBudget(Category category) {
+        categoryList.remove(category);
+        deleteCategoryFromDatabase(category);
+    }
 
 
     // getters -------------
@@ -141,7 +153,48 @@ public class CategoryModel
                 list.add(c);
             }
         }
+
         return list;
+    }
+
+
+
+    /**
+     * Sorts category list by alphabet
+     * @param categoryList The list to be sorted
+     * @return A sorted category list by alphabet
+     */
+    public ArrayList<Category> sortCategoriesByAlphabet(ArrayList<Category> categoryList) {
+        for (int j = 0; j<categoryList.size();j++){
+            for (int i =j+1; i<categoryList.size(); i++){
+                if (categoryList.get(j).getName().toLowerCase().charAt(0)>categoryList.get(i).getName().toLowerCase().charAt(0)){
+                    Category tmpCat = categoryList.get(i);
+                    categoryList.set(i,categoryList.get(j));
+                    categoryList.set(j,tmpCat);
+                }
+            }
+        }
+        return categoryList;
+
+
+    }
+
+    /**
+     * Sorts category by highest budget
+     * @param categoryList List to be sorted
+     * @return A category list sorted by highest budget
+     */
+    public ArrayList<Category> sortCategoriesByBudget(ArrayList<Category> categoryList) {
+        for (int i = 0; i<categoryList.size();i++){
+            for (int j =i+1; j<categoryList.size(); j++){
+                if (categoryList.get(i).getBudgetGoal()<categoryList.get(j).getBudgetGoal()){
+                    Category tmpCat = categoryList.get(j);
+                    categoryList.set(j,categoryList.get(i));
+                    categoryList.set(i,tmpCat);
+                }
+            }
+        }
+        return categoryList;
     }
 
 

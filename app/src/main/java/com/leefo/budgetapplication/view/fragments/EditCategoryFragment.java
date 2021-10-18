@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.view.ParcelableCategory;
+import com.leefo.budgetapplication.view.data.ParcelableCategory;
 
 import java.util.MissingResourceException;
 
@@ -178,7 +178,7 @@ public class EditCategoryFragment extends Fragment {
         boolean isIncome = radioGroup.getCheckedRadioButtonId() == R.id.edit_category_radio_income;
         String name = nameInput.getText().toString();
         String color = "#" + Integer.toHexString(defaultColor);
-        Controller.editCategoryInfo(oldCategory,name,color,isIncome);
+        Controller.editCategoryInfo(oldCategory,name,color,isIncome, oldCategory.getBudgetGoal());
     }
 
     /**
@@ -188,7 +188,7 @@ public class EditCategoryFragment extends Fragment {
      */
     private boolean nameIsUnique(String name) {
         for (Category c: Controller.getAllCategories()) {
-            if (c.getName().equals(name) && !c.equals(oldCategory)) return false;
+            if (c.getName().equalsIgnoreCase(name) && !c.equals(oldCategory)) return false;
         }
         return true;
     }

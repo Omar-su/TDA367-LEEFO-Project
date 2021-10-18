@@ -94,13 +94,12 @@ public class TransactionModel implements ITransactionModel {
      * @param newCategory Category that will replace oldCategory.
      */
     @Override
-    public void replaceCategory(Category oldCategory, Category newCategory){
+    public void replaceCatForTransactions(Category oldCategory, Category newCategory){
         for(int i = 0; i < getTransactionList().size(); i++){
             FinancialTransaction t = getTransactionList().get(i);
 
             if(oldCategory.transactionBelongs(t)){
-                editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(), t.getDate(),
-                        newCategory));
+                editTransaction(t, new FinancialTransaction(t.getAmount(), t.getDescription(), t.getDate(), newCategory));
             }
         }
 
@@ -331,56 +330,6 @@ public class TransactionModel implements ITransactionModel {
         }
     }
 
-    /**
-     * Sorts a transaction list based on the transaction amount.
-     * Larger amount means lower list index.
-     * @param list list to be sorted
-     */
-    public void sortByAmount(ArrayList<FinancialTransaction> list){
-
-        for (int x = 0; x < list.size() ; x++){
-            for (int i = 0; i < list.size()-1; i++){
-                float amount1 = Math.abs(list.get(i).getAmount());
-                float amount2 = Math.abs(list.get(i+1).getAmount());
-                if (amount1 < amount2){
-                    swap(list, i, i+1);
-                }
-            }
-        }
-    }
-
-    /**
-     * Searches the transaction list to find transactions that match the searched text by note description
-     * @param transactionList the the list of transactions to check
-     * @param note the searched note description
-     * @return the transactions that are matching the note description
-     */
-    public ArrayList<FinancialTransaction> searchTransactionByNote(ArrayList <FinancialTransaction> transactionList, String note){
-        ArrayList<FinancialTransaction> newList = new ArrayList<>();
-        for(FinancialTransaction transaction : transactionList){
-            if(transaction.getDescription().toLowerCase().contains(note.toLowerCase())){
-                newList.add(transaction);
-            }
-        }
-        return newList;
-    }
-
-    /**
-     * Searches the transaction list to find transactions that match the searched text by amount
-     * @param transactionList the the list of transactions to check
-     * @param amount the searched amount
-     * @return the transactions that are matching the amount
-     */
-    public ArrayList<FinancialTransaction> searchTransactionByAmount(ArrayList <FinancialTransaction> transactionList, Float amount){
-        ArrayList<FinancialTransaction> newList = new ArrayList<>();
-        for(FinancialTransaction transaction : transactionList){
-            float amount1 = Math.abs(transaction.getAmount());
-            if(amount1==amount)
-                newList.add(transaction);
-        }
-        return newList;
-    }
-
 
     // dataBase methods ----
 
@@ -412,7 +361,7 @@ public class TransactionModel implements ITransactionModel {
 
         // transactions may not be in order when retrieved from database, so they must be sorted.
         // lower index means that the transaction has been made more recently.
-        bubbleSortTransactionsByDate(transactions);
+        sortTransactionsByDate(transactions);
 
         return transactions; // should be sorted by date
     }
@@ -426,7 +375,7 @@ public class TransactionModel implements ITransactionModel {
      *
      * @param transactions List to be sorted.
      */
-    private void bubbleSortTransactionsByDate(ArrayList<FinancialTransaction> transactions)
+    private void sortTransactionsByDate(ArrayList<FinancialTransaction> transactions)
     {
         boolean notCompleted = true; // will be set to false in the last loop through the list of transactions
 
@@ -448,6 +397,7 @@ public class TransactionModel implements ITransactionModel {
             }
         }
     }
+
 
     /**
      * Swaps the position of two objects in a list.

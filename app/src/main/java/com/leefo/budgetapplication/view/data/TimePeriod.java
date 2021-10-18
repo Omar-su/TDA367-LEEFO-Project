@@ -1,4 +1,4 @@
-package com.leefo.budgetapplication.view;
+package com.leefo.budgetapplication.view.data;
 
 /**
  * class representing a time period of a specific month.

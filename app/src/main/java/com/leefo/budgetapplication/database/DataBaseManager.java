@@ -1,4 +1,4 @@
-package com.leefo.budgetapplication.model;
+package com.leefo.budgetapplication.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,6 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.model.FinancialTransaction;
+import com.leefo.budgetapplication.model.IDatabase;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -40,6 +44,11 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      */
     private static final String CATEGORY_IS_INCOME = "CATEGORY_IS_INCOME";
 
+    /**
+     * The name of the fourth column in the category table used to store a value for the category budget
+     */
+    private static final String CATEGORY_BUDGET = "CATEGORY_BUDGET";
+
 
 
     /**
@@ -71,8 +80,9 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      * The name of the fifth column in the transaction table used for storing the id of every transaction
      * which helps in separating the transaction and safely deleting a specific transaction without worrying about deleting multiple similar transactions
      */
-    public static final String TRANSACTION_ID = "TRANSACTION_ID";
-    public static final String CATEGORY_BUDGET = "CATEGORY_BUDGET";
+    private static final String TRANSACTION_ID = "TRANSACTION_ID";
+
+
 
 
     /**
@@ -80,24 +90,8 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      * @param context The main activity of the program
      */
     public DataBaseManager(@Nullable Context context) {
-        super(context, "category_transaction", null, 1);
+        super(context, "category_transaction_new4", null, 1);
     }
-
-    //New name will create new database file. Sending in a null String object will create
-    //an in memory database meaning that no file will be created on disk and the database will be
-    //destroyed when the application is closed. This is useful for testing.
-
-    /**
-     * Constructor for creating a database. Using a name that hasn't been used before
-     * will create a new database file. Using a null String object as name will create and in memory
-     * database.
-     * @param context The context of the application.
-     * @param name The name of the database.
-     */
-    public DataBaseManager(@Nullable Context context, @Nullable String name) {
-        super(context, name, null, 4);
-    }
-
 
     /**
      * Makes foreign key constraint available to implement which makes it possible
@@ -125,7 +119,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
 
     private void createCategoryTable(SQLiteDatabase sqLiteDatabase) {
-        String createTableCategory = " CREATE TABLE " + CATEGORY_TABLE + " ( " + CATEGORY_NAME + " TEXT PRIMARY KEY, "
+        String createTableCategory = " CREATE TABLE " + CATEGORY_TABLE + " ( " + CATEGORY_NAME + " TEXT PRIMARY KEY , "
                                     + CATEGORY_COLOR + " TEXT, "
                                     + CATEGORY_IS_INCOME + " INTEGER, "
                                     + CATEGORY_BUDGET + " INTEGER " + " )";
@@ -142,7 +136,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
                 + TRANSACTION_AMOUNT + " REAL, "
                 + TRANSACTIONS_DESC + " TEXT, "
                 + TRANSACTION_DATE + " TEXT, "
-                + CATEGORY_FK_NAME + " TEXT , FOREIGN KEY( " + CATEGORY_FK_NAME + ") REFERENCES " + CATEGORY_TABLE + " ( "  + CATEGORY_NAME + "))";
+                + CATEGORY_FK_NAME + " TEXT)";
 
         sqLiteDatabase.execSQL(createTableTransactions);
     }
@@ -157,10 +151,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      * @param i1 The new version of the database
      */
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
-
-    }
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {}
 
     /**
      * Saves a financial transactions information in the database
@@ -169,17 +160,14 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
     public void saveData(FinancialTransaction transaction)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
 
-        cv.put(TRANSACTIONS_DESC, transaction.getDescription());
-        cv.put(TRANSACTION_AMOUNT, transaction.getAmount());
-        cv.put(TRANSACTION_DATE, transaction.getDate().toString());
-        cv.put(CATEGORY_FK_NAME, transaction.getCategory().getName());
+        ContentValues cv = getContentValues(transaction);
 
         db.insert(TRANSACTIONS_TABLE, null, cv);
         db.close();
 
     }
+
 
     /**
      * Saves the categories information in the database
@@ -187,16 +175,33 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      */
     public void saveData(Category category)
     {
-        int i = category.isIncome() ? 1 : 0;
 
         SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = getContentValues(category);
+        db.insert(CATEGORY_TABLE, null, cv);
+        db.close();
+    }
+
+    @NonNull
+    private ContentValues getContentValues(FinancialTransaction transaction) {
+        ContentValues cv = new ContentValues();
+        cv.put(TRANSACTIONS_DESC, transaction.getDescription());
+        cv.put(TRANSACTION_AMOUNT, transaction.getAmount());
+        cv.put(TRANSACTION_DATE, transaction.getDate().toString());
+        cv.put(CATEGORY_FK_NAME, transaction.getCategory().getName());
+        return cv;
+    }
+
+
+    @NonNull
+    private ContentValues getContentValues(Category category) {
+        int i = category.isIncome() ? 1 : 0;
         ContentValues cv = new ContentValues();
         cv.put(CATEGORY_NAME, category.getName());
         cv.put(CATEGORY_COLOR, category.getColor());
         cv.put(CATEGORY_IS_INCOME, i);
-        cv.put(CATEGORY_BUDGET, category.getGoal());
-        db.insert(CATEGORY_TABLE, null, cv);
-        db.close();
+        cv.put(CATEGORY_BUDGET, category.getBudgetGoal());
+        return cv;
     }
 
     /**
@@ -269,7 +274,14 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
         Cursor cursor = getCategoryTable(db);
 
+        cursorDataToObjects(returnList, cursor);
 
+        cursor.close();
+        db.close();
+        return returnList;
+    }
+
+    private void cursorDataToObjects(ArrayList<Category> returnList, Cursor cursor) {
         if (cursor.moveToFirst()){
             do {
                 String categoryName = cursor.getString(0);
@@ -283,9 +295,6 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
             }while (cursor.moveToNext());
 
         }
-        cursor.close();
-        db.close();
-        return returnList;
     }
 
     private Cursor getCategoryTable(SQLiteDatabase db) {
@@ -309,6 +318,16 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
         Cursor cursor = getTransactionTable(db);
 
 
+        cursorDataToObjects(categories, returnList, cursor);
+
+        cursor.close();
+        db.close();
+        return returnList;
+
+    }
+
+    private void cursorDataToObjects(ArrayList<Category> categories, ArrayList<FinancialTransaction> returnList, Cursor cursor) {
+        // Loops through every row in the cursor and gets the columns
         if (cursor.moveToFirst()){
             do {
                 int transactionAmount = cursor.getInt(1);
@@ -326,17 +345,11 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
             }while (cursor.moveToNext());
 
         }
-
-        cursor.close();
-        db.close();
-        return returnList;
-
     }
 
     private Cursor getTransactionTable(SQLiteDatabase db) {
         String queryString = "SELECT * FROM " + TRANSACTIONS_TABLE + " ORDER BY " + TRANSACTION_DATE + " DESC ";
         return db.rawQuery(queryString, null);
-
     }
 
     @NonNull

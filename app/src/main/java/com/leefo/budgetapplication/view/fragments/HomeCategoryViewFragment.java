@@ -22,9 +22,9 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.view.ParcelableCategory;
-import com.leefo.budgetapplication.view.TimePeriodViewModel;
-import com.leefo.budgetapplication.view.TimePeriod;
+import com.leefo.budgetapplication.view.data.ParcelableCategory;
+import com.leefo.budgetapplication.view.data.TimePeriodViewModel;
+import com.leefo.budgetapplication.view.data.TimePeriod;
 import com.leefo.budgetapplication.view.adapters.CategoryListAdapter;
 
 import java.util.ArrayList;

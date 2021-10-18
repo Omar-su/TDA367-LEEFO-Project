@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.view.TimePeriod;
+import com.leefo.budgetapplication.view.data.TimePeriod;
 
 import java.util.ArrayList;
 

@@ -5,5 +5,5 @@ package com.leefo.budgetapplication.model;
  */
 public interface ITransactionModel
 {
-    void replaceCategory(Category oldCategory, Category newCategory);
+    void replaceCatForTransactions(Category oldCategory, Category newCategory);
 }

@@ -5,58 +5,98 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.leefo.budgetapplication.R;
+import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.view.adapters.EditBudgetListAdapter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+/**
+ * A class that represents the editbudget fragment page
+ *
+ * @author Omar Sulaiman
+ */
 public class EditBudgetFragment extends Fragment {
 
-    ListView editBudgetLV;
-    Button saveBudgetButton;
+    private ListView editBudgetLV;
+    private Button saveBudgetButton;
+    EditBudgetListAdapter adapter;
+    private ImageButton cross;
 
 
-
+    /**
+     * Method that runs when the fragment is being created.
+     * Connects the fragment xml file to the fragment class and initializes the fragment's components.
+     *
+     * @return the view
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_budget, container, false);
 
         saveBudgetButton = view.findViewById(R.id.saveButtonBudget);
         editBudgetLV = view.findViewById(R.id.editBudgetListV);
+        cross = view.findViewById(R.id.cross_edit_budget);
 
-        initSaveBudgetOnClickListener();
+        initList();
+
+        initSaveButtonOnClickListener();
+        initCross();
         return view;
     }
 
+    /**
+     * populates the listView with the expense categories
+     */
+    private void initList() {
+        ArrayList<Category> categoryList = Controller.getExpenseCategories();
+        categoryList = Controller.sortCategoriesByAlphabet(categoryList);
+        categoryList = Controller.sortCategoriesByBudget(categoryList);
+        adapter = new EditBudgetListAdapter(requireActivity().getApplicationContext(), categoryList);
+        editBudgetLV.setAdapter(adapter);
+
+    }
 
 
-    private void initSaveBudgetOnClickListener() {
-        saveBudgetButton.setOnClickListener(new View.OnClickListener() {
+    private void initCross(){
+        cross.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editBudget();
-
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new BudgetFragment()).commit();
             }
         });
     }
 
+
+    private void initSaveButtonOnClickListener() {
+        saveBudgetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editBudget();
+            }
+        });
+    }
+
+    /**
+     * Updates the budget attribute of the categories depending on the input from the user that
+     * when pressing the save button
+     */
     private void editBudget(){
-//        if (budget.getText().toString().equals("")){
-//            makeToast("You need to enter an amount");
-//            return;
-//        }
+
+        HashMap<Category,Integer> editBudgetHashMap = adapter.getEditBudgetHashMap();
+        editBudgetHashMap.forEach((key, value) -> Controller.editCategoryInfo((Category) key, (Integer) value));
         requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new BudgetFragment()).commit();
+
     }
 
 
-    Toast t;
-    private void makeToast(String s){
-        if(t != null) t.cancel();
-        t = Toast.makeText(requireActivity().getApplicationContext(), s, Toast.LENGTH_SHORT);
-        t.show();
-    }
 }

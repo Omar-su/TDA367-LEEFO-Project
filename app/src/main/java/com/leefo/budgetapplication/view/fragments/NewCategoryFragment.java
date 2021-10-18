@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.view.ParcelableCategory;
+import com.leefo.budgetapplication.view.data.ParcelableCategory;
 
 import java.util.MissingResourceException;
 
@@ -147,7 +147,7 @@ public class NewCategoryFragment extends Fragment {
      */
     private boolean nameIsUnique(String name) {
         for (Category c: Controller.getAllCategories()) {
-            if (c.getName().equals(name)) return false;
+            if (c.getName().equalsIgnoreCase(name)) return false;
         }
         return true;
     }

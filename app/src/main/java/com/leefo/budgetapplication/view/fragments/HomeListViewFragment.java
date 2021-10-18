@@ -1,6 +1,8 @@
 package com.leefo.budgetapplication.view.fragments;
 
 import android.app.Dialog;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,32 +16,38 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
-import com.leefo.budgetapplication.model.Category;
+import com.leefo.budgetapplication.model.FilterOption;
 import com.leefo.budgetapplication.model.FinancialTransaction;
-import com.leefo.budgetapplication.view.ParcelableTransaction;
-import com.leefo.budgetapplication.view.TimePeriodViewModel;
-import com.leefo.budgetapplication.view.TimePeriod;
+import com.leefo.budgetapplication.model.SearchSortFilterTransactions;
+import com.leefo.budgetapplication.model.SortOption;
+import com.leefo.budgetapplication.view.data.ParcelableTransaction;
+import com.leefo.budgetapplication.view.data.TimePeriodViewModel;
+import com.leefo.budgetapplication.view.data.TimePeriod;
 import com.leefo.budgetapplication.view.adapters.TransactionListAdapter;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * This class represents the fragment for the list view inside the HomeFragment.
  * The fragment shows a list with either all transactions or transactions for a chosen month.
- * The search field enables the user to search for a specific transaction by amount or note description.
- * The sort button, on the right of search filed, enables the user to sort the transactions by:
+ * The search field enables the user to search for a specific transaction by amount and note description.
+ * The sort button enables the user to sort the transactions by:
  *      - Newest date
  *      - Oldest date
  *      - Largest amount
  *      - Smallest amount
+ * The filter button enables the user to filter transaction by:
+ *      - All categories
+ *      - Expense
+ *      - Income
+ * The class uses SearchSortFilterTransactions class.
  * Opens Edit Transaction, when a transaction is clicked.
  * Opened from HomeFragment.
  * @author Emelie Edberg, Eugene Dvoryankov
@@ -50,9 +58,16 @@ public class HomeListViewFragment extends Fragment {
     private TextView noTransactions1, noTransactions2;
     private TimePeriod timePeriod;
     private ImageButton sort_button;
-    private Dialog dialog;
+    private Dialog sortDialog;
     private RadioGroup sort_radio_group;
     private EditText search_text;
+    private ImageButton filter_button;
+    private Dialog filterDialog;
+    private RadioGroup filter_radio_group;
+    private boolean filterIsActivated = false;
+    private TransactionListAdapter adapter;
+    private ArrayList<FinancialTransaction> currentTimePeriodTransactionList;
+    private SearchSortFilterTransactions ssf;
 
     /**
      * Method that runs when the fragment is being created.
@@ -69,26 +84,36 @@ public class HomeListViewFragment extends Fragment {
         noTransactions2 = view.findViewById(R.id.noTransactionsYetText2);
         sort_button = view.findViewById(R.id.sort_button);
         search_text = view.findViewById(R.id.search_text);
+        filter_button = view.findViewById(R.id.filter_button);
 
         initSearch();
 
         TimePeriodViewModel viewModel = new ViewModelProvider(requireActivity()).get(TimePeriodViewModel.class);
         timePeriod = viewModel.getTimePeriodLiveData().getValue();
 
+        currentTimePeriodTransactionList = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+        ssf = new SearchSortFilterTransactions(currentTimePeriodTransactionList);
+        updateList();
+
         viewModel.getTimePeriodLiveData().observe(getViewLifecycleOwner(), new Observer<TimePeriod>() {
             @Override
             public void onChanged(TimePeriod newTimePeriod) {
-                updateList(Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear()));
+                currentTimePeriodTransactionList = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+                ssf.updateSourceData(currentTimePeriodTransactionList);
+                updateList();
             }
         });
 
-
-        updateList(Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear()));
 
         initList();
 
         initSortDialog();
         initSortButton();
+
+        initFilterDialog();
+        initFilterButton();
+
+
 
         return view;
     }
@@ -101,25 +126,12 @@ public class HomeListViewFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
             public void afterTextChanged(Editable editable) {
-                searchByNote(editable.toString());
-                try {
-                    searchByMonth(Float.valueOf(editable.toString()));
-                } catch (NumberFormatException e){}
+                ssf.setSearchString(editable.toString());
+                updateList();
             }
         });
     }
 
-    private void searchByNote(String note){
-        ArrayList<FinancialTransaction> transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
-        ArrayList<FinancialTransaction> newList = Controller.searchTransactionByNote(transactions, note);
-        updateList(newList);
-    }
-
-    private void searchByMonth(Float amount){
-        ArrayList<FinancialTransaction> transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
-        ArrayList<FinancialTransaction> newList = Controller.searchTransactionByAmount(transactions, amount);
-        updateList(newList);
-    }
 
     private void initList() {
 
@@ -140,116 +152,137 @@ public class HomeListViewFragment extends Fragment {
         });
     }
 
-    private void updateList(ArrayList<FinancialTransaction> transactions) {
-        if (getActivity() != null) {
+    private void updateLabelsAndButtons(ArrayList<FinancialTransaction> list){
+        if (list.isEmpty()) {
 
-            if (transactions.isEmpty()) {
-                noTransactions1.setVisibility(View.VISIBLE);
-                noTransactions2.setVisibility(View.VISIBLE);
-
-                if (!search_text.getText().toString().equals("")){
-                    noTransactions1.setText("No transactions matches your search.");
-                    noTransactions2.setText("");
-                } else {
-                    noTransactions1.setText("You haven't added any transactions for this time period.");
-                    noTransactions2.setText("Use the plus button to add a new transaction.");
-                    search_text.setVisibility(View.INVISIBLE);
-                    sort_button.setVisibility(View.INVISIBLE);
-                }
+            if (!search_text.getText().toString().equals("")){
+                noTransactions1.setText("No transactions matches your search.");
+                noTransactions2.setText("");
+            } else if(filterIsActivated){
+                noTransactions1.setText("No transactions matches your filter option.");
+                noTransactions2.setText("");
             } else {
-                putDatesIntoTransactionList(transactions);
-                noTransactions1.setVisibility(View.INVISIBLE);
-                noTransactions2.setVisibility(View.INVISIBLE);
-                sort_button.setVisibility(View.VISIBLE);
-                search_text.setVisibility(View.VISIBLE);
-
+                noTransactions1.setText("You haven't added any transactions for this time period.");
+                noTransactions2.setText("Use the plus button to add a new transaction.");
+                search_text.setVisibility(View.INVISIBLE);
+                sort_button.setVisibility(View.INVISIBLE);
+                filter_button.setVisibility(View.INVISIBLE);
             }
-            TransactionListAdapter adapter = new TransactionListAdapter(getActivity().getApplicationContext(), transactions);
-            listView.setAdapter(adapter);
+            noTransactions1.setVisibility(View.VISIBLE);
+            noTransactions2.setVisibility(View.VISIBLE);
+        } else {
+            noTransactions1.setVisibility(View.INVISIBLE);
+            noTransactions2.setVisibility(View.INVISIBLE);
+            sort_button.setVisibility(View.VISIBLE);
+            filter_button.setVisibility(View.VISIBLE);
+            search_text.setVisibility(View.VISIBLE);
+
         }
     }
 
+    private void updateList() {
 
-    private void addDateRowInTransactionList(ArrayList<FinancialTransaction> list, int index, String date){
-        list.add(index, new FinancialTransaction(0,date, LocalDate.now(), new Category("DATE", "", true)));
+        ArrayList<FinancialTransaction> list;
+        list = ssf.getResult();
+
+        updateLabelsAndButtons(list);
+
+        adapter = new TransactionListAdapter(requireActivity().getApplicationContext(), list);
+        listView.setAdapter(adapter);
     }
 
-    /**
-     * In order to display date rows within the list. We must add extra objects in the list where we want the date row to be
-     * then when the list is sent to the list adapter it can differentiate between normal Transaction objects and the ones representing date rows and display those differently.
-     *
-     * The method works on lists sorted by date.
-     * Inputs special date Transaction objects in front of every object with a new date.
-     */
-    private void putDatesIntoTransactionList(ArrayList<FinancialTransaction> list){
-        LocalDate today = LocalDate.now();
-        LocalDate yesterday = LocalDate.now().minusDays(1);
-        LocalDate date = list.get(0).getDate(); // first date
 
-        if (date.isEqual(today)){
-            addDateRowInTransactionList(list, 0, "Today");
-        } else if (date.isEqual(yesterday)){
-            addDateRowInTransactionList(list, 0, "Yesterday");
-        } else{
-            addDateRowInTransactionList(list, 0,date.toString());
-        }
-
-        for (int i = 2; i <= list.size()-1;){
-
-            if (!date.isEqual(list.get(i).getDate())){
-                date = list.get(i).getDate();
-                if (date.isEqual(today)){
-                    addDateRowInTransactionList(list, i, "Today");
-                } else if (date.isEqual(yesterday)){
-                    addDateRowInTransactionList(list, i, "Yesterday");
-                } else{
-                    addDateRowInTransactionList(list, i,date.toString());
-                }
-                i++;
-            }
-            i++;
-        }
-    }
     private void initSortButton(){
         sort_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.show();
+                sortDialog.show();
             }
         });
     }
     private void initSortDialog(){
-        dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.sort_dialog);
-        sort_radio_group = dialog.findViewById(R.id.sort_radio_group);
+        sortDialog = new Dialog(getActivity());
+        sortDialog.setContentView(R.layout.sort_dialog);
+        sort_radio_group = sortDialog.findViewById(R.id.sort_radio_group);
         sort_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                ArrayList<FinancialTransaction> transactions = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
-
                 switch (checkedId){
                     case R.id.newest_date_radio:
+                        setDeActivatedColor(sort_button);
+                        ssf.sortBy(SortOption.NEWEST_DATE);
 
                         break;
 
                     case R.id.oldest_date_radio:
-                        Collections.reverse(transactions);
+                        ssf.sortBy(SortOption.OLDEST_DATE);
+                        setActivatedColor(sort_button);
                         break;
 
-                    case R.id.highest_amount_radio:
-                        Controller.sortByAmount(transactions);
+                    case R.id.largest_amount_radio:
+                        ssf.sortBy(SortOption.LARGEST_AMOUNT);
+                        setActivatedColor(sort_button);
                         break;
 
-                    case R.id.lowest_amount_radio:
-                        Controller.sortByAmount(transactions);
-                        Collections.reverse(transactions);
+                    case R.id.smallest_amount_radio:
+                        ssf.sortBy(SortOption.SMALLEST_AMOUNT);
+                        setActivatedColor(sort_button);
                         break;
                 }
-                updateList(transactions);
-                dialog.cancel();
+                updateList();
+                sortDialog.cancel();
             }
         });
+    }
+
+    private void initFilterButton(){
+        filter_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filterDialog.show();
+            }
+        });
+    }
+
+    private void initFilterDialog(){
+        filterDialog = new Dialog(getActivity());
+        filterDialog.setContentView(R.layout.filter_dialog);
+        filter_radio_group = filterDialog.findViewById(R.id.filter_radio_group);
+        filter_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+
+                switch (i){
+                    case R.id.all_categories_radio:
+                        filterIsActivated = false;
+                        setDeActivatedColor(filter_button);
+                        ssf.setFilter(FilterOption.ALL_CATEGORIES);
+
+                        break;
+                    case R.id.expenses_radio:
+                        filterIsActivated = true;
+                        setActivatedColor(filter_button);
+                        ssf.setFilter(FilterOption.EXPENSE);
+                        break;
+
+                    case R.id.income_radio:
+                        filterIsActivated = true;
+                        setActivatedColor(filter_button);
+                        ssf.setFilter(FilterOption.INCOME);
+                        break;
+                }
+                updateList();
+                filterDialog.cancel();
+            }
+        });
+    }
+
+    private void setActivatedColor(ImageButton button){
+        button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.teal_200)));
+    }
+    private void setDeActivatedColor(ImageButton button){
+        button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ffd6d7d7")));
     }
 }

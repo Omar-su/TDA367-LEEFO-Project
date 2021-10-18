@@ -1,4 +1,4 @@
-package com.leefo.budgetapplication.view;
+package com.leefo.budgetapplication.view.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;

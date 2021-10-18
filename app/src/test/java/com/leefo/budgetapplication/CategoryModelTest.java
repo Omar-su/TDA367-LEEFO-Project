@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.CategoryModel;
 import com.leefo.budgetapplication.model.FinancialTransaction;
@@ -122,7 +123,7 @@ public class CategoryModelTest {
         Category c1 = new Category("c1", "#FFFFFF", true,0);
         Category c2 = new Category("c1", "#FFFFFF", false,0);
         Category c3 = new Category("c1", "#FFFFFF", true,0);
-        Category c4 = new Category("c1", "#FFFFFF", true,0);
+        Category c4 = new  Category("c1", "#FFFFFF", true,0);
         Category c5 = new Category("c1", "#FFFFFF", false,0);
 
         cm.addCategory(c1);
@@ -145,6 +146,69 @@ public class CategoryModelTest {
     }
 
 
+    @Test
+    public void canSortExpenseCategoriesByBudget() {
+        Category c1 = new Category("a", "#FFFFFF", true,200);
+        Category c2 = new Category("z", "#FFFFFF", false,100);
+        Category c3 = new Category("r", "#FFFFFF", true,20);
+        Category c4 = new  Category("d", "#FFFFFF", true,300);
+        Category c5 = new Category("e", "#FFFFFF", false,1000);
+
+        cm.addCategory(c1);
+        cm.addCategory(c2);
+        cm.addCategory(c3);
+        cm.addCategory(c4);
+        cm.addCategory(c5);
+
+        ArrayList<Category> returnedList = cm.getCategoryList();
+        returnedList = cm.sortCategoriesByBudget(returnedList);
+
+        boolean outcome = true;
+        //check that list is sorted by highest budget
+        for (int i = 0; i<returnedList.size();i++){
+            for (int j =i+1; j<returnedList.size(); j++){
+                if (returnedList.get(i).getBudgetGoal()<returnedList.get(j).getBudgetGoal()){
+                    Category tmpCat = returnedList.get(j);
+                    returnedList.set(j,returnedList.get(i));
+                    returnedList.set(i,tmpCat);
+                    outcome = false;
+                }
+            }
+        }
+        assertTrue(outcome);
+    }
+
+
+    @Test
+    public void canSortExpenseCategoriesByAlphabet() {
+        Category c1 = new Category("a", "#FFFFFF", true,0);
+        Category c2 = new Category("z", "#FFFFFF", false,0);
+        Category c3 = new Category("r", "#FFFFFF", true,0);
+        Category c4 = new  Category("d", "#FFFFFF", true,0);
+        Category c5 = new Category("e", "#FFFFFF", false,0);
+
+        cm.addCategory(c1);
+        cm.addCategory(c2);
+        cm.addCategory(c3);
+        cm.addCategory(c4);
+        cm.addCategory(c5);
+
+        ArrayList<Category> returnedList = cm.getCategoryList();
+        returnedList = cm.sortCategoriesByAlphabet(returnedList);
+        boolean outcome = true;
+        //check that list is sorted by highest budget
+        for (int j = 0; j<returnedList.size();j++){
+            for (int i =j+1; i<returnedList.size(); i++){
+                if (returnedList.get(j).getName().toLowerCase().charAt(0)>returnedList.get(i).getName().toLowerCase().charAt(0)){
+                    Category tmpCat = returnedList.get(i);
+                    returnedList.set(i,returnedList.get(j));
+                    returnedList.set(j,tmpCat);
+                    outcome = false;
+                }
+            }
+        }
+        assertTrue(outcome);
+    }
 
 
 

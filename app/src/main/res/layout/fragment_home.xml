@@ -115,8 +115,8 @@ Author: Emelie Edberg, Eugene Dvoryankov
             android:stateListAnimator="@null"
             android:text="ToggleButton"
             android:textColor="@color/black"
-            android:textOff="List"
-            android:textOn="Pie chart"
+            android:textOff="Pie chart"
+            android:textOn="List"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

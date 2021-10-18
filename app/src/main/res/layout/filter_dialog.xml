@@ -11,7 +11,7 @@
         android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Sort by"
+        android:text="Show"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="16sp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
-        android:id="@+id/sort_radio_group"
+        android:id="@+id/filter_radio_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -31,29 +31,24 @@
         app:layout_constraintTop_toBottomOf="@+id/textView8">
 
         <RadioButton
-            android:id="@+id/newest_date_radio"
+            android:id="@+id/all_categories_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="Newest date" />
+            android:text="All categories" />
 
         <RadioButton
-            android:id="@+id/oldest_date_radio"
+            android:id="@+id/expenses_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Oldest date" />
+            android:text="Expenses" />
 
         <RadioButton
-            android:id="@+id/largest_amount_radio"
+            android:id="@+id/income_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Largest amount" />
+            android:text="Income" />
 
-        <RadioButton
-            android:id="@+id/smallest_amount_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Smallest amount" />
     </RadioGroup>
 
 
