@@ -1,7 +1,5 @@
 package com.leefo.budgetapplication.model;
 
-import android.util.Log;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -11,6 +9,8 @@ import java.util.ArrayList;
  * A spending streak is a sequence of days where each day you spend less than your average daily spending before that day.
  *
  * All methods in this class assumes that the list of transactions given is sorted by date, with the most recent transactions in lower indexes.
+ *
+ * @author Linus Lundgren
  */
 public class StreakCalculator
 {
@@ -87,7 +87,7 @@ public class StreakCalculator
             if(!found_first_date && !current_date.isEqual(date)) continue; // makes loop iterate until given date is found
             else found_first_date = true;
 
-
+            // if new day is reached
             if(!current_date.isEqual(previousDate)){
                 // increase streak if day spending is below previous average
                 if(day_sum < average)

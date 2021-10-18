@@ -12,6 +12,8 @@ import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
 
 /**
+ * Fragment used for displaying spending streaks.
+ *
  * @author Linus Lundgren
  */
 public class StreakFragment extends Fragment {
