@@ -74,7 +74,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private void playStartUpSound() {
         if (mediaPlayer == null){
-            mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.startup_sound);
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.startup_sound);
         }
 
         mediaPlayer.start();

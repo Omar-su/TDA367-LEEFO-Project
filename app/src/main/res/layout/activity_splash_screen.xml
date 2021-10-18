@@ -74,7 +74,7 @@ Author: Omar Sulaiman
         app:layout_constraintHorizontal_bias="0.329"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_safebox_svgrepo_com" />
+        app:srcCompat="@drawable/safebox" />
 
     <ImageView
         android:id="@+id/car"
@@ -86,7 +86,7 @@ Author: Omar Sulaiman
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.82"
-        app:srcCompat="@drawable/ic_fast" />
+        app:srcCompat="@drawable/car" />
 
     <ImageView
         android:id="@+id/dollarsign"
@@ -97,7 +97,7 @@ Author: Omar Sulaiman
         app:layout_constraintHorizontal_bias="0.552"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_attach_money_24" />
+        app:srcCompat="@drawable/dollar_sign" />
 
     <ImageView
         android:id="@+id/tools"
@@ -108,6 +108,6 @@ Author: Omar Sulaiman
         android:background="@color/teal_700"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_budget_svgrepo_com" />
+        app:srcCompat="@drawable/pen_and_papper" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
