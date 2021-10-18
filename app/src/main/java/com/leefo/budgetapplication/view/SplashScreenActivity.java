@@ -17,7 +17,7 @@ import com.leefo.budgetapplication.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
     Animation topAnim, bottomAnim,rightAnim, leftAnim;
-    ImageView letterL,letterO,letterE1,letterE2,letterF, safe, tools,dollarSign;
+    ImageView letterL,letterO,letterE1,letterE2,letterF;
     MediaPlayer mediaPlayer;
 
     @Override
@@ -33,16 +33,13 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         setAnimation();
 
-        changeColorDollarSign();
-
         setATimeSplashScreen();
 
     }
 
     private void setAnimation() {
-        tools.setAnimation(leftAnim);
-        dollarSign.setAnimation(leftAnim);
-        safe.setAnimation(rightAnim);
+//        tools.setAnimation(leftAnim);
+//        safe.setAnimation(rightAnim);
         letterL.setAnimation(rightAnim);
         letterE1.setAnimation(bottomAnim);
         letterE2.setAnimation(bottomAnim);
@@ -56,10 +53,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         letterE1 = findViewById(R.id.letterE1);
         letterE2 = findViewById(R.id.letterE2);
         letterF = findViewById(R.id.letterF);
-        safe = findViewById(R.id.safe);
-        tools = findViewById(R.id.tools);
-        dollarSign = findViewById(R.id.dollarsign);
-        tools = findViewById(R.id.tools);
+//        safe = findViewById(R.id.safe);
+//        tools = findViewById(R.id.tools);
+//        tools = findViewById(R.id.tools);
     }
 
     private void loadAnimation() {
@@ -90,34 +86,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                 finish();
 
             }
-        }, 4000);
+        }, 5000);
     }
 
-    private void changeColorDollarSign() {
-        ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
-        anim.setDuration(2000);
 
-        float[] hsv;
-        final int[] runColor = new int[1];
-        hsv = new float[3]; // Transition color
-        hsv[1] = 1;
-        hsv[2] = 1;
-        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-
-                hsv[0] = 360 * animation.getAnimatedFraction();
-
-                runColor[0] = Color.HSVToColor(hsv);
-                dollarSign.setColorFilter(runColor[0]);
-
-
-            }
-        });
-
-        anim.setRepeatCount(Animation.INFINITE);
-
-        anim.start();
-    }
 }
