@@ -130,15 +130,10 @@ public class NewTransactionFragment extends Fragment {
     }
 
     private void addTransaction(){
-        boolean isExpense = radioGroup.getCheckedRadioButtonId() == R.id.radioExpense;
         String description = descriptionInput.getText().toString();
         float amount = Float.parseFloat(amountInput.getText().toString());
         Category category = (Category) categorySpinner.getSelectedItem();
         LocalDate date = myCalendar.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // convert Date to LocalDate
-
-        if (isExpense){
-            amount = amount * -1;
-        }
 
         Controller.addNewTransaction(amount, description, date, category);
     }
