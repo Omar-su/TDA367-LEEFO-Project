@@ -34,6 +34,8 @@ public class StreakCalculator
      */
     public static int getRecordStreak(ArrayList<FinancialTransaction> transactions)
     {
+        if(transactions.size() == 0) return 0; // no streak if no transactions
+
         int record = getCurrentStreak(transactions);
 
         // used for looping through streaks until we reach the first transaction made
