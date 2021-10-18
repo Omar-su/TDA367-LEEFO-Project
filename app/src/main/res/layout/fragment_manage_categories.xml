@@ -8,7 +8,7 @@ Author: Emelie Edberg, Eugene Dvoryankov
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/grey_background"
     tools:context=".view.fragments.ManageCategoriesFragment">
 
     <ImageButton
@@ -17,7 +17,7 @@ Author: Emelie Edberg, Eugene Dvoryankov
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:background="@color/white"
+        android:background="@color/grey_background"
         android:src="@drawable/ic_baseline_close_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -63,11 +63,11 @@ Author: Emelie Edberg, Eugene Dvoryankov
     </RadioGroup>
 
     <ListView
-        android:overScrollMode="never"
         android:id="@+id/listView_manage_categories"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toTopOf="@+id/button_add_new_cat_in_manage_cat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,10 +77,14 @@ Author: Emelie Edberg, Eugene Dvoryankov
         android:id="@+id/button_add_new_cat_in_manage_cat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
+        android:backgroundTint="@color/white"
         android:text="@string/New_Category"
+        android:textColor="@color/black"
+        app:icon="@drawable/ic_baseline_add_24"
+        app:iconTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
