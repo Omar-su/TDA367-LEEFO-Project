@@ -69,7 +69,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         bottomAnim = AnimationUtils.loadAnimation(this,R.anim.bottom_animation);
         rightAnim = AnimationUtils.loadAnimation(this, R.anim.right_animation);
         leftAnim = AnimationUtils.loadAnimation(this, R.anim.left_animation);
-        car_anim = AnimationUtils.loadAnimation(this, R.anim.car_anim);
+        car_anim = AnimationUtils.loadAnimation(this, R.anim.car_animation);
     }
 
     private void playStartUpSound() {
