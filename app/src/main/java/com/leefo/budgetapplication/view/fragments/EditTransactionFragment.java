@@ -110,7 +110,7 @@ public class EditTransactionFragment extends Fragment {
 
     private void setOldTransactionValues(FinancialTransaction transaction){
         noteInput.setText(transaction.getDescription());
-        amountInput.setText(Double.toString(Math.abs(transaction.getAmount())));
+        amountInput.setText(String.valueOf(Math.abs(transaction.getAmount())));
         Category oldCategory = transaction.getCategory();
         dateInput.setText(oldTransaction.getDate().toString());
         if(oldCategory.isIncome()){
