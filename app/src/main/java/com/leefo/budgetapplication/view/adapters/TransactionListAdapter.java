@@ -31,23 +31,12 @@ import java.util.ArrayList;
 public class TransactionListAdapter extends ArrayAdapter<FinancialTransaction> {
 
     Context context;
-    ArrayList<FinancialTransaction> list;
 
 
     public TransactionListAdapter(@NonNull Context context, ArrayList<FinancialTransaction> list) {
         super(context, R.layout.list_row_home, list); // list sent to super
-        ArrayList<FinancialTransaction> copy = new ArrayList<>(list); // make a copy to have without dates
         putDatesIntoTransactionList(list); // put dates into the list sent to super
         this.context = context;
-        this.list = copy;
-    }
-
-    /**
-     * Getter a class using the adapter can call to get the adapters current list.
-     * @return The list.
-     */
-    public ArrayList<FinancialTransaction> getList() {
-        return list;
     }
 
 
