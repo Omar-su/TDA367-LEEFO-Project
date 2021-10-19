@@ -52,7 +52,7 @@ Author: Felix Edholm
             android:id="@+id/budgetRatioText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="100/1000"
+            android:text="100.0/1000"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -75,7 +75,7 @@ Author: Felix Edholm
             android:id="@+id/budgetOutcomeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:text="2.02x"
             android:textColor="@color/black"
             android:textSize="18sp"
@@ -90,17 +90,26 @@ Author: Felix Edholm
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="-30dp"
+            android:layout_marginEnd="-40dp"
             android:isIndicator="true"
             android:max="5"
+            android:progressBackgroundTint="@android:color/transparent"
             android:scaleX=".8"
             android:scaleY=".8"
-            android:progressBackgroundTint="@android:color/transparent"
             android:transformPivotX="0dp"
             android:transformPivotY="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Actual   /   Goal"
+            app:layout_constraintBottom_toTopOf="@+id/budgetRatioText"
+            app:layout_constraintEnd_toStartOf="@+id/view9"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
