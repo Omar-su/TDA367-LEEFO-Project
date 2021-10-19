@@ -2,7 +2,7 @@
 
 ## TDA367 - Objektorienterat programmingsprojekt
 
-<p align="left">   &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;
+<p align="left">   
   &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;
   &nbsp;&nbsp;&nbsp;&nbsp;
   <img src="https://i.postimg.cc/66yjJBsJ/splash-screen.png" alt="Game image" width="200" height="400"/>
