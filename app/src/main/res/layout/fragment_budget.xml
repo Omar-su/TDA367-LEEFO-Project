@@ -48,8 +48,8 @@ Author: Emelie Edberg, Eugene Dvoryankov, Omar Sulaiman, Felix Edholm
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="15dp"
-            android:overScrollMode="never"
             android:clickable="false"
+            android:overScrollMode="never"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -134,6 +134,19 @@ Author: Emelie Edberg, Eugene Dvoryankov, Omar Sulaiman, Felix Edholm
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="109dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:singleLine="false"
+            android:text="Grades based on budget results"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.837"
+            app:layout_constraintStart_toEndOf="@+id/arrow_forward_budget"
+            app:layout_constraintTop_toBottomOf="@+id/edit_budget_button" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

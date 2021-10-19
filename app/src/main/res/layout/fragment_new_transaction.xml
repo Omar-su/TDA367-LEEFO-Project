@@ -97,9 +97,7 @@ Author: Emelie Edberg, Eugene Dvoryankov
         android:layout_marginStart="159dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="158dp"
-        android:layout_marginBottom="241dp"
         android:text="save"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view6" />
