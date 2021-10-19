@@ -15,6 +15,16 @@ import java.util.ArrayList;
 public class StreakCalculator
 {
 
+    /**
+     * Method for getting the average daily spending of today.
+     *
+     * @param transactions List of transactions sorted by date
+     * @return average spending
+     */
+    public static float getAverageSpending(ArrayList<FinancialTransaction> transactions)
+    {
+        return Math.round(getAverageDailySpending(transactions, LocalDate.now())*100) / (float)100; // rounds to 2 decimal places
+    }
 
     /**
      * Gets the streak of today.

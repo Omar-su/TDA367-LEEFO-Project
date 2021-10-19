@@ -376,6 +376,15 @@ public class Controller {
         return transactionModel.getRecordStreak();
     }
 
+    /**
+     * Gets average amount spent per day.
+     *
+     * @return average spending
+     */
+    public static float getAverageSpending()
+    {
+        return transactionModel.getAverageSpending();
+    }
 
 
 }

@@ -150,7 +150,7 @@ public class TransactionModel implements ITransactionModel {
                 sum += transaction.getAmount();
         }
 
-        return sum;
+        return Math.round(sum * 100) / (float)100; // rounds to 2 decimal places
     }
 
     /**
@@ -176,7 +176,7 @@ public class TransactionModel implements ITransactionModel {
                 sum += transaction.getAmount();
         }
 
-        return sum;
+        return Math.round(sum * 100) / (float)100; // rounds to 2 decimal places
     }
 
     /**
@@ -186,7 +186,7 @@ public class TransactionModel implements ITransactionModel {
      */
     public float getTransactionBalance(TransactionRequest request)
     {
-        return getTotalIncome(request) - getTotalExpense(request);
+        return Math.round(100 * (getTotalIncome(request) - getTotalExpense(request))) / (float)100; // rounds to 2 decimal places
     }
 
     /**
@@ -272,6 +272,16 @@ public class TransactionModel implements ITransactionModel {
     public int getRecordStreak()
     {
         return StreakCalculator.getRecordStreak(getTransactionList());
+    }
+
+    /**
+     * Gets average daily spending.
+     *
+     * @return average spent per day
+     */
+    public float getAverageSpending()
+    {
+        return StreakCalculator.getAverageSpending(getTransactionList());
     }
 
 
