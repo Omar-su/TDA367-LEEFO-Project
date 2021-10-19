@@ -194,16 +194,6 @@ public class Controller {
         return transactionModel.getTransactionSum(request);
     }
 
-
-    /**
-     * Returns a list of all categories in the model.
-     *
-     * @return A list of all categories in the model.
-     */
-    public static ArrayList<Category> getCategories() {
-        return categoryModel.getCategoryList();
-    }
-
     /**
      * Returns a list of all income categories in the model.
      *
