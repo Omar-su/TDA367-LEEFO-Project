@@ -20,6 +20,7 @@ import com.leefo.budgetapplication.R;
  * brief moment which makes time for the app to start it's functionality
  *
  * SplashScreenActivity is where the application starts loading the information needed to start the app
+ *
  * @author Omar Sulaiman
  */
 public class SplashScreenActivity extends AppCompatActivity {
@@ -45,8 +46,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void setAnimation() {
-//        tools.setAnimation(leftAnim);
-//        safe.setAnimation(rightAnim);
+
         letterL.setAnimation(rightAnim);
         letterE1.setAnimation(bottomAnim);
         letterE2.setAnimation(bottomAnim);
@@ -60,9 +60,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         letterE1 = findViewById(R.id.letterE1);
         letterE2 = findViewById(R.id.letterE2);
         letterF = findViewById(R.id.letterF);
-//        safe = findViewById(R.id.safe);
-//        tools = findViewById(R.id.tools);
-//        tools = findViewById(R.id.tools);
+
     }
 
     private void loadAnimation() {
