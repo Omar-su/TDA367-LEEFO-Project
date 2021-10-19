@@ -34,7 +34,7 @@ import java.time.LocalDate;
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNav;
-    private LottieAnimationView plusButton;
+    private ImageButton plusButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
