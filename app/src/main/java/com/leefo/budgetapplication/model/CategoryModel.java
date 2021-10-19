@@ -167,16 +167,35 @@ public class CategoryModel
     public ArrayList<Category> sortCategoriesByAlphabet(ArrayList<Category> categoryList) {
         for (int j = 0; j<categoryList.size();j++){
             for (int i =j+1; i<categoryList.size(); i++){
-                if (categoryList.get(j).getName().toLowerCase().charAt(0)>categoryList.get(i).getName().toLowerCase().charAt(0)){
-                    Category tmpCat = categoryList.get(i);
-                    categoryList.set(i,categoryList.get(j));
-                    categoryList.set(j,tmpCat);
+                if (getFirstLetter(categoryList.get(j)) > getFirstLetter(categoryList.get(i))){
+                    switchCategoryPlaces(categoryList, j, i);
                 }
             }
         }
         return categoryList;
 
 
+    }
+
+    /**
+     * Switches places between two specific categories in a list
+     * @param categoryList The category list
+     * @param j Which index the first category has
+     * @param i Which index the second category has
+     */
+    private void switchCategoryPlaces(ArrayList<Category> categoryList, int j, int i) {
+        Category tmpCat = categoryList.get(i);
+        categoryList.set(i, categoryList.get(j));
+        categoryList.set(j, tmpCat);
+    }
+
+    /**
+     * Gets and makes the first letter a lower case to make it comparable
+     * @param category The category that is to be compared
+     * @return The first letter of the category name as a char in lowercase
+     */
+    private char getFirstLetter(Category category) {
+        return category.getName().toLowerCase().charAt(0);
     }
 
     /**
@@ -188,9 +207,7 @@ public class CategoryModel
         for (int i = 0; i<categoryList.size();i++){
             for (int j =i+1; j<categoryList.size(); j++){
                 if (categoryList.get(i).getBudgetGoal()<categoryList.get(j).getBudgetGoal()){
-                    Category tmpCat = categoryList.get(j);
-                    categoryList.set(j,categoryList.get(i));
-                    categoryList.set(i,tmpCat);
+                    switchCategoryPlaces(categoryList, i, j);
                 }
             }
         }
