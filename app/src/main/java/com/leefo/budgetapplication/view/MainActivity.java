@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.controller.Controller;
@@ -33,7 +34,7 @@ import java.time.LocalDate;
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNav;
-    private ImageButton plusButton;
+    private LottieAnimationView plusButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
