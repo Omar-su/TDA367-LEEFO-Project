@@ -59,7 +59,8 @@ Author: Felix Edholm
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/view9"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.555" />
 
         <View
             android:id="@+id/view9"
@@ -107,9 +108,11 @@ Author: Felix Edholm
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Actual   /   Goal"
-            app:layout_constraintBottom_toTopOf="@+id/budgetRatioText"
+            android:textColor="#666A6A6A"
+            android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/view9"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

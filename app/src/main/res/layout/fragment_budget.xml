@@ -138,7 +138,7 @@ Author: Emelie Edberg, Eugene Dvoryankov, Omar Sulaiman, Felix Edholm
         <TextView
             android:id="@+id/textView15"
             android:layout_width="109dp"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:layout_marginTop="10dp"
             android:singleLine="false"
             android:text="Grades based on budget results"
