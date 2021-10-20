@@ -301,7 +301,7 @@ public class TransactionModelTest {
         tm.addTransaction(t3);
         tm.addTransaction(t4);
 
-        float expectedBalance = t1.getAmount() - t2.getAmount(); //Balance for transactions made 08/1899
+        float expectedBalance =  Math.round(100 * (t1.getAmount() - t2.getAmount())) / (float)100; //Balance for transactions made 08/1899
         TransactionRequest request = new TransactionRequest(null, 8, 1899);
 
         float calculatedBalance = tm.getTransactionBalance(request);
