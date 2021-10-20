@@ -90,7 +90,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      * @param context The main activity of the program
      */
     public DataBaseManager(@Nullable Context context) {
-        super(context, "category_transaction_new7", null, 1);
+        super(context, "category_transaction_new8", null, 1);
     }
 
     /**
