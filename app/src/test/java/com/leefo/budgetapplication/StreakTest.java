@@ -4,7 +4,6 @@ import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.model.StreakCalculator;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

@@ -4,27 +4,20 @@ package com.leefo.budgetapplication;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.leefo.budgetapplication.controller.Controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.CategoryModel;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.model.IDatabase;
-import com.leefo.budgetapplication.model.ITransactionModel;
 import com.leefo.budgetapplication.model.TransactionModel;
-import com.leefo.budgetapplication.model.TransactionRequest;
 
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@RunWith(AndroidJUnit4.class)
 public class CategoryModelTest {
 
     IDatabase fakeDb;
