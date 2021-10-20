@@ -18,7 +18,7 @@ import com.leefo.budgetapplication.controller.Controller;
  */
 public class StreakFragment extends Fragment {
 
-    private TextView currentStreak, recordStreak, progressTextView;
+    private TextView currentStreak, recordStreak, average, today;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -26,7 +26,8 @@ public class StreakFragment extends Fragment {
 
         currentStreak = view.findViewById(R.id.currentStreak);
         recordStreak = view.findViewById(R.id.recordStreak);
-        progressTextView = view.findViewById(R.id.progressTextView);
+        average = view.findViewById(R.id.average_textView);
+        today = view.findViewById(R.id.today_textView);
 
         loadStreakValues();
 
@@ -37,8 +38,10 @@ public class StreakFragment extends Fragment {
     {
         currentStreak.setText(String.valueOf(Controller.getCurrentStreak()));
         recordStreak.setText(String.valueOf(Controller.getRecordStreak()));
+        average.setText(String.valueOf(Controller.getAverageSpending()));
+        today.setText(String.valueOf(Controller.getTodaysExpenses()));
 
-        progressTextView.setText(Controller.getTodaysExpenses() + " / " + Controller.getAverageSpending());
+        //progressTextView.setText(Controller.getTodaysExpenses() + " / " + Controller.getAverageSpending());
     }
 
 }
