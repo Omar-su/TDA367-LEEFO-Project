@@ -386,5 +386,15 @@ public class Controller {
         return transactionModel.getAverageSpending();
     }
 
+    /**
+     * Gets all expense transactions made today.
+     *
+     * @return sum of all of todays expenses
+     */
+    public static float getTodaysExpenses()
+    {
+        return transactionModel.getTodaysExpenses();
+    }
+
 
 }

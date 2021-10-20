@@ -180,6 +180,24 @@ public class TransactionModel implements ITransactionModel {
     }
 
     /**
+     * Gets all expense transactions made today.
+     *
+     * @return sum of all of todays expenses
+     */
+    public float getTodaysExpenses()
+    {
+        float sum = 0;
+
+        for(FinancialTransaction transaction : getTransactionList()) {
+            if (!transaction.getCategory().isIncome() && transaction.getDate().isEqual(LocalDate.now()))
+                sum += transaction.getAmount();
+        }
+
+        return Math.round(sum * 100) / (float)100;
+
+    }
+
+    /**
      * Gets balance between total income and total expenses
      * @param request Request specifying date.
      * @return Difference between total income and total expenses.
