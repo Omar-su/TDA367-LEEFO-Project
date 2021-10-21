@@ -17,7 +17,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.controller.CategoryController;
+import com.leefo.budgetapplication.controller.TransactionController;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 
@@ -86,10 +87,10 @@ public class NewTransactionFragment extends Fragment {
 
     private void initSpinner(){
         ArrayList<Category> income, expense;
-        income = Controller.getIncomeCategories();
-        Controller.sortCategoryListByPopularity(income);
-        expense = Controller.getExpenseCategories();
-        Controller.sortCategoryListByPopularity(expense);
+        income = CategoryController.getIncomeCategories();
+        TransactionController.sortCategoryListByPopularity(income);
+        expense = CategoryController.getExpenseCategories();
+        TransactionController.sortCategoryListByPopularity(expense);
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity().getApplicationContext(), expense);
         categorySpinner.setAdapter(spinnerAdapter);
 
@@ -135,7 +136,7 @@ public class NewTransactionFragment extends Fragment {
         Category category = (Category) categorySpinner.getSelectedItem();
         LocalDate date = myCalendar.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // convert Date to LocalDate
 
-        Controller.addNewTransaction(amount, description, date, category);
+        TransactionController.addNewTransaction(amount, description, date, category);
     }
 
     /**

@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.controller.TransactionController;
 import com.leefo.budgetapplication.view.data.HomeViewModel;
 import com.leefo.budgetapplication.view.data.TimePeriodViewModel;
 import com.leefo.budgetapplication.view.data.TimePeriod;
@@ -165,9 +165,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateHeaderValues(){
-        float in = Controller.getTotalIncome(liveData.getValue().getMonth(), liveData.getValue().getYear());
-        float ex = Controller.getTotalExpense(liveData.getValue().getMonth(), liveData.getValue().getYear());
-        float ba = Controller.getTransactionBalance(liveData.getValue().getMonth(), liveData.getValue().getYear());
+        float in = TransactionController.getTotalIncome(liveData.getValue().getMonth(), liveData.getValue().getYear());
+        float ex = TransactionController.getTotalExpense(liveData.getValue().getMonth(), liveData.getValue().getYear());
+        float ba = TransactionController.getTransactionBalance(liveData.getValue().getMonth(), liveData.getValue().getYear());
         income.setText(String.valueOf(in));
         expense.setText(String.valueOf(ex));
         balance.setText(String.valueOf(ba));

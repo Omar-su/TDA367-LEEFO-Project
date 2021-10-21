@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.controller.CategoryController;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.data.ParcelableCategory;
 import com.leefo.budgetapplication.view.adapters.ManageCategoriesListAdapter;
@@ -67,7 +67,7 @@ public class ManageCategoriesFragment extends Fragment {
     }
 
     private ArrayList<Category> getExpenseCategoriesWithoutOther(){
-        ArrayList<Category> list = Controller.getExpenseCategories();
+        ArrayList<Category> list = CategoryController.getExpenseCategories();
         for (Category c : list){
             if (c.getName().equals("Other expense")){
                 list.remove(c);
@@ -78,7 +78,7 @@ public class ManageCategoriesFragment extends Fragment {
     }
 
     private ArrayList<Category> getIncomeCategoriesWithoutOther(){
-        ArrayList<Category> list = Controller.getIncomeCategories();
+        ArrayList<Category> list = CategoryController.getIncomeCategories();
         for (Category c : list){
             if (c.getName().equals("Other income")){
                 list.remove(c);

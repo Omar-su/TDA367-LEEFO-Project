@@ -16,7 +16,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.controller.BudgetGradeController;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.data.TimePeriod;
 import com.leefo.budgetapplication.view.adapters.GradedBudgetListAdapter;
@@ -92,7 +92,7 @@ public class BudgetFragment extends Fragment {
         if (noBudget1.getVisibility() == View.VISIBLE){
             averageRatingBar.setRating(0);
         } else {
-            averageRatingBar.setRating(Controller.getAverageGradeForMonth(timePeriod.getMonth(), timePeriod.getYear()));
+            averageRatingBar.setRating(BudgetGradeController.getAverageGradeForMonth(timePeriod.getMonth(), timePeriod.getYear()));
         }
     }
 
@@ -131,7 +131,7 @@ public class BudgetFragment extends Fragment {
 
             if (isCurrentMonthOrAfter(timePeriod)) {
                 //Displays all categories with budget goal even if no transactions made for current month
-                ArrayList<Category> allBudgetCategories = Controller.getAllBudgetCategories();
+                ArrayList<Category> allBudgetCategories = BudgetGradeController.getAllBudgetCategories();
                 if (allBudgetCategories.isEmpty()) {
                     noBudget1.setVisibility(View.VISIBLE);
                     noBudget2.setVisibility(View.VISIBLE);
@@ -149,7 +149,7 @@ public class BudgetFragment extends Fragment {
             } else {
                 //If not current mont => earlier month. Displays only budget categories with transactions made
                 ArrayList<Category> budgetCatsForMonth =
-                        Controller.getBudgetCategoriesByMonth(timePeriod.getMonth(), timePeriod.getYear());
+                        BudgetGradeController.getBudgetCategoriesByMonth(timePeriod.getMonth(), timePeriod.getYear());
 
                 if (budgetCatsForMonth.isEmpty()) {
                     noBudget1.setVisibility(View.VISIBLE);

@@ -1,116 +1,29 @@
 package com.leefo.budgetapplication.controller;
 
-import android.content.Context;
-
-import com.leefo.budgetapplication.model.BudgetGrader;
 import com.leefo.budgetapplication.model.Category;
-import com.leefo.budgetapplication.model.CategoryModel;
-import com.leefo.budgetapplication.database.DataBaseManager;
-import com.leefo.budgetapplication.model.TransactionModel;
-import com.leefo.budgetapplication.model.ObserverHandler;
 import com.leefo.budgetapplication.model.FinancialTransaction;
-import com.leefo.budgetapplication.model.ModelObserver;
+import com.leefo.budgetapplication.model.TransactionModel;
 import com.leefo.budgetapplication.model.TransactionRequest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- * The Controller class represents the Controller in the Model-View-Controller pattern.
- * The class responsibility is to listen to the View and respond by modifying the model and updating
- * the view.
+ * The TransactionController class represents a Controller in the Model-View-Controller pattern.
+ * The class responsibility is to listen to the View and respond by modifying transaction data and
+ * updating the view.
  *
  * @author Felix Edholm, Linus Lundgren, Emelie Edberg
  */
-public class Controller {
+public class TransactionController {
 
     /**
      * Object handling logic for transactions.
      */
     private static TransactionModel transactionModel;
 
-    /**
-     * Object handling logic for categories
-     */
-    private static CategoryModel categoryModel;
-
-    /**
-     * Object handling logic for budget grading
-     */
-    private static BudgetGrader budgetGrader;
-
-
-    /**
-     * Initializes database, transactionModel and categoryModel.
-     *
-     * @param context Application context for database.
-     */
-    public static void InitializeBackend(Context context) {
-        DataBaseManager database = new DataBaseManager(context);
-
-        transactionModel = new TransactionModel(database);
-        categoryModel = new CategoryModel(database, transactionModel);
-        budgetGrader = new BudgetGrader(transactionModel, categoryModel);
-    }
-
-    /**
-     * Adds observer to list of observers to be updated when the model changes.
-     *
-     * @param observer Observer to be added.
-     */
-    public static void addObserver(ModelObserver observer) {
-        ObserverHandler.addObserver(observer);
-    }
-
-    /**
-     * Edits the name and color of a category with the given id. Color must be a String of a hexadecimal
-     * color code with the format: #XXXXXX.
-     *
-     * @param oldCategory Object of category to be changed.
-     */
-    public static void editCategoryInfo(Category oldCategory, String newName, String newColor, boolean isIncome, int goal) {
-        Category newCategory = new Category(newName, newColor, isIncome, goal);
-
-        categoryModel.editCategory(oldCategory, newCategory);
-    }
-
-    public static void editCategoryInfo(Category oldCategory, int goal) {
-        Category newCategory = new Category(oldCategory.getName(), oldCategory.getColor(), oldCategory.isIncome(), goal);
-
-        categoryModel.editCategory(oldCategory, newCategory);
-    }
-
-    /**
-     * Adds a new category to the database. Color must be a String of a hexadecimal color code with
-     * the format: #XXXXXX.
-     *
-     * @param name  The name of the new category.
-     * @param color The color of the new category.
-     */
-    public static void addNewCategory(String name, String color, boolean isIncome) {
-        Category newCategory = new Category(name, color, isIncome);
-
-        categoryModel.addCategory(newCategory);
-    }
-
-
-    /**
-     * Removes category with the given id from the database. Transactions under the removed category
-     * are automatically moved to the Other category.
-     *
-     * @param category category to removed
-     */
-    public static void removeCategory(Category category) {
-        categoryModel.deleteCategory(category);
-    }
-
-    /**
-     * Returns a list of all the categories in the database.
-     *
-     * @return a list of all the categories in the database.
-     */
-    public static ArrayList<Category> getAllCategories() {
-        return categoryModel.getCategoryList();
+    public TransactionController(TransactionModel transactionModel) {
+        TransactionController.transactionModel = transactionModel;
     }
 
     /**
@@ -195,43 +108,6 @@ public class Controller {
     }
 
     /**
-     * Returns a list of all income categories in the model.
-     *
-     * @return A list of all income categories in the model.
-     */
-    public static ArrayList<Category> getIncomeCategories() {
-        return categoryModel.getIncomeCategories();
-    }
-
-    /**
-     * Returns a list of a all expense categories in the model.
-     *
-     * @return A list of all expense categories in the model.
-     */
-    public static ArrayList<Category> getExpenseCategories() {
-        return categoryModel.getExpenseCategories();
-    }
-
-    /**
-     * Sorts category list by alphabet
-     *
-     * @return A sorted category list .
-     */
-    public static ArrayList<Category> sortCategoriesByAlphabet(ArrayList<Category> sortList) {
-        return categoryModel.sortCategoriesByAlphabet(sortList);
-    }
-
-    /**
-     * Sorts category list by highest budget
-     *
-     * @return A sorted category list.
-     */
-    public static ArrayList<Category> sortCategoriesByBudget(ArrayList<Category> sortList) {
-        return categoryModel.sortCategoriesByBudget(sortList);
-    }
-
-
-    /**
      * Returns the total income amount for a specific month and year.
      *
      * @param month The month to calculate income amount for.
@@ -307,62 +183,13 @@ public class Controller {
         transactionModel.sortCategoryListByPopularity(categoryList);
     }
 
-    /**
-     * Returns a list of categories with budgets for the month specific.
-     *
-     * @param month The month to get categories for.
-     * @param year  The year of the month to get categories for.
-     * @return The list of categories.
-     */
-    public static ArrayList<Category> getBudgetCategoriesByMonth(int month, int year) {
-        return budgetGrader.getBudgetCategoriesByMonth(new TransactionRequest(null, month, year));
-    }
-
-    /**
-     * Returns a grade for the budget outcome of a category.
-     * Outcome = actual expense/budget goal.
-     * Category is graded on a scale from 0-5 in .5 intervals.
-     *
-     * @param category The category to be graded.
-     * @return The calculated grade.
-     */
-    public static float gradeCategory(Category category, int month, int year) {
-        return budgetGrader.gradeCategory(new TransactionRequest(category, month, year));
-    }
-
-    /**
-     * Returns the rounded budget outcome for a specific category. Rounded to two decimals.
-     * Outcome = actual expense/budget goal.
-     *
-     * @param category The category to get rounded outcome for.
-     * @return The rounded budget outcome.
-     */
-    public static float getRoundedBudgetOutcome(Category category, int month, int year) {
-        return budgetGrader.getRoundedBudgetOutcome(new TransactionRequest(category, month, year));
-    }
-
-    /**
-     * Returns the average budget grade for all categories in a specific month.
-     *
-     * @param month The month to calculate average for.
-     * @param year  The year of the month to calculate average for.
-     * @return The average budget grade for the specific month.
-     */
-    public static float getAverageGradeForMonth(int month, int year) {
-        return budgetGrader.getAverageGradeForMonth(new TransactionRequest(null, month, year));
-    }
-
-    public static ArrayList<Category> getAllBudgetCategories() {
-        return budgetGrader.getAllBudgetCategories();
-    }
 
     /**
      * Gets amount of days in a row where user has spent less than they do on average daily.
      *
      * @return amount of days streak has been ongoing
      */
-    public static int getCurrentStreak()
-    {
+    public static int getCurrentStreak() {
         return transactionModel.getCurrentStreak();
     }
 
@@ -371,8 +198,7 @@ public class Controller {
      *
      * @return record length streak
      */
-    public static int getRecordStreak()
-    {
+    public static int getRecordStreak() {
         return transactionModel.getRecordStreak();
     }
 
@@ -381,8 +207,7 @@ public class Controller {
      *
      * @return average spending
      */
-    public static float getAverageSpending()
-    {
+    public static float getAverageSpending() {
         return transactionModel.getAverageSpending();
     }
 
@@ -391,10 +216,7 @@ public class Controller {
      *
      * @return sum of all of todays expenses
      */
-    public static float getTodaysExpenses()
-    {
+    public static float getTodaysExpenses() {
         return transactionModel.getTodaysExpenses();
     }
-
-
 }

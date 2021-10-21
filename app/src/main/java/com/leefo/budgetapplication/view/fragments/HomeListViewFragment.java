@@ -22,7 +22,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.controller.TransactionController;
 import com.leefo.budgetapplication.model.FilterOption;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.model.SearchSortFilterTransactions;
@@ -91,14 +91,14 @@ public class HomeListViewFragment extends Fragment {
         TimePeriodViewModel viewModel = new ViewModelProvider(requireActivity()).get(TimePeriodViewModel.class);
         timePeriod = viewModel.getTimePeriodLiveData().getValue();
 
-        currentTimePeriodTransactionList = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+        currentTimePeriodTransactionList = TransactionController.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
         ssf = new SearchSortFilterTransactions(currentTimePeriodTransactionList);
         updateList();
 
         viewModel.getTimePeriodLiveData().observe(getViewLifecycleOwner(), new Observer<TimePeriod>() {
             @Override
             public void onChanged(TimePeriod newTimePeriod) {
-                currentTimePeriodTransactionList = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+                currentTimePeriodTransactionList = TransactionController.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
                 ssf.updateSourceData(currentTimePeriodTransactionList);
                 updateList();
             }

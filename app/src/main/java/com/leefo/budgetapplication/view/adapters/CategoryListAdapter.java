@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.controller.TransactionController;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.data.TimePeriod;
 
@@ -53,14 +53,14 @@ public class CategoryListAdapter extends ArrayAdapter<Category> {
         Category cat = getItem(position);
 
         int numberOfTransactions;
-        numberOfTransactions = Controller.getTransactions(cat, timePeriod.getMonth(), timePeriod.getYear()).size();
+        numberOfTransactions = TransactionController.getTransactions(cat, timePeriod.getMonth(), timePeriod.getYear()).size();
 
         TextView sum = convertView.findViewById(R.id.category_sum);
         TextView name = convertView.findViewById(R.id.category_name);
         View circle = convertView.findViewById(R.id.category_circle);
         TextView numberOfTransactionsTextView = convertView.findViewById(R.id.number_of_transactions);
 
-        sum.setText(String.valueOf(Controller.getTransactionSum(cat, timePeriod.getMonth(), timePeriod.getYear())));
+        sum.setText(String.valueOf(TransactionController.getTransactionSum(cat, timePeriod.getMonth(), timePeriod.getYear())));
         name.setText(cat.getName());
         circle.getBackground().setColorFilter(Color.parseColor(cat.getColor()), PorterDuff.Mode.SRC_ATOP);
         if (numberOfTransactions == 1){

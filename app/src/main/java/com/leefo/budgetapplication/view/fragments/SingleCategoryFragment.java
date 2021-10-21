@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.controller.TransactionController;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.data.ParcelableTransaction;
@@ -75,7 +75,7 @@ public class SingleCategoryFragment extends Fragment {
     }
 
     private void initList(){
-        transactionList = Controller.getTransactions(chosenCategory, timePeriod.getMonth(), timePeriod.getYear());
+        transactionList = TransactionController.getTransactions(chosenCategory, timePeriod.getMonth(), timePeriod.getYear());
         TransactionListAdapter adapter = new TransactionListAdapter(requireActivity().getApplicationContext(), transactionList);
         listView.setAdapter(adapter);
     }

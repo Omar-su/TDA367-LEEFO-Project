@@ -20,7 +20,8 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.controller.CategoryController;
+import com.leefo.budgetapplication.controller.TransactionController;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.data.ParcelableCategory;
 import com.leefo.budgetapplication.view.data.TimePeriodViewModel;
@@ -83,9 +84,9 @@ public class HomeCategoryViewFragment extends Fragment {
     }
 
     private void updateData() {
-        ArrayList<Category> list = Controller.getExpenseCategories();
-        Controller.removeEmptyCategories(list, timePeriod.getMonth(), timePeriod.getYear());
-        Controller.sortCategoryListBySum(list, timePeriod.getMonth(), timePeriod.getYear());
+        ArrayList<Category> list = CategoryController.getExpenseCategories();
+        TransactionController.removeEmptyCategories(list, timePeriod.getMonth(), timePeriod.getYear());
+        TransactionController.sortCategoryListBySum(list, timePeriod.getMonth(), timePeriod.getYear());
 
         if (list.isEmpty()){
             noTransactions1.setVisibility(View.VISIBLE);
@@ -143,7 +144,7 @@ public class HomeCategoryViewFragment extends Fragment {
 
         float sum;
         for(Category c :  list){
-            sum = Controller.getTransactionSum(c, timePeriod.getMonth(), timePeriod.getYear());
+            sum = TransactionController.getTransactionSum(c, timePeriod.getMonth(), timePeriod.getYear());
             entries.add(new PieEntry(sum,""));
             myColors.add(Color.parseColor(c.getColor()));
         }
