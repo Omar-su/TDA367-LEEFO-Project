@@ -59,20 +59,16 @@ public class HomeListViewFragment extends Fragment {
     private TimePeriod timePeriod;
     private ImageButton sort_button;
     private Dialog sortDialog;
-    private RadioGroup sort_radio_group;
     private EditText search_text;
     private ImageButton filter_button;
     private Dialog filterDialog;
-    private RadioGroup filter_radio_group;
     private boolean filterIsActivated = false;
-    private TransactionListAdapter adapter;
     private ArrayList<FinancialTransaction> currentTimePeriodTransactionList;
     private SearchSortFilterTransactions ssf;
 
     /**
      * Method that runs when the fragment is being created.
      * Connects the fragment xml file to the fragment class and initializes the fragment's components.
-     * @return returns the view
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,15 +82,32 @@ public class HomeListViewFragment extends Fragment {
         search_text = view.findViewById(R.id.search_text);
         filter_button = view.findViewById(R.id.filter_button);
 
-        initSearch();
-
+        // get timePeriod from viewModel
         TimePeriodViewModel viewModel = new ViewModelProvider(requireActivity()).get(TimePeriodViewModel.class);
         timePeriod = viewModel.getTimePeriodLiveData().getValue();
 
+        // get Transaction list
         currentTimePeriodTransactionList = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+
+        // create sort search filter object and send in the current list.
         ssf = new SearchSortFilterTransactions(currentTimePeriodTransactionList);
+
+        // update and init
         updateList();
 
+        initTimePeriodOnChangedListener(viewModel);
+        initListOnClickListener();
+
+        initSortDialog();
+        initSortButton();
+        initFilterDialog();
+        initFilterButton();
+        initSearch();
+
+        return view;
+    }
+
+    private void initTimePeriodOnChangedListener(TimePeriodViewModel viewModel) {
         viewModel.getTimePeriodLiveData().observe(getViewLifecycleOwner(), new Observer<TimePeriod>() {
             @Override
             public void onChanged(TimePeriod newTimePeriod) {
@@ -103,19 +116,6 @@ public class HomeListViewFragment extends Fragment {
                 updateList();
             }
         });
-
-
-        initList();
-
-        initSortDialog();
-        initSortButton();
-
-        initFilterDialog();
-        initFilterButton();
-
-
-
-        return view;
     }
 
     private void initSearch(){
@@ -133,8 +133,7 @@ public class HomeListViewFragment extends Fragment {
     }
 
 
-    private void initList() {
-
+    private void initListOnClickListener() {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -153,6 +152,7 @@ public class HomeListViewFragment extends Fragment {
     }
 
     private void updateLabelsAndButtons(ArrayList<FinancialTransaction> list){
+
         if (list.isEmpty()) {
 
             if (!search_text.getText().toString().equals("")){
@@ -164,6 +164,7 @@ public class HomeListViewFragment extends Fragment {
             } else {
                 noTransactions1.setText("You haven't added any transactions for this time period.");
                 noTransactions2.setText("Use the plus button to add a new transaction.");
+
                 search_text.setVisibility(View.INVISIBLE);
                 sort_button.setVisibility(View.INVISIBLE);
                 filter_button.setVisibility(View.INVISIBLE);
@@ -173,6 +174,7 @@ public class HomeListViewFragment extends Fragment {
         } else {
             noTransactions1.setVisibility(View.INVISIBLE);
             noTransactions2.setVisibility(View.INVISIBLE);
+
             sort_button.setVisibility(View.VISIBLE);
             filter_button.setVisibility(View.VISIBLE);
             search_text.setVisibility(View.VISIBLE);
@@ -182,15 +184,13 @@ public class HomeListViewFragment extends Fragment {
 
     private void updateList() {
 
-        ArrayList<FinancialTransaction> list;
-        list = ssf.getResult();
+        ArrayList<FinancialTransaction> list = ssf.getResult();
 
         updateLabelsAndButtons(list);
 
-        adapter = new TransactionListAdapter(requireActivity().getApplicationContext(), list);
+        TransactionListAdapter adapter = new TransactionListAdapter(requireActivity().getApplicationContext(), list);
         listView.setAdapter(adapter);
     }
-
 
     private void initSortButton(){
         sort_button.setOnClickListener(new View.OnClickListener() {
@@ -200,10 +200,11 @@ public class HomeListViewFragment extends Fragment {
             }
         });
     }
+
     private void initSortDialog(){
         sortDialog = new Dialog(getActivity());
         sortDialog.setContentView(R.layout.sort_dialog);
-        sort_radio_group = sortDialog.findViewById(R.id.sort_radio_group);
+        RadioGroup sort_radio_group = sortDialog.findViewById(R.id.sort_radio_group);
         sort_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
@@ -213,7 +214,6 @@ public class HomeListViewFragment extends Fragment {
                     case R.id.newest_date_radio:
                         setDeActivatedColor(sort_button);
                         ssf.sortBy(SortOption.NEWEST_DATE);
-
                         break;
 
                     case R.id.oldest_date_radio:
@@ -249,7 +249,7 @@ public class HomeListViewFragment extends Fragment {
     private void initFilterDialog(){
         filterDialog = new Dialog(getActivity());
         filterDialog.setContentView(R.layout.filter_dialog);
-        filter_radio_group = filterDialog.findViewById(R.id.filter_radio_group);
+        RadioGroup filter_radio_group = filterDialog.findViewById(R.id.filter_radio_group);
         filter_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
