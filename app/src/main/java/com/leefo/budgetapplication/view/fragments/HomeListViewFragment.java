@@ -22,7 +22,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.controller.TransactionController;
 import com.leefo.budgetapplication.model.FilterOption;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.model.SearchSortFilterTransactions;
@@ -39,17 +39,18 @@ import java.util.ArrayList;
  * The fragment shows a list with either all transactions or transactions for a chosen month.
  * The search field enables the user to search for a specific transaction by amount and note description.
  * The sort button enables the user to sort the transactions by:
- *      - Newest date
- *      - Oldest date
- *      - Largest amount
- *      - Smallest amount
+ * - Newest date
+ * - Oldest date
+ * - Largest amount
+ * - Smallest amount
  * The filter button enables the user to filter transaction by:
- *      - All categories
- *      - Expense
- *      - Income
+ * - All categories
+ * - Expense
+ * - Income
  * The class uses SearchSortFilterTransactions class.
  * Opens Edit Transaction, when a transaction is clicked.
  * Opened from HomeFragment.
+ *
  * @author Emelie Edberg, Eugene Dvoryankov
  */
 public class HomeListViewFragment extends Fragment {
@@ -87,7 +88,7 @@ public class HomeListViewFragment extends Fragment {
         timePeriod = viewModel.getTimePeriodLiveData().getValue();
 
         // get Transaction list
-        currentTimePeriodTransactionList = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+        currentTimePeriodTransactionList = TransactionController.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
 
         // create sort search filter object and send in the current list.
         ssf = new SearchSortFilterTransactions(currentTimePeriodTransactionList);
@@ -111,19 +112,23 @@ public class HomeListViewFragment extends Fragment {
         viewModel.getTimePeriodLiveData().observe(getViewLifecycleOwner(), new Observer<TimePeriod>() {
             @Override
             public void onChanged(TimePeriod newTimePeriod) {
-                currentTimePeriodTransactionList = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+                currentTimePeriodTransactionList = TransactionController.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
                 ssf.updateSourceData(currentTimePeriodTransactionList);
                 updateList();
             }
         });
     }
 
-    private void initSearch(){
+    private void initSearch() {
         search_text.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
             @Override
             public void afterTextChanged(Editable editable) {
                 ssf.setSearchString(editable.toString());
@@ -138,7 +143,7 @@ public class HomeListViewFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 FinancialTransaction transaction = (FinancialTransaction) adapterView.getItemAtPosition(i);
-                if (transaction.getCategory().getName().equals("DATE")){ // then it is a date row, should not be clickable
+                if (transaction.getCategory().getName().equals("DATE")) { // then it is a date row, should not be clickable
                     return;
                 }
 
@@ -151,14 +156,14 @@ public class HomeListViewFragment extends Fragment {
         });
     }
 
-    private void updateLabelsAndButtons(ArrayList<FinancialTransaction> list){
+    private void updateLabelsAndButtons(ArrayList<FinancialTransaction> list) {
 
         if (list.isEmpty()) {
 
-            if (!search_text.getText().toString().equals("")){
+            if (!search_text.getText().toString().equals("")) {
                 noTransactions1.setText("No transactions matches your search.");
                 noTransactions2.setText("");
-            } else if(filterIsActivated){
+            } else if (filterIsActivated) {
                 noTransactions1.setText("No transactions matches your filter option.");
                 noTransactions2.setText("");
             } else {
@@ -192,7 +197,7 @@ public class HomeListViewFragment extends Fragment {
         listView.setAdapter(adapter);
     }
 
-    private void initSortButton(){
+    private void initSortButton() {
         sort_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -201,16 +206,15 @@ public class HomeListViewFragment extends Fragment {
         });
     }
 
-    private void initSortDialog(){
+    private void initSortDialog() {
         sortDialog = new Dialog(getActivity());
         sortDialog.setContentView(R.layout.sort_dialog);
         RadioGroup sort_radio_group = sortDialog.findViewById(R.id.sort_radio_group);
-        sort_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        sort_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.newest_date_radio:
                         setDeActivatedColor(sort_button);
                         ssf.sortBy(SortOption.NEWEST_DATE);
@@ -237,7 +241,7 @@ public class HomeListViewFragment extends Fragment {
         });
     }
 
-    private void initFilterButton(){
+    private void initFilterButton() {
         filter_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -246,7 +250,7 @@ public class HomeListViewFragment extends Fragment {
         });
     }
 
-    private void initFilterDialog(){
+    private void initFilterDialog() {
         filterDialog = new Dialog(getActivity());
         filterDialog.setContentView(R.layout.filter_dialog);
         RadioGroup filter_radio_group = filterDialog.findViewById(R.id.filter_radio_group);
@@ -254,7 +258,7 @@ public class HomeListViewFragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
 
-                switch (i){
+                switch (i) {
                     case R.id.all_categories_radio:
                         filterIsActivated = false;
                         setDeActivatedColor(filter_button);
@@ -279,10 +283,11 @@ public class HomeListViewFragment extends Fragment {
         });
     }
 
-    private void setActivatedColor(ImageButton button){
+    private void setActivatedColor(ImageButton button) {
         button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.teal_200)));
     }
-    private void setDeActivatedColor(ImageButton button){
+
+    private void setDeActivatedColor(ImageButton button) {
         button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ffd6d7d7")));
     }
 }

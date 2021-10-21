@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.controller.TransactionController;
 
 /**
  * Fragment used for displaying spending streaks.
@@ -36,10 +36,10 @@ public class StreakFragment extends Fragment {
 
     private void loadStreakValues()
     {
-        currentStreak.setText(String.valueOf(Controller.getCurrentStreak()));
-        recordStreak.setText(String.valueOf(Controller.getRecordStreak()));
-        average.setText(String.valueOf(Controller.getAverageSpending()));
-        today.setText(String.valueOf(Controller.getTodaysExpenses()));
+        currentStreak.setText(String.valueOf(TransactionController.getCurrentStreak()));
+        recordStreak.setText(String.valueOf(TransactionController.getRecordStreak()));
+        average.setText(String.valueOf(TransactionController.getAverageSpending()));
+        today.setText(String.valueOf(TransactionController.getTodaysExpenses()));
 
         //progressTextView.setText(Controller.getTodaysExpenses() + " / " + Controller.getAverageSpending());
     }

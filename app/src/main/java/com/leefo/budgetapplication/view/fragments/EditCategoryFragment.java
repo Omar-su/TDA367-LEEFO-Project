@@ -17,7 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.controller.CategoryController;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.data.ParcelableCategory;
 
@@ -124,7 +124,7 @@ public class EditCategoryFragment extends Fragment {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                Controller.removeCategory(oldCategory);
+                                CategoryController.removeCategory(oldCategory);
                                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new ManageCategoriesFragment()).commit();
                             }
                         })
@@ -178,7 +178,7 @@ public class EditCategoryFragment extends Fragment {
         boolean isIncome = radioGroup.getCheckedRadioButtonId() == R.id.edit_category_radio_income;
         String name = nameInput.getText().toString();
         String color = "#" + Integer.toHexString(defaultColor);
-        Controller.editCategoryInfo(oldCategory,name,color,isIncome, oldCategory.getBudgetGoal());
+        CategoryController.editCategoryInfo(oldCategory,name,color,isIncome, oldCategory.getBudgetGoal());
     }
 
     /**
@@ -187,7 +187,7 @@ public class EditCategoryFragment extends Fragment {
      * @return Returns true if the name is available and false if not
      */
     private boolean nameIsUnique(String name) {
-        for (Category c: Controller.getAllCategories()) {
+        for (Category c: CategoryController.getAllCategories()) {
             if (c.getName().equalsIgnoreCase(name) && !c.equals(oldCategory)) return false;
         }
         return true;

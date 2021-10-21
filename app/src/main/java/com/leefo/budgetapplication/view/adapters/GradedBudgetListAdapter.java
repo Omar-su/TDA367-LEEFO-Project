@@ -15,7 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.controller.BudgetGradeController;
+import com.leefo.budgetapplication.controller.TransactionController;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.data.TimePeriod;
 
@@ -64,15 +65,15 @@ public class GradedBudgetListAdapter extends ArrayAdapter<Category> {
         catName.setText(category.getName());
         catIndicator.getBackground().setColorFilter(Color.parseColor(category.getColor()), PorterDuff.Mode.SRC_ATOP);
 
-        String categoryExpenseSum = String.valueOf(Controller.getTransactionSum(category, timePeriod.getMonth(), timePeriod.getYear()));
+        String categoryExpenseSum = String.valueOf(TransactionController.getTransactionSum(category, timePeriod.getMonth(), timePeriod.getYear()));
         String categoryBudgetGoal = String.valueOf(category.getBudgetGoal());
         budgetRatioText.setText(categoryExpenseSum + " / " + categoryBudgetGoal);
 
         ratingBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor(category.getColor())));
-        ratingBar.setRating(Controller.gradeCategory(category, timePeriod.getMonth(),  timePeriod.getYear()));
+        ratingBar.setRating(BudgetGradeController.gradeCategory(category, timePeriod.getMonth(),  timePeriod.getYear()));
 
-        float outcome = Controller.getRoundedBudgetOutcome(category, timePeriod.getMonth(),  timePeriod.getYear());
-        budgetOutcomeText.setText(Controller.getRoundedBudgetOutcome(category, timePeriod.getMonth(), timePeriod.getYear()) + "x");
+        float outcome = BudgetGradeController.getRoundedBudgetOutcome(category, timePeriod.getMonth(),  timePeriod.getYear());
+        budgetOutcomeText.setText(BudgetGradeController.getRoundedBudgetOutcome(category, timePeriod.getMonth(), timePeriod.getYear()) + "x");
 
         return convertView;
     }

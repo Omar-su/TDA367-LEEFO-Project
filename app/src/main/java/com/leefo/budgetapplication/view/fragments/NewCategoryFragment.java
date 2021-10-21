@@ -15,7 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.controller.CategoryController;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.data.ParcelableCategory;
 
@@ -137,7 +137,7 @@ public class NewCategoryFragment extends Fragment {
         boolean isIncome = radioGroup.getCheckedRadioButtonId() == R.id.new_category_radio_income;
         String name = nameInput.getText().toString();
         String color = "#" + Integer.toHexString(defaultColor);
-        Controller.addNewCategory(name, color, isIncome);
+        CategoryController.addNewCategory(name, color, isIncome);
     }
 
     /**
@@ -146,7 +146,7 @@ public class NewCategoryFragment extends Fragment {
      * @return Returns true if the name is available and false if not
      */
     private boolean nameIsUnique(String name) {
-        for (Category c: Controller.getAllCategories()) {
+        for (Category c: CategoryController.getAllCategories()) {
             if (c.getName().equalsIgnoreCase(name)) return false;
         }
         return true;

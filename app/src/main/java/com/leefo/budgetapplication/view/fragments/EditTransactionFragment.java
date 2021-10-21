@@ -19,7 +19,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.leefo.budgetapplication.R;
-import com.leefo.budgetapplication.controller.Controller;
+import com.leefo.budgetapplication.controller.CategoryController;
+import com.leefo.budgetapplication.controller.TransactionController;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.FinancialTransaction;
 import com.leefo.budgetapplication.view.data.ParcelableTransaction;
@@ -85,8 +86,8 @@ public class EditTransactionFragment extends Fragment {
         radioGroup = view.findViewById(R.id.edit_transaction_radioGroup);
         cross = view.findViewById(R.id.cross_edit_transaction);
 
-        income = Controller.getIncomeCategories();
-        expense = Controller.getExpenseCategories();
+        income = CategoryController.getIncomeCategories();
+        expense = CategoryController.getExpenseCategories();
 
         // init
         initSpinner();
@@ -183,7 +184,7 @@ public class EditTransactionFragment extends Fragment {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                Controller.removeTransaction(oldTransaction);
+                                TransactionController.removeTransaction(oldTransaction);
                                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new HomeFragment()).commit();
                             }
                         })
@@ -204,7 +205,7 @@ public class EditTransactionFragment extends Fragment {
             date = oldTransaction.getDate();
         }
 
-        Controller.editTransaction(oldTransaction, amount, description, date, category );
+        TransactionController.editTransaction(oldTransaction, amount, description, date, category );
     }
 
     /**
