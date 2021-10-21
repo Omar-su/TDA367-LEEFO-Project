@@ -23,6 +23,7 @@ public class SearchSortFilterTransactions {
      * The current chosen sorting option.
      */
     private SortOption sortOption = SortOption.NEWEST_DATE;
+
     /**
      * The current chosen filter.
      */
@@ -75,8 +76,9 @@ public class SearchSortFilterTransactions {
      * @return List containing result of search, sort and filter.
      */
     public ArrayList<FinancialTransaction> getResult(){
-        ArrayList<FinancialTransaction> result = new ArrayList<>(sourceData);
 
+        ArrayList<FinancialTransaction> result = new ArrayList<>(sourceData);
+        // SORT
         switch (sortOption){
             case NEWEST_DATE: sortByNewestDate(result); break;
             case OLDEST_DATE: sortByOldestDate(result); break;
@@ -84,24 +86,28 @@ public class SearchSortFilterTransactions {
             case SMALLEST_AMOUNT: sortBySmallestAmount(result); break;
         }
 
+        // FILTER
         switch (filterOption){
             case ALL_CATEGORIES: break;
             case EXPENSE: removeIncomeTransactions(result); break;
             case INCOME: removeExpenseCategories(result); break;
         }
 
+        // SEARCH
+        // on note
         ArrayList<FinancialTransaction> searchResultNote;
-        ArrayList<FinancialTransaction> searchResultAmount = new ArrayList<>();
-
         searchResultNote = searchOnNote(result, searchString);
 
-        try {
+        // on amount
+        ArrayList<FinancialTransaction> searchResultAmount = new ArrayList<>();
+        try { // If searchString is a number we want to search on amount as well.
             Float amount = Float.valueOf(searchString);
             searchResultAmount = searchOnAmount(result, amount);
 
         } catch (NumberFormatException e){}
 
-        return getListUnion(searchResultNote, searchResultAmount);
+
+        return getListUnion(searchResultNote, searchResultAmount); // return the result of of both searches
     }
 
     /**
