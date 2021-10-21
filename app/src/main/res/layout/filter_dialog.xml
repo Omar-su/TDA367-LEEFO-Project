@@ -8,13 +8,13 @@
 
     <TextView
         android:id="@+id/textView8"
-        android:layout_width="170dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Show"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,19 +35,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="All categories" />
+            android:text="All categories"
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/expenses_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Expenses" />
+            android:text="Expenses"
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/income_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Income" />
+            android:text="Income"
+            android:textSize="18sp" />
 
     </RadioGroup>
 

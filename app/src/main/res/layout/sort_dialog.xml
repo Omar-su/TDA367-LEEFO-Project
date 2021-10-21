@@ -8,13 +8,13 @@
 
     <TextView
         android:id="@+id/textView8"
-        android:layout_width="170dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Sort by"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,25 +35,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="Newest date" />
+            android:text="Newest date"
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/oldest_date_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Oldest date" />
+            android:text="Oldest date"
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/largest_amount_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Largest amount" />
+            android:text="Largest amount"
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/smallest_amount_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Smallest amount" />
+            android:text="Smallest amount"
+            android:textSize="18sp" />
     </RadioGroup>
 
 
