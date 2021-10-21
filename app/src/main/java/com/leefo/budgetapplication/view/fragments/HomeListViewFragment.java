@@ -87,7 +87,7 @@ public class HomeListViewFragment extends Fragment {
         timePeriod = viewModel.getTimePeriodLiveData().getValue();
 
         // get Transaction list
-        currentTimePeriodTransactionList = Controller.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+        currentTimePeriodTransactionList = TransactionController.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
 
         // create sort search filter object and send in the current list.
         ssf = new SearchSortFilterTransactions(currentTimePeriodTransactionList);
