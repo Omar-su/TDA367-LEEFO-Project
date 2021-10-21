@@ -326,8 +326,8 @@ public class Controller {
      * @param category The category to be graded.
      * @return The calculated grade.
      */
-    public static float gradeCategory(Category category) {
-        return budgetGrader.gradeCategory(new TransactionRequest(category, 0, 0));
+    public static float gradeCategory(Category category, int month, int year) {
+        return budgetGrader.gradeCategory(new TransactionRequest(category, month, year));
     }
 
     /**
@@ -337,8 +337,8 @@ public class Controller {
      * @param category The category to get rounded outcome for.
      * @return The rounded budget outcome.
      */
-    public static float getRoundedBudgetOutcome(Category category) {
-        return budgetGrader.getRoundedBudgetOutcome(new TransactionRequest(category, 0, 0));
+    public static float getRoundedBudgetOutcome(Category category, int month, int year) {
+        return budgetGrader.getRoundedBudgetOutcome(new TransactionRequest(category, month, year));
     }
 
     /**

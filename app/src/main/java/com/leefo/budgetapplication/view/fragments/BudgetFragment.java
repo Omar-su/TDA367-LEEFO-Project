@@ -83,11 +83,17 @@ public class BudgetFragment extends Fragment {
         });
     }
 
-    private void initHeader() {
-
+    private void initHeader(){
         averageRatingBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#6200ed")));
+        updateHeader();
+    }
 
-        averageRatingBar.setRating(Controller.getAverageGradeForMonth(timePeriod.getMonth(), timePeriod.getYear()));
+    private void updateHeader() {
+        if (noBudget1.getVisibility() == View.VISIBLE){
+            averageRatingBar.setRating(0);
+        } else {
+            averageRatingBar.setRating(Controller.getAverageGradeForMonth(timePeriod.getMonth(), timePeriod.getYear()));
+        }
     }
 
     private void initTimePeriod() {
@@ -100,6 +106,7 @@ public class BudgetFragment extends Fragment {
                 timePeriod.decrementMonth();
                 updateList(timePeriod);
                 updateTimePeriodButtonLabel();
+                updateHeader();
             }
         });
         arrow_forward_budget.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +115,7 @@ public class BudgetFragment extends Fragment {
                 timePeriod.incrementMonth();
                 updateList(timePeriod);
                 updateTimePeriodButtonLabel();
+                updateHeader();
             }
         });
 
@@ -121,7 +129,7 @@ public class BudgetFragment extends Fragment {
     private void updateList(TimePeriod timePeriod) {
         if (getActivity() != null) {
 
-            if (isCurrentMonth(timePeriod)) {
+            if (isCurrentMonthOrAfter(timePeriod)) {
                 //Displays all categories with budget goal even if no transactions made for current month
                 ArrayList<Category> allBudgetCategories = Controller.getAllBudgetCategories();
                 if (allBudgetCategories.isEmpty()) {
@@ -129,7 +137,7 @@ public class BudgetFragment extends Fragment {
                     noBudget2.setVisibility(View.VISIBLE);
 
                     noBudget1.setText("There are currently no set budgets for any category this month.");
-                    noBudget2.setText("Edit a category to add budget.");
+                    noBudget2.setText("Press Edit to add a budget goal.");
 
                 } else {
                     noBudget1.setVisibility(View.INVISIBLE);
@@ -148,7 +156,7 @@ public class BudgetFragment extends Fragment {
                     noBudget2.setVisibility(View.VISIBLE);
 
                     noBudget1.setText("There are currently no set budgets for any category.");
-                    noBudget2.setText("Edit a category to add budget.");
+                    noBudget2.setText("Press Edit to add a budget goal.");
                 } else {
                     noBudget1.setVisibility(View.INVISIBLE);
                     noBudget2.setVisibility(View.INVISIBLE);
@@ -163,8 +171,11 @@ public class BudgetFragment extends Fragment {
 
     }
 
-    private boolean isCurrentMonth(TimePeriod timePeriod) {
-        return timePeriod.getMonth() == LocalDate.now().getMonthValue()
-                && timePeriod.getYear() == LocalDate.now().getYear();
+    private boolean isCurrentMonthOrAfter(TimePeriod timePeriod) {
+
+        LocalDate monthChosen = LocalDate.of(timePeriod.getYear(), timePeriod.getMonth(), 1);
+        LocalDate monthToday = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1);
+
+        return monthToday.isEqual(monthChosen) || monthToday.isBefore(monthChosen);
     }
 }
