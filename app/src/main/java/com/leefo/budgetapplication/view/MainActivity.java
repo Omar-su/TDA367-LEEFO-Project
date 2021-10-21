@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
         CategoryModel categoryModel = new CategoryModel(database, transactionModel);
         BudgetGrader budgetGrader = new BudgetGrader(transactionModel, categoryModel);
 
-        TransactionController transactionController = new TransactionController(transactionModel);
-        CategoryController categoryController = new CategoryController(categoryModel);
-        BudgetGradeController budgetGradeController = new BudgetGradeController(budgetGrader);
+        new TransactionController(transactionModel);
+        new CategoryController(categoryModel);
+        new BudgetGradeController(budgetGrader);
 
 
         // start app with displaying Home Fragment
