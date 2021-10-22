@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.model.Category;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class that represents the adapter for the list in the HomeCategoryViewFragment
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class ManageCategoriesListAdapter extends ArrayAdapter<Category> {
     Context context;
 
-    public ManageCategoriesListAdapter(@NonNull Context context, @NonNull ArrayList<Category> list) {
+    public ManageCategoriesListAdapter(@NonNull Context context, @NonNull List<Category> list) {
         super(context, R.layout.list_row_manage_categories, list);
         this.context = context;
     }
@@ -58,7 +58,9 @@ public class ManageCategoriesListAdapter extends ArrayAdapter<Category> {
     }
     @Override
     public int getViewTypeCount() {
-        if (getCount() == 0) return 1;
+        if (getCount() == 0) {
+            return 1;
+        }
         return getCount();
     }
 

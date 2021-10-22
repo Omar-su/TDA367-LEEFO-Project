@@ -21,7 +21,7 @@ import com.leefo.budgetapplication.model.FinancialTransaction;
 
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class that represents the adapter for the list in the HomeListViewFragment
@@ -33,7 +33,7 @@ public class TransactionListAdapter extends ArrayAdapter<FinancialTransaction> {
     Context context;
 
 
-    public TransactionListAdapter(@NonNull Context context, ArrayList<FinancialTransaction> list) {
+    public TransactionListAdapter(@NonNull Context context, List<FinancialTransaction> list) {
         super(context, R.layout.list_row_home, list); // list sent to super
         putDatesIntoTransactionList(list); // put dates into the list sent to super
         this.context = context;
@@ -71,7 +71,9 @@ public class TransactionListAdapter extends ArrayAdapter<FinancialTransaction> {
             // Some Transaction objects in the list have been given the category name "DATE" to mark that this is not a transaction
             // instead this row in the list should be a date row displaying only a date.
             boolean dateRow = false; // start with false
-            if (transaction.getCategory().getName().equals("DATE")) dateRow = true;
+            if (transaction.getCategory().getName().equals("DATE")) {
+                dateRow = true;
+            }
 
             // if dateRow is true this row needs another design showing a date instead of transaction
             // new design in the if block
@@ -102,8 +104,10 @@ public class TransactionListAdapter extends ArrayAdapter<FinancialTransaction> {
      * The method works on lists sorted by date.
      * Inputs special date Transaction objects in front of every object with a new date.
      */
-    private void putDatesIntoTransactionList(ArrayList<FinancialTransaction> list){
-        if (list.isEmpty()) return;
+    private void putDatesIntoTransactionList(List<FinancialTransaction> list){
+        if (list.isEmpty()) {
+            return;
+        }
 
         LocalDate today = LocalDate.now();
         LocalDate yesterday = LocalDate.now().minusDays(1);
@@ -134,13 +138,15 @@ public class TransactionListAdapter extends ArrayAdapter<FinancialTransaction> {
         }
     }
 
-    private void addDateRowInTransactionList(ArrayList<FinancialTransaction> list, int index, String date){
+    private void addDateRowInTransactionList(List<FinancialTransaction> list, int index, String date){
         list.add(index, new FinancialTransaction(0,date, LocalDate.now(), new Category("DATE", "", true)));
     }
 
     @Override
     public int getViewTypeCount() {
-        if (getCount() == 0) return 1;
+        if (getCount() == 0) {
+            return 1;
+        }
         return getCount();
     }
 

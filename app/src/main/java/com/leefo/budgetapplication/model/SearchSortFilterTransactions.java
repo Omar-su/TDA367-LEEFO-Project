@@ -1,6 +1,7 @@
 package com.leefo.budgetapplication.model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Collections;
 
 /**
@@ -17,7 +18,7 @@ public class SearchSortFilterTransactions {
     /**
      * The list of transactions to be searched, sorted and filtered.
      */
-    private ArrayList<FinancialTransaction> sourceData;
+    private List<FinancialTransaction> sourceData;
 
     /**
      * The current chosen sorting option.
@@ -35,7 +36,7 @@ public class SearchSortFilterTransactions {
     private String searchString = "";
 
 
-    public SearchSortFilterTransactions(ArrayList<FinancialTransaction> sourceData) {
+    public SearchSortFilterTransactions(List<FinancialTransaction> sourceData) {
         this.sourceData = sourceData;
     }
 
@@ -43,7 +44,7 @@ public class SearchSortFilterTransactions {
      * Set a new list of source data.
      * @param sourceData The new list.
      */
-    public void updateSourceData(ArrayList<FinancialTransaction> sourceData) {
+    public void updateSourceData(List<FinancialTransaction> sourceData) {
         this.sourceData = sourceData;
     }
 
@@ -75,9 +76,9 @@ public class SearchSortFilterTransactions {
      * Get the result from chosen search, sort and filter params and source data.
      * @return List containing result of search, sort and filter.
      */
-    public ArrayList<FinancialTransaction> getResult(){
+    public List<FinancialTransaction> getResult(){
 
-        ArrayList<FinancialTransaction> result = new ArrayList<>(sourceData);
+        List<FinancialTransaction> result = new ArrayList<>(sourceData);
         // SORT
         switch (sortOption){
             case NEWEST_DATE: sortByNewestDate(result); break;
@@ -95,11 +96,11 @@ public class SearchSortFilterTransactions {
 
         // SEARCH
         // on note
-        ArrayList<FinancialTransaction> searchResultNote;
+        List<FinancialTransaction> searchResultNote;
         searchResultNote = searchOnNote(result, searchString);
 
         // on amount
-        ArrayList<FinancialTransaction> searchResultAmount = new ArrayList<>();
+        List<FinancialTransaction> searchResultAmount = new ArrayList<>();
         try { // If searchString is a number we want to search on amount as well.
             Float amount = Float.valueOf(searchString);
             searchResultAmount = searchOnAmount(result, amount);
@@ -116,8 +117,8 @@ public class SearchSortFilterTransactions {
      * @param list2 Second list.
      * @return The union of the two lists.
      */
-    private <T> ArrayList<T> getListUnion(ArrayList<T> list1, ArrayList<T> list2){
-        ArrayList<T> union = new ArrayList<>(list1);
+    private <T> List<T> getListUnion(List<T> list1, List<T> list2){
+        List<T> union = new ArrayList<>(list1);
         for (T t : list2){
             if (!union.contains(t)){
                 union.add(t);
@@ -134,8 +135,8 @@ public class SearchSortFilterTransactions {
      * @return the list with transactions that are matching the note description.
      * @author Eugene Dvorankov
      */
-    private ArrayList<FinancialTransaction> searchOnNote(ArrayList <FinancialTransaction> list, String note){
-        ArrayList<FinancialTransaction> result = new ArrayList<>();
+    private List<FinancialTransaction> searchOnNote(List <FinancialTransaction> list, String note){
+        List<FinancialTransaction> result = new ArrayList<>();
         for(FinancialTransaction transaction : list){
             if(transaction.getDescription().toLowerCase().contains(note.toLowerCase())){
                 result.add(transaction);
@@ -151,12 +152,13 @@ public class SearchSortFilterTransactions {
      * @return the list with the transactions that are matching the amount
      * @author Eugene Dvorankov
      */
-    private ArrayList<FinancialTransaction> searchOnAmount(ArrayList <FinancialTransaction> list, Float amount){
-        ArrayList<FinancialTransaction> result = new ArrayList<>();
+    private List<FinancialTransaction> searchOnAmount(List <FinancialTransaction> list, Float amount){
+        List<FinancialTransaction> result = new ArrayList<>();
         for(FinancialTransaction transaction : list){
             float amount1 = Math.abs(transaction.getAmount());
-            if(amount1==amount)
+            if(amount1==amount) {
                 result.add(transaction);
+            }
         }
         return result;
     }
@@ -169,7 +171,7 @@ public class SearchSortFilterTransactions {
      * @param list List to be sorted.
      * @author Linus Lundgren
      */
-    private void sortByNewestDate(ArrayList<FinancialTransaction> list) {
+    private void sortByNewestDate(List<FinancialTransaction> list) {
         boolean notCompleted = true; // will be set to false in the last loop through the list of transactions
         while (notCompleted)
         {
@@ -195,7 +197,7 @@ public class SearchSortFilterTransactions {
      * Older date means lower list index.
      * @param list list to be sorted
      */
-    private void sortByOldestDate(ArrayList<FinancialTransaction> list){
+    private void sortByOldestDate(List<FinancialTransaction> list){
         sortByNewestDate(list);
         Collections.reverse(list);
     }
@@ -205,7 +207,7 @@ public class SearchSortFilterTransactions {
      * Larger amount means lower list index.
      * @param list list to be sorted
      */
-    private void sortByLargestAmount(ArrayList<FinancialTransaction> list){
+    private void sortByLargestAmount(List<FinancialTransaction> list){
 
         for (int x = 0; x < list.size() ; x++){
             for (int i = 0; i < list.size()-1; i++){
@@ -223,7 +225,7 @@ public class SearchSortFilterTransactions {
      * Smaller amount means lower list index.
      * @param list list to be sorted
      */
-    private void sortBySmallestAmount(ArrayList<FinancialTransaction> list){
+    private void sortBySmallestAmount(List<FinancialTransaction> list){
         sortByLargestAmount(list);
         Collections.reverse(list);
     }
@@ -232,7 +234,7 @@ public class SearchSortFilterTransactions {
      * Removes all income transactions.
      * @param list The list to be filtered.
      */
-    private void removeIncomeTransactions(ArrayList <FinancialTransaction> list){
+    private void removeIncomeTransactions(List <FinancialTransaction> list){
         for(int i = 0; i < list.size(); i++){
             FinancialTransaction transaction = list.get(i);
             if(transaction.getCategory().isIncome()){
@@ -246,7 +248,7 @@ public class SearchSortFilterTransactions {
      * Removes all expense transactions.
      * @param list The list to be filtered.
      */
-    private void removeExpenseCategories(ArrayList <FinancialTransaction> list){
+    private void removeExpenseCategories(List <FinancialTransaction> list){
         for(int i = 0; i < list.size(); i++){
             FinancialTransaction transaction = list.get(i);
             if(!transaction.getCategory().isIncome()){
@@ -264,7 +266,8 @@ public class SearchSortFilterTransactions {
      * @param i1 Index of first object.
      * @param i2 Index of second object.
      */
-    private <T> void swap(ArrayList<T> list, int i1, int i2) {
+    private <T> void swap(List<T> list, int i1, int i2)
+    {
         T temp = list.get(i1); // stores i1 temporarily
 
         list.set(i1, list.get(i2)); // sets i1 to i2

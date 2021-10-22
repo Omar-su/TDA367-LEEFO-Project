@@ -188,7 +188,9 @@ public class EditCategoryFragment extends Fragment {
      */
     private boolean nameIsUnique(String name) {
         for (Category c: CategoryController.getAllCategories()) {
-            if (c.getName().equalsIgnoreCase(name) && !c.equals(oldCategory)) return false;
+            if (c.getName().equalsIgnoreCase(name) && !c.equals(oldCategory)) {
+                return false;
+            }
         }
         return true;
     }
@@ -197,7 +199,9 @@ public class EditCategoryFragment extends Fragment {
 
     Toast t;
     private void makeToast(String s){
-        if(t != null) t.cancel();
+        if(t != null) {
+            t.cancel();
+        }
         t = Toast.makeText(requireActivity().getApplicationContext(), s, Toast.LENGTH_SHORT);
         t.show();
     }

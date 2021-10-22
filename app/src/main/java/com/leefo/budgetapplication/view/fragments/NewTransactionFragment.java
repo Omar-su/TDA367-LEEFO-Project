@@ -25,7 +25,7 @@ import com.leefo.budgetapplication.view.adapters.SpinnerAdapter;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -86,7 +86,7 @@ public class NewTransactionFragment extends Fragment {
     }
 
     private void initSpinner(){
-        ArrayList<Category> income, expense;
+        List<Category> income, expense;
         income = CategoryController.getIncomeCategories();
         TransactionController.sortCategoryListByPopularity(income);
         expense = CategoryController.getExpenseCategories();
@@ -176,7 +176,9 @@ public class NewTransactionFragment extends Fragment {
 
     Toast t;
     private void makeToast(String s){
-        if(t != null) t.cancel();
+        if(t != null) {
+            t.cancel();
+        }
         t = Toast.makeText(requireActivity().getApplicationContext(), s, Toast.LENGTH_SHORT);
         t.show();
     }

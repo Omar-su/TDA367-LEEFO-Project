@@ -17,7 +17,7 @@ import com.leefo.budgetapplication.controller.TransactionController;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.data.TimePeriod;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class that represents the adapter for the list in the HomeCategoryViewFragment
@@ -28,7 +28,7 @@ public class CategoryListAdapter extends ArrayAdapter<Category> {
     Context context;
     TimePeriod timePeriod;
 
-    public CategoryListAdapter(Context context, @NonNull ArrayList<Category> list, TimePeriod timePeriod) {
+    public CategoryListAdapter(Context context, @NonNull List<Category> list, TimePeriod timePeriod) {
         super(context, R.layout.list_row_category, list);
         this.context = context;
         this.timePeriod = timePeriod;
@@ -73,7 +73,9 @@ public class CategoryListAdapter extends ArrayAdapter<Category> {
     }
     @Override
     public int getViewTypeCount() {
-        if (getCount() == 0) return 1;
+        if (getCount() == 0) {
+            return 1;
+        }
         return getCount();
     }
 

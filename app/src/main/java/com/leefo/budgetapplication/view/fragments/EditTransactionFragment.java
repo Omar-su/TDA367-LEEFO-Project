@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.MissingResourceException;
@@ -57,7 +58,7 @@ public class EditTransactionFragment extends Fragment {
     final Calendar myCalendar = Calendar.getInstance();
     private FinancialTransaction oldTransaction;
 
-    ArrayList<Category> income, expense;
+    List<Category> income, expense;
 
     /**
      * Method that runs when the fragment is being created.
@@ -122,13 +123,13 @@ public class EditTransactionFragment extends Fragment {
 
         SpinnerAdapter spinnerAdapter;
         if (oldCategory.isIncome()){
-            ArrayList<Category> newIncomeList = new ArrayList<>(income);
+            List<Category> newIncomeList = new ArrayList<>(income);
             newIncomeList.remove(oldCategory);
             newIncomeList.add(0, oldCategory);
             spinnerAdapter = new SpinnerAdapter(requireActivity().getApplicationContext(), newIncomeList);
 
         } else {
-            ArrayList<Category> newExpenseList = new ArrayList<>(expense);
+            List<Category> newExpenseList = new ArrayList<>(expense);
             newExpenseList.remove(oldCategory);
             newExpenseList.add(0, oldCategory);
             spinnerAdapter = new SpinnerAdapter(requireActivity().getApplicationContext(), newExpenseList);
@@ -247,7 +248,9 @@ public class EditTransactionFragment extends Fragment {
     //Method to make a Toast. Use to test
     Toast t;
     private void makeToast(String s){
-        if(t != null) t.cancel();
+        if(t != null) {
+            t.cancel();
+        }
         t = Toast.makeText(requireActivity().getApplicationContext(), s, Toast.LENGTH_SHORT);
         t.show();
     }

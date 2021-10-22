@@ -4,7 +4,7 @@ import com.leefo.budgetapplication.model.BudgetGrader;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.TransactionRequest;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The BudgetGradeController class represents a Controller in the Model-View-Controller pattern.
@@ -38,8 +38,9 @@ public class BudgetGradeController {
      * @return instance
      */
     public static BudgetGradeController getInstance(BudgetGrader budgetGrader){
-        if(instance == null)
+        if(instance == null) {
             instance = new BudgetGradeController(budgetGrader);
+        }
         return instance;
     }
 
@@ -50,7 +51,7 @@ public class BudgetGradeController {
      * @param year  The year of the month to get categories for.
      * @return The list of categories.
      */
-    public static ArrayList<Category> getBudgetCategoriesByMonth(int month, int year) {
+    public static List<Category> getBudgetCategoriesByMonth(int month, int year) {
         return instance.budgetGrader.getBudgetCategoriesByMonth(new TransactionRequest(null, month, year));
     }
 
@@ -92,7 +93,7 @@ public class BudgetGradeController {
      * Returns a list of all categories in the program with a budget.
      * @return The list of all categories in the program with a budget.
      */
-    public static ArrayList<Category> getAllBudgetCategories() {
+    public static List<Category> getAllBudgetCategories() {
         return instance.budgetGrader.getAllBudgetCategories();
     }
 }

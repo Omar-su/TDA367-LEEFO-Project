@@ -20,7 +20,7 @@ import com.leefo.budgetapplication.controller.TransactionController;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.data.TimePeriod;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The GradedBudgetListAdapter class represents the adapter for handling list items in
@@ -32,7 +32,7 @@ public class GradedBudgetListAdapter extends ArrayAdapter<Category> {
 
     private final TimePeriod timePeriod;
 
-    public GradedBudgetListAdapter(@NonNull Context context, ArrayList<Category> list, TimePeriod timePeriod) {
+    public GradedBudgetListAdapter(@NonNull Context context, List<Category> list, TimePeriod timePeriod) {
         super(context, R.layout.list_row_graded_budget, list);
         this.timePeriod = timePeriod;
     }
@@ -72,7 +72,6 @@ public class GradedBudgetListAdapter extends ArrayAdapter<Category> {
         ratingBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor(category.getColor())));
         ratingBar.setRating(BudgetGradeController.gradeCategory(category, timePeriod.getMonth(),  timePeriod.getYear()));
 
-        float outcome = BudgetGradeController.getRoundedBudgetOutcome(category, timePeriod.getMonth(),  timePeriod.getYear());
         budgetOutcomeText.setText(BudgetGradeController.getRoundedBudgetOutcome(category, timePeriod.getMonth(), timePeriod.getYear()) + "x");
 
         return convertView;
