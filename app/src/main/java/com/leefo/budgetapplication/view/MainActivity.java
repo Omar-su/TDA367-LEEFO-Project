@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         CategoryModel categoryModel = new CategoryModel(database, transactionModel);
         BudgetGrader budgetGrader = new BudgetGrader(transactionModel, categoryModel);
 
+        //initialize controllers
         TransactionController transactionController = TransactionController.getInstance();
         transactionController.init(transactionModel);
 
