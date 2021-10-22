@@ -31,18 +31,24 @@ public class TransactionController {
     /**
      * The singleton's constructor should always be private to avoid direct calls with 'new" operator
      */
-    private TransactionController(TransactionModel transactionModel){
-        this.transactionModel = transactionModel;
-    }
+    private TransactionController() {}
 
     /** Returns single instance of the TransactionController class
      *
      * @return instance
      */
-    public static TransactionController getInstance(TransactionModel transactionModel){
+    public static TransactionController getInstance(){
         if(instance == null)
-            instance = new TransactionController(transactionModel);
+            instance = new TransactionController();
         return instance;
+    }
+
+    /** Initializes parameters to the singleton
+     *
+     * @param transactionModel the parameter to be initialized
+     */
+    public void init(TransactionModel transactionModel){
+        this.transactionModel = transactionModel;
     }
 
     /**

@@ -34,7 +34,7 @@ public class CategoryController {
      *
      * @return instance
      */
-    public static CategoryController getInstance(CategoryModel categoryModel){
+    public static CategoryController getInstance(){
         if(instance == null)
             instance = new CategoryController();
         return instance;
