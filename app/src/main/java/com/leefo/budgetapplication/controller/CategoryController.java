@@ -28,19 +28,25 @@ public class CategoryController {
     /**
      * The singleton's constructor should always be private to avoid direct calls with 'new" operator
      */
-    private CategoryController(CategoryModel categoryModel){
-        this.categoryModel = categoryModel;
-    }
+    private CategoryController() {}
 
     /** Returns single instance of the TransactionController class
      *
      * @return instance
      */
-    public static CategoryController getInstance(CategoryModel categoryModel){
+    public static CategoryController getInstance(){
         if(instance == null) {
-            instance = new CategoryController(categoryModel);
+            instance = new CategoryController();
         }
         return instance;
+    }
+
+    /** Initializes singleton with parameters
+     *
+     * @param categoryModel the parameter to be initialized with
+     */
+    public void init(CategoryModel categoryModel){
+        this.categoryModel = categoryModel;
     }
 
     /**

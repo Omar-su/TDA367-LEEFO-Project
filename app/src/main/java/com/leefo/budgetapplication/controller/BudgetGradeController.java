@@ -29,19 +29,25 @@ public class BudgetGradeController {
     /**
      * The singleton's constructor should always be private to avoid direct calls with 'new" operator
      */
-    private BudgetGradeController(BudgetGrader budgetGrader){
-        this.budgetGrader = budgetGrader;
-    }
+    private BudgetGradeController() {}
 
     /** Returns single instance of the TransactionController class
      *
      * @return instance
      */
-    public static BudgetGradeController getInstance(BudgetGrader budgetGrader){
+    public static BudgetGradeController getInstance(){
         if(instance == null) {
-            instance = new BudgetGradeController(budgetGrader);
+            instance = new BudgetGradeController();
         }
         return instance;
+    }
+
+    /** Initializes singleton with parameters
+     *
+     * @param budgetGrader the parameter to be initialized with
+     */
+    public void init(BudgetGrader budgetGrader){
+        this.budgetGrader = budgetGrader;
     }
 
     /**
