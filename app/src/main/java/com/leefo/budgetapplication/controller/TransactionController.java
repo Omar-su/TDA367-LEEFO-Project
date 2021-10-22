@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * The class responsibility is to listen to the View and respond by modifying transaction data and
  * updating the view.
  *
- * @author Felix Edholm, Linus Lundgren, Emelie Edberg
+ * @author Felix Edholm, Linus Lundgren, Emelie Edberg, Eugene Dvoryankov
  */
 public class TransactionController {
 
