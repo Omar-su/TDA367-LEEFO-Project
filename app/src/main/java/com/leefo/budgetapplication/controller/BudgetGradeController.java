@@ -57,7 +57,7 @@ public class BudgetGradeController {
      * @param year  The year of the month to get categories for.
      * @return The list of categories.
      */
-    public static List<Category> getBudgetCategoriesByMonth(int month, int year) {
+    public List<Category> getBudgetCategoriesByMonth(int month, int year) {
         return instance.budgetGrader.getBudgetCategoriesByMonth(new TransactionRequest(null, month, year));
     }
 
@@ -69,7 +69,7 @@ public class BudgetGradeController {
      * @param category The category to be graded.
      * @return The calculated grade.
      */
-    public static float gradeCategory(Category category, int month, int year) {
+    public float gradeCategory(Category category, int month, int year) {
         return instance.budgetGrader.gradeCategory(new TransactionRequest(category, month, year));
     }
 
@@ -80,7 +80,7 @@ public class BudgetGradeController {
      * @param category The category to get rounded outcome for.
      * @return The rounded budget outcome.
      */
-    public static float getRoundedBudgetOutcome(Category category, int month, int year) {
+    public float getRoundedBudgetOutcome(Category category, int month, int year) {
         return instance.budgetGrader.getRoundedBudgetOutcome(new TransactionRequest(category, month, year));
     }
 
@@ -91,7 +91,7 @@ public class BudgetGradeController {
      * @param year  The year of the month to calculate average for.
      * @return The average budget grade for the specific month.
      */
-    public static float getAverageGradeForMonth(int month, int year) {
+    public float getAverageGradeForMonth(int month, int year) {
         return instance.budgetGrader.getAverageGradeForMonth(new TransactionRequest(null, month, year));
     }
 
@@ -99,7 +99,7 @@ public class BudgetGradeController {
      * Returns a list of all categories in the program with a budget.
      * @return The list of all categories in the program with a budget.
      */
-    public static List<Category> getAllBudgetCategories() {
+    public List<Category> getAllBudgetCategories() {
         return instance.budgetGrader.getAllBudgetCategories();
     }
 }

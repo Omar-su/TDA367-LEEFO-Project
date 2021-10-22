@@ -124,7 +124,7 @@ public class EditCategoryFragment extends Fragment {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                CategoryController.removeCategory(oldCategory);
+                                CategoryController.getInstance().removeCategory(oldCategory);
                                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new ManageCategoriesFragment()).commit();
                             }
                         })

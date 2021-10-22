@@ -55,7 +55,7 @@ public class CategoryController {
      *
      * @param oldCategory Object of category to be changed.
      */
-    public static void editCategoryInfo(Category oldCategory, String newName, String newColor, boolean isIncome, int goal) {
+    public void editCategoryInfo(Category oldCategory, String newName, String newColor, boolean isIncome, int goal) {
         Category newCategory = new Category(newName, newColor, isIncome, goal);
 
         instance.categoryModel.editCategory(oldCategory, newCategory);
@@ -67,7 +67,7 @@ public class CategoryController {
      *
      * @param oldCategory Object of category to be changed.
      */
-    public static void editCategoryInfo(Category oldCategory, int goal) {
+    public void editCategoryInfo(Category oldCategory, int goal) {
         Category newCategory = new Category(oldCategory.getName(), oldCategory.getColor(), oldCategory.isIncome(), goal);
 
         instance.categoryModel.editCategory(oldCategory, newCategory);
@@ -80,7 +80,7 @@ public class CategoryController {
      * @param name  The name of the new category.
      * @param color The color of the new category.
      */
-    public static void addNewCategory(String name, String color, boolean isIncome) {
+    public void addNewCategory(String name, String color, boolean isIncome) {
         Category newCategory = new Category(name, color, isIncome);
 
         instance.categoryModel.addCategory(newCategory);
@@ -92,7 +92,7 @@ public class CategoryController {
      *
      * @param category category to removed
      */
-    public static void removeCategory(Category category) {
+    public void removeCategory(Category category) {
         instance.categoryModel.deleteCategory(category);
     }
 
@@ -101,7 +101,7 @@ public class CategoryController {
      *
      * @return a list of all the categories in the database.
      */
-    public static List<Category> getAllCategories() {
+    public List<Category> getAllCategories() {
         return instance.categoryModel.getCategoryList();
     }
 
@@ -110,7 +110,7 @@ public class CategoryController {
      *
      * @return A list of all income categories in the model.
      */
-    public static List<Category> getIncomeCategories() {
+    public List<Category> getIncomeCategories() {
         return instance.categoryModel.getIncomeCategories();
     }
 
@@ -119,7 +119,7 @@ public class CategoryController {
      *
      * @return A list of all expense categories in the model.
      */
-    public static List<Category> getExpenseCategories() {
+    public List<Category> getExpenseCategories() {
         return instance.categoryModel.getExpenseCategories();
     }
 
@@ -128,7 +128,7 @@ public class CategoryController {
      *
      * @return A sorted category list .
      */
-    public static List<Category> sortCategoriesByAlphabet(List<Category> sortList) {
+    public List<Category> sortCategoriesByAlphabet(List<Category> sortList) {
         return instance.categoryModel.sortCategoriesByAlphabet(sortList);
     }
 
@@ -137,7 +137,7 @@ public class CategoryController {
      *
      * @return A sorted category list.
      */
-    public static List<Category> sortCategoriesByBudget(List<Category> sortList) {
+    public List<Category> sortCategoriesByBudget(List<Category> sortList) {
         return instance.categoryModel.sortCategoriesByBudget(sortList);
     }
 }

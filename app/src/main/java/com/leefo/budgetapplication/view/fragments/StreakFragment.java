@@ -38,7 +38,7 @@ public class StreakFragment extends Fragment {
     {
         currentStreak.setText(String.valueOf(TransactionController.getCurrentStreak()));
         recordStreak.setText(String.valueOf(TransactionController.getRecordStreak()));
-        average.setText(String.valueOf(TransactionController.getAverageSpending()));
+        average.setText(String.valueOf(TransactionController.getInstance().getAverageSpending()));
         today.setText(String.valueOf(TransactionController.getTodaysExpenses()));
 
         //progressTextView.setText(Controller.getTodaysExpenses() + " / " + Controller.getAverageSpending());

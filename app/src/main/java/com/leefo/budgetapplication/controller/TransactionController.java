@@ -60,7 +60,7 @@ public class TransactionController {
      * @param date        The date the transaction was made.
      * @param category    Category of the new transaction.
      */
-    public static void addNewTransaction(float amount, String description, LocalDate date, Category category) {
+    public void addNewTransaction(float amount, String description, LocalDate date, Category category) {
         FinancialTransaction newTransaction = new FinancialTransaction(amount, description, date, category);
 
         instance.transactionModel.addTransaction(newTransaction);
@@ -71,7 +71,7 @@ public class TransactionController {
      *
      * @param oldTransaction Object of transaction to be changed.
      */
-    public static void editTransaction(FinancialTransaction oldTransaction, float newAmount, String newDesc, LocalDate newDate, Category newCategory) {
+    public void editTransaction(FinancialTransaction oldTransaction, float newAmount, String newDesc, LocalDate newDate, Category newCategory) {
         FinancialTransaction newTransaction = new FinancialTransaction(newAmount, newDesc, newDate, newCategory);
 
         instance.transactionModel.editTransaction(oldTransaction, newTransaction);
@@ -82,10 +82,9 @@ public class TransactionController {
      *
      * @param transaction Transaction to be removed.
      */
-    public static void removeTransaction(FinancialTransaction transaction) {
+    public void removeTransaction(FinancialTransaction transaction) {
         instance.transactionModel.deleteTransaction(transaction);
     }
-
 
     /**
      * Retrieves all transactions within the parameters of the TransactionRequest.
@@ -96,12 +95,11 @@ public class TransactionController {
      * @param year  Year transactions were made, optional.
      * @return A list of transactions specified by request.
      */
-    public static List<FinancialTransaction> getTransactions(int month, int year) {
+    public List<FinancialTransaction> getTransactions(int month, int year) {
         TransactionRequest request = new TransactionRequest((Category) null, month, year);
 
         return instance.transactionModel.searchTransactions(request);
     }
-
 
     /**
      * Retrieves all transactions within the parameters of the TransactionRequest.
@@ -113,7 +111,7 @@ public class TransactionController {
      * @param year     Year transactions were made, optional.
      * @return A list of transactions specified by request.
      */
-    public static List<FinancialTransaction> getTransactions(Category category, int month, int year) {
+    public List<FinancialTransaction> getTransactions(Category category, int month, int year) {
         TransactionRequest request = new TransactionRequest(category, month, year);
 
         return instance.transactionModel.searchTransactions(request);
@@ -127,7 +125,7 @@ public class TransactionController {
      * @param year     Year transactions were made.
      * @return Sum of transactions.
      */
-    public static float getTransactionSum(Category category, int month, int year) {
+    public float getTransactionSum(Category category, int month, int year) {
         TransactionRequest request = new TransactionRequest(category, month, year);
 
         return instance.transactionModel.getTransactionSum(request);
@@ -140,7 +138,7 @@ public class TransactionController {
      * @param year  The year to calculate income amount for.
      * @return The total income amount for the specified time period.
      */
-    public static float getTotalIncome(int month, int year) {
+    public float getTotalIncome(int month, int year) {
         // requests sum of all transactions in the income categories during specified month and year
         TransactionRequest request = new TransactionRequest(null, month, year);
         return instance.transactionModel.getTotalIncome(request);
@@ -153,12 +151,11 @@ public class TransactionController {
      * @param year  The year to calculate expense amount for.
      * @return The total expense amount for the specified time period.
      */
-    public static float getTotalExpense(int month, int year) {
+    public float getTotalExpense(int month, int year) {
         // requests sum of all transactions in the expense categories during specified month and year
         TransactionRequest request = new TransactionRequest(null, month, year);
         return instance.transactionModel.getTotalExpense(request);
     }
-
 
     /**
      * Returns the balance between income amount and expense amount for a specific month and year.
@@ -167,12 +164,11 @@ public class TransactionController {
      * @param year  The year to calculate the balance for.
      * @return The calculated balance.
      */
-    public static float getTransactionBalance(int month, int year) {
+    public float getTransactionBalance(int month, int year) {
 
         TransactionRequest request = new TransactionRequest(null, month, year);
         return instance.transactionModel.getTransactionBalance(request);
     }
-
 
     /**
      * Removes categories from list which have zero transactions in a given time period.
@@ -181,7 +177,7 @@ public class TransactionController {
      * @param month The month checked for if there is any transactions. (can be null, meaning all months).
      * @param year  The year checked for if there is any transactions. (can be null, meaning all years).
      */
-    public static void removeEmptyCategories(List<Category> list, int month, int year) {
+    public void removeEmptyCategories(List<Category> list, int month, int year) {
         TransactionRequest request = new TransactionRequest((Category) null, month, year);
         instance.transactionModel.removeEmptyCategories(list, request);
     }
@@ -194,7 +190,7 @@ public class TransactionController {
      * @param month The month in which the sum will be calculated. (can be 0, meaning all months)
      * @param year  The year in which the sum will be calculated. (can be 0, meaning all years)
      */
-    public static void sortCategoryListBySum(List<Category> list, int month, int year) {
+    public void sortCategoryListBySum(List<Category> list, int month, int year) {
         TransactionRequest request = new TransactionRequest((Category) null, month, year);
         instance.transactionModel.sortCategoryListBySum(list, request);
     }
@@ -205,17 +201,16 @@ public class TransactionController {
      *
      * @param categoryList Category list to be sorted
      */
-    public static void sortCategoryListByPopularity(List<Category> categoryList) {
+    public void sortCategoryListByPopularity(List<Category> categoryList) {
         instance.transactionModel.sortCategoryListByPopularity(categoryList);
     }
-
 
     /**
      * Gets amount of days in a row where user has spent less than they do on average daily.
      *
      * @return amount of days streak has been ongoing
      */
-    public static int getCurrentStreak() {
+    public int getCurrentStreak() {
         return instance.transactionModel.getCurrentStreak();
     }
 
@@ -224,7 +219,7 @@ public class TransactionController {
      *
      * @return record length streak
      */
-    public static int getRecordStreak() {
+    public int getRecordStreak() {
         return instance.transactionModel.getRecordStreak();
     }
 
@@ -233,7 +228,7 @@ public class TransactionController {
      *
      * @return average spending
      */
-    public static float getAverageSpending() {
+    public float getAverageSpending() {
         return instance.transactionModel.getAverageSpending();
     }
 
@@ -242,7 +237,7 @@ public class TransactionController {
      *
      * @return sum of all of todays expenses
      */
-    public static float getTodaysExpenses() {
+    public float getTodaysExpenses() {
         return instance.transactionModel.getTodaysExpenses();
     }
 }
