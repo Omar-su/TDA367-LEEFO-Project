@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 /**
  * The TransactionController class represents a Controller in the Model-View-Controller pattern.
+ * The class uses Singleton design pattern and therefore has getInstance() method and private constructor
  * The class responsibility is to listen to the View and respond by modifying transaction data and
  * updating the view.
  *
@@ -18,12 +19,26 @@ import java.util.ArrayList;
 public class TransactionController {
 
     /**
+     * The field for storing singleton instance
+     */
+    private static TransactionController INSTANCE = null;
+
+    /**
      * Object handling logic for transactions.
      */
     private static TransactionModel transactionModel;
 
-    public TransactionController(TransactionModel transactionModel) {
-        TransactionController.transactionModel = transactionModel;
+    /**
+     * The singleton's constructor should always be private to avoid direct calls with 'new" operator
+     */
+    private TransactionController(){}
+
+    /** Returns single instance of the TransactionController class
+     *
+     * @return INSTANCE
+     */
+    public static TransactionController getInstance(){
+       return INSTANCE;
     }
 
     /**
