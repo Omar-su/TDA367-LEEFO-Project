@@ -105,7 +105,7 @@ public class SearchSortFilterTransactions {
             Float amount = Float.valueOf(searchString);
             searchResultAmount = searchOnAmount(result, amount);
 
-        } catch (NumberFormatException e){}
+        } catch (NumberFormatException ignored){}
 
 
         return getListUnion(searchResultNote, searchResultAmount); // return the result of of both searches
