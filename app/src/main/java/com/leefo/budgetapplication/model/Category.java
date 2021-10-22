@@ -28,8 +28,7 @@ public class Category {
     private final int budgetGoal;
 
 
-    public Category(String name, String color, boolean isIncome, int budgetGoal )
-    {
+    public Category(String name, String color, boolean isIncome, int budgetGoal ) {
         this.name = name;
         this.color = color;
         this.isIncome = isIncome;
@@ -37,8 +36,7 @@ public class Category {
     }
 
 
-    public Category(String name, String color, boolean isIncome)
-    {
+    public Category(String name, String color, boolean isIncome) {
         this.name = name;
         this.color = color;
         this.isIncome = isIncome;
@@ -52,8 +50,7 @@ public class Category {
      * @param transaction Transaction to be checked.
      * @return True if transaction belongs to category.
      */
-    public boolean transactionBelongs(FinancialTransaction transaction)
-    {
+    public boolean transactionBelongs(FinancialTransaction transaction){
         return Equals(transaction.getCategory());
     }
 
@@ -62,16 +59,14 @@ public class Category {
      * @param cat Category to compare to
      * @return True if the category id's are the same
      */
-    public boolean Equals(Category cat)
-    {
+    public boolean Equals(Category cat) {
         return cat.getName().equals(name) && cat.getColor().equals(color) && cat.getBudgetGoal() == budgetGoal && cat.isIncome == isIncome();
     }
 
 
     // GETTERS -------
 
-    public String getName()
-    {
+    public String getName(){
         return name;
     }
 

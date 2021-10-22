@@ -132,8 +132,7 @@ public class TransactionModel implements ITransactionModel {
      * @param request Request specifying date.
      * @return Sum of all income in specified date.
      */
-    public float getTotalIncome(TransactionRequest request)
-    {
+    public float getTotalIncome(TransactionRequest request) {
         float sum = 0;
 
         for(FinancialTransaction transaction : getTransactionList())
@@ -158,8 +157,7 @@ public class TransactionModel implements ITransactionModel {
      * @param request Request specifying date.
      * @return Sum of all expenses in specified date.
      */
-    public float getTotalExpense(TransactionRequest request)
-    {
+    public float getTotalExpense(TransactionRequest request) {
         float sum = 0;
 
         for(FinancialTransaction transaction : getTransactionList())
@@ -184,8 +182,7 @@ public class TransactionModel implements ITransactionModel {
      *
      * @return sum of all of todays expenses
      */
-    public float getTodaysExpenses()
-    {
+    public float getTodaysExpenses() {
         float sum = 0;
 
         for(FinancialTransaction transaction : getTransactionList()) {
@@ -202,8 +199,7 @@ public class TransactionModel implements ITransactionModel {
      * @param request Request specifying date.
      * @return Difference between total income and total expenses.
      */
-    public float getTransactionBalance(TransactionRequest request)
-    {
+    public float getTransactionBalance(TransactionRequest request) {
         return Math.round(100 * (getTotalIncome(request) - getTotalExpense(request))) / (float)100; // rounds to 2 decimal places
     }
 
@@ -212,8 +208,7 @@ public class TransactionModel implements ITransactionModel {
      * @param request Object containing search parameters.
      * @return A list containing FinancialTransactions matching search parameters.
      */
-    public ArrayList<FinancialTransaction> searchTransactions(TransactionRequest request)
-    {
+    public ArrayList<FinancialTransaction> searchTransactions(TransactionRequest request){
         ArrayList<FinancialTransaction> result = new ArrayList<>();
 
         // loops through every transaction
@@ -277,8 +272,7 @@ public class TransactionModel implements ITransactionModel {
      *
      * @return amount of days streak has been ongoing
      */
-    public int getCurrentStreak()
-    {
+    public int getCurrentStreak() {
         return StreakCalculator.getCurrentStreak(getTransactionList());
     }
 
@@ -297,8 +291,7 @@ public class TransactionModel implements ITransactionModel {
      *
      * @return average spent per day
      */
-    public float getAverageSpending()
-    {
+    public float getAverageSpending() {
         return StreakCalculator.getAverageSpending(getTransactionList());
     }
 
@@ -403,8 +396,7 @@ public class TransactionModel implements ITransactionModel {
      *
      * @param transactions List to be sorted.
      */
-    private void sortTransactionsByDate(ArrayList<FinancialTransaction> transactions)
-    {
+    private void sortTransactionsByDate(ArrayList<FinancialTransaction> transactions) {
         boolean notCompleted = true; // will be set to false in the last loop through the list of transactions
 
         while (notCompleted)
@@ -434,8 +426,7 @@ public class TransactionModel implements ITransactionModel {
      * @param i1 Index of first object.
      * @param i2 Index of second object.
      */
-    private <T> void swap(ArrayList<T> list, int i1, int i2)
-    {
+    private <T> void swap(ArrayList<T> list, int i1, int i2) {
         T temp = list.get(i1); // stores i1 temporarily
 
         list.set(i1, list.get(i2)); // sets i1 to i2

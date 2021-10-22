@@ -27,8 +27,7 @@ public class ObserverHandler {
     /**
      * Updates all observers.
      */
-    public static void updateObservers()
-    {
+    public static void updateObservers() {
         for(ModelObserver observer : observers)
         {
             observer.update();

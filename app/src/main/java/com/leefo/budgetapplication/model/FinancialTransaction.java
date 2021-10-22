@@ -29,8 +29,7 @@ public class FinancialTransaction {
      */
     private final String description;
 
-    public FinancialTransaction(float amount, String description, LocalDate date, Category category)
-    {
+    public FinancialTransaction(float amount, String description, LocalDate date, Category category) {
         this.amount = amount;
         this.description = description;
         this.date = date;

@@ -208,8 +208,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      * Deletes only one transaction from the database that matches the data of the transaction given
      * @param transaction Transaction to be removed.
      */
-    public void removeData(FinancialTransaction transaction)
-    {
+    public void removeData(FinancialTransaction transaction) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         int deletedTransaction = getDeletedTransaction(transaction, db);
@@ -250,8 +249,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      * Removes a certain removable category's information from the database
      * @param category Category to be removed.
      */
-    public void removeData(Category category)
-    {
+    public void removeData(Category category) {
         SQLiteDatabase db = this.getWritableDatabase();
         String sql = "DELETE FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_NAME + " = '" + category.getName() + "'";
         db.execSQL(sql);

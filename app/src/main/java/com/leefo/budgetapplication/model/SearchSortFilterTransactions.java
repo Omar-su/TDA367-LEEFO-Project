@@ -264,8 +264,7 @@ public class SearchSortFilterTransactions {
      * @param i1 Index of first object.
      * @param i2 Index of second object.
      */
-    private <T> void swap(ArrayList<T> list, int i1, int i2)
-    {
+    private <T> void swap(ArrayList<T> list, int i1, int i2) {
         T temp = list.get(i1); // stores i1 temporarily
 
         list.set(i1, list.get(i2)); // sets i1 to i2

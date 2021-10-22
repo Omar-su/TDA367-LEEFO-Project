@@ -19,8 +19,7 @@ public class CategoryModel
      */
     private final ITransactionModel transactionModel;
 
-    public CategoryModel(IDatabase database, ITransactionModel transactionModel)
-    {
+    public CategoryModel(IDatabase database, ITransactionModel transactionModel) {
         this.database = database;
         this.transactionModel = transactionModel;
         categoryList = getCategoriesFromDatabase();

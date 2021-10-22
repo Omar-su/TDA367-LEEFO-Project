@@ -12,8 +12,7 @@ import java.util.ArrayList;
  *
  * @author Linus Lundgren
  */
-public class StreakCalculator
-{
+public class StreakCalculator {
 
     /**
      * Method for getting the average daily spending of today.
@@ -21,8 +20,7 @@ public class StreakCalculator
      * @param transactions List of transactions sorted by date
      * @return average spending
      */
-    public static float getAverageSpending(ArrayList<FinancialTransaction> transactions)
-    {
+    public static float getAverageSpending(ArrayList<FinancialTransaction> transactions) {
         return Math.round(getAverageDailySpending(transactions, LocalDate.now())*100) / (float)100; // rounds to 2 decimal places
     }
 
@@ -31,8 +29,7 @@ public class StreakCalculator
      * @param transactions List of transactions to base calculations off of.
      * @return Spending streak of today.
      */
-    public static int getCurrentStreak(ArrayList<FinancialTransaction> transactions)
-    {
+    public static int getCurrentStreak(ArrayList<FinancialTransaction> transactions) {
         return getStreak(transactions, LocalDate.now());
     }
 
@@ -42,8 +39,7 @@ public class StreakCalculator
      * @param transactions transaction list
      * @return Longest ever spending streak.
      */
-    public static int getRecordStreak(ArrayList<FinancialTransaction> transactions)
-    {
+    public static int getRecordStreak(ArrayList<FinancialTransaction> transactions) {
         if(transactions.size() == 0) return 0; // no streak if no transactions
 
         int record = getCurrentStreak(transactions);
@@ -82,8 +78,7 @@ public class StreakCalculator
      * @param date Date to check streak at.
      * @return Returns total amount of days included in streak.
      */
-    private static int getStreak(ArrayList<FinancialTransaction> transactions, LocalDate date)
-    {
+    private static int getStreak(ArrayList<FinancialTransaction> transactions, LocalDate date) {
         float average = getAverageDailySpending(transactions, date);
 
         LocalDate previousDate = date;
@@ -139,8 +134,7 @@ public class StreakCalculator
      * @param date Date before which the transactions are made.
      * @return Average spending before date argument.
      */
-    private static float getAverageDailySpending(ArrayList<FinancialTransaction> transactions, LocalDate date)
-    {
+    private static float getAverageDailySpending(ArrayList<FinancialTransaction> transactions, LocalDate date) {
         float sum = 0;
         int days = 0;
 
