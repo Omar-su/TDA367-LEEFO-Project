@@ -75,7 +75,7 @@ public class SingleCategoryFragment extends Fragment {
     }
 
     private void initList(){
-        transactionList = TransactionController.getTransactions(chosenCategory, timePeriod.getMonth(), timePeriod.getYear());
+        transactionList = TransactionController.getInstance().getTransactions(chosenCategory, timePeriod.getMonth(), timePeriod.getYear());
         TransactionListAdapter adapter = new TransactionListAdapter(requireActivity().getApplicationContext(), transactionList);
         listView.setAdapter(adapter);
     }

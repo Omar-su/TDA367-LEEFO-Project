@@ -165,9 +165,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateHeaderValues(){
-        float in = TransactionController.getTotalIncome(liveData.getValue().getMonth(), liveData.getValue().getYear());
-        float ex = TransactionController.getTotalExpense(liveData.getValue().getMonth(), liveData.getValue().getYear());
-        float ba = TransactionController.getTransactionBalance(liveData.getValue().getMonth(), liveData.getValue().getYear());
+        float in = TransactionController.getInstance().getTotalIncome(liveData.getValue().getMonth(), liveData.getValue().getYear());
+        float ex = TransactionController.getInstance().getTotalExpense(liveData.getValue().getMonth(), liveData.getValue().getYear());
+        float ba = TransactionController.getInstance().getTransactionBalance(liveData.getValue().getMonth(), liveData.getValue().getYear());
         income.setText(String.valueOf(in));
         expense.setText(String.valueOf(ex));
         balance.setText(String.valueOf(ba));

@@ -59,9 +59,9 @@ public class EditBudgetFragment extends Fragment {
      * populates the listView with the expense categories
      */
     private void initList() {
-        List<Category> categoryList = CategoryController.getExpenseCategories();
-        categoryList = CategoryController.sortCategoriesByAlphabet(categoryList);
-        categoryList = CategoryController.sortCategoriesByBudget(categoryList);
+        List<Category> categoryList = CategoryController.getInstance().getExpenseCategories();
+        categoryList = CategoryController.getInstance().sortCategoriesByAlphabet(categoryList);
+        categoryList = CategoryController.getInstance().sortCategoriesByBudget(categoryList);
         adapter = new EditBudgetListAdapter(requireActivity().getApplicationContext(), categoryList);
         editBudgetLV.setAdapter(adapter);
 
@@ -94,7 +94,7 @@ public class EditBudgetFragment extends Fragment {
     private void editBudget(){
 
         Map<Category,Integer> editBudgetHashMap = adapter.getEditBudgetHashMap();
-        editBudgetHashMap.forEach((key, value) -> CategoryController.editCategoryInfo((Category) key, (Integer) value));
+        editBudgetHashMap.forEach((key, value) -> CategoryController.getInstance().editCategoryInfo((Category) key, (Integer) value));
         requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new BudgetFragment()).commit();
 
     }

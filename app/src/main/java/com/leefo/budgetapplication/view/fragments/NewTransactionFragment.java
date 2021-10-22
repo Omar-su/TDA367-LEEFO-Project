@@ -87,10 +87,10 @@ public class NewTransactionFragment extends Fragment {
 
     private void initSpinner(){
         List<Category> income, expense;
-        income = CategoryController.getIncomeCategories();
-        TransactionController.sortCategoryListByPopularity(income);
-        expense = CategoryController.getExpenseCategories();
-        TransactionController.sortCategoryListByPopularity(expense);
+        income = CategoryController.getInstance().getIncomeCategories();
+        TransactionController.getInstance().sortCategoryListByPopularity(income);
+        expense = CategoryController.getInstance().getExpenseCategories();
+        TransactionController.getInstance().sortCategoryListByPopularity(expense);
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireActivity().getApplicationContext(), expense);
         categorySpinner.setAdapter(spinnerAdapter);
 
@@ -136,7 +136,7 @@ public class NewTransactionFragment extends Fragment {
         Category category = (Category) categorySpinner.getSelectedItem();
         LocalDate date = myCalendar.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // convert Date to LocalDate
 
-        TransactionController.addNewTransaction(amount, description, date, category);
+        TransactionController.getInstance().addNewTransaction(amount, description, date, category);
     }
 
     /**

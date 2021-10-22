@@ -137,7 +137,7 @@ public class NewCategoryFragment extends Fragment {
         boolean isIncome = radioGroup.getCheckedRadioButtonId() == R.id.new_category_radio_income;
         String name = nameInput.getText().toString();
         String color = "#" + Integer.toHexString(defaultColor);
-        CategoryController.addNewCategory(name, color, isIncome);
+        CategoryController.getInstance().addNewCategory(name, color, isIncome);
     }
 
     /**
@@ -146,7 +146,7 @@ public class NewCategoryFragment extends Fragment {
      * @return Returns true if the name is available and false if not
      */
     private boolean nameIsUnique(String name) {
-        for (Category c: CategoryController.getAllCategories()) {
+        for (Category c: CategoryController.getInstance().getAllCategories()) {
             if (c.getName().equalsIgnoreCase(name)) {
                 return false;
             }

@@ -178,7 +178,7 @@ public class EditCategoryFragment extends Fragment {
         boolean isIncome = radioGroup.getCheckedRadioButtonId() == R.id.edit_category_radio_income;
         String name = nameInput.getText().toString();
         String color = "#" + Integer.toHexString(defaultColor);
-        CategoryController.editCategoryInfo(oldCategory,name,color,isIncome, oldCategory.getBudgetGoal());
+        CategoryController.getInstance().editCategoryInfo(oldCategory,name,color,isIncome, oldCategory.getBudgetGoal());
     }
 
     /**
@@ -187,7 +187,7 @@ public class EditCategoryFragment extends Fragment {
      * @return Returns true if the name is available and false if not
      */
     private boolean nameIsUnique(String name) {
-        for (Category c: CategoryController.getAllCategories()) {
+        for (Category c: CategoryController.getInstance().getAllCategories()) {
             if (c.getName().equalsIgnoreCase(name) && !c.equals(oldCategory)) {
                 return false;
             }

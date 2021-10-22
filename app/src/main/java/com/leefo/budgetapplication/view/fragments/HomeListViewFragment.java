@@ -88,7 +88,7 @@ public class HomeListViewFragment extends Fragment {
         timePeriod = viewModel.getTimePeriodLiveData().getValue();
 
         // get Transaction list
-        currentTimePeriodTransactionList = TransactionController.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+        currentTimePeriodTransactionList = TransactionController.getInstance().getTransactions(timePeriod.getMonth(), timePeriod.getYear());
 
         // create sort search filter object and send in the current list.
         ssf = new SearchSortFilterTransactions(currentTimePeriodTransactionList);
@@ -112,7 +112,7 @@ public class HomeListViewFragment extends Fragment {
         viewModel.getTimePeriodLiveData().observe(getViewLifecycleOwner(), new Observer<TimePeriod>() {
             @Override
             public void onChanged(TimePeriod newTimePeriod) {
-                currentTimePeriodTransactionList = TransactionController.getTransactions(timePeriod.getMonth(), timePeriod.getYear());
+                currentTimePeriodTransactionList = TransactionController.getInstance().getTransactions(timePeriod.getMonth(), timePeriod.getYear());
                 ssf.updateSourceData(currentTimePeriodTransactionList);
                 updateList();
             }

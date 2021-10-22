@@ -87,8 +87,8 @@ public class EditTransactionFragment extends Fragment {
         radioGroup = view.findViewById(R.id.edit_transaction_radioGroup);
         cross = view.findViewById(R.id.cross_edit_transaction);
 
-        income = CategoryController.getIncomeCategories();
-        expense = CategoryController.getExpenseCategories();
+        income = CategoryController.getInstance().getIncomeCategories();
+        expense = CategoryController.getInstance().getExpenseCategories();
 
         // init
         initSpinner();
@@ -185,7 +185,7 @@ public class EditTransactionFragment extends Fragment {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                TransactionController.removeTransaction(oldTransaction);
+                                TransactionController.getInstance().removeTransaction(oldTransaction);
                                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new HomeFragment()).commit();
                             }
                         })
@@ -206,7 +206,7 @@ public class EditTransactionFragment extends Fragment {
             date = oldTransaction.getDate();
         }
 
-        TransactionController.editTransaction(oldTransaction, amount, description, date, category );
+        TransactionController.getInstance().editTransaction(oldTransaction, amount, description, date, category );
     }
 
     /**

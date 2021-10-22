@@ -65,14 +65,14 @@ public class GradedBudgetListAdapter extends ArrayAdapter<Category> {
         catName.setText(category.getName());
         catIndicator.getBackground().setColorFilter(Color.parseColor(category.getColor()), PorterDuff.Mode.SRC_ATOP);
 
-        String categoryExpenseSum = String.valueOf(TransactionController.getTransactionSum(category, timePeriod.getMonth(), timePeriod.getYear()));
+        String categoryExpenseSum = String.valueOf(TransactionController.getInstance().getTransactionSum(category, timePeriod.getMonth(), timePeriod.getYear()));
         String categoryBudgetGoal = String.valueOf(category.getBudgetGoal());
         budgetRatioText.setText(categoryExpenseSum + " / " + categoryBudgetGoal);
 
         ratingBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor(category.getColor())));
-        ratingBar.setRating(BudgetGradeController.gradeCategory(category, timePeriod.getMonth(),  timePeriod.getYear()));
+        ratingBar.setRating(BudgetGradeController.getInstance().gradeCategory(category, timePeriod.getMonth(),  timePeriod.getYear()));
 
-        budgetOutcomeText.setText(BudgetGradeController.getRoundedBudgetOutcome(category, timePeriod.getMonth(), timePeriod.getYear()) + "x");
+        budgetOutcomeText.setText(BudgetGradeController.getInstance().getRoundedBudgetOutcome(category, timePeriod.getMonth(), timePeriod.getYear()) + "x");
 
         return convertView;
     }

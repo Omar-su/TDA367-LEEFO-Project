@@ -67,7 +67,7 @@ public class ManageCategoriesFragment extends Fragment {
     }
 
     private List<Category> getExpenseCategoriesWithoutOther(){
-        List<Category> list = CategoryController.getExpenseCategories();
+        List<Category> list = CategoryController.getInstance().getExpenseCategories();
         for (Category c : list){
             if (c.getName().equals("Other expense")){
                 list.remove(c);
@@ -78,7 +78,7 @@ public class ManageCategoriesFragment extends Fragment {
     }
 
     private List<Category> getIncomeCategoriesWithoutOther(){
-        List<Category> list = CategoryController.getIncomeCategories();
+        List<Category> list = CategoryController.getInstance().getIncomeCategories();
         for (Category c : list){
             if (c.getName().equals("Other income")){
                 list.remove(c);

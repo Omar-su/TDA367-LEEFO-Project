@@ -92,7 +92,7 @@ public class BudgetFragment extends Fragment {
         if (noBudget1.getVisibility() == View.VISIBLE){
             averageRatingBar.setRating(0);
         } else {
-            averageRatingBar.setRating(BudgetGradeController.getAverageGradeForMonth(timePeriod.getMonth(), timePeriod.getYear()));
+            averageRatingBar.setRating(BudgetGradeController.getInstance().getAverageGradeForMonth(timePeriod.getMonth(), timePeriod.getYear()));
         }
     }
 
@@ -131,7 +131,7 @@ public class BudgetFragment extends Fragment {
 
             if (isCurrentMonthOrAfter(timePeriod)) {
                 //Displays all categories with budget goal even if no transactions made for current month
-                List<Category> allBudgetCategories = BudgetGradeController.getAllBudgetCategories();
+                List<Category> allBudgetCategories = BudgetGradeController.getInstance().getAllBudgetCategories();
                 if (allBudgetCategories.isEmpty()) {
                     noBudget1.setVisibility(View.VISIBLE);
                     noBudget2.setVisibility(View.VISIBLE);
@@ -149,7 +149,7 @@ public class BudgetFragment extends Fragment {
             } else {
                 //If not current mont => earlier month. Displays only budget categories with transactions made
                 List<Category> budgetCatsForMonth =
-                        BudgetGradeController.getBudgetCategoriesByMonth(timePeriod.getMonth(), timePeriod.getYear());
+                        BudgetGradeController.getInstance().getBudgetCategoriesByMonth(timePeriod.getMonth(), timePeriod.getYear());
 
                 if (budgetCatsForMonth.isEmpty()) {
                     noBudget1.setVisibility(View.VISIBLE);

@@ -85,9 +85,9 @@ public class HomeCategoryViewFragment extends Fragment {
     }
 
     private void updateData() {
-        List<Category> list = CategoryController.getExpenseCategories();
-        TransactionController.removeEmptyCategories(list, timePeriod.getMonth(), timePeriod.getYear());
-        TransactionController.sortCategoryListBySum(list, timePeriod.getMonth(), timePeriod.getYear());
+        List<Category> list = CategoryController.getInstance().getExpenseCategories();
+        TransactionController.getInstance().removeEmptyCategories(list, timePeriod.getMonth(), timePeriod.getYear());
+        TransactionController.getInstance().sortCategoryListBySum(list, timePeriod.getMonth(), timePeriod.getYear());
 
         if (list.isEmpty()){
             noTransactions1.setVisibility(View.VISIBLE);
@@ -145,7 +145,7 @@ public class HomeCategoryViewFragment extends Fragment {
 
         float sum;
         for(Category c :  list){
-            sum = TransactionController.getTransactionSum(c, timePeriod.getMonth(), timePeriod.getYear());
+            sum = TransactionController.getInstance().getTransactionSum(c, timePeriod.getMonth(), timePeriod.getYear());
             entries.add(new PieEntry(sum,""));
             myColors.add(Color.parseColor(c.getColor()));
         }
