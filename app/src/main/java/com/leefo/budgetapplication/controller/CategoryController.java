@@ -34,7 +34,7 @@ public class CategoryController {
 
     /** Returns single instance of the TransactionController class
      *
-     * @return INSTANCE
+     * @return instance
      */
     public static CategoryController getInstance(CategoryModel categoryModel){
         if(instance == null)

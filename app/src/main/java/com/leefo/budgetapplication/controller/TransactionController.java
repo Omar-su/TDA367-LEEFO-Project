@@ -37,7 +37,7 @@ public class TransactionController {
 
     /** Returns single instance of the TransactionController class
      *
-     * @return INSTANCE
+     * @return instance
      */
     public static TransactionController getInstance(TransactionModel transactionModel){
         if(instance == null)
