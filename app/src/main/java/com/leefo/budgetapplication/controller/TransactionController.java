@@ -10,20 +10,39 @@ import java.util.ArrayList;
 
 /**
  * The TransactionController class represents a Controller in the Model-View-Controller pattern.
+ * The class uses Singleton design pattern and therefore has getInstance() method and private constructor
  * The class responsibility is to listen to the View and respond by modifying transaction data and
  * updating the view.
  *
- * @author Felix Edholm, Linus Lundgren, Emelie Edberg
+ * @author Felix Edholm, Linus Lundgren, Emelie Edberg, Eugene Dvoryankov
  */
 public class TransactionController {
 
     /**
+     * The field for storing singleton instance
+     */
+    private static TransactionController instance = null;
+
+    /**
      * Object handling logic for transactions.
      */
-    private static TransactionModel transactionModel;
+    private TransactionModel transactionModel;
 
-    public TransactionController(TransactionModel transactionModel) {
-        TransactionController.transactionModel = transactionModel;
+    /**
+     * The singleton's constructor should always be private to avoid direct calls with 'new" operator
+     */
+    private TransactionController(TransactionModel transactionModel){
+        this.transactionModel = transactionModel;
+    }
+
+    /** Returns single instance of the TransactionController class
+     *
+     * @return instance
+     */
+    public static TransactionController getInstance(TransactionModel transactionModel){
+        if(instance == null)
+            instance = new TransactionController(transactionModel);
+        return instance;
     }
 
     /**
@@ -37,7 +56,7 @@ public class TransactionController {
     public static void addNewTransaction(float amount, String description, LocalDate date, Category category) {
         FinancialTransaction newTransaction = new FinancialTransaction(amount, description, date, category);
 
-        transactionModel.addTransaction(newTransaction);
+        instance.transactionModel.addTransaction(newTransaction);
     }
 
     /**
@@ -48,7 +67,7 @@ public class TransactionController {
     public static void editTransaction(FinancialTransaction oldTransaction, float newAmount, String newDesc, LocalDate newDate, Category newCategory) {
         FinancialTransaction newTransaction = new FinancialTransaction(newAmount, newDesc, newDate, newCategory);
 
-        transactionModel.editTransaction(oldTransaction, newTransaction);
+        instance.transactionModel.editTransaction(oldTransaction, newTransaction);
     }
 
     /**
@@ -57,7 +76,7 @@ public class TransactionController {
      * @param transaction Transaction to be removed.
      */
     public static void removeTransaction(FinancialTransaction transaction) {
-        transactionModel.deleteTransaction(transaction);
+        instance.transactionModel.deleteTransaction(transaction);
     }
 
 
@@ -73,7 +92,7 @@ public class TransactionController {
     public static ArrayList<FinancialTransaction> getTransactions(int month, int year) {
         TransactionRequest request = new TransactionRequest((Category) null, month, year);
 
-        return transactionModel.searchTransactions(request);
+        return instance.transactionModel.searchTransactions(request);
     }
 
 
@@ -90,7 +109,7 @@ public class TransactionController {
     public static ArrayList<FinancialTransaction> getTransactions(Category category, int month, int year) {
         TransactionRequest request = new TransactionRequest(category, month, year);
 
-        return transactionModel.searchTransactions(request);
+        return instance.transactionModel.searchTransactions(request);
     }
 
     /**
@@ -104,7 +123,7 @@ public class TransactionController {
     public static float getTransactionSum(Category category, int month, int year) {
         TransactionRequest request = new TransactionRequest(category, month, year);
 
-        return transactionModel.getTransactionSum(request);
+        return instance.transactionModel.getTransactionSum(request);
     }
 
     /**
@@ -117,7 +136,7 @@ public class TransactionController {
     public static float getTotalIncome(int month, int year) {
         // requests sum of all transactions in the income categories during specified month and year
         TransactionRequest request = new TransactionRequest(null, month, year);
-        return transactionModel.getTotalIncome(request);
+        return instance.transactionModel.getTotalIncome(request);
     }
 
     /**
@@ -130,7 +149,7 @@ public class TransactionController {
     public static float getTotalExpense(int month, int year) {
         // requests sum of all transactions in the expense categories during specified month and year
         TransactionRequest request = new TransactionRequest(null, month, year);
-        return transactionModel.getTotalExpense(request);
+        return instance.transactionModel.getTotalExpense(request);
     }
 
 
@@ -144,7 +163,7 @@ public class TransactionController {
     public static float getTransactionBalance(int month, int year) {
 
         TransactionRequest request = new TransactionRequest(null, month, year);
-        return transactionModel.getTransactionBalance(request);
+        return instance.transactionModel.getTransactionBalance(request);
     }
 
 
@@ -157,7 +176,7 @@ public class TransactionController {
      */
     public static void removeEmptyCategories(ArrayList<Category> list, int month, int year) {
         TransactionRequest request = new TransactionRequest((Category) null, month, year);
-        transactionModel.removeEmptyCategories(list, request);
+        instance.transactionModel.removeEmptyCategories(list, request);
     }
 
     /**
@@ -170,7 +189,7 @@ public class TransactionController {
      */
     public static void sortCategoryListBySum(ArrayList<Category> list, int month, int year) {
         TransactionRequest request = new TransactionRequest((Category) null, month, year);
-        transactionModel.sortCategoryListBySum(list, request);
+        instance.transactionModel.sortCategoryListBySum(list, request);
     }
 
     /**
@@ -180,7 +199,7 @@ public class TransactionController {
      * @param categoryList Category list to be sorted
      */
     public static void sortCategoryListByPopularity(ArrayList<Category> categoryList) {
-        transactionModel.sortCategoryListByPopularity(categoryList);
+        instance.transactionModel.sortCategoryListByPopularity(categoryList);
     }
 
 
@@ -190,7 +209,7 @@ public class TransactionController {
      * @return amount of days streak has been ongoing
      */
     public static int getCurrentStreak() {
-        return transactionModel.getCurrentStreak();
+        return instance.transactionModel.getCurrentStreak();
     }
 
     /**
@@ -199,7 +218,7 @@ public class TransactionController {
      * @return record length streak
      */
     public static int getRecordStreak() {
-        return transactionModel.getRecordStreak();
+        return instance.transactionModel.getRecordStreak();
     }
 
     /**
@@ -208,7 +227,7 @@ public class TransactionController {
      * @return average spending
      */
     public static float getAverageSpending() {
-        return transactionModel.getAverageSpending();
+        return instance.transactionModel.getAverageSpending();
     }
 
     /**
@@ -217,6 +236,6 @@ public class TransactionController {
      * @return sum of all of todays expenses
      */
     public static float getTodaysExpenses() {
-        return transactionModel.getTodaysExpenses();
+        return instance.transactionModel.getTodaysExpenses();
     }
 }
