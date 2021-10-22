@@ -2,6 +2,7 @@ package com.leefo.budgetapplication.model;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CategoryModel
 {
@@ -9,7 +10,7 @@ public class CategoryModel
     /**
      * The list of Categories used in the application
      */
-    private final ArrayList<Category> categoryList;
+    private final List<Category> categoryList;
 
     private final IDatabase database;
 
@@ -75,8 +76,12 @@ public class CategoryModel
      * @param category The category to be deleted.
      */
     public void deleteCategory(Category category) {
-        if (category == getOtherExpenseCategory()) return; // not allowed to remove
-        if (category == getOtherIncomeCategory()) return; // not allowed to remove
+        if (category == getOtherExpenseCategory()) {
+            return; // not allowed to remove
+        }
+        if (category == getOtherIncomeCategory()) {
+            return; // not allowed to remove
+        }
 
         if (category.isIncome()) {
             transactionModel.replaceCatForTransactions(category, getOtherIncomeCategory());
@@ -124,7 +129,7 @@ public class CategoryModel
      * Returns a copy of the categoryList
      * @return copy if categoryList
      */
-    public ArrayList<Category> getCategoryList() {
+    public List<Category> getCategoryList() {
         return new ArrayList<>(categoryList);
     }
 
@@ -132,8 +137,8 @@ public class CategoryModel
      * Returns a list of income categories.
      * @return a list of income categories.
      */
-    public ArrayList<Category> getIncomeCategories(){
-        ArrayList<Category> list = new ArrayList<>();
+    public List<Category> getIncomeCategories(){
+        List<Category> list = new ArrayList<>();
         for (Category c : getCategoryList()){
             if (c.isIncome()){
                 list.add(c);
@@ -146,8 +151,8 @@ public class CategoryModel
      * Returns a list of expense categories.
      * @return a list of expense categories.
      */
-    public ArrayList<Category> getExpenseCategories(){
-        ArrayList<Category> list = new ArrayList<>();
+    public List<Category> getExpenseCategories(){
+        List<Category> list = new ArrayList<>();
         for (Category c : getCategoryList()){
             if (!c.isIncome()){
                 list.add(c);
@@ -164,7 +169,7 @@ public class CategoryModel
      * @param categoryList The list to be sorted
      * @return A sorted category list by alphabet
      */
-    public ArrayList<Category> sortCategoriesByAlphabet(ArrayList<Category> categoryList) {
+    public List<Category> sortCategoriesByAlphabet(List<Category> categoryList) {
         for (int j = 0; j<categoryList.size();j++){
             for (int i =j+1; i<categoryList.size(); i++){
                 if (getFirstLetter(categoryList.get(j)) > getFirstLetter(categoryList.get(i))){
@@ -183,7 +188,7 @@ public class CategoryModel
      * @param j Which index the first category has
      * @param i Which index the second category has
      */
-    private void switchCategoryPlaces(ArrayList<Category> categoryList, int j, int i) {
+    private void switchCategoryPlaces(List<Category> categoryList, int j, int i) {
         Category tmpCat = categoryList.get(i);
         categoryList.set(i, categoryList.get(j));
         categoryList.set(j, tmpCat);
@@ -203,7 +208,7 @@ public class CategoryModel
      * @param categoryList List to be sorted
      * @return A category list sorted by highest budget
      */
-    public ArrayList<Category> sortCategoriesByBudget(ArrayList<Category> categoryList) {
+    public List<Category> sortCategoriesByBudget(List<Category> categoryList) {
         for (int i = 0; i<categoryList.size();i++){
             for (int j =i+1; j<categoryList.size(); j++){
                 if (categoryList.get(i).getBudgetGoal()<categoryList.get(j).getBudgetGoal()){
@@ -242,7 +247,7 @@ public class CategoryModel
      * Get all categories stored in the database.
      * @return list of categories.
      */
-    private ArrayList<Category> getCategoriesFromDatabase()
+    private List<Category> getCategoriesFromDatabase()
     {
         return database.getCategories();
     }

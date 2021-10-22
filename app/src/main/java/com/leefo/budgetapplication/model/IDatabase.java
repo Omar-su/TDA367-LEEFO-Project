@@ -1,6 +1,6 @@
 package com.leefo.budgetapplication.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Interface for database used by TransactionModel.
@@ -13,13 +13,13 @@ public interface IDatabase {
      * Gets all transactions stored in database.
      * @return A list of transactions.
      */
-    ArrayList<FinancialTransaction> getFinancialTransactions();
+    List<FinancialTransaction> getFinancialTransactions();
 
     /**
      * Gets all categories stored in database.
      * @return A list of categories.
      */
-    ArrayList<Category> getCategories();
+    List<Category> getCategories();
 
     /**
      * Saves a transaction to database.

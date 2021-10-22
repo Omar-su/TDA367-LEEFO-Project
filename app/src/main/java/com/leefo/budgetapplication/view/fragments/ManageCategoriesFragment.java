@@ -19,7 +19,7 @@ import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.data.ParcelableCategory;
 import com.leefo.budgetapplication.view.adapters.ManageCategoriesListAdapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents the fragment for editing and/or adding new categories.
@@ -66,8 +66,8 @@ public class ManageCategoriesFragment extends Fragment {
         });
     }
 
-    private ArrayList<Category> getExpenseCategoriesWithoutOther(){
-        ArrayList<Category> list = CategoryController.getExpenseCategories();
+    private List<Category> getExpenseCategoriesWithoutOther(){
+        List<Category> list = CategoryController.getExpenseCategories();
         for (Category c : list){
             if (c.getName().equals("Other expense")){
                 list.remove(c);
@@ -77,8 +77,8 @@ public class ManageCategoriesFragment extends Fragment {
         return list;
     }
 
-    private ArrayList<Category> getIncomeCategoriesWithoutOther(){
-        ArrayList<Category> list = CategoryController.getIncomeCategories();
+    private List<Category> getIncomeCategoriesWithoutOther(){
+        List<Category> list = CategoryController.getIncomeCategories();
         for (Category c : list){
             if (c.getName().equals("Other income")){
                 list.remove(c);

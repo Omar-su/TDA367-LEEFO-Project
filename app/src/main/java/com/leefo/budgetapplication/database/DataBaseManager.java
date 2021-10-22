@@ -15,6 +15,7 @@ import com.leefo.budgetapplication.model.IDatabase;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Creates the database needed for saving the information of the transactions and categories
@@ -266,9 +267,9 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      * Created all categories that are in the database
      * @return Returns a list of all categories information in the database as category objects
      */
-    public ArrayList<Category> getCategories(){
+    public List<Category> getCategories(){
 
-        ArrayList<Category> returnList = new ArrayList<>();
+        List<Category> returnList = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -281,7 +282,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
         return returnList;
     }
 
-    private void cursorDataToObjects(ArrayList<Category> returnList, Cursor cursor) {
+    private void cursorDataToObjects(List<Category> returnList, Cursor cursor) {
         if (cursor.moveToFirst()){
             do {
                 String categoryName = cursor.getString(0);
@@ -309,10 +310,10 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
      * Creates transaction objects of all the transactions registered in the database
      * @return Returns a list of all transactions in he database
      */
-    public ArrayList<FinancialTransaction> getFinancialTransactions(){
-        ArrayList<Category> categories = getCategories();
+    public List<FinancialTransaction> getFinancialTransactions(){
+        List<Category> categories = getCategories();
 
-        ArrayList<FinancialTransaction> returnList = new ArrayList<>();
+        List<FinancialTransaction> returnList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = getTransactionTable(db);
@@ -326,7 +327,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
 
     }
 
-    private void cursorDataToObjects(ArrayList<Category> categories, ArrayList<FinancialTransaction> returnList, Cursor cursor) {
+    private void cursorDataToObjects(List<Category> categories, List<FinancialTransaction> returnList, Cursor cursor) {
         // Loops through every row in the cursor and gets the columns
         if (cursor.moveToFirst()){
             do {
@@ -353,7 +354,7 @@ public class DataBaseManager extends SQLiteOpenHelper implements IDatabase {
     }
 
     @NonNull
-    private Category getCategory(ArrayList<Category> categories, String categoryFKName) {
+    private Category getCategory(List<Category> categories, String categoryFKName) {
         Category category = new Category("", "", true, 0);
         for (Category c : categories){
             if (categoryFKName.equals(c.getName())){

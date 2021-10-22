@@ -335,7 +335,7 @@ public class TransactionModelTest {
         tm.addTransaction(t4);
 
         TransactionRequest request = new TransactionRequest(null, 1899, 8);
-        ArrayList<Category> nonEmptyList = cm.getCategoryList();
+        List<Category> nonEmptyList = cm.getCategoryList();
         tm.removeEmptyCategories(nonEmptyList, request);
 
         boolean outcome = true;
@@ -377,7 +377,7 @@ public class TransactionModelTest {
         tm.addTransaction(t4);
 
         TransactionRequest request = new TransactionRequest(null, 3, 1897);
-        ArrayList<Category> sortedList = cm.getCategoryList();
+        List<Category> sortedList = cm.getCategoryList();
         tm.sortCategoryListBySum(sortedList, request);
 
         boolean outcome = true;

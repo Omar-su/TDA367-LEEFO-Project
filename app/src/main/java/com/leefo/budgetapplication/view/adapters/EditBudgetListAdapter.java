@@ -18,8 +18,10 @@ import androidx.annotation.Nullable;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.model.Category;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Class that represents the adapter for the list in the EditBudgetFragment
@@ -33,10 +35,10 @@ public class EditBudgetListAdapter extends ArrayAdapter<Category>{
     private EditText editBudget;
     private TextView name;
     private View circle;
-    private final HashMap<Category , Integer > editBudgetHashMap;
+    private final Map<Category , Integer > editBudgetHashMap;
 
 
-    public EditBudgetListAdapter(Context context, @NonNull ArrayList<Category> list) {
+    public EditBudgetListAdapter(Context context, @NonNull List<Category> list) {
         super(context, R.layout.list_row_edit_budget, list);
         this.context = context;
         editBudgetHashMap = getCategoryBudgetHashMap(list);
@@ -48,9 +50,9 @@ public class EditBudgetListAdapter extends ArrayAdapter<Category>{
      * @return Returns a hashmap with with all categories as keys and their budgetGoal as the values
      */
     @NonNull
-    private HashMap<Category, Integer> getCategoryBudgetHashMap(@NonNull ArrayList<Category> list) {
+    private Map<Category, Integer> getCategoryBudgetHashMap(@NonNull List<Category> list) {
 
-        final HashMap<Category, Integer> editBudgetHashMap;
+        final Map<Category, Integer> editBudgetHashMap;
         editBudgetHashMap = new HashMap<>();
         for (Category cat : list){
             editBudgetHashMap.put(cat , cat.getBudgetGoal());
@@ -88,7 +90,9 @@ public class EditBudgetListAdapter extends ArrayAdapter<Category>{
      * @param cat Which category to created
      */
     private void setItemsValue(Category cat) {
-        if (cat.getBudgetGoal() != 0)editBudget.setText(String.valueOf(cat.getBudgetGoal()));
+        if (cat.getBudgetGoal() != 0) {
+            editBudget.setText(String.valueOf(cat.getBudgetGoal()));
+        }
         name.setText(cat.getName());
         circle.getBackground().setColorFilter(Color.parseColor(cat.getColor()), PorterDuff.Mode.SRC_ATOP);
     }
@@ -139,7 +143,9 @@ public class EditBudgetListAdapter extends ArrayAdapter<Category>{
 
     @Override
     public int getViewTypeCount() {
-        if (getCount() == 0) return 1;
+        if (getCount() == 0) {
+            return 1;
+        }
         return getCount();
     }
 
@@ -153,7 +159,7 @@ public class EditBudgetListAdapter extends ArrayAdapter<Category>{
      * Method only used to send the new changes the EditBudgetFragment
      * @return A hashMap with the categories and all the new changes in the budgetGoals if there are
      */
-    public HashMap<Category, Integer> getEditBudgetHashMap() {
+    public Map<Category, Integer> getEditBudgetHashMap() {
         return editBudgetHashMap;
     }
 }

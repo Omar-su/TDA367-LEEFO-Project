@@ -1,6 +1,7 @@
 package com.leefo.budgetapplication.model;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The TransactionModel class contains methods for manipulating, adding and removing categories and
@@ -14,7 +15,7 @@ public class TransactionModel implements ITransactionModel {
     /**
      * The list of FinancialTransactions used in the application
      */
-    private  final ArrayList<FinancialTransaction> transactionList;
+    private  final List<FinancialTransaction> transactionList;
 
     /**
      * Interface used to interact with database. Used for reading and writing transactions and categories.
@@ -109,7 +110,7 @@ public class TransactionModel implements ITransactionModel {
      * Returns a copy of the transactionList
      * @return copy if transactionList
      */
-    public ArrayList<FinancialTransaction> getTransactionList() {
+    public List<FinancialTransaction> getTransactionList() {
         return new ArrayList<>(transactionList);
     }
 
@@ -141,13 +142,15 @@ public class TransactionModel implements ITransactionModel {
             LocalDate date = transaction.getDate();
 
             // skips transaction if date value doesn't match
-            if(request.timeIsSpecified())
+            if(request.timeIsSpecified()) {
                 if(date.getMonth().getValue() != request.getMonth() || date.getYear() != request.getYear())
                     continue;
+            }
 
             // adds only if income
-            if(transaction.getCategory().isIncome())
+            if(transaction.getCategory().isIncome()) {
                 sum += transaction.getAmount();
+            }
         }
 
         return Math.round(sum * 100) / (float)100; // rounds to 2 decimal places
@@ -167,13 +170,15 @@ public class TransactionModel implements ITransactionModel {
             LocalDate date = transaction.getDate();
 
             // skips transaction if date value doesn't match
-            if(request.timeIsSpecified())
+            if(request.timeIsSpecified()) {
                 if(date.getMonth().getValue() != request.getMonth() || date.getYear() != request.getYear())
                     continue;
+            }
 
             // adds only if expense
-            if(!transaction.getCategory().isIncome())
+            if(!transaction.getCategory().isIncome()) {
                 sum += transaction.getAmount();
+            }
         }
 
         return Math.round(sum * 100) / (float)100; // rounds to 2 decimal places
@@ -189,8 +194,9 @@ public class TransactionModel implements ITransactionModel {
         float sum = 0;
 
         for(FinancialTransaction transaction : getTransactionList()) {
-            if (!transaction.getCategory().isIncome() && transaction.getDate().isEqual(LocalDate.now()))
+            if (!transaction.getCategory().isIncome() && transaction.getDate().isEqual(LocalDate.now())) {
                 sum += transaction.getAmount();
+            }
         }
 
         return Math.round(sum * 100) / (float)100;
@@ -212,9 +218,9 @@ public class TransactionModel implements ITransactionModel {
      * @param request Object containing search parameters.
      * @return A list containing FinancialTransactions matching search parameters.
      */
-    public ArrayList<FinancialTransaction> searchTransactions(TransactionRequest request)
+    public List<FinancialTransaction> searchTransactions(TransactionRequest request)
     {
-        ArrayList<FinancialTransaction> result = new ArrayList<>();
+        List<FinancialTransaction> result = new ArrayList<>();
 
         // loops through every transaction
         for(FinancialTransaction transaction : getTransactionList())
@@ -223,14 +229,16 @@ public class TransactionModel implements ITransactionModel {
             int transactionMonth = transaction.getDate().getMonthValue();
 
             // moves on to next transaction if current transaction does not match time specification
-            if(request.timeIsSpecified())
+            if(request.timeIsSpecified()) {
                 if(request.getYear() != transactionYear || request.getMonth() != transactionMonth)
                     continue;
+            }
 
             // moves on to next transaction if current transaction does not match specified category
-            if(request.categoryIsSpecified())
+            if(request.categoryIsSpecified()) {
                 if(!request.getCategory().Equals(transaction.getCategory()))
                     continue;
+            }
 
             result.add(transaction);
         }
@@ -243,7 +251,7 @@ public class TransactionModel implements ITransactionModel {
      * @param list to be worked on.
      * @param request specifies the time period.
      */
-    public void removeEmptyCategories(ArrayList<Category> list, TransactionRequest request){
+    public void removeEmptyCategories(List<Category> list, TransactionRequest request){
         for (int i = 0; i < list.size(); i++){
             Category c = list.get(i);
             request.setCategory(c);
@@ -260,7 +268,7 @@ public class TransactionModel implements ITransactionModel {
      * @param list the list to be sorted.
      * @param request specifies the time period.
      */
-    public void sortCategoryListBySum(ArrayList<Category> list, TransactionRequest request){
+    public void sortCategoryListBySum(List<Category> list, TransactionRequest request){
         for (int x = 0; x < list.size() ; x++){
             for (int i = 0; i < list.size()-1; i++){
                 float sum1 = getTransactionSum(new TransactionRequest(list.get(i), request.getMonth(), request.getYear()));
@@ -310,11 +318,13 @@ public class TransactionModel implements ITransactionModel {
      * If there isn't 20 transactions in transactionList then the ones that exist will be returned.
      * @return list with up to 20 transactions.
      */
-    private ArrayList<FinancialTransaction> get20latestTransactions(){
+    private List<FinancialTransaction> get20latestTransactions(){
 
-        if (getTransactionList().size() < 20) return getTransactionList();
+        if (getTransactionList().size() < 20) {
+            return getTransactionList();
+        }
 
-        ArrayList<FinancialTransaction> list = new ArrayList<>();
+        List<FinancialTransaction> list = new ArrayList<>();
         int i = 0;
         while (i < 20){
             list.add(getTransactionList().get(i++));
@@ -328,7 +338,7 @@ public class TransactionModel implements ITransactionModel {
      * @param category the category to be counted.
      * @return number of times the category was used.
      */
-    private int getCategoryCount(ArrayList<FinancialTransaction> list, Category category){
+    private int getCategoryCount(List<FinancialTransaction> list, Category category){
         int count = 0;
         for (FinancialTransaction t : list){
             if (category.Equals(t.getCategory())){
@@ -343,9 +353,9 @@ public class TransactionModel implements ITransactionModel {
      * Larger amount means lower list index.
      * @param categoryList list to be sorted
      */
-    public void sortCategoryListByPopularity(ArrayList<Category> categoryList){
+    public void sortCategoryListByPopularity(List<Category> categoryList){
 
-        ArrayList<FinancialTransaction> data = get20latestTransactions();
+        List<FinancialTransaction> data = get20latestTransactions();
 
         for (int x = 0; x < categoryList.size() ; x++){
             for (int i = 0; i < categoryList.size()-1; i++){
@@ -383,9 +393,9 @@ public class TransactionModel implements ITransactionModel {
      * Get all transactions stored in the database.
      * @return list of transactions.
      */
-    private ArrayList<FinancialTransaction> getFinancialTransactionsFromDatabase(){
+    private List<FinancialTransaction> getFinancialTransactionsFromDatabase(){
 
-        ArrayList<FinancialTransaction> transactions = database.getFinancialTransactions();
+        List<FinancialTransaction> transactions = database.getFinancialTransactions();
 
         // transactions may not be in order when retrieved from database, so they must be sorted.
         // lower index means that the transaction has been made more recently.
@@ -403,7 +413,7 @@ public class TransactionModel implements ITransactionModel {
      *
      * @param transactions List to be sorted.
      */
-    private void sortTransactionsByDate(ArrayList<FinancialTransaction> transactions)
+    private void sortTransactionsByDate(List<FinancialTransaction> transactions)
     {
         boolean notCompleted = true; // will be set to false in the last loop through the list of transactions
 
@@ -434,7 +444,7 @@ public class TransactionModel implements ITransactionModel {
      * @param i1 Index of first object.
      * @param i2 Index of second object.
      */
-    private <T> void swap(ArrayList<T> list, int i1, int i2)
+    private <T> void swap(List<T> list, int i1, int i2)
     {
         T temp = list.get(i1); // stores i1 temporarily
 
