@@ -46,9 +46,14 @@ public class MainActivity extends AppCompatActivity {
         CategoryModel categoryModel = new CategoryModel(database, transactionModel);
         BudgetGrader budgetGrader = new BudgetGrader(transactionModel, categoryModel);
 
-        TransactionController.getInstance(transactionModel);
-        CategoryController.getInstance(categoryModel);
-        BudgetGradeController.getInstance(budgetGrader);
+        TransactionController transactionController = TransactionController.getInstance();
+        transactionController.init(transactionModel);
+
+        CategoryController categoryController = CategoryController.getInstance();
+        categoryController.init(categoryModel);
+
+        BudgetGradeController budgetGradeController = BudgetGradeController.getInstance();
+        budgetGradeController.init(budgetGrader);
 
         // start app with displaying Home Fragment
         getSupportFragmentManager().beginTransaction().add(R.id.FrameLayout_main, new HomeFragment()).commit();
