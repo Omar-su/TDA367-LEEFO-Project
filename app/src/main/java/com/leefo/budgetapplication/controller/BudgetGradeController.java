@@ -38,8 +38,9 @@ public class BudgetGradeController {
      * @return instance
      */
     public static BudgetGradeController getInstance(BudgetGrader budgetGrader){
-        if(instance == null)
+        if(instance == null) {
             instance = new BudgetGradeController(budgetGrader);
+        }
         return instance;
     }
 

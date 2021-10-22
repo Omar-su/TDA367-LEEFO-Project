@@ -73,7 +73,9 @@ public class CategoryListAdapter extends ArrayAdapter<Category> {
     }
     @Override
     public int getViewTypeCount() {
-        if (getCount() == 0) return 1;
+        if (getCount() == 0) {
+            return 1;
+        }
         return getCount();
     }
 

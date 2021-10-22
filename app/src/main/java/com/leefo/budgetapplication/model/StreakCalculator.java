@@ -100,15 +100,18 @@ public class StreakCalculator
         {
             LocalDate current_date = transaction.getDate(); // date of current transaction
 
-            if(!found_first_date && !current_date.isEqual(date)) continue; // makes loop iterate until given date is found
-            else found_first_date = true;
+            if(!found_first_date && !current_date.isEqual(date)) {
+                continue; // makes loop iterate until given date is found
+            } else {
+                found_first_date = true;
+            }
 
             // if new day is reached
             if(!current_date.isEqual(previousDate)){
                 // increase streak if day spending is below previous average
-                if(day_sum < average)
+                if(day_sum < average) {
                     streak++;
-                else
+                } else
                 {
                     // if a streak lasts for several days, then the further the streak continues, the lower the average will become
                     // And since the average will be higher earlier in the streak, then comparing the day_sum with the average of the
@@ -118,9 +121,11 @@ public class StreakCalculator
                     average = getAverageDailySpending(transactions, previousDate);
 
                     if(day_sum < average) // check with the new average
+                    {
                         streak++;
-                    else
+                    } else {
                         break; // if it doesn't pass the check with the new average either, then the streak is broken
+                    }
                 }
 
                 previousDate = current_date;

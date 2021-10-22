@@ -72,7 +72,6 @@ public class GradedBudgetListAdapter extends ArrayAdapter<Category> {
         ratingBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor(category.getColor())));
         ratingBar.setRating(BudgetGradeController.gradeCategory(category, timePeriod.getMonth(),  timePeriod.getYear()));
 
-        float outcome = BudgetGradeController.getRoundedBudgetOutcome(category, timePeriod.getMonth(),  timePeriod.getYear());
         budgetOutcomeText.setText(BudgetGradeController.getRoundedBudgetOutcome(category, timePeriod.getMonth(), timePeriod.getYear()) + "x");
 
         return convertView;

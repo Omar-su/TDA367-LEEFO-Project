@@ -143,8 +143,9 @@ public class TransactionModel implements ITransactionModel {
 
             // skips transaction if date value doesn't match
             if(request.timeIsSpecified()) {
-                if(date.getMonth().getValue() != request.getMonth() || date.getYear() != request.getYear())
+                if(date.getMonth().getValue() != request.getMonth() || date.getYear() != request.getYear()) {
                     continue;
+                }
             }
 
             // adds only if income
@@ -171,8 +172,9 @@ public class TransactionModel implements ITransactionModel {
 
             // skips transaction if date value doesn't match
             if(request.timeIsSpecified()) {
-                if(date.getMonth().getValue() != request.getMonth() || date.getYear() != request.getYear())
+                if(date.getMonth().getValue() != request.getMonth() || date.getYear() != request.getYear()) {
                     continue;
+                }
             }
 
             // adds only if expense
@@ -230,14 +232,16 @@ public class TransactionModel implements ITransactionModel {
 
             // moves on to next transaction if current transaction does not match time specification
             if(request.timeIsSpecified()) {
-                if(request.getYear() != transactionYear || request.getMonth() != transactionMonth)
+                if(request.getYear() != transactionYear || request.getMonth() != transactionMonth) {
                     continue;
+                }
             }
 
             // moves on to next transaction if current transaction does not match specified category
             if(request.categoryIsSpecified()) {
-                if(!request.getCategory().Equals(transaction.getCategory()))
+                if(!request.getCategory().Equals(transaction.getCategory())) {
                     continue;
+                }
             }
 
             result.add(transaction);
