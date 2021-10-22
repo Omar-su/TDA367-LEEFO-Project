@@ -1,7 +1,7 @@
 package com.leefo.budgetapplication.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class used for calculating spending streak from a list of transactions.
@@ -12,7 +12,8 @@ import java.util.ArrayList;
  *
  * @author Linus Lundgren
  */
-public class StreakCalculator {
+public class StreakCalculator
+{
 
     /**
      * Method for getting the average daily spending of today.
@@ -20,7 +21,8 @@ public class StreakCalculator {
      * @param transactions List of transactions sorted by date
      * @return average spending
      */
-    public static float getAverageSpending(ArrayList<FinancialTransaction> transactions) {
+    public static float getAverageSpending(List<FinancialTransaction> transactions)
+    {
         return Math.round(getAverageDailySpending(transactions, LocalDate.now())*100) / (float)100; // rounds to 2 decimal places
     }
 
@@ -29,7 +31,8 @@ public class StreakCalculator {
      * @param transactions List of transactions to base calculations off of.
      * @return Spending streak of today.
      */
-    public static int getCurrentStreak(ArrayList<FinancialTransaction> transactions) {
+    public static int getCurrentStreak(List<FinancialTransaction> transactions)
+    {
         return getStreak(transactions, LocalDate.now());
     }
 
@@ -39,8 +42,11 @@ public class StreakCalculator {
      * @param transactions transaction list
      * @return Longest ever spending streak.
      */
-    public static int getRecordStreak(ArrayList<FinancialTransaction> transactions) {
-        if(transactions.size() == 0) return 0; // no streak if no transactions
+    public static int getRecordStreak(List<FinancialTransaction> transactions)
+    {
+        if(transactions.size() == 0) {
+            return 0; // no streak if no transactions
+        }
 
         int record = getCurrentStreak(transactions);
 
@@ -60,7 +66,9 @@ public class StreakCalculator {
         {
             current_streak = getStreak(transactions, temp_date);
 
-            if(current_streak > record) record = current_streak;
+            if(current_streak > record) {
+                record = current_streak;
+            }
 
             temp_date = temp_date.minusDays(current_streak + 1);
         }
@@ -78,7 +86,8 @@ public class StreakCalculator {
      * @param date Date to check streak at.
      * @return Returns total amount of days included in streak.
      */
-    private static int getStreak(ArrayList<FinancialTransaction> transactions, LocalDate date) {
+    private static int getStreak(List<FinancialTransaction> transactions, LocalDate date)
+    {
         float average = getAverageDailySpending(transactions, date);
 
         LocalDate previousDate = date;
@@ -91,15 +100,18 @@ public class StreakCalculator {
         {
             LocalDate current_date = transaction.getDate(); // date of current transaction
 
-            if(!found_first_date && !current_date.isEqual(date)) continue; // makes loop iterate until given date is found
-            else found_first_date = true;
+            if(!found_first_date && !current_date.isEqual(date)) {
+                continue; // makes loop iterate until given date is found
+            } else {
+                found_first_date = true;
+            }
 
             // if new day is reached
             if(!current_date.isEqual(previousDate)){
                 // increase streak if day spending is below previous average
-                if(day_sum < average)
+                if(day_sum < average) {
                     streak++;
-                else
+                } else
                 {
                     // if a streak lasts for several days, then the further the streak continues, the lower the average will become
                     // And since the average will be higher earlier in the streak, then comparing the day_sum with the average of the
@@ -109,9 +121,11 @@ public class StreakCalculator {
                     average = getAverageDailySpending(transactions, previousDate);
 
                     if(day_sum < average) // check with the new average
+                    {
                         streak++;
-                    else
+                    } else {
                         break; // if it doesn't pass the check with the new average either, then the streak is broken
+                    }
                 }
 
                 previousDate = current_date;
@@ -119,7 +133,9 @@ public class StreakCalculator {
             }
 
             if(!transaction.getCategory().isIncome()) // must be an expense
+            {
                 day_sum += Math.abs(transaction.getAmount());
+            }
         }
 
         return streak;
@@ -134,7 +150,8 @@ public class StreakCalculator {
      * @param date Date before which the transactions are made.
      * @return Average spending before date argument.
      */
-    private static float getAverageDailySpending(ArrayList<FinancialTransaction> transactions, LocalDate date) {
+    private static float getAverageDailySpending(List<FinancialTransaction> transactions, LocalDate date)
+    {
         float sum = 0;
         int days = 0;
 
@@ -158,7 +175,9 @@ public class StreakCalculator {
         }
 
         // if no transactions have been made before specified date, then the average spending is 0
-        if(days == 0) return 0;
+        if(days == 0) {
+            return 0;
+        }
 
         return sum / (float)days;
     }

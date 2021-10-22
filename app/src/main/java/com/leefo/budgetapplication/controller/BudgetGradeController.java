@@ -4,7 +4,7 @@ import com.leefo.budgetapplication.model.BudgetGrader;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.TransactionRequest;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The BudgetGradeController class represents a Controller in the Model-View-Controller pattern.
@@ -29,24 +29,19 @@ public class BudgetGradeController {
     /**
      * The singleton's constructor should always be private to avoid direct calls with 'new" operator
      */
-    private BudgetGradeController() {}
+    private BudgetGradeController(BudgetGrader budgetGrader){
+        this.budgetGrader = budgetGrader;
+    }
 
     /** Returns single instance of the TransactionController class
      *
      * @return instance
      */
-    public static BudgetGradeController getInstance(){
-        if(instance == null)
-            instance = new BudgetGradeController();
+    public static BudgetGradeController getInstance(BudgetGrader budgetGrader){
+        if(instance == null) {
+            instance = new BudgetGradeController(budgetGrader);
+        }
         return instance;
-    }
-
-    /** Initializes parameters to the singleton
-     *
-     * @param budgetGrader the parameter to be initialized
-     */
-    public void init(BudgetGrader budgetGrader) {
-        this.budgetGrader = budgetGrader;
     }
 
     /**
@@ -56,7 +51,7 @@ public class BudgetGradeController {
      * @param year  The year of the month to get categories for.
      * @return The list of categories.
      */
-    public static ArrayList<Category> getBudgetCategoriesByMonth(int month, int year) {
+    public static List<Category> getBudgetCategoriesByMonth(int month, int year) {
         return instance.budgetGrader.getBudgetCategoriesByMonth(new TransactionRequest(null, month, year));
     }
 
@@ -98,7 +93,7 @@ public class BudgetGradeController {
      * Returns a list of all categories in the program with a budget.
      * @return The list of all categories in the program with a budget.
      */
-    public static ArrayList<Category> getAllBudgetCategories() {
+    public static List<Category> getAllBudgetCategories() {
         return instance.budgetGrader.getAllBudgetCategories();
     }
 }

@@ -3,7 +3,7 @@ package com.leefo.budgetapplication.controller;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.model.CategoryModel;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The CategoryController class represents a Controller in the Model-View-Controller pattern.
@@ -28,24 +28,19 @@ public class CategoryController {
     /**
      * The singleton's constructor should always be private to avoid direct calls with 'new" operator
      */
-    private CategoryController() {}
+    private CategoryController(CategoryModel categoryModel){
+        this.categoryModel = categoryModel;
+    }
 
     /** Returns single instance of the TransactionController class
      *
      * @return instance
      */
-    public static CategoryController getInstance(){
-        if(instance == null)
-            instance = new CategoryController();
+    public static CategoryController getInstance(CategoryModel categoryModel){
+        if(instance == null) {
+            instance = new CategoryController(categoryModel);
+        }
         return instance;
-    }
-
-    /** Initializes parameters to the singleton
-     *
-     * @param categoryModel the parameter to be initialized
-     */
-    public void init (CategoryModel categoryModel){
-        this.categoryModel = categoryModel;
     }
 
     /**
@@ -100,7 +95,7 @@ public class CategoryController {
      *
      * @return a list of all the categories in the database.
      */
-    public static ArrayList<Category> getAllCategories() {
+    public static List<Category> getAllCategories() {
         return instance.categoryModel.getCategoryList();
     }
 
@@ -109,7 +104,7 @@ public class CategoryController {
      *
      * @return A list of all income categories in the model.
      */
-    public static ArrayList<Category> getIncomeCategories() {
+    public static List<Category> getIncomeCategories() {
         return instance.categoryModel.getIncomeCategories();
     }
 
@@ -118,7 +113,7 @@ public class CategoryController {
      *
      * @return A list of all expense categories in the model.
      */
-    public static ArrayList<Category> getExpenseCategories() {
+    public static List<Category> getExpenseCategories() {
         return instance.categoryModel.getExpenseCategories();
     }
 
@@ -127,7 +122,7 @@ public class CategoryController {
      *
      * @return A sorted category list .
      */
-    public static ArrayList<Category> sortCategoriesByAlphabet(ArrayList<Category> sortList) {
+    public static List<Category> sortCategoriesByAlphabet(List<Category> sortList) {
         return instance.categoryModel.sortCategoriesByAlphabet(sortList);
     }
 
@@ -136,7 +131,7 @@ public class CategoryController {
      *
      * @return A sorted category list.
      */
-    public static ArrayList<Category> sortCategoriesByBudget(ArrayList<Category> sortList) {
+    public static List<Category> sortCategoriesByBudget(List<Category> sortList) {
         return instance.categoryModel.sortCategoriesByBudget(sortList);
     }
 }

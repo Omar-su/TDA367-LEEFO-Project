@@ -18,6 +18,7 @@ import com.leefo.budgetapplication.model.TransactionRequest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BudgetGraderTest {
 
@@ -72,7 +73,7 @@ public class BudgetGraderTest {
         tm.addTransaction(testTransaction1);
         tm.addTransaction(testTransaction2);
 
-        ArrayList<Category> testList = budgetGrader.getAllBudgetCategories();
+        List<Category> testList = budgetGrader.getAllBudgetCategories();
 
         assertTrue(testList.contains(testCat1) && !testList.contains(testCat2) &&
                 testList.contains(testCat3));
@@ -94,7 +95,7 @@ public class BudgetGraderTest {
         tm.addTransaction(testTransaction1);
         tm.addTransaction(testTransaction2);
 
-        ArrayList<Category> testList = budgetGrader.getBudgetCategoriesByMonth(new TransactionRequest(
+        List<Category> testList = budgetGrader.getBudgetCategoriesByMonth(new TransactionRequest(
                 null, 5, 2020));
 
         assertTrue(testList.contains(testCat1) && !testList.contains(testCat2) &&

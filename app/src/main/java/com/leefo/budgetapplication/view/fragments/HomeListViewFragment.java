@@ -32,7 +32,7 @@ import com.leefo.budgetapplication.view.data.TimePeriodViewModel;
 import com.leefo.budgetapplication.view.data.TimePeriod;
 import com.leefo.budgetapplication.view.adapters.TransactionListAdapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents the fragment for the list view inside the HomeFragment.
@@ -64,7 +64,7 @@ public class HomeListViewFragment extends Fragment {
     private ImageButton filter_button;
     private Dialog filterDialog;
     private boolean filterIsActivated = false;
-    private ArrayList<FinancialTransaction> currentTimePeriodTransactionList;
+    private List<FinancialTransaction> currentTimePeriodTransactionList;
     private SearchSortFilterTransactions ssf;
 
     /**
@@ -156,7 +156,7 @@ public class HomeListViewFragment extends Fragment {
         });
     }
 
-    private void updateLabelsAndButtons(ArrayList<FinancialTransaction> list) {
+    private void updateLabelsAndButtons(List<FinancialTransaction> list) {
 
         if (list.isEmpty()) {
 
@@ -189,7 +189,7 @@ public class HomeListViewFragment extends Fragment {
 
     private void updateList() {
 
-        ArrayList<FinancialTransaction> list = ssf.getResult();
+        List<FinancialTransaction> list = ssf.getResult();
 
         updateLabelsAndButtons(list);
 

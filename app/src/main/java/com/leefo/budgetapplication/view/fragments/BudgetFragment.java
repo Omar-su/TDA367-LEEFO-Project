@@ -23,7 +23,7 @@ import com.leefo.budgetapplication.view.adapters.GradedBudgetListAdapter;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class that represents the fragment for the Budget page
@@ -131,7 +131,7 @@ public class BudgetFragment extends Fragment {
 
             if (isCurrentMonthOrAfter(timePeriod)) {
                 //Displays all categories with budget goal even if no transactions made for current month
-                ArrayList<Category> allBudgetCategories = BudgetGradeController.getAllBudgetCategories();
+                List<Category> allBudgetCategories = BudgetGradeController.getAllBudgetCategories();
                 if (allBudgetCategories.isEmpty()) {
                     noBudget1.setVisibility(View.VISIBLE);
                     noBudget2.setVisibility(View.VISIBLE);
@@ -148,7 +148,7 @@ public class BudgetFragment extends Fragment {
                 listView.setAdapter(adapter);
             } else {
                 //If not current mont => earlier month. Displays only budget categories with transactions made
-                ArrayList<Category> budgetCatsForMonth =
+                List<Category> budgetCatsForMonth =
                         BudgetGradeController.getBudgetCategoriesByMonth(timePeriod.getMonth(), timePeriod.getYear());
 
                 if (budgetCatsForMonth.isEmpty()) {

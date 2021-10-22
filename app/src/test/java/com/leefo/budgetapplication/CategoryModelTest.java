@@ -153,7 +153,7 @@ public class CategoryModelTest {
         cm.addCategory(c4);
         cm.addCategory(c5);
 
-        ArrayList<Category> returnedList = cm.getCategoryList();
+        List<Category> returnedList = cm.getCategoryList();
         returnedList = cm.sortCategoriesByBudget(returnedList);
 
         boolean outcome = true;
@@ -186,7 +186,7 @@ public class CategoryModelTest {
         cm.addCategory(c4);
         cm.addCategory(c5);
 
-        ArrayList<Category> returnedList = cm.getCategoryList();
+        List<Category> returnedList = cm.getCategoryList();
         returnedList = cm.sortCategoriesByAlphabet(returnedList);
         boolean outcome = true;
         //check that list is sorted by highest budget

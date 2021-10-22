@@ -22,7 +22,7 @@ import com.leefo.budgetapplication.view.data.TimePeriod;
 import com.leefo.budgetapplication.view.adapters.TransactionListAdapter;
 
 import java.time.Month;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.MissingResourceException;
 
 /**
@@ -36,7 +36,7 @@ import java.util.MissingResourceException;
 public class SingleCategoryFragment extends Fragment {
 
     private ListView listView;
-    private ArrayList<FinancialTransaction> transactionList;
+    private List<FinancialTransaction> transactionList;
     private TextView timePeriodTextView;
     private TimePeriod timePeriod;
     private ImageButton back_button;

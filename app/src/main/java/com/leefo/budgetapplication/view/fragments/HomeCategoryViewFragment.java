@@ -29,6 +29,7 @@ import com.leefo.budgetapplication.view.data.TimePeriod;
 import com.leefo.budgetapplication.view.adapters.CategoryListAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents the fragment for the pie chart view inside the HomeFragment
@@ -84,7 +85,7 @@ public class HomeCategoryViewFragment extends Fragment {
     }
 
     private void updateData() {
-        ArrayList<Category> list = CategoryController.getExpenseCategories();
+        List<Category> list = CategoryController.getExpenseCategories();
         TransactionController.removeEmptyCategories(list, timePeriod.getMonth(), timePeriod.getYear());
         TransactionController.sortCategoryListBySum(list, timePeriod.getMonth(), timePeriod.getYear());
 
@@ -116,7 +117,7 @@ public class HomeCategoryViewFragment extends Fragment {
         });
     }
 
-    private void updateList(ArrayList<Category> list) {
+    private void updateList(List<Category> list) {
         if (getActivity() != null){
             adapter = new CategoryListAdapter(getActivity().getApplicationContext(), list, timePeriod);
             listView.setAdapter(adapter);
@@ -137,10 +138,10 @@ public class HomeCategoryViewFragment extends Fragment {
     }
 
 
-    private void loadPieChartData(ArrayList<Category> list){
+    private void loadPieChartData(List<Category> list){
 
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        ArrayList<Integer> myColors = new ArrayList<>();
+        List<PieEntry> entries = new ArrayList<>();
+        List<Integer> myColors = new ArrayList<>();
 
         float sum;
         for(Category c :  list){

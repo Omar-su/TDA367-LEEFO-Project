@@ -2,6 +2,7 @@ package com.leefo.budgetapplication.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.List;
 import java.util.TreeMap;
 
 /**
@@ -31,8 +32,8 @@ public class BudgetGrader {
      * Returns a list of all categories in the program with a budget.
      * @return The list of all categories in the program with a budget.
      */
-    public ArrayList<Category> getAllBudgetCategories() {
-        ArrayList<Category> budgetList = new ArrayList<>();
+    public List<Category> getAllBudgetCategories() {
+        List<Category> budgetList = new ArrayList<>();
         for (Category c : categoryModel.getCategoryList()) {
             if (c.getBudgetGoal() > 0) {
                 budgetList.add(c);
@@ -47,8 +48,8 @@ public class BudgetGrader {
      * @param request The {@link TransactionRequest} containing the specific month
      * @return The list of categories with budgets for a specific month.
      */
-    public ArrayList<Category> getBudgetCategoriesByMonth(TransactionRequest request) {
-        ArrayList<Category> tempList = new ArrayList<>(getAllBudgetCategories());
+    public List<Category> getBudgetCategoriesByMonth(TransactionRequest request) {
+        List<Category> tempList = new ArrayList<>(getAllBudgetCategories());
         transactionModel.removeEmptyCategories(tempList, request);
         return tempList;
     }

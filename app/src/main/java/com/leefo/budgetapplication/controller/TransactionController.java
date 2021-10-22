@@ -6,7 +6,7 @@ import com.leefo.budgetapplication.model.TransactionModel;
 import com.leefo.budgetapplication.model.TransactionRequest;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The TransactionController class represents a Controller in the Model-View-Controller pattern.
@@ -31,24 +31,19 @@ public class TransactionController {
     /**
      * The singleton's constructor should always be private to avoid direct calls with 'new" operator
      */
-    private TransactionController() {}
+    private TransactionController(TransactionModel transactionModel){
+        this.transactionModel = transactionModel;
+    }
 
     /** Returns single instance of the TransactionController class
      *
      * @return instance
      */
-    public static TransactionController getInstance(){
-        if(instance == null)
-            instance = new TransactionController();
+    public static TransactionController getInstance(TransactionModel transactionModel){
+        if(instance == null) {
+            instance = new TransactionController(transactionModel);
+        }
         return instance;
-    }
-
-    /** Initializes parameters to the singleton
-     *
-     * @param transactionModel the parameter to be initialized
-     */
-    public void init(TransactionModel transactionModel){
-        this.transactionModel = transactionModel;
     }
 
     /**
@@ -95,7 +90,7 @@ public class TransactionController {
      * @param year  Year transactions were made, optional.
      * @return A list of transactions specified by request.
      */
-    public static ArrayList<FinancialTransaction> getTransactions(int month, int year) {
+    public static List<FinancialTransaction> getTransactions(int month, int year) {
         TransactionRequest request = new TransactionRequest((Category) null, month, year);
 
         return instance.transactionModel.searchTransactions(request);
@@ -112,7 +107,7 @@ public class TransactionController {
      * @param year     Year transactions were made, optional.
      * @return A list of transactions specified by request.
      */
-    public static ArrayList<FinancialTransaction> getTransactions(Category category, int month, int year) {
+    public static List<FinancialTransaction> getTransactions(Category category, int month, int year) {
         TransactionRequest request = new TransactionRequest(category, month, year);
 
         return instance.transactionModel.searchTransactions(request);
@@ -180,7 +175,7 @@ public class TransactionController {
      * @param month The month checked for if there is any transactions. (can be null, meaning all months).
      * @param year  The year checked for if there is any transactions. (can be null, meaning all years).
      */
-    public static void removeEmptyCategories(ArrayList<Category> list, int month, int year) {
+    public static void removeEmptyCategories(List<Category> list, int month, int year) {
         TransactionRequest request = new TransactionRequest((Category) null, month, year);
         instance.transactionModel.removeEmptyCategories(list, request);
     }
@@ -193,7 +188,7 @@ public class TransactionController {
      * @param month The month in which the sum will be calculated. (can be 0, meaning all months)
      * @param year  The year in which the sum will be calculated. (can be 0, meaning all years)
      */
-    public static void sortCategoryListBySum(ArrayList<Category> list, int month, int year) {
+    public static void sortCategoryListBySum(List<Category> list, int month, int year) {
         TransactionRequest request = new TransactionRequest((Category) null, month, year);
         instance.transactionModel.sortCategoryListBySum(list, request);
     }
@@ -204,7 +199,7 @@ public class TransactionController {
      *
      * @param categoryList Category list to be sorted
      */
-    public static void sortCategoryListByPopularity(ArrayList<Category> categoryList) {
+    public static void sortCategoryListByPopularity(List<Category> categoryList) {
         instance.transactionModel.sortCategoryListByPopularity(categoryList);
     }
 

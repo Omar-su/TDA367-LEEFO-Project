@@ -17,8 +17,9 @@ import com.leefo.budgetapplication.controller.CategoryController;
 import com.leefo.budgetapplication.model.Category;
 import com.leefo.budgetapplication.view.adapters.EditBudgetListAdapter;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A class that represents the editbudget fragment page
@@ -58,7 +59,7 @@ public class EditBudgetFragment extends Fragment {
      * populates the listView with the expense categories
      */
     private void initList() {
-        ArrayList<Category> categoryList = CategoryController.getExpenseCategories();
+        List<Category> categoryList = CategoryController.getExpenseCategories();
         categoryList = CategoryController.sortCategoriesByAlphabet(categoryList);
         categoryList = CategoryController.sortCategoriesByBudget(categoryList);
         adapter = new EditBudgetListAdapter(requireActivity().getApplicationContext(), categoryList);
@@ -92,7 +93,7 @@ public class EditBudgetFragment extends Fragment {
      */
     private void editBudget(){
 
-        HashMap<Category,Integer> editBudgetHashMap = adapter.getEditBudgetHashMap();
+        Map<Category,Integer> editBudgetHashMap = adapter.getEditBudgetHashMap();
         editBudgetHashMap.forEach((key, value) -> CategoryController.editCategoryInfo((Category) key, (Integer) value));
         requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout_main, new BudgetFragment()).commit();
 

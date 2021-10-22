@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import com.leefo.budgetapplication.R;
 import com.leefo.budgetapplication.model.Category;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class that represents the adapter for the category-chooser spinner in the NewTransactionFragment
@@ -26,7 +26,7 @@ public class SpinnerAdapter extends ArrayAdapter<Category> {
 
     LayoutInflater layoutInflater;
 
-    public SpinnerAdapter(@NonNull Context context, @NonNull ArrayList<Category> categories) {
+    public SpinnerAdapter(@NonNull Context context, @NonNull List<Category> categories) {
         super(context, R.layout.spinner_row, categories);
         layoutInflater = LayoutInflater.from(context);
     }

@@ -18,6 +18,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.leefo.budgetapplication.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The class that represents the fragment for compare months.
@@ -81,31 +82,31 @@ public class CompareMonthsFragment extends Fragment {
         mpBarChart.invalidate();
     }
 
-    private ArrayList<BarEntry> foodEntries(){
-        ArrayList<BarEntry> barEntries = new ArrayList<>();
+    private List<BarEntry> foodEntries(){
+        List<BarEntry> barEntries = new ArrayList<>();
         barEntries.add(new BarEntry(1,2000));
         barEntries.add(new BarEntry(2,791));
         return barEntries;
     }
 
-    private ArrayList<BarEntry> restaurantEntries(){
-        ArrayList<BarEntry> barEntries = new ArrayList<>();
+    private List<BarEntry> restaurantEntries(){
+        List<BarEntry> barEntries = new ArrayList<>();
         barEntries.add(new BarEntry(1,900));
         barEntries.add(new BarEntry(2,631));
 
         return barEntries;
     }
 
-    private ArrayList<BarEntry> houseRentEntries(){
-        ArrayList<BarEntry> barEntries = new ArrayList<>();
+    private List<BarEntry> houseRentEntries(){
+        List<BarEntry> barEntries = new ArrayList<>();
         for(int i = 1; i <= 2; i++){
             barEntries.add(new BarEntry(i, 5900));
         }
         return barEntries;
     }
 
-    private ArrayList<BarEntry> alcoholEntries(){
-        ArrayList<BarEntry> barEntries = new ArrayList<>();
+    private List<BarEntry> alcoholEntries(){
+        List<BarEntry> barEntries = new ArrayList<>();
         barEntries.add(new BarEntry(1,100));
         barEntries.add(new BarEntry(2,291));
 
