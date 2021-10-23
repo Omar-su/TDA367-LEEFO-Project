@@ -17,9 +17,6 @@
 </p>
 
 
-
-<h2 id="continuous integration"> Kontinuerlig Integration </h2>
-
 ## Table of Contents
 
 <details open="open">
@@ -35,10 +32,6 @@
 <!-- OVERVIEW -->
 <h2 id="overview"> OverView</h2>
 The project's goal is to create an Android-Application of a budget app that can store data from users in the form of financial transactions. Furthermore the application tries to visualise the data and group it in different categories. This is mostly to make it easier for the user to manage his budget.
-
-<!-- Projektfilsbeskrivning -->
-<h2 id="project-files-description"> Project Description </h2>
-To be Continued
 
 <!-- Setup -->
 <h2 id="getting-started"> How to run the Application? </h2>
