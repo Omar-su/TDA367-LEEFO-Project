@@ -23,7 +23,6 @@
   <summary> Content </summary>
   <ol>
     <li><a href="#overview"> ➤  OverView</a></li>
-    <li><a href="#project-files-description"> ➤ Project Description </a></li>
     <li><a href="#getting-started"> ➤ How to run the Application? </a></li>
     <li><a href="#links"> ➤ Links</a></li>
   </ol>
