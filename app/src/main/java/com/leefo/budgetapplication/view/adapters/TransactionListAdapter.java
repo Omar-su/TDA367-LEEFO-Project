@@ -34,8 +34,8 @@ public class TransactionListAdapter extends ArrayAdapter<FinancialTransaction> {
 
 
     public TransactionListAdapter(@NonNull Context context, List<FinancialTransaction> list) {
-        super(context, R.layout.list_row_home, list); // list sent to super
-        putDatesIntoTransactionList(list); // put dates into the list sent to super
+        super(context, R.layout.list_row_home, list);
+        putDatesIntoTransactionList(list); // put dates into the list , it works to do this after the list is sent to super
         this.context = context;
     }
 
@@ -45,8 +45,6 @@ public class TransactionListAdapter extends ArrayAdapter<FinancialTransaction> {
      * Method called every time a listView's row is being created, for lists using this adapter.
      * Gets the design and content of a row in the listView
      * @param position the position in the list
-     * @param convertView
-     * @param parent
      * @return the view of the list row
      */
     @NonNull
@@ -70,14 +68,8 @@ public class TransactionListAdapter extends ArrayAdapter<FinancialTransaction> {
 
             // Some Transaction objects in the list have been given the category name "DATE" to mark that this is not a transaction
             // instead this row in the list should be a date row displaying only a date.
-            boolean dateRow = false; // start with false
-            if (transaction.getCategory().getName().equals("DATE")) {
-                dateRow = true;
-            }
-
-            // if dateRow is true this row needs another design showing a date instead of transaction
-            // new design in the if block
-            if (dateRow){
+            // new date design in the if block
+            if (transaction.getCategory().getName().equals("DATE")){
                 amount.setVisibility(View.GONE);
                 category.setVisibility(View.GONE);
                 circle.setVisibility(View.GONE);
@@ -98,14 +90,14 @@ public class TransactionListAdapter extends ArrayAdapter<FinancialTransaction> {
     }
 
     /**
-     * In order to display date rows within the list. We must add extra objects in the list where we want the date row to be
-     * The list adapter (getView) can differentiate between normal Transaction objects and the ones representing date rows and display those differently.
+     * In order to display date rows within the list. We must add extra objects in the list where we want the date row to be.
+     * The list adapter (getView) then differentiates between normal Transaction objects and the ones representing date rows and displays those differently.
      *
      * The method works on lists sorted by date.
      * Inputs special date Transaction objects in front of every object with a new date.
      */
     private void putDatesIntoTransactionList(List<FinancialTransaction> list){
-        if (list.isEmpty()) {
+        if (list.isEmpty()) { // if empty nothing needs to be done
             return;
         }
 
@@ -142,6 +134,7 @@ public class TransactionListAdapter extends ArrayAdapter<FinancialTransaction> {
         list.add(index, new FinancialTransaction(0,date, LocalDate.now(), new Category("DATE", "", true)));
     }
 
+    // class needed to eliminate bug, when scrolling the list positions changed
     @Override
     public int getViewTypeCount() {
         if (getCount() == 0) {
@@ -149,7 +142,7 @@ public class TransactionListAdapter extends ArrayAdapter<FinancialTransaction> {
         }
         return getCount();
     }
-
+    // class needed to eliminate bug, when scrolling the list positions changed
     @Override
     public int getItemViewType(int position) {
 

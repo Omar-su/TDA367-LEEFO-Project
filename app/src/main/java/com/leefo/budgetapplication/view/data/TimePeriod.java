@@ -10,12 +10,12 @@ public class TimePeriod {
 
     /**
      * year number.
-     * 0 value represents no specified month, interpreted as every month.
+     * Value 0 represents no specified month, interpreted as every month.
      */
     private int year;
     /**
      * month number 1 - 12.
-     * 0 value represents no specified year, interpreted as every year.
+     * Value 0 represents no specified year, interpreted as every year.
      */
     private int month;
 
