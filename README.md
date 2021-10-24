@@ -34,7 +34,7 @@ The project's goal is to create an Android-Application of a budget app that can 
 
 <!-- Setup -->
 <h2 id="getting-started"> How to run the Application? </h2>
-To run LEEFO open the project in Android Studio and run the file SplashScreenActivity.java inside view package. If you don't have an android phone you will need to download an android virtual machine to run the app on. This is easy to do in Android Studio.
+To run LEEFO open the project (the directory: TDA367-LEEFO-Project-main) in Android Studio and run the file SplashScreenActivity.java inside view package. If you don't have an android phone you will need to download an android virtual machine to run the app on. This is easy to do in Android Studio.
 
 <ol>
   <li>Download <a href="https://developer.android.com/studio">Android Studio</a> och follow the  instructions.</li>
